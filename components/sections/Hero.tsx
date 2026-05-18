@@ -7,26 +7,14 @@ const COPY = {
     "Echo-Five helps government teams adopt Microsoft 365 with strategies that move people, not just systems. Twenty years of public-sector experience, distilled into engagements that ship.",
   primaryCta: { label: "Get in touch", href: "#contact" },
   secondaryCta: { label: "See how we work", href: "#approach" },
-  marker: "Est. Ottawa",
 };
 
 export function Hero() {
   return (
     <section id="top" className="relative pt-32 md:pt-40 section-y overflow-hidden">
       <div className="container-tight">
-        <div className="grid grid-cols-12 gap-8">
-          <div className="hidden md:flex md:col-span-1 flex-col items-start justify-end pb-2 text-[10px] uppercase tracking-[0.32em] text-[color:var(--color-ink-muted)]">
-            <span
-              aria-hidden="true"
-              className="font-serif italic text-[color:var(--color-accent-warm)] text-base mb-3"
-            >
-              5
-            </span>
-            <span>{COPY.marker}</span>
-            <span className="mt-3 h-12 w-px bg-[color:var(--color-rule)]" />
-          </div>
-
-          <div className="col-span-12 md:col-span-11">
+        <div>
+          <div>
             <ScrollReveal>
               <p className="text-[11px] md:text-xs uppercase tracking-[0.32em] text-[color:var(--color-accent-warm)] mb-7">
                 {COPY.eyebrow}
