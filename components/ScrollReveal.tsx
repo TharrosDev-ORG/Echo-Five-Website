@@ -14,21 +14,10 @@ export function ScrollReveal({ children, className = "", delay = 0 }: Props) {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            window.setTimeout(() => {
-              el.setAttribute("data-visible", "true");
-            }, delay);
-            observer.disconnect();
-          }
-        });
-      },
-      { threshold: 0.15 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
+    const id = window.setTimeout(() => {
+      el.setAttribute("data-visible", "true");
+    }, delay);
+    return () => window.clearTimeout(id);
   }, [delay]);
 
   return (

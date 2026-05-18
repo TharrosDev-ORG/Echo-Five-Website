@@ -63,11 +63,21 @@ export function Nav() {
           className="md:hidden inline-flex h-10 w-10 items-center justify-center rounded-full border border-[color:var(--color-rule)] text-[color:var(--color-ink)]"
         >
           <span className="sr-only">Menu</span>
-          <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
             {open ? (
-              <path d="M3 3l12 12M15 3L3 15" stroke="currentColor" strokeWidth="1.5" />
+              <path
+                d="M3 3l12 12M15 3L3 15"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+              />
             ) : (
-              <path d="M2 5h14M2 13h14" stroke="currentColor" strokeWidth="1.5" />
+              <path
+                d="M2 6h14M2 12h14"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+              />
             )}
           </svg>
         </button>

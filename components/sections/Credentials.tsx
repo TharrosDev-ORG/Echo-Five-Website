@@ -10,18 +10,37 @@ const BADGES = [
 
 export function Credentials() {
   return (
-    <section className="border-t border-[color:var(--color-rule)] py-16">
+    <section className="border-t border-[color:var(--color-rule)] py-16 md:py-20">
       <div className="container-tight">
         <ScrollReveal>
-          <p className="text-xs uppercase tracking-[0.28em] text-[color:var(--color-ink-muted)] text-center">
-            Credentials &amp; affiliations
-          </p>
+          <div className="flex items-center justify-center gap-4 text-[10px] uppercase tracking-[0.32em] text-[color:var(--color-ink-muted)]">
+            <span
+              aria-hidden="true"
+              className="h-px w-10 bg-[color:var(--color-rule)]"
+            />
+            <span>Credentials &amp; affiliations</span>
+            <span
+              aria-hidden="true"
+              className="h-px w-10 bg-[color:var(--color-rule)]"
+            />
+          </div>
         </ScrollReveal>
         <ScrollReveal delay={80}>
-          <ul className="mt-8 flex flex-wrap justify-center gap-x-10 gap-y-4 text-sm text-[color:var(--color-ink-muted)]">
-            {BADGES.map((b) => (
-              <li key={b} className="font-serif tracking-[0.06em]">
+          <ul className="mt-10 flex flex-wrap items-baseline justify-center gap-x-10 gap-y-4 text-[color:var(--color-ink)]">
+            {BADGES.map((b, i) => (
+              <li
+                key={b}
+                className="font-serif font-light text-lg md:text-xl tracking-[0.01em] flex items-baseline gap-3"
+              >
                 {b}
+                {i < BADGES.length - 1 && (
+                  <span
+                    aria-hidden="true"
+                    className="hidden md:inline text-[color:var(--color-accent-warm)] text-base"
+                  >
+                    ·
+                  </span>
+                )}
               </li>
             ))}
           </ul>

@@ -1,47 +1,98 @@
 import { ScrollReveal } from "@/components/ScrollReveal";
 
 const COPY = {
-  eyebrow: "Change management · Microsoft 365 · Public Sector",
+  eyebrow: "Change Management · Microsoft 365 · Public Sector",
   headline: "Change that lands.\nTools that get used.",
   sub:
     "Echo-Five helps government teams adopt Microsoft 365 with strategies that move people, not just systems. Twenty years of public-sector experience, distilled into engagements that ship.",
   primaryCta: { label: "Get in touch", href: "#contact" },
   secondaryCta: { label: "See how we work", href: "#approach" },
+  marker: "Est. Ottawa",
 };
 
 export function Hero() {
   return (
-    <section id="top" className="relative pt-32 md:pt-44 section-y">
+    <section id="top" className="relative pt-32 md:pt-40 section-y overflow-hidden">
       <div className="container-tight">
-        <ScrollReveal>
-          <p className="text-xs md:text-sm uppercase tracking-[0.28em] text-[color:var(--color-accent-warm)] mb-6">
-            {COPY.eyebrow}
-          </p>
-        </ScrollReveal>
-        <ScrollReveal delay={80}>
-          <h1 className="font-serif text-[clamp(2.4rem,6vw,4.5rem)] leading-[1.04] tracking-[-0.01em] text-[color:var(--color-ink)] whitespace-pre-line max-w-4xl">
-            {COPY.headline}
-          </h1>
-        </ScrollReveal>
-        <ScrollReveal delay={160}>
-          <p className="mt-8 max-w-2xl text-lg md:text-xl leading-relaxed text-[color:var(--color-ink-muted)]">
-            {COPY.sub}
-          </p>
-        </ScrollReveal>
-        <ScrollReveal delay={240}>
-          <div className="mt-10 flex flex-wrap items-center gap-4">
-            <a
-              href={COPY.primaryCta.href}
-              className="inline-flex items-center rounded-full bg-[color:var(--color-ink)] px-6 py-3 text-sm text-[color:var(--color-bg)] hover:bg-[color:var(--color-accent)] transition-colors"
+        <div className="grid grid-cols-12 gap-8">
+          <div className="hidden md:flex md:col-span-1 flex-col items-start justify-end pb-2 text-[10px] uppercase tracking-[0.32em] text-[color:var(--color-ink-muted)]">
+            <span
+              aria-hidden="true"
+              className="font-serif italic text-[color:var(--color-accent-warm)] text-base mb-3"
             >
-              {COPY.primaryCta.label}
-            </a>
-            <a
-              href={COPY.secondaryCta.href}
-              className="inline-flex items-center text-sm text-[color:var(--color-ink-muted)] hover:text-[color:var(--color-ink)] transition-colors"
-            >
-              {COPY.secondaryCta.label} →
-            </a>
+              5
+            </span>
+            <span>{COPY.marker}</span>
+            <span className="mt-3 h-12 w-px bg-[color:var(--color-rule)]" />
+          </div>
+
+          <div className="col-span-12 md:col-span-11">
+            <ScrollReveal>
+              <p className="text-[11px] md:text-xs uppercase tracking-[0.32em] text-[color:var(--color-accent-warm)] mb-7">
+                {COPY.eyebrow}
+              </p>
+            </ScrollReveal>
+            <ScrollReveal delay={80}>
+              <h1 className="font-serif font-light text-[clamp(2.5rem,7vw,5.25rem)] leading-[1.02] tracking-[-0.02em] text-[color:var(--color-ink)] whitespace-pre-line max-w-[18ch]">
+                {COPY.headline}
+              </h1>
+            </ScrollReveal>
+            <ScrollReveal delay={160}>
+              <p className="mt-10 max-w-xl text-lg md:text-[1.2rem] leading-[1.55] text-[color:var(--color-ink-muted)]">
+                {COPY.sub}
+              </p>
+            </ScrollReveal>
+            <ScrollReveal delay={240}>
+              <div className="mt-12 flex flex-wrap items-center gap-5">
+                <a
+                  href={COPY.primaryCta.href}
+                  className="group inline-flex items-center gap-3 rounded-full bg-[color:var(--color-ink)] px-6 py-3.5 text-sm text-[color:var(--color-bg)] hover:bg-[color:var(--color-accent)] transition-colors"
+                >
+                  {COPY.primaryCta.label}
+                  <span
+                    aria-hidden="true"
+                    className="inline-block transition-transform group-hover:translate-x-1"
+                  >
+                    →
+                  </span>
+                </a>
+                <a
+                  href={COPY.secondaryCta.href}
+                  className="group inline-flex items-center gap-2 text-sm text-[color:var(--color-ink-muted)] hover:text-[color:var(--color-ink)] transition-colors"
+                >
+                  {COPY.secondaryCta.label}
+                  <span
+                    aria-hidden="true"
+                    className="inline-block transition-transform group-hover:translate-x-1"
+                  >
+                    →
+                  </span>
+                </a>
+              </div>
+            </ScrollReveal>
+          </div>
+        </div>
+
+        <ScrollReveal delay={320}>
+          <div className="mt-20 md:mt-28 grid grid-cols-2 md:grid-cols-4 gap-px bg-[color:var(--color-rule)] border-y border-[color:var(--color-rule)]">
+            {[
+              { k: "Focus", v: "M365 adoption" },
+              { k: "Sector", v: "Government" },
+              { k: "Method", v: "Prosci-aligned" },
+              { k: "Based", v: "Ottawa, ON" },
+            ].map((item) => (
+              <div
+                key={item.k}
+                className="bg-[color:var(--color-bg)] px-5 py-6"
+              >
+                <div className="text-[10px] uppercase tracking-[0.28em] text-[color:var(--color-ink-muted)]">
+                  {item.k}
+                </div>
+                <div className="mt-2 font-serif text-base md:text-lg text-[color:var(--color-ink)]">
+                  {item.v}
+                </div>
+              </div>
+            ))}
           </div>
         </ScrollReveal>
       </div>

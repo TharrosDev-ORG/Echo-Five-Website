@@ -1,18 +1,19 @@
 import type { Metadata } from "next";
-import { Inter, Fraunces } from "next/font/google";
+import { Public_Sans, Fraunces } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
+const publicSans = Public_Sans({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-sans-body",
   display: "swap",
+  weight: ["400", "500", "600"],
 });
 
 const fraunces = Fraunces({
   subsets: ["latin"],
-  variable: "--font-fraunces",
+  variable: "--font-serif-display",
   display: "swap",
-  axes: ["SOFT", "WONK", "opsz"],
+  axes: ["SOFT", "opsz"],
 });
 
 export const metadata: Metadata = {
@@ -29,9 +30,18 @@ export const metadata: Metadata = {
   },
 };
 
+const enableJsClass = `document.documentElement.classList.add('js-on');`;
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${fraunces.variable}`}>
+    <html
+      lang="en"
+      className={`${publicSans.variable} ${fraunces.variable}`}
+      suppressHydrationWarning
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: enableJsClass }} />
+      </head>
       <body>{children}</body>
     </html>
   );
