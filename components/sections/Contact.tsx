@@ -8,10 +8,10 @@ const COPY = {
   label: "Contact",
   heading: "Let's talk about what you're trying to change.",
   body:
-    "Send a note and we'll come back within two business days. For sensitive engagements, ask about secure channels.",
+    "Send a note and Mark will come back within two business days. Engagements are run end-to-end by the principal — you're writing to the person who'll do the work. For sensitive matters, ask about secure channels.",
   email: "hello@echo-five.ca",
-  linkedin: "https://www.linkedin.com",
-  linkedinLabel: "echo-five-consulting",
+  linkedin: "https://www.linkedin.com/in/mark-abdelnour-235b6a4/",
+  linkedinLabel: "Mark Abdelnour",
   location: "Ottawa, ON",
 };
 

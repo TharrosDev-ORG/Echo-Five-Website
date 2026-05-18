@@ -15,6 +15,20 @@ const COPY = {
   ],
 };
 
+const MARK = {
+  label: "Principal",
+  initials: "MA",
+  name: "Mark Abdelnour",
+  role: "Principal Consultant",
+  quote:
+    "I've spent twenty years helping public-sector teams use the tools that were already on their desk. Echo-Five exists to do that one job, properly — and end-to-end.",
+  meta: [
+    "20+ years in public-sector transformation",
+    "Microsoft 365 specialist · Teams, SharePoint, Purview",
+    "Based in Ottawa, ON",
+  ],
+};
+
 export function About() {
   return (
     <section
@@ -47,7 +61,61 @@ export function About() {
           </div>
         </div>
 
-        <div className="mt-20 md:mt-28 grid grid-cols-1 md:grid-cols-3 gap-px bg-[color:var(--color-rule)] border-y border-[color:var(--color-rule)]">
+        {/* Principal — modest, single-column signature block. No photo by design. */}
+        <ScrollReveal delay={240} className="mt-20 md:mt-24">
+          <div className="grid gap-8 md:grid-cols-12 md:gap-x-8 border-t border-[color:var(--color-rule)] pt-10 md:pt-12">
+            <div className="md:col-span-5">
+              <div className="flex items-baseline gap-4">
+                <span className="font-serif italic text-[color:var(--color-accent-warm)] text-sm">
+                  &mdash;
+                </span>
+                <span className="text-[10px] uppercase tracking-[0.32em] text-[color:var(--color-ink-muted)]">
+                  {MARK.label}
+                </span>
+              </div>
+              <div className="mt-4 flex items-center gap-4">
+                <span
+                  aria-hidden="true"
+                  className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-[color:var(--color-rule)] font-serif text-[color:var(--color-ink)] text-base tracking-[0.04em]"
+                >
+                  {MARK.initials}
+                </span>
+                <div>
+                  <div className="font-serif font-light text-[1.5rem] leading-tight tracking-[-0.01em] text-[color:var(--color-ink)]">
+                    {MARK.name}
+                  </div>
+                  <div className="text-sm text-[color:var(--color-ink-muted)]">
+                    {MARK.role}
+                  </div>
+                </div>
+              </div>
+              <ul className="mt-6 space-y-2 text-sm text-[color:var(--color-ink-muted)]">
+                {MARK.meta.map((m) => (
+                  <li key={m} className="flex items-baseline gap-3">
+                    <span
+                      aria-hidden="true"
+                      className="text-[color:var(--color-accent-warm)] text-xs"
+                    >
+                      +
+                    </span>
+                    <span>{m}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <blockquote className="md:col-span-6 md:col-start-7 relative font-serif italic font-light text-[1.45rem] md:text-[1.65rem] leading-[1.35] tracking-[-0.005em] text-[color:var(--color-ink)]">
+              <span
+                aria-hidden="true"
+                className="absolute -left-6 -top-2 font-serif not-italic text-[color:var(--color-accent-warm)] text-3xl opacity-70 hidden md:block"
+              >
+                &ldquo;
+              </span>
+              {MARK.quote}
+            </blockquote>
+          </div>
+        </ScrollReveal>
+
+        <div className="mt-20 md:mt-24 grid grid-cols-1 md:grid-cols-3 gap-px bg-[color:var(--color-rule)] border-y border-[color:var(--color-rule)]">
           {COPY.stats.map((s, i) => (
             <ScrollReveal
               key={s.label}

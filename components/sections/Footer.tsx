@@ -32,7 +32,9 @@ export function Footer() {
           </nav>
         </div>
         <div className="mt-10 pt-6 border-t border-[color:var(--color-rule)] flex flex-col md:flex-row gap-2 justify-between text-xs text-[color:var(--color-ink-muted)]">
-          <p>© {year} Echo-Five Consulting · Ottawa, ON</p>
+          <p>
+            © {year} Echo-Five Consulting · Founded by Mark Abdelnour · Ottawa, ON
+          </p>
           <p className="font-serif italic">echo-five.ca</p>
         </div>
       </div>
