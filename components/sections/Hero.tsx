@@ -61,13 +61,9 @@ export function Hero() {
             </ScrollReveal>
           </div>
 
-          <div className="hidden md:flex md:col-span-4 lg:col-span-5 items-center justify-end">
-            <ScrollReveal delay={120} className="relative">
-              <div
-                aria-hidden="true"
-                className="absolute -inset-6 rounded-full border border-[color:var(--color-rule)] opacity-50"
-              />
-              <EchoRipple size={320} className="relative" />
+          <div className="hidden md:flex md:col-span-4 lg:col-span-5 items-center justify-center lg:justify-end">
+            <ScrollReveal delay={120}>
+              <EchoRipple size={440} />
             </ScrollReveal>
           </div>
         </div>
