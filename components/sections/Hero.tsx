@@ -1,4 +1,5 @@
 import { ScrollReveal } from "@/components/ScrollReveal";
+import { EchoRipple } from "@/components/EchoRipple";
 
 const COPY = {
   eyebrow: "Change Management · Microsoft 365 · Public Sector",
@@ -13,8 +14,8 @@ export function Hero() {
   return (
     <section id="top" className="relative pt-32 md:pt-40 section-y overflow-hidden">
       <div className="container-tight">
-        <div>
-          <div>
+        <div className="grid items-center gap-12 md:grid-cols-12">
+          <div className="md:col-span-8 lg:col-span-7">
             <ScrollReveal>
               <p className="text-[11px] md:text-xs uppercase tracking-[0.32em] text-[color:var(--color-accent-warm)] mb-7">
                 {COPY.eyebrow}
@@ -57,6 +58,16 @@ export function Hero() {
                   </span>
                 </a>
               </div>
+            </ScrollReveal>
+          </div>
+
+          <div className="hidden md:flex md:col-span-4 lg:col-span-5 items-center justify-end">
+            <ScrollReveal delay={120} className="relative">
+              <div
+                aria-hidden="true"
+                className="absolute -inset-6 rounded-full border border-[color:var(--color-rule)] opacity-50"
+              />
+              <EchoRipple size={320} className="relative" />
             </ScrollReveal>
           </div>
         </div>
