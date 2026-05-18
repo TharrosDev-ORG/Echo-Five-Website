@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #FAFAF7;
+  --color-surface: #FFFFFF;
+  --color-ink: #0F1A2E;
+  --color-ink-muted: #475569;
+  --color-accent: #1A2740;
+  --color-accent-warm: #8C7A5B;
+  --color-rule: #E5E2DA;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-fraunces), ui-serif, Georgia, serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background: var(--color-bg);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-bg);
+  }
+}
+
+@layer utilities {
+  .container-tight {
+    max-width: 72rem;
+    margin-inline: auto;
+    padding-inline: clamp(1.25rem, 4vw, 3rem);
+  }
+  .section-y {
+    padding-block: clamp(5rem, 12vh, 10rem);
+  }
+  .reveal {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 700ms ease, transform 700ms ease;
+  }
+  .reveal[data-visible="true"] {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+  }
+}
