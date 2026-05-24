@@ -16,9 +16,9 @@ const COPY = {
 
 export function Hero() {
   return (
-    <section id="top" className="relative pt-28 md:pt-36 overflow-hidden">
+    <section id="top" className="relative pt-24 md:pt-28 overflow-hidden">
       <div className="container-tight">
-        <div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-10 items-center pb-16 md:pb-24 pt-10 md:pt-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-10 items-center pb-16 md:pb-24 pt-6 md:pt-8">
           <div className="lg:col-span-7">
             <ScrollReveal>
               <h1 className="font-display font-extrabold uppercase text-[clamp(2.75rem,8vw,6rem)] leading-[0.94] tracking-[-0.02em] text-ink">

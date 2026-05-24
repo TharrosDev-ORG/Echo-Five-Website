@@ -10,7 +10,7 @@ const RINGS = [
 ];
 
 // Abstract "echo / signal" motif on a Swiss grid. A source point (lower-left)
-// emits concentric rings that propagate across a ruled field — change, lands,
+// emits concentric rings that propagate across a ruled field: change, lands,
 // spreads. Animation is transform/opacity only; static + visible under
 // prefers-reduced-motion.
 export function EchoVisual({ className = "" }: Props) {
@@ -44,7 +44,7 @@ export function EchoVisual({ className = "" }: Props) {
         <path d="M12 360 H0 V348" fill="none" />
       </g>
 
-      {/* propagating rings — each scales from its own center (CSS fill-box) */}
+      {/* propagating rings: each scales from its own center (CSS fill-box) */}
       {RINGS.map((r, i) => (
         <circle
           key={i}

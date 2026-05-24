@@ -51,7 +51,7 @@ export function About() {
           </div>
         </div>
 
-        {/* Principal — typographic signature block, no photo by design. */}
+        {/* Principal: typographic signature block, no photo by design. */}
         <ScrollReveal delay={120} className="mt-20 md:mt-28">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-x-10 gap-y-8 border-t-2 border-ink pt-10 md:pt-12">
             <div className="md:col-span-5">

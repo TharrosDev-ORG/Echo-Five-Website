@@ -61,11 +61,11 @@ components:
     backgroundColor: "transparent"
     textColor: "{colors.ink}"
     padding: "12px 0"
-  input:
-    backgroundColor: "transparent"
+  button-inverted:
+    backgroundColor: "{colors.paper}"
     textColor: "{colors.ink}"
     rounded: "{rounded.none}"
-    padding: "10px 0"
+    padding: "16px 32px"
   nav-link:
     backgroundColor: "transparent"
     textColor: "{colors.ink-muted}"
@@ -100,7 +100,7 @@ A near-monochrome cool field, black on white, broken by one decisive red. Canoni
 
 ### Neutral
 - **Paper** (`#f8fafd`, `oklch(0.985 0.004 255)`): page base, a cool near-white tinted toward the ink hue. Never pure `#fff`.
-- **Surface** (`#fafcfe`, `oklch(0.99 0.003 255)`): the contact form and success panel, a half-step lift off paper.
+- **Surface** (`#fafcfe`, `oklch(0.99 0.003 255)`): a half-step lift off paper, reserved for any raised panel.
 - **Ink** (`#141b26`, `oklch(0.22 0.025 260)`): primary text, primary-button ground, inverted blocks (16.6:1 on paper). Never pure `#000`.
 - **Ink Muted** (`#575e69`, `oklch(0.48 0.02 260)`): secondary body and labels (6.26:1 on paper).
 - **Keyline** (`#d8dbe0`, `oklch(0.89 0.008 260)`): the visible grid lines, cell dividers, and field underlines. Stronger than a hairline on purpose; the lines are meant to be seen.
@@ -132,7 +132,7 @@ A near-monochrome cool field, black on white, broken by one decisive red. Canoni
 
 ## 4. Elevation
 
-Flat by doctrine. There are no drop shadows anywhere in the system. Depth and separation are conveyed entirely by the keyline grid, by inverted ink blocks, and by the half-step `surface` lift on the contact form. The only "elevation" event is the scrolled nav gaining a translucent paper background with `backdrop-blur` and a bottom keyline.
+Flat by doctrine. There are no drop shadows anywhere in the system. Depth and separation are conveyed entirely by the keyline grid and by inverted ink blocks (the full-bleed closing CTA section being the largest). The only "elevation" event is the scrolled nav gaining a translucent paper background with `backdrop-blur` and a bottom keyline.
 
 ### Named Rules
 **The No-Shadow Rule.** Surfaces are flat. If something needs to feel separate, divide it with a keyline or invert it to ink, never with a `box-shadow`.
@@ -144,15 +144,16 @@ Flat by doctrine. There are no drop shadows anywhere in the system. Depth and se
 - **Primary:** Ink ground (`#141b26`), Paper text, uppercase tracked label with a `→` glyph, padding `12px 28px`, min-height 44px.
 - **Hover / Focus:** background shifts to Signal Vermilion; the `→` glyph translates 4px right. Focus shows the global 2px Deep Signal ring.
 - **Ghost (secondary CTA / nav):** text-only Ink, no ground; hover shifts to Deep Signal. The arrow translates on hover.
+- **Inverted (on the dark closing section):** Paper ground, Ink text, larger padding (`16px 32px`, min-height 56px) as the page's final focal CTA. Hover shifts to Signal Vermilion ground with Paper text.
 
 ### Cards / Containers
-- **Doctrine:** avoid cards. Services are a numbered full-width ledger of keyline-divided rows, not a card grid. Where a panel is unavoidable (contact form, success state), it is a single flat `surface` rectangle with a `keyline` (or `ink`) border, 0 radius, never nested.
+- **Doctrine:** avoid cards. Services are a numbered full-width ledger of keyline-divided rows, not a card grid. There are no input panels: the contact section is a CTA, not a form. The one large container is the full-bleed inverted closing block (Ink ground, Paper text), never a bordered card and never nested.
 - **Internal Padding:** generous, `clamp` 28–56px.
 
-### Inputs / Fields
-- **Style:** underline-only. Transparent background, single `keyline` bottom border, 0 radius, label in 11px uppercase tracked Ink-Muted.
-- **Focus:** bottom border shifts to Ink; the global 2px Deep Signal `:focus-visible` ring is always present (never removed with `outline: none`).
-- **Error:** message in Deep Signal with a faint signal-tinted background wash, surfaced via `role="alert"`.
+### Contact (closing CTA)
+- **No form.** The contact section is a full-bleed Ink band that ends the page. A signal red index numeral and a large headline (one word in Signal Vermilion), then an Inverted CTA button that opens a prefilled `mailto:` to the principal, plus a keyline list of Email / LinkedIn / Office.
+- **Dividers on dark:** a translucent paper hairline (`color-mix(in oklch, paper 15%, transparent)`), not the light `keyline`, which is too stark on Ink.
+- **Links on dark:** Paper text with a Signal Vermilion underline (`decoration`), never small Signal-colored text, which fails contrast on Ink.
 
 ### Navigation
 - **Style:** fixed top, transparent over the hero, gaining translucent paper + `backdrop-blur` + bottom keyline after 24px scroll. Links are 13px uppercase tracked Ink-Muted, hover to Ink; the CTA is a square Ink button.

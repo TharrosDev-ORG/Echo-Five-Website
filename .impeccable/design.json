@@ -83,12 +83,12 @@
       "css": ".ds-btn-ghost { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: #141b26; text-decoration: none; font-family: Archivo, system-ui, sans-serif; font-size: 0.875rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; transition: color 0.2s; } .ds-btn-ghost:hover { color: #a21c10; } .ds-btn-ghost:focus-visible { outline: 2px solid #a21c10; outline-offset: 2px; } .ds-btn-ghost .ds-arrow { transition: transform 0.2s cubic-bezier(0.16,1,0.3,1); } .ds-btn-ghost:hover .ds-arrow { transform: translateX(4px); }"
     },
     {
-      "name": "Underline Input",
-      "kind": "input",
-      "refersTo": "input",
-      "description": "Underline-only field with an 11px tracked uppercase label and a deep-signal focus ring.",
-      "html": "<label class=\"ds-field\"><span class=\"ds-field-label\">Email <span class=\"ds-req\">*</span></span><input type=\"email\" class=\"ds-input\" /></label>",
-      "css": ".ds-field { display: block; } .ds-field-label { display: block; font-family: Archivo, system-ui, sans-serif; font-size: 0.6875rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.2em; color: #575e69; } .ds-req { color: #a21c10; } .ds-input { margin-top: 8px; display: block; width: 100%; padding: 10px 0; background: transparent; border: none; border-bottom: 1px solid #d8dbe0; border-radius: 0; color: #141b26; font-family: Archivo, system-ui, sans-serif; font-size: 1rem; transition: border-color 0.2s; } .ds-input:focus { border-bottom-color: #141b26; outline: none; } .ds-input:focus-visible { outline: 2px solid #a21c10; outline-offset: 2px; }"
+      "name": "Inverted CTA Button",
+      "kind": "button",
+      "refersTo": "button-inverted",
+      "description": "The page's final focal CTA on the dark closing section: paper ground, ink text, opens a prefilled mailto. Hover shifts to signal-red.",
+      "html": "<a href=\"mailto:Mark.abdelnour@gmail.com?subject=Echo-Five%20enquiry\" class=\"ds-cta-inverted\">Email Mark Abdelnour <span aria-hidden=\"true\" class=\"ds-arrow\">→</span></a>",
+      "css": ".ds-cta-inverted { display: inline-flex; align-items: center; gap: 16px; min-height: 56px; padding: 16px 32px; background: #f8fafd; color: #141b26; text-decoration: none; font-family: Archivo, system-ui, sans-serif; font-size: 1rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; transition: background 0.2s cubic-bezier(0.16,1,0.3,1), color 0.2s; } .ds-cta-inverted:hover { background: #e23726; color: #f8fafd; } .ds-cta-inverted:focus-visible { outline: 2px solid #a21c10; outline-offset: 2px; } .ds-cta-inverted .ds-arrow { font-size: 1.125rem; transition: transform 0.2s cubic-bezier(0.16,1,0.3,1); } .ds-cta-inverted:hover .ds-arrow { transform: translateX(6px); }"
     },
     {
       "name": "Top Navigation",
