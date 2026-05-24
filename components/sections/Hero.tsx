@@ -1,94 +1,80 @@
 import { ScrollReveal } from "@/components/ScrollReveal";
-import { EchoRipple } from "@/components/EchoRipple";
+import { EchoVisual } from "@/components/EchoVisual";
 
 const COPY = {
-  eyebrow: "Change Management · Microsoft 365 · Public Sector",
-  headline: "Change that lands.\nTools that get used.",
-  sub:
-    "Echo-Five helps government teams adopt Microsoft 365 with strategies that move people, not just systems. Twenty years of public-sector experience, distilled into engagements that ship.",
+  headline: ["Change that", "lands.", "Tools that", "get used."],
+  sub: "Echo-Five helps government teams adopt Microsoft 365 with strategies that move people, not just systems. Twenty years of public-sector experience, distilled into engagements that ship.",
   primaryCta: { label: "Get in touch", href: "#contact" },
   secondaryCta: { label: "See how we work", href: "#approach" },
+  facts: [
+    { k: "Focus", v: "M365 adoption" },
+    { k: "Sector", v: "Government" },
+    { k: "Method", v: "Prosci-aligned" },
+    { k: "Based", v: "Ottawa, ON" },
+  ],
 };
 
 export function Hero() {
   return (
-    <section id="top" className="relative pt-32 md:pt-40 section-y overflow-hidden">
+    <section id="top" className="relative pt-28 md:pt-36 overflow-hidden">
       <div className="container-tight">
-        <div className="grid items-center gap-12 md:grid-cols-12">
-          <div className="md:col-span-8 lg:col-span-7">
+        <div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-10 items-center pb-16 md:pb-24 pt-10 md:pt-16">
+          <div className="lg:col-span-7">
             <ScrollReveal>
-              <p className="text-[11px] md:text-xs uppercase tracking-[0.32em] text-[color:var(--color-accent-warm)] mb-7">
-                {COPY.eyebrow}
-              </p>
-            </ScrollReveal>
-            <ScrollReveal delay={80}>
-              <h1 className="font-serif font-light text-[clamp(2.5rem,7vw,5.25rem)] leading-[1.02] tracking-[-0.02em] text-[color:var(--color-ink)] whitespace-pre-line max-w-[18ch]">
-                {COPY.headline}
+              <h1 className="font-display font-extrabold uppercase text-[clamp(2.75rem,8vw,6rem)] leading-[0.94] tracking-[-0.02em] text-ink">
+                <span className="block">{COPY.headline[0]}</span>
+                <span className="block text-signal">{COPY.headline[1]}</span>
+                <span className="block">{COPY.headline[2]}</span>
+                <span className="block">{COPY.headline[3]}</span>
               </h1>
             </ScrollReveal>
-            <ScrollReveal delay={160}>
-              <p className="mt-10 max-w-xl text-lg md:text-[1.2rem] leading-[1.55] text-[color:var(--color-ink-muted)]">
+            <ScrollReveal delay={120}>
+              <p className="mt-9 max-w-xl text-lg md:text-xl leading-[1.55] text-ink-muted">
                 {COPY.sub}
               </p>
             </ScrollReveal>
-            <ScrollReveal delay={240}>
-              <div className="mt-12 flex flex-wrap items-center gap-5">
+            <ScrollReveal delay={200}>
+              <div className="mt-11 flex flex-wrap items-center gap-x-7 gap-y-4">
                 <a
                   href={COPY.primaryCta.href}
-                  className="group inline-flex items-center gap-3 rounded-full bg-[color:var(--color-ink)] px-6 py-3.5 text-sm text-[color:var(--color-bg)] hover:bg-[color:var(--color-accent)] transition-colors"
+                  className="group inline-flex min-h-[44px] items-center gap-3 bg-ink px-7 py-3 text-sm font-medium uppercase tracking-[0.06em] text-paper hover:bg-signal transition-colors"
                 >
                   {COPY.primaryCta.label}
-                  <span
-                    aria-hidden="true"
-                    className="inline-block transition-transform group-hover:translate-x-1"
-                  >
-                    →
-                  </span>
+                  <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">→</span>
                 </a>
                 <a
                   href={COPY.secondaryCta.href}
-                  className="group inline-flex items-center gap-2 text-sm text-[color:var(--color-ink-muted)] hover:text-[color:var(--color-ink)] transition-colors"
+                  className="group inline-flex min-h-[44px] items-center gap-2 text-sm font-medium uppercase tracking-[0.06em] text-ink hover:text-signal-deep transition-colors"
                 >
                   {COPY.secondaryCta.label}
-                  <span
-                    aria-hidden="true"
-                    className="inline-block transition-transform group-hover:translate-x-1"
-                  >
-                    →
-                  </span>
+                  <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">→</span>
                 </a>
               </div>
             </ScrollReveal>
           </div>
 
-          <div className="hidden md:flex md:col-span-4 lg:col-span-5 items-center justify-center lg:justify-end">
-            <ScrollReveal delay={120}>
-              <EchoRipple size={440} />
+          <div className="lg:col-span-5 mt-14 lg:mt-0">
+            <ScrollReveal delay={160}>
+              <div className="mx-auto w-full max-w-[340px] lg:max-w-none lg:ml-auto lg:mr-0 lg:w-[88%]">
+                <EchoVisual />
+              </div>
             </ScrollReveal>
           </div>
         </div>
 
-        <ScrollReveal delay={320}>
-          <div className="mt-20 md:mt-28 grid grid-cols-2 md:grid-cols-4 gap-px bg-[color:var(--color-rule)] border-y border-[color:var(--color-rule)]">
-            {[
-              { k: "Focus", v: "M365 adoption" },
-              { k: "Sector", v: "Government" },
-              { k: "Method", v: "Prosci-aligned" },
-              { k: "Based", v: "Ottawa, ON" },
-            ].map((item) => (
-              <div
-                key={item.k}
-                className="bg-[color:var(--color-bg)] px-5 py-6"
-              >
-                <div className="text-[10px] uppercase tracking-[0.28em] text-[color:var(--color-ink-muted)]">
+        <ScrollReveal delay={260}>
+          <dl className="grid grid-cols-2 md:grid-cols-4 gap-px bg-keyline border-y border-keyline">
+            {COPY.facts.map((item) => (
+              <div key={item.k} className="bg-paper px-1 py-7 md:py-8 md:px-6">
+                <dt className="text-[11px] uppercase tracking-[0.22em] text-ink-muted">
                   {item.k}
-                </div>
-                <div className="mt-2 font-serif text-base md:text-lg text-[color:var(--color-ink)]">
+                </dt>
+                <dd className="mt-2 font-display font-bold text-lg md:text-xl tracking-[-0.01em] text-ink">
                   {item.v}
-                </div>
+                </dd>
               </div>
             ))}
-          </div>
+          </dl>
         </ScrollReveal>
       </div>
     </section>

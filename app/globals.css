@@ -1,16 +1,18 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg: #FAFAF7;
-  --color-surface: #FFFFFF;
-  --color-ink: #0F1A2E;
-  --color-ink-muted: #475569;
-  --color-accent: #1A2740;
-  --color-accent-warm: #8C7A5B;
-  --color-rule: #E5E2DA;
+  --color-paper: oklch(0.985 0.004 255);
+  --color-surface: oklch(0.99 0.003 255);
+  --color-ink: oklch(0.22 0.025 260);
+  --color-ink-muted: oklch(0.48 0.02 260);
+  --color-signal: oklch(0.6 0.21 30);
+  --color-signal-deep: oklch(0.46 0.17 30);
+  --color-keyline: oklch(0.89 0.008 260);
 
-  --font-sans: var(--font-sans-body), ui-sans-serif, system-ui, sans-serif;
-  --font-serif: var(--font-serif-display), ui-serif, Georgia, serif;
+  --font-sans: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @layer base {
@@ -18,80 +20,89 @@
     scroll-behavior: smooth;
   }
   body {
-    background: var(--color-bg);
+    background: var(--color-paper);
     color: var(--color-ink);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
-    position: relative;
   }
+  /* Faint full-bleed grid texture: the structure is the voice. */
   body::before {
     content: "";
     position: fixed;
     inset: 0;
     pointer-events: none;
     z-index: 0;
-    opacity: 0.5;
-    background-image: radial-gradient(
-        circle at 18% 12%,
-        rgba(140, 122, 91, 0.08) 0,
-        transparent 38%
-      ),
-      radial-gradient(circle at 88% 78%, rgba(26, 39, 64, 0.05) 0, transparent 46%);
+    opacity: 0.45;
+    background-image: linear-gradient(
+        to right,
+        color-mix(in oklch, var(--color-keyline) 60%, transparent) 1px,
+        transparent 1px
+      );
+    background-size: clamp(72px, 8.333vw, 140px) 100%;
+    background-position: center top;
+    mask-image: linear-gradient(to bottom, transparent, black 18%, black 90%, transparent);
   }
-  main, header, footer {
+  main,
+  header,
+  footer {
     position: relative;
     z-index: 1;
   }
   ::selection {
-    background: var(--color-accent);
-    color: var(--color-bg);
+    background: var(--color-signal);
+    color: var(--color-paper);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-signal-deep);
+    outline-offset: 2px;
+    border-radius: 1px;
   }
 }
 
-@keyframes echo-ripple-ring {
+@keyframes echo-ring {
   0% {
-    transform: scale(0.15);
+    transform: scale(0.12);
     opacity: 0;
   }
-  8% {
+  10% {
     opacity: 1;
   }
-  70% {
-    opacity: 1;
+  72% {
+    opacity: 0.9;
   }
   100% {
-    transform: scale(2.4);
+    transform: scale(2.6);
     opacity: 0;
   }
 }
 
-@keyframes echo-ripple-core {
+@keyframes echo-core {
   0%,
   100% {
     transform: scale(1);
     opacity: 1;
   }
   50% {
-    transform: scale(1.45);
-    opacity: 0.55;
+    transform: scale(1.5);
+    opacity: 0.5;
   }
 }
 
 .echo-ring,
 .echo-core {
-  transform-origin: 120px 120px;
-  transform-box: view-box;
+  transform-origin: center;
+  transform-box: fill-box;
   will-change: transform, opacity;
 }
 
 .echo-ring {
-  animation: echo-ripple-ring 1.8s ease-out infinite;
+  animation: echo-ring 3.4s var(--ease-out-expo) infinite;
   opacity: 0;
 }
 
 .echo-core {
-  animation: echo-ripple-core 2.4s ease-in-out infinite;
+  animation: echo-core 3.4s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -104,22 +115,32 @@
 }
 
 @layer utilities {
+  /* Augments Tailwind's generated .font-display (font-family) with the
+     Archivo variable-font expanded width. */
+  .font-display {
+    font-stretch: 125%;
+  }
   .container-tight {
-    max-width: 110rem;
+    max-width: 84rem;
     margin-inline: auto;
-    padding-inline: clamp(1.25rem, 4.5vw, 5rem);
+    padding-inline: clamp(1.25rem, 4.5vw, 4rem);
   }
   .section-y {
     padding-block: clamp(5rem, 12vh, 10rem);
   }
   .reveal {
-    transition: opacity 700ms ease, transform 700ms ease;
+    transition: opacity 800ms var(--ease-out-expo),
+      transform 800ms var(--ease-out-expo);
   }
   .js-on .reveal:not([data-visible="true"]) {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(16px);
   }
   @media (prefers-reduced-motion: reduce) {
-    .js-on .reveal { opacity: 1; transform: none; transition: none; }
+    .js-on .reveal {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none;
+    }
   }
 }

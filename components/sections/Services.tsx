@@ -1,14 +1,12 @@
 import { ScrollReveal } from "@/components/ScrollReveal";
 
 const COPY = {
-  marker: "02",
-  label: "Services",
-  heading: "Three engagements. One outcome — adoption that holds.",
+  index: "02",
+  heading: "Three engagements. One outcome: adoption that holds.",
   services: [
     {
       title: "Microsoft 365 Adoption",
-      body:
-        "Readiness assessments, deployment planning, and governance design for Teams, SharePoint, and the wider M365 stack — sized to how public-sector teams actually work.",
+      body: "Readiness assessments, deployment planning, and governance design for Teams, SharePoint, and the wider M365 stack, sized to how public-sector teams actually work.",
       points: [
         "Readiness & impact assessment",
         "Tenant and governance design",
@@ -17,8 +15,7 @@ const COPY = {
     },
     {
       title: "Change Management Strategy",
-      body:
-        "Stakeholder engagement, communications, and measurement built on Prosci-aligned frameworks — adapted for the realities of government delivery cycles.",
+      body: "Stakeholder engagement, communications, and measurement built on Prosci-aligned frameworks, adapted for the realities of government delivery cycles.",
       points: [
         "Stakeholder mapping",
         "Communications planning",
@@ -27,8 +24,7 @@ const COPY = {
     },
     {
       title: "Training & Enablement",
-      body:
-        "Role-based training, champion programs, and sustainment plans that keep momentum long after the rollout team leaves.",
+      body: "Role-based training, champion programs, and sustainment plans that keep momentum long after the rollout team leaves.",
       points: [
         "Role-based curriculum",
         "Champion network design",
@@ -40,57 +36,44 @@ const COPY = {
 
 export function Services() {
   return (
-    <section
-      id="services"
-      className="section-y border-t border-[color:var(--color-rule)]"
-    >
+    <section id="services" className="section-y border-t border-keyline">
       <div className="container-tight">
         <ScrollReveal>
-          <div className="flex items-baseline gap-4">
-            <span className="font-serif text-[color:var(--color-accent-warm)] text-base">
-              {COPY.marker}
-            </span>
-            <span className="text-[10px] uppercase tracking-[0.32em] text-[color:var(--color-ink-muted)]">
-              {COPY.label}
-            </span>
-          </div>
-          <h2 className="mt-6 font-serif font-light text-[clamp(2.1rem,4.5vw,3.5rem)] leading-[1.05] tracking-[-0.015em] max-w-[22ch]">
+          <span className="font-display font-bold text-signal text-sm tracking-[0.1em]">
+            {COPY.index}
+          </span>
+          <h2 className="mt-5 font-display font-bold uppercase text-[clamp(2rem,4.5vw,3.4rem)] leading-[0.98] tracking-[-0.02em] max-w-[20ch] text-ink">
             {COPY.heading}
           </h2>
         </ScrollReveal>
 
-        <div className="mt-16 md:mt-20 grid gap-px bg-[color:var(--color-rule)] border border-[color:var(--color-rule)] md:grid-cols-3">
+        {/* Numbered ledger: full-width rows divided by keylines, not a card grid. */}
+        <div className="mt-14 md:mt-20">
           {COPY.services.map((s, i) => (
-            <ScrollReveal
-              key={s.title}
-              delay={80 * i}
-              className="bg-[color:var(--color-surface)] p-8 md:p-10 flex flex-col"
-            >
-              <div className="flex items-baseline justify-between mb-8">
-                <span className="font-serif italic text-[color:var(--color-accent-warm)] text-2xl">
-                  0{i + 1}
-                </span>
-                <span className="h-px w-12 bg-[color:var(--color-rule)]" />
-              </div>
-              <h3 className="font-serif font-light text-[1.6rem] md:text-[1.75rem] leading-[1.15] tracking-[-0.01em] text-[color:var(--color-ink)]">
-                {s.title}
-              </h3>
-              <p className="mt-5 text-[color:var(--color-ink-muted)] leading-[1.6]">
-                {s.body}
-              </p>
-              <ul className="mt-8 space-y-3 text-sm text-[color:var(--color-ink)]">
-                {s.points.map((p) => (
-                  <li key={p} className="flex gap-3 items-baseline">
-                    <span
-                      aria-hidden="true"
-                      className="font-serif italic text-[color:var(--color-accent-warm)] text-xs"
-                    >
-                      +
-                    </span>
-                    <span>{p}</span>
-                  </li>
-                ))}
-              </ul>
+            <ScrollReveal key={s.title} delay={60 * i}>
+              <article className="grid grid-cols-1 md:grid-cols-12 gap-x-10 gap-y-5 border-t border-keyline py-9 md:py-12 last:border-b group">
+                <div className="md:col-span-2">
+                  <span className="font-display font-extrabold text-5xl md:text-6xl leading-none tracking-[-0.03em] text-keyline group-hover:text-signal transition-colors">
+                    0{i + 1}
+                  </span>
+                </div>
+                <div className="md:col-span-6">
+                  <h3 className="font-display font-bold uppercase text-2xl md:text-[1.85rem] leading-[1.05] tracking-[-0.015em] text-ink">
+                    {s.title}
+                  </h3>
+                  <p className="mt-4 max-w-xl text-base md:text-lg leading-[1.6] text-ink-muted">
+                    {s.body}
+                  </p>
+                </div>
+                <ul className="md:col-span-4 space-y-3 text-sm text-ink md:pt-1">
+                  {s.points.map((p) => (
+                    <li key={p} className="flex items-baseline gap-3 border-b border-keyline pb-3">
+                      <span aria-hidden="true" className="text-signal font-bold">+</span>
+                      <span>{p}</span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
             </ScrollReveal>
           ))}
         </div>

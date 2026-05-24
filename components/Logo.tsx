@@ -3,30 +3,34 @@ type LogoProps = {
   monochrome?: boolean;
 };
 
+// Grid-derived echo mark: a source square emitting two quarter-arc signals,
+// with a single signal-red detail. Reads at 26px and in monochrome.
 export function Logo({ className = "", monochrome = false }: LogoProps) {
-  const stroke = monochrome ? "currentColor" : "var(--color-accent)";
+  const ink = monochrome ? "currentColor" : "var(--color-ink)";
+  const signal = monochrome ? "currentColor" : "var(--color-signal)";
   return (
-    <a href="#top" aria-label="Echo-Five home" className={`inline-flex items-center gap-2 ${className}`}>
+    <a
+      href="#top"
+      aria-label="Echo-Five home"
+      className={`inline-flex items-center gap-2.5 ${className}`}
+    >
       <svg
-        viewBox="0 0 40 40"
-        width="28"
-        height="28"
+        viewBox="0 0 32 32"
+        width="26"
+        height="26"
         fill="none"
-        stroke={stroke}
-        strokeWidth="1.5"
         aria-hidden="true"
       >
-        <path d="M20 22a4 4 0 1 0 0-8" />
-        <path d="M20 26a8 8 0 1 0 0-16" />
-        <path d="M20 30a12 12 0 1 0 0-24" />
-        <path d="M20 34a16 16 0 1 0 0-32" />
-        <circle cx="20" cy="18" r="1.25" fill={stroke} stroke="none" />
+        <rect x="3" y="3" width="26" height="26" stroke={ink} strokeWidth="1.5" />
+        <path d="M9 23a6 6 0 0 1 6-6" stroke={ink} strokeWidth="1.75" />
+        <path d="M9 23a11 11 0 0 1 11-11" stroke={signal} strokeWidth="1.75" />
+        <circle cx="9" cy="23" r="2.25" fill={signal} />
       </svg>
       <span
-        className="font-serif text-[1.05rem] tracking-[0.18em] uppercase"
-        style={{ color: monochrome ? "currentColor" : "var(--color-ink)" }}
+        className="font-display font-bold text-[0.95rem] tracking-[0.04em] uppercase leading-none"
+        style={{ color: ink }}
       >
-        Echo<span className="mx-1 opacity-60">·</span>Five
+        Echo<span style={{ color: signal }}>·</span>Five
       </span>
     </a>
   );

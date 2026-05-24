@@ -1,0 +1,153 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-05-23T00:00:00Z",
+  "title": "Design System: Echo-Five Consulting",
+  "extensions": {
+    "colorMeta": {
+      "signal": {
+        "role": "primary",
+        "displayName": "Signal Vermilion",
+        "canonical": "oklch(0.60 0.21 30)",
+        "tonalRamp": ["#2f0000", "#6a0000", "#930000", "#bb0000", "#e53a28", "#ff634e", "#ff8a72", "#ffcebc"]
+      },
+      "signal-deep": {
+        "role": "primary",
+        "displayName": "Deep Signal",
+        "canonical": "oklch(0.46 0.17 30)",
+        "tonalRamp": ["#290000", "#5f0000", "#860000", "#ad291c", "#d55140", "#fd7562", "#ff9a85", "#ffd5c6"]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "canonical": "oklch(0.985 0.004 255)",
+        "tonalRamp": ["#0a0b0c", "#242527", "#414244", "#606163", "#818285", "#a3a5a7", "#c7c9cc", "#edeef0"]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Surface",
+        "canonical": "oklch(0.99 0.003 255)",
+        "tonalRamp": ["#0b0b0c", "#242526", "#414244", "#606163", "#818284", "#a4a5a7", "#c8c9cb", "#eeeef0"]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "oklch(0.22 0.025 260)",
+        "tonalRamp": ["#080b12", "#1e2531", "#3a4250", "#596270", "#7a8392", "#9ca6b5", "#c0cada", "#e9eff9"]
+      },
+      "ink-muted": {
+        "role": "neutral",
+        "displayName": "Ink Muted",
+        "canonical": "oklch(0.48 0.02 260)",
+        "tonalRamp": ["#080b10", "#1f252f", "#3c424d", "#5b626d", "#7b838f", "#9ea6b2", "#c2cad7", "#eaeff7"]
+      },
+      "keyline": {
+        "role": "neutral",
+        "displayName": "Keyline",
+        "canonical": "oklch(0.89 0.008 260)",
+        "tonalRamp": ["#0a0b0d", "#232529", "#3f4246", "#5f6166", "#7f8287", "#a2a5aa", "#c6c9ce", "#edeef2"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Hero headline only, expanded width (wdth 125), one red line inside." },
+      "headline": { "displayName": "Headline", "purpose": "Section H2s, expanded uppercase." },
+      "title": { "displayName": "Title", "purpose": "Service names, principal name, card-level headings." },
+      "body": { "displayName": "Body", "purpose": "Paragraphs, capped 65-75ch." },
+      "label": { "displayName": "Label", "purpose": "Fact-strip keys, field labels, eyebrow metadata." }
+    },
+    "shadows": [],
+    "motion": [
+      { "name": "ease-out-expo", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "All reveals, hovers, and the echo visual. No bounce, no elastic." },
+      { "name": "reveal", "value": "opacity 800ms, transform 800ms (translateY 16px to 0)", "purpose": "Scroll-triggered entrance via IntersectionObserver, staggered by delay." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Square ink CTA with an arrow that nudges on hover; ground shifts to signal-red on hover.",
+      "html": "<button class=\"ds-btn-primary\">Get in touch <span aria-hidden=\"true\" class=\"ds-arrow\">→</span></button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; padding: 12px 28px; background: #141b26; color: #f8fafd; border: none; border-radius: 0; font-family: Archivo, system-ui, sans-serif; font-size: 0.875rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; cursor: pointer; transition: background 0.2s cubic-bezier(0.16,1,0.3,1); } .ds-btn-primary:hover { background: #e23726; } .ds-btn-primary:focus-visible { outline: 2px solid #a21c10; outline-offset: 2px; } .ds-btn-primary .ds-arrow { transition: transform 0.2s cubic-bezier(0.16,1,0.3,1); } .ds-btn-primary:hover .ds-arrow { transform: translateX(4px); }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Text-only secondary action / nav CTA; ink text shifting to deep signal on hover.",
+      "html": "<a href=\"#\" class=\"ds-btn-ghost\">See how we work <span aria-hidden=\"true\" class=\"ds-arrow\">→</span></a>",
+      "css": ".ds-btn-ghost { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: #141b26; text-decoration: none; font-family: Archivo, system-ui, sans-serif; font-size: 0.875rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; transition: color 0.2s; } .ds-btn-ghost:hover { color: #a21c10; } .ds-btn-ghost:focus-visible { outline: 2px solid #a21c10; outline-offset: 2px; } .ds-btn-ghost .ds-arrow { transition: transform 0.2s cubic-bezier(0.16,1,0.3,1); } .ds-btn-ghost:hover .ds-arrow { transform: translateX(4px); }"
+    },
+    {
+      "name": "Underline Input",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Underline-only field with an 11px tracked uppercase label and a deep-signal focus ring.",
+      "html": "<label class=\"ds-field\"><span class=\"ds-field-label\">Email <span class=\"ds-req\">*</span></span><input type=\"email\" class=\"ds-input\" /></label>",
+      "css": ".ds-field { display: block; } .ds-field-label { display: block; font-family: Archivo, system-ui, sans-serif; font-size: 0.6875rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.2em; color: #575e69; } .ds-req { color: #a21c10; } .ds-input { margin-top: 8px; display: block; width: 100%; padding: 10px 0; background: transparent; border: none; border-bottom: 1px solid #d8dbe0; border-radius: 0; color: #141b26; font-family: Archivo, system-ui, sans-serif; font-size: 1rem; transition: border-color 0.2s; } .ds-input:focus { border-bottom-color: #141b26; outline: none; } .ds-input:focus-visible { outline: 2px solid #a21c10; outline-offset: 2px; }"
+    },
+    {
+      "name": "Top Navigation",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Fixed bar with tracked uppercase links and a square ink CTA; gains translucent paper + blur on scroll.",
+      "html": "<header class=\"ds-nav\"><span class=\"ds-wordmark\">Echo<span class=\"ds-dot\">·</span>Five</span><nav class=\"ds-nav-links\"><a href=\"#\">About</a><a href=\"#\">Services</a><a href=\"#\" class=\"ds-nav-cta\">Get in touch</a></nav></header>",
+      "css": ".ds-nav { display: flex; align-items: center; justify-content: space-between; height: 64px; padding: 0 24px; background: color-mix(in oklch, #f8fafd 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid #d8dbe0; } .ds-wordmark { font-family: Archivo, system-ui, sans-serif; font-weight: 700; font-stretch: 125%; text-transform: uppercase; letter-spacing: 0.04em; color: #141b26; } .ds-dot { color: #e23726; } .ds-nav-links { display: flex; align-items: center; gap: 36px; font-family: Archivo, system-ui, sans-serif; font-size: 0.8125rem; text-transform: uppercase; letter-spacing: 0.08em; } .ds-nav-links a { color: #575e69; text-decoration: none; transition: color 0.2s; } .ds-nav-links a:hover { color: #141b26; } .ds-nav-cta { min-height: 40px; display: inline-flex; align-items: center; padding: 8px 20px; background: #141b26; color: #f8fafd !important; font-weight: 500; }",
+      "kindNote": "nav"
+    },
+    {
+      "name": "Service Ledger Row",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "Keyline-divided full-width row (replaces card grids): big ghost numeral that turns red on hover, title, body, and a checklist column.",
+      "html": "<article class=\"ds-ledger\"><span class=\"ds-ledger-num\">01</span><div class=\"ds-ledger-main\"><h3 class=\"ds-ledger-title\">Microsoft 365 Adoption</h3><p class=\"ds-ledger-body\">Readiness assessments, deployment planning, and governance design for Teams, SharePoint, and the wider M365 stack.</p></div><ul class=\"ds-ledger-points\"><li><span class=\"ds-plus\">+</span> Readiness &amp; impact assessment</li><li><span class=\"ds-plus\">+</span> Tenant and governance design</li></ul></article>",
+      "css": ".ds-ledger { display: grid; grid-template-columns: 2fr 6fr 4fr; gap: 40px; align-items: start; padding: 48px 0; border-top: 1px solid #d8dbe0; font-family: Archivo, system-ui, sans-serif; } .ds-ledger-num { font-weight: 800; font-stretch: 125%; font-size: 3.75rem; line-height: 1; letter-spacing: -0.03em; color: #d8dbe0; transition: color 0.2s; } .ds-ledger:hover .ds-ledger-num { color: #e23726; } .ds-ledger-title { margin: 0; font-weight: 700; font-stretch: 125%; text-transform: uppercase; font-size: 1.85rem; line-height: 1.05; letter-spacing: -0.015em; color: #141b26; } .ds-ledger-body { margin: 16px 0 0; color: #575e69; line-height: 1.6; } .ds-ledger-points { list-style: none; margin: 0; padding: 0; } .ds-ledger-points li { display: flex; gap: 12px; padding-bottom: 12px; border-bottom: 1px solid #d8dbe0; color: #141b26; font-size: 0.875rem; } .ds-plus { color: #e23726; font-weight: 700; }"
+    },
+    {
+      "name": "Echo Visual",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "Signature abstract motif: a signal-red source node on a ruled keyline field emitting concentric ink/signal rings. Static + visible under reduced motion.",
+      "html": "<svg class=\"ds-echo\" viewBox=\"0 0 360 360\" role=\"img\" aria-label=\"Concentric signal rings propagating across a measured grid.\"><g stroke=\"#d8dbe0\" stroke-width=\"1\"><line x1=\"60\" y1=\"0\" x2=\"60\" y2=\"360\"/><line x1=\"120\" y1=\"0\" x2=\"120\" y2=\"360\"/><line x1=\"180\" y1=\"0\" x2=\"180\" y2=\"360\"/><line x1=\"240\" y1=\"0\" x2=\"240\" y2=\"360\"/><line x1=\"300\" y1=\"0\" x2=\"300\" y2=\"360\"/><line x1=\"0\" y1=\"120\" x2=\"360\" y2=\"120\"/><line x1=\"0\" y1=\"240\" x2=\"360\" y2=\"240\"/></g><circle class=\"ds-echo-ring\" cx=\"60\" cy=\"300\" r=\"44\" fill=\"none\" stroke=\"#141b26\" stroke-width=\"2\"/><circle class=\"ds-echo-ring\" cx=\"60\" cy=\"300\" r=\"44\" fill=\"none\" stroke=\"#e23726\" stroke-width=\"2\" style=\"animation-delay:0.85s\"/><circle cx=\"60\" cy=\"300\" r=\"7\" fill=\"#e23726\"/><circle cx=\"60\" cy=\"300\" r=\"13\" fill=\"none\" stroke=\"#141b26\" stroke-width=\"1.5\"/></svg>",
+      "css": ".ds-echo { display: block; width: 100%; height: auto; } .ds-echo-ring { transform-box: fill-box; transform-origin: center; will-change: transform, opacity; animation: ds-echo-ring 3.4s cubic-bezier(0.16,1,0.3,1) infinite; opacity: 0; } @keyframes ds-echo-ring { 0% { transform: scale(0.12); opacity: 0; } 10% { opacity: 1; } 72% { opacity: 0.9; } 100% { transform: scale(2.6); opacity: 0; } } @media (prefers-reduced-motion: reduce) { .ds-echo-ring { animation: none; opacity: 1; } }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Signal Grid",
+    "overview": "Echo-Five is a one-person public-sector consultancy, and the site has to read like rigor before it reads like marketing. The system borrows the discipline of the Swiss International Typographic Style: a strict, visible modular grid carries the structure, big grotesque type carries the hierarchy, and a single committed signal-red carries the voice. The grid is not decoration; it is the argument. The reference is Muller-Brockmann poster grids, deliberately not GOV.UK-blue cosplay. Color is Committed, not Restrained. Imagery is fully abstract, a custom propagating-signal SVG on a ruled field, never stock photography. This system explicitly rejects the editorial-serif AI lane it replaced.",
+    "keyCharacteristics": [
+      "Strict visible modular grid as the primary structural voice.",
+      "One committed signal-red against cool near-white and near-black.",
+      "Archivo grotesque at expanded width; scale and weight, never serif, carry hierarchy.",
+      "Section identity from grid position, big numerals, and a single red index, never a label kicker.",
+      "Sharp corners (0 radius) everywhere; flat, no shadows."
+    ],
+    "rules": [
+      { "name": "The Two-Red Rule", "body": "Signal Vermilion is structural and large; Deep Signal is the only red permitted on small text or links. Putting #e23726 on body-sized text is a contrast failure and is forbidden.", "section": "colors" },
+      { "name": "The Tinted-Neutral Rule", "body": "Every neutral is tinted cool (hue ~260). Pure #000 and #fff are prohibited.", "section": "colors" },
+      { "name": "The No-Serif Rule", "body": "This system has no serif and no italic. Emphasis is weight, width, scale, or red, never a serif cut.", "section": "typography" },
+      { "name": "The Numeral Rule", "body": "Section identity is a single red index numeral (01-04) plus the heading. Do not stack a tiny uppercase label above the heading; that scaffolding is the banned AI tell.", "section": "typography" },
+      { "name": "The No-Shadow Rule", "body": "Surfaces are flat. If something needs to feel separate, divide it with a keyline or invert it to ink, never with a box-shadow.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do keep the grid visible: use keyline (#d8dbe0) cell dividers and column rules as structure.",
+      "Do commit to the red. Signal Vermilion may carry real surface (headline keyword, big numerals, the echo motif).",
+      "Do use Deep Signal (#a21c10) for any red on small text or links, and the 2px Deep Signal focus-visible ring on every interactive element.",
+      "Do set display type in expanded-width Archivo (font-stretch: 125%), uppercase, tight tracking.",
+      "Do keep surfaces flat and corners sharp (0 radius)."
+    ],
+    "donts": [
+      "Don't reintroduce the editorial-serif AI lane: no Fraunces or any display serif, no italics, no tiny uppercase tracked label stacked above every section heading.",
+      "Don't put Signal Vermilion (#e23726) on body-sized text; it fails contrast (4.18:1).",
+      "Don't use beige or slate-navy monochrome, or hairline-everywhere timidity; this is a Committed palette, not Restrained.",
+      "Don't build identical icon-heading-text card grids; use the keyline ledger instead.",
+      "Don't add box-shadow, gradients, gradient text, glassmorphism, or border-left/border-right colored side-stripes.",
+      "Don't GOV.UK-cosplay: no government-blue + Transport-font pastiche. The rigor is the grid, not a flag.",
+      "Don't use pure #000 or #fff; every neutral is tinted cool."
+    ]
+  }
+}
