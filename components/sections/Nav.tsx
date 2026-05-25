@@ -53,7 +53,7 @@ export function Nav() {
 
         <nav
           className={`hidden md:flex items-center gap-9 text-sm uppercase tracking-[0.08em] transition-colors ${
-            onPaper ? "text-ink-muted" : "text-paper/65"
+            onPaper ? "text-ink-muted" : "text-paper/80"
           }`}
         >
           {LINKS.map((l) => (

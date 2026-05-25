@@ -4,7 +4,7 @@
   --color-paper: oklch(0.975 0.005 255);
   --color-surface: oklch(0.985 0.003 255);
   --color-ink: oklch(0.18 0.055 255);
-  --color-ink-muted: oklch(0.50 0.03 255);
+  --color-ink-muted: oklch(0.38 0.03 255);
   --color-signal: oklch(0.56 0.17 196);
   --color-signal-deep: oklch(0.40 0.13 196);
   --color-keyline: oklch(0.87 0.012 255);

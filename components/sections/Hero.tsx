@@ -37,7 +37,7 @@ export function Hero() {
         </ScrollReveal>
 
         <ScrollReveal delay={110}>
-          <p className="mt-10 max-w-lg text-lg md:text-xl leading-[1.6] text-paper/65">
+          <p className="mt-10 max-w-lg text-lg md:text-xl leading-[1.6] text-paper/85">
             {COPY.sub}
           </p>
         </ScrollReveal>
@@ -68,7 +68,7 @@ export function Hero() {
           <dl className="grid grid-cols-2 md:grid-cols-4 divide-x divide-paper/10">
             {COPY.facts.map((item) => (
               <div key={item.k} className="px-5 py-6 md:px-6 md:py-7">
-                <dt className="text-[11px] uppercase tracking-[0.22em] text-paper/40">
+                <dt className="text-[11px] uppercase tracking-[0.22em] text-paper/60">
                   {item.k}
                 </dt>
                 <dd className="mt-2 font-display font-bold text-base md:text-lg tracking-[-0.01em] text-paper">

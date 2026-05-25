@@ -32,7 +32,7 @@ export function Contact() {
                 {COPY.headLead} <span className="text-signal">{COPY.headAccent}</span>
               </h2>
             </div>
-            <p className="mt-7 max-w-xl text-lg leading-[1.6] text-paper/75">
+            <p className="mt-7 max-w-xl text-lg leading-[1.6] text-paper/90">
               {COPY.body}
             </p>
           </div>
@@ -55,7 +55,7 @@ export function Contact() {
                 →
               </span>
             </a>
-            <p className="text-sm text-paper/60">{COPY.note}</p>
+            <p className="text-sm text-paper/70">{COPY.note}</p>
           </div>
 
           <dl className="md:col-span-5 md:col-start-8">
@@ -101,7 +101,7 @@ function ContactRow({
       className="grid grid-cols-[88px_1fr] items-baseline gap-4 border-b py-4 text-sm first:border-t"
       style={{ borderColor: divider }}
     >
-      <dt className="text-[11px] uppercase tracking-[0.2em] text-paper/55">{label}</dt>
+      <dt className="text-[11px] uppercase tracking-[0.2em] text-paper/65">{label}</dt>
       <dd>{children}</dd>
     </div>
   );
