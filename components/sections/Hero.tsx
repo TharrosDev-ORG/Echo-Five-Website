@@ -17,9 +17,9 @@ const COPY = {
 export function Hero() {
   return (
     <section id="top" className="relative min-h-svh bg-ink flex flex-col overflow-hidden">
-      {/* EchoVisual as a faint structural watermark */}
+      {/* EchoVisual — right-side decorative motif */}
       <div
-        className="absolute right-[-8%] bottom-[8%] w-[55vmin] h-[55vmin] opacity-[0.07] pointer-events-none"
+        className="absolute right-0 top-1/2 -translate-y-1/2 w-[clamp(380px,50vmin,600px)] h-[clamp(380px,50vmin,600px)] opacity-[0.13] pointer-events-none"
         aria-hidden="true"
       >
         <EchoVisual theme="dark" />
