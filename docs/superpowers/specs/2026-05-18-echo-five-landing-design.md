@@ -1,9 +1,11 @@
 # Echo-Five Consulting — Landing Page Design
 
 **Date:** 2026-05-18
-**Status:** Approved
+**Status:** Superseded — see `DESIGN.md` for the current design system reference.
 **Target domain:** echo-five.ca
 **Repo:** `TharrosDev-ORG/Echo-Five-Website`
+
+> **Note:** This document captures the original build specification. The implementation has evolved significantly since initial delivery: the visual language now uses Archivo (not Inter + Fraunces), a Swiss govtech grid system with institutional teal (not the originally specified editorial-serif approach), a `mailto:` CTA (not a form) for the contact section, and a full-bleed dark hero. Refer to `DESIGN.md` for the live design system and `README.md` for accurate stack details.
 
 ## Context
 

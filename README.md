@@ -5,15 +5,15 @@ specialty for government and public-sector clients.
 
 ## Status
 
-V1 with placeholder content. All filler copy lives in a top-of-file `COPY`
-constant inside each section component for trivial later swaps.
+Production-ready v1. Copy is live; the `COPY` constants at the top of each
+section component remain the swap point for any future content edits.
 
 ## Stack
 
 - Next.js 16 (App Router) + React 19
 - TypeScript (strict)
-- Tailwind CSS v4
-- `next/font` for Inter + Fraunces
+- Tailwind CSS v4 (CSS-first `@theme` in `globals.css`)
+- `next/font` for Archivo (variable, expanded display)
 
 ## Quick start
 

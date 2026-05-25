@@ -1,11 +1,11 @@
 ---
 name: Echo-Five Consulting
-description: Govtech-precision marketing site — Swiss grid, deep navy-slate + cool-white, institutional teal accent.
+description: Govtech-precision marketing site — Swiss grid, deep navy-slate + cool-white, one committed institutional teal. All text meets WCAG AA contrast on both dark and light backgrounds.
 colors:
   paper: "#f4f6fb"
   surface: "#f8fafe"
   ink: "#0b1422"
-  ink-muted: "#4e5669"
+  ink-muted: "#383f52"
   signal: "#1a8a9c"
   signal-deep: "#0c5f6b"
   keyline: "#d0d4de"
@@ -77,38 +77,39 @@ components:
 
 **Creative North Star: "The Signal Grid"**
 
-Echo-Five is a one-person public-sector consultancy, and the site has to read like rigor before it reads like marketing. The system borrows the discipline of the Swiss International Typographic Style: a strict, *visible* modular grid carries the structure, big grotesque type carries the hierarchy, and a single committed signal-red carries the voice. The grid is not decoration; it is the argument. A program lead evaluating a vendor on an office laptop should feel measured competence in the first fold, the way a well-set timetable or a government form done right feels trustworthy.
+Echo-Five is a one-person public-sector consultancy, and the site has to read like rigor before it reads like marketing. The system borrows the discipline of the Swiss International Typographic Style: a strict, *visible* modular grid carries the structure, big grotesque type carries the hierarchy, and a single committed institutional teal carries the voice. The grid is not decoration; it is the argument. A program lead evaluating a vendor on an office laptop should feel measured competence in the first fold, the way a well-set timetable or a government form done right feels trustworthy.
 
-The reference is Müller-Brockmann poster grids, deliberately not GOV.UK-blue cosplay. Color is Committed, not Restrained: vermilion is allowed to take real surface (headline keyword, big numerals, the echo motif) rather than hiding as a 10% garnish. Imagery is fully abstract, a custom propagating-signal SVG on a ruled field, never stock photography or a colored block standing in for a photo.
+The reference is Müller-Brockmann poster grids, deliberately not GOV.UK-blue cosplay. Color is Committed, not Restrained: institutional teal is allowed to take real surface (headline keyword, big numerals, the echo motif) rather than hiding as a 10% garnish. Imagery is fully abstract, a custom propagating-signal SVG on a ruled field, never stock photography or a colored block standing in for a photo.
 
 This system explicitly rejects the aesthetic it replaced: the editorial-serif AI lane. No display serif, no italic flourishes, no tiny uppercase tracked label stacked above every section heading, no beige-and-slate monochrome, no hairline-everywhere timidity.
 
 **Key Characteristics:**
 - Strict visible modular grid as the primary structural voice.
-- One committed signal-red against cool near-white and near-black.
+- One committed institutional teal against cool near-white and near-black.
 - Archivo grotesque at expanded width; scale and weight, never serif, carry hierarchy.
-- Section identity from grid position, big numerals, and a single red index, never a label kicker.
+- Section identity from grid position, big numerals, and a single teal index, never a label kicker.
 - Sharp corners (0 radius) everywhere; flat, no shadows.
+- All text meets WCAG AA contrast on both dark (`bg-ink`) and light (`bg-paper`) sections.
 
 ## 2. Colors
 
 A near-monochrome cool field, black on white, broken by one decisive red. Canonical values are OKLCH; the frontmatter carries sRGB hex equivalents for tooling.
 
 ### Primary
-- **Signal Vermilion** (`#e23726`, `oklch(0.60 0.21 30)`): the brand's one loud voice. Used at scale only: the highlighted headline line, large section numerals, the echo source node, button hover. Contrast on paper is 4.18:1, sufficient for large and UI text but **never** small text.
-- **Deep Signal** (`#a21c10`, `oklch(0.46 0.17 30)`): the red that is allowed on small text and links (7.45:1 on paper). Required-field asterisks, inline links, error copy, the focus ring.
+- **Signal Teal** (`#1a8a9c`, `oklch(0.56 0.17 196)`): the brand's one committed accent. Used at scale only: the highlighted headline word, large section numerals, the echo source node, CTA button hover. Contrast on paper ≈ 3.5:1 — sufficient for large display and UI text but **never** small body copy.
+- **Deep Signal** (`#0c5f6b`, `oklch(0.40 0.13 196)`): the darker teal permitted on small text and links (≈ 5.9:1 on paper). The 2px `:focus-visible` ring on every interactive element; inline links on dark sections.
 
 ### Neutral
 - **Paper** (`#f8fafd`, `oklch(0.985 0.004 255)`): page base, a cool near-white tinted toward the ink hue. Never pure `#fff`.
 - **Surface** (`#fafcfe`, `oklch(0.99 0.003 255)`): a half-step lift off paper, reserved for any raised panel.
 - **Ink** (`#141b26`, `oklch(0.22 0.025 260)`): primary text, primary-button ground, inverted blocks (16.6:1 on paper). Never pure `#000`.
-- **Ink Muted** (`#575e69`, `oklch(0.48 0.02 260)`): secondary body and labels (6.26:1 on paper).
+- **Ink Muted** (`#383f52`, `oklch(0.38 0.03 255)`): secondary body and labels (≈ 6.6:1 on paper). Dark enough to meet WCAG AA at all body sizes without reading as primary ink.
 - **Keyline** (`#d8dbe0`, `oklch(0.89 0.008 260)`): the visible grid lines, cell dividers, and field underlines. Stronger than a hairline on purpose; the lines are meant to be seen.
 
 ### Named Rules
-**The Two-Red Rule.** Signal Vermilion is structural and large; Deep Signal is the only red permitted on small text or links. Putting `#e23726` on body-sized text is a contrast failure and is forbidden.
+**The Two-Teal Rule.** Signal Teal is structural and large; Deep Signal is the only teal permitted on small text or links. Putting `#1a8a9c` on body-sized text risks contrast failure and is forbidden.
 
-**The Tinted-Neutral Rule.** Every neutral is tinted cool (hue ~260). Pure `#000` and `#fff` are prohibited.
+**The Tinted-Neutral Rule.** Every neutral is tinted cool (hue ~255–260). Pure `#000` and `#fff` are prohibited.
 
 ## 3. Typography
 
@@ -151,29 +152,35 @@ Flat by doctrine. There are no drop shadows anywhere in the system. Depth and se
 - **Internal Padding:** generous, `clamp` 28–56px.
 
 ### Contact (closing CTA)
-- **No form.** The contact section is a full-bleed Ink band that ends the page. A signal red index numeral and a large headline (one word in Signal Vermilion), then an Inverted CTA button that opens a prefilled `mailto:` to the principal, plus a keyline list of Email / LinkedIn / Office.
+- **No form.** The contact section is a full-bleed Ink band that ends the page. A Signal Teal index numeral and a large headline (one word in Signal Teal), then an Inverted CTA button that opens a prefilled `mailto:` to the principal, plus a keyline list of Email / LinkedIn / Office.
 - **Dividers on dark:** a translucent paper hairline (`color-mix(in oklch, paper 15%, transparent)`), not the light `keyline`, which is too stark on Ink.
-- **Links on dark:** Paper text with a Signal Vermilion underline (`decoration`), never small Signal-colored text, which fails contrast on Ink.
+- **Links on dark:** Paper text with a Signal Teal underline (`decoration`), never small Signal-colored text, which risks contrast failure on Ink.
+- **Text on dark:** body copy at `text-paper/90`, secondary note text at `text-paper/70`, row labels at `text-paper/65`. These minimums ensure WCAG AA on the Ink background.
 
 ### Navigation
 - **Style:** fixed top, transparent over the hero, gaining translucent paper + `backdrop-blur` + bottom keyline after 24px scroll. Links are 13px uppercase tracked Ink-Muted, hover to Ink; the CTA is a square Ink button.
+- **Over dark hero:** nav links render at `text-paper/80` (not fully opaque, to maintain hierarchy against the headline), hover to `text-paper`. The CTA uses an inverted Paper-ground button.
 - **Mobile:** 44px square hamburger, full-screen Paper overlay with large expanded-width uppercase links, closes on link tap or Escape.
 
 ### Echo Visual (signature)
-A custom SVG: a single source node (Signal Vermilion) on a ruled keyline field emits concentric rings that propagate outward, alternating ink and signal strokes, with corner registration ticks. Animation is transform/opacity only, on an ease-out-expo curve, and resolves to a static, fully visible state under `prefers-reduced-motion`. It renders on mobile.
+A custom SVG: a single source node (Signal Teal) on a ruled keyline field emits concentric rings that propagate outward, alternating ink and signal strokes, with corner registration ticks. Animation is transform/opacity only, on an ease-out-expo curve, and resolves to a static, fully visible state under `prefers-reduced-motion`. It renders on mobile.
+
+**Hero placement:** the visual sits right-flush and vertically centered in the hero section (`right-0`, `top-1/2 -translate-y-1/2`), sized `clamp(380px, 50vmin, 600px)` square, at `opacity-[0.13]`. This keeps it clearly legible as a deliberate design element without competing with the headline.
 
 ## 6. Do's and Don'ts
 
 ### Do:
-- **Do** keep the grid visible: use `keyline` (`#d8dbe0`) cell dividers and column rules as structure.
-- **Do** commit to the red. Signal Vermilion may carry real surface (headline keyword, big numerals, the echo motif).
-- **Do** use Deep Signal (`#a21c10`) for any red on small text or links, and the 2px Deep Signal `:focus-visible` ring on every interactive element.
+- **Do** keep the grid visible: use `keyline` (`#d0d4de`) cell dividers and column rules as structure.
+- **Do** commit to the teal. Signal Teal may carry real surface (headline keyword, big numerals, the echo motif).
+- **Do** use Deep Signal (`#0c5f6b`) for any teal on small text or links, and the 2px Deep Signal `:focus-visible` ring on every interactive element.
 - **Do** set display type in expanded-width Archivo (`font-stretch: 125%`), uppercase, tight tracking.
 - **Do** keep surfaces flat and corners sharp (0 radius).
+- **Do** maintain minimum opacity floors on dark sections: body copy `paper/85`+, labels `paper/60`+, secondary text `paper/70`+.
 
 ### Don't:
 - **Don't** reintroduce the editorial-serif AI lane: no Fraunces or any display serif, no italics, no tiny uppercase tracked label stacked above every section heading.
-- **Don't** put Signal Vermilion (`#e23726`) on body-sized text; it fails contrast (4.18:1).
+- **Don't** put Signal Teal (`#1a8a9c`) on body-sized text; at ≈ 3.5:1 it can fail WCAG AA for normal-weight copy.
+- **Don't** reach for `text-paper/65` or lower on dark backgrounds for anything other than purely decorative elements; it fails contrast.
 - **Don't** use beige or slate-navy monochrome, or hairline-everywhere timidity; this is a Committed palette, not Restrained.
 - **Don't** build identical icon-heading-text card grids; use the keyline ledger instead.
 - **Don't** add `box-shadow`, gradients, gradient text, glassmorphism, or `border-left`/`border-right` colored side-stripes.
