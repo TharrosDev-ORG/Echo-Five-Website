@@ -1,12 +1,13 @@
 type LogoProps = {
   className?: string;
   monochrome?: boolean;
+  inverted?: boolean;
 };
 
-// Grid-derived echo mark: a source square emitting two quarter-arc signals,
-// with a single signal-red detail. Reads at 26px and in monochrome.
-export function Logo({ className = "", monochrome = false }: LogoProps) {
-  const ink = monochrome ? "currentColor" : "var(--color-ink)";
+// Grid-derived echo mark: a source square emitting two quarter-arc signals.
+// `inverted` swaps ink elements to paper for use on dark backgrounds.
+export function Logo({ className = "", monochrome = false, inverted = false }: LogoProps) {
+  const ink = monochrome ? "currentColor" : inverted ? "var(--color-paper)" : "var(--color-ink)";
   const signal = monochrome ? "currentColor" : "var(--color-signal)";
   return (
     <a

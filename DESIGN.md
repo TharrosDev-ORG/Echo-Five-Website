@@ -1,14 +1,14 @@
 ---
 name: Echo-Five Consulting
-description: Govtech-precision marketing site — Swiss grid, black + cool-white, one committed signal-red.
+description: Govtech-precision marketing site — Swiss grid, deep navy-slate + cool-white, institutional teal accent.
 colors:
-  paper: "#f8fafd"
-  surface: "#fafcfe"
-  ink: "#141b26"
-  ink-muted: "#575e69"
-  signal: "#e23726"
-  signal-deep: "#a21c10"
-  keyline: "#d8dbe0"
+  paper: "#f4f6fb"
+  surface: "#f8fafe"
+  ink: "#0b1422"
+  ink-muted: "#4e5669"
+  signal: "#1a8a9c"
+  signal-deep: "#0c5f6b"
+  keyline: "#d0d4de"
 typography:
   display:
     fontFamily: "Archivo, ui-sans-serif, system-ui, sans-serif"

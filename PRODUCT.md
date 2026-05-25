@@ -24,7 +24,7 @@ Three words: **precise · credible · human (not corporate)**.
 
 ## Aesthetic direction
 
-**Govtech precision — Swiss / International Typographic Style.** Named reference: **Müller-Brockmann grid posters** (black + cool-white + one committed signal-red). A strict, *visible* modular grid is the voice. Big confident grotesque type. One saturated red used structurally, not decoratively. Custom abstract "echo / signal" visuals; no photography.
+**Govtech precision — Swiss / International Typographic Style.** Named reference: **Müller-Brockmann grid posters** (deep navy-slate + cool-white + one committed institutional teal). A strict, *visible* modular grid is the voice. Big confident grotesque type. Full-viewport dark hero. Section numerals at heading scale, not label scale. Custom abstract "echo / signal" visuals as structural watermark; no photography.
 
 ## Anti-references (do NOT look like these)
 
@@ -34,7 +34,7 @@ Three words: **precise · credible · human (not corporate)**.
 
 ## Strategic principles
 
-- Commit to the red. A Committed color strategy: signal-red carries real surface, not a timid ≤10% accent.
-- The grid is the brand. Show the keylines; let position and scale carry hierarchy instead of label kickers.
+- Commit to the teal. A Committed color strategy: institutional teal carries real surface (section numerals, signal elements), not a timid accent.
+- The grid is the brand. Show the keylines; let position and scale carry hierarchy. Section numerals are structural elements at heading scale, not label kickers.
 - Every word earns its place. Keep the strong existing lines ("Change that lands. Tools that get used."; "twenty years, one job, done properly").
 - Accessibility is credibility for a public-sector audience: WCAG AA is a floor, not a goal.

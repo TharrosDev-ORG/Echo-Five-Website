@@ -32,26 +32,27 @@ export function Approach() {
     <section id="approach" className="section-y border-t border-keyline">
       <div className="container-tight">
         <ScrollReveal>
-          <span className="font-display font-bold text-signal text-sm tracking-[0.1em]">
-            {COPY.index}
-          </span>
-          <h2 className="mt-5 font-display font-bold uppercase text-[clamp(2rem,4.5vw,3.4rem)] leading-[0.98] tracking-[-0.02em] max-w-[18ch] text-ink">
-            {COPY.heading}
-          </h2>
+          <div className="flex items-baseline gap-4 md:gap-6">
+            <span
+              aria-hidden="true"
+              className="font-display font-extrabold shrink-0 text-[clamp(2rem,4.5vw,3.4rem)] leading-[0.98] tracking-[-0.02em] text-signal"
+            >
+              {COPY.index}
+            </span>
+            <h2 className="font-display font-bold uppercase text-[clamp(2rem,4.5vw,3.4rem)] leading-[0.98] tracking-[-0.02em] max-w-[18ch] text-ink">
+              {COPY.heading}
+            </h2>
+          </div>
         </ScrollReveal>
 
-        <ol className="mt-14 md:mt-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-10 gap-x-px sm:bg-keyline sm:border-y sm:border-keyline">
+        <ol className="mt-14 md:mt-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-px gap-x-px bg-keyline border border-keyline">
           {COPY.steps.map((s, i) => (
-            <ScrollReveal key={s.n} delay={70 * i} className="sm:bg-paper">
-              <li className="relative h-full sm:px-6 lg:px-7 sm:py-9 border-t-2 border-ink sm:border-t-0 pt-6 sm:pt-9">
-                <span
-                  aria-hidden="true"
-                  className="absolute top-0 left-0 h-[3px] w-12 bg-signal sm:hidden"
-                />
-                <div className="font-display font-extrabold text-4xl leading-none tracking-[-0.03em] text-signal">
+            <ScrollReveal key={s.n} delay={70 * i} className="bg-paper">
+              <li className="h-full px-6 lg:px-8 py-10 lg:py-12">
+                <div className="font-display font-extrabold text-5xl leading-none tracking-[-0.03em] text-signal">
                   {s.n}
                 </div>
-                <div className="mt-4 font-display font-bold uppercase text-xl tracking-[-0.01em] text-ink">
+                <div className="mt-6 font-display font-bold uppercase text-xl tracking-[-0.01em] text-ink">
                   {s.name}
                 </div>
                 <p className="mt-3 text-base leading-[1.55] text-ink-muted">

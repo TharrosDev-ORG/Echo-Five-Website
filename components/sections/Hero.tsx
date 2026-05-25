@@ -16,66 +16,68 @@ const COPY = {
 
 export function Hero() {
   return (
-    <section id="top" className="relative pt-24 md:pt-28 overflow-hidden">
-      <div className="container-tight">
-        <div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-10 items-center pb-16 md:pb-24 pt-6 md:pt-8">
-          <div className="lg:col-span-7">
-            <ScrollReveal>
-              <h1 className="font-display font-extrabold uppercase text-[clamp(2.75rem,8vw,6rem)] leading-[0.94] tracking-[-0.02em] text-ink">
-                <span className="block">{COPY.headline[0]}</span>
-                <span className="block text-signal">{COPY.headline[1]}</span>
-                <span className="block">{COPY.headline[2]}</span>
-                <span className="block">{COPY.headline[3]}</span>
-              </h1>
-            </ScrollReveal>
-            <ScrollReveal delay={120}>
-              <p className="mt-9 max-w-xl text-lg md:text-xl leading-[1.55] text-ink-muted">
-                {COPY.sub}
-              </p>
-            </ScrollReveal>
-            <ScrollReveal delay={200}>
-              <div className="mt-11 flex flex-wrap items-center gap-x-7 gap-y-4">
-                <a
-                  href={COPY.primaryCta.href}
-                  className="group inline-flex min-h-[44px] items-center gap-3 bg-ink px-7 py-3 text-sm font-medium uppercase tracking-[0.06em] text-paper hover:bg-signal transition-colors"
-                >
-                  {COPY.primaryCta.label}
-                  <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">→</span>
-                </a>
-                <a
-                  href={COPY.secondaryCta.href}
-                  className="group inline-flex min-h-[44px] items-center gap-2 text-sm font-medium uppercase tracking-[0.06em] text-ink hover:text-signal-deep transition-colors"
-                >
-                  {COPY.secondaryCta.label}
-                  <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">→</span>
-                </a>
-              </div>
-            </ScrollReveal>
-          </div>
+    <section id="top" className="relative min-h-svh bg-ink flex flex-col overflow-hidden">
+      {/* EchoVisual as a faint structural watermark */}
+      <div
+        className="absolute right-[-8%] bottom-[8%] w-[55vmin] h-[55vmin] opacity-[0.07] pointer-events-none"
+        aria-hidden="true"
+      >
+        <EchoVisual theme="dark" />
+      </div>
 
-          <div className="lg:col-span-5 mt-14 lg:mt-0">
-            <ScrollReveal delay={160}>
-              <div className="mx-auto w-full max-w-[340px] lg:max-w-none lg:ml-auto lg:mr-0 lg:w-[88%]">
-                <EchoVisual />
-              </div>
-            </ScrollReveal>
-          </div>
-        </div>
+      {/* Headline + body + CTAs — flex-1 pushes fact strip to bottom */}
+      <div className="container-tight flex-1 flex flex-col justify-center pt-28 pb-14">
+        <ScrollReveal>
+          <h1 className="font-display font-extrabold uppercase text-[clamp(3rem,9.5vw,7.5rem)] leading-[0.88] tracking-[-0.025em] text-paper">
+            <span className="block">{COPY.headline[0]}</span>
+            <span className="block text-signal">{COPY.headline[1]}</span>
+            <span className="block">{COPY.headline[2]}</span>
+            <span className="block text-signal">{COPY.headline[3]}</span>
+          </h1>
+        </ScrollReveal>
 
-        <ScrollReveal delay={260}>
-          <dl className="grid grid-cols-2 md:grid-cols-4 gap-px bg-keyline border-y border-keyline">
+        <ScrollReveal delay={110}>
+          <p className="mt-10 max-w-lg text-lg md:text-xl leading-[1.6] text-paper/65">
+            {COPY.sub}
+          </p>
+        </ScrollReveal>
+
+        <ScrollReveal delay={200}>
+          <div className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-4">
+            <a
+              href={COPY.primaryCta.href}
+              className="group inline-flex min-h-[44px] items-center gap-3 bg-paper px-7 py-3 text-sm font-medium uppercase tracking-[0.06em] text-ink hover:bg-signal hover:text-paper transition-colors"
+            >
+              {COPY.primaryCta.label}
+              <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">→</span>
+            </a>
+            <a
+              href={COPY.secondaryCta.href}
+              className="group inline-flex min-h-[44px] items-center gap-2 text-sm font-medium uppercase tracking-[0.06em] text-paper/60 hover:text-paper transition-colors"
+            >
+              {COPY.secondaryCta.label}
+              <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">→</span>
+            </a>
+          </div>
+        </ScrollReveal>
+      </div>
+
+      {/* Fact strip pinned to bottom of hero */}
+      <div className="border-t border-paper/10">
+        <div className="container-tight">
+          <dl className="grid grid-cols-2 md:grid-cols-4 divide-x divide-paper/10">
             {COPY.facts.map((item) => (
-              <div key={item.k} className="bg-paper px-1 py-7 md:py-8 md:px-6">
-                <dt className="text-[11px] uppercase tracking-[0.22em] text-ink-muted">
+              <div key={item.k} className="px-5 py-6 md:px-6 md:py-7">
+                <dt className="text-[11px] uppercase tracking-[0.22em] text-paper/40">
                   {item.k}
                 </dt>
-                <dd className="mt-2 font-display font-bold text-lg md:text-xl tracking-[-0.01em] text-ink">
+                <dd className="mt-2 font-display font-bold text-base md:text-lg tracking-[-0.01em] text-paper">
                   {item.v}
                 </dd>
               </div>
             ))}
           </dl>
-        </ScrollReveal>
+        </div>
       </div>
     </section>
   );

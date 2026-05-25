@@ -39,12 +39,17 @@ export function Services() {
     <section id="services" className="section-y border-t border-keyline">
       <div className="container-tight">
         <ScrollReveal>
-          <span className="font-display font-bold text-signal text-sm tracking-[0.1em]">
-            {COPY.index}
-          </span>
-          <h2 className="mt-5 font-display font-bold uppercase text-[clamp(2rem,4.5vw,3.4rem)] leading-[0.98] tracking-[-0.02em] max-w-[20ch] text-ink">
-            {COPY.heading}
-          </h2>
+          <div className="flex items-baseline gap-4 md:gap-6">
+            <span
+              aria-hidden="true"
+              className="font-display font-extrabold shrink-0 text-[clamp(2rem,4.5vw,3.4rem)] leading-[0.98] tracking-[-0.02em] text-signal"
+            >
+              {COPY.index}
+            </span>
+            <h2 className="font-display font-bold uppercase text-[clamp(2rem,4.5vw,3.4rem)] leading-[0.98] tracking-[-0.02em] max-w-[20ch] text-ink">
+              {COPY.heading}
+            </h2>
+          </div>
         </ScrollReveal>
 
         {/* Numbered ledger: full-width rows divided by keylines, not a card grid. */}
@@ -53,7 +58,7 @@ export function Services() {
             <ScrollReveal key={s.title} delay={60 * i}>
               <article className="grid grid-cols-1 md:grid-cols-12 gap-x-10 gap-y-5 border-t border-keyline py-9 md:py-12 last:border-b group">
                 <div className="md:col-span-2">
-                  <span className="font-display font-extrabold text-5xl md:text-6xl leading-none tracking-[-0.03em] text-keyline group-hover:text-signal transition-colors">
+                  <span className="font-display font-extrabold text-6xl md:text-7xl leading-none tracking-[-0.04em] text-signal-deep group-hover:text-signal transition-colors duration-300">
                     0{i + 1}
                   </span>
                 </div>

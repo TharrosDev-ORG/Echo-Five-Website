@@ -34,12 +34,17 @@ export function About() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-x-10 gap-y-10">
           <div className="md:col-span-5">
             <ScrollReveal>
-              <span className="font-display font-bold text-signal text-sm tracking-[0.1em]">
-                {COPY.index}
-              </span>
-              <h2 className="mt-5 font-display font-bold uppercase text-[clamp(2rem,4.5vw,3.4rem)] leading-[0.98] tracking-[-0.02em] max-w-[13ch] text-ink">
-                {COPY.heading}
-              </h2>
+              <div className="flex items-baseline gap-4 md:gap-6">
+                <span
+                  aria-hidden="true"
+                  className="font-display font-extrabold shrink-0 text-[clamp(2rem,4.5vw,3.4rem)] leading-[0.98] tracking-[-0.02em] text-signal"
+                >
+                  {COPY.index}
+                </span>
+                <h2 className="font-display font-bold uppercase text-[clamp(2rem,4.5vw,3.4rem)] leading-[0.98] tracking-[-0.02em] text-ink">
+                  {COPY.heading}
+                </h2>
+              </div>
             </ScrollReveal>
           </div>
           <div className="md:col-span-7 space-y-6 text-lg md:text-xl leading-[1.6] text-ink-muted">
@@ -58,15 +63,15 @@ export function About() {
               <div className="flex items-center gap-4">
                 <span
                   aria-hidden="true"
-                  className="inline-flex h-14 w-14 items-center justify-center border border-ink font-display font-bold text-ink text-lg"
+                  className="inline-flex h-14 w-14 items-center justify-center border border-ink font-display font-bold text-ink text-lg shrink-0"
                 >
                   {MARK.initials}
                 </span>
                 <div>
-                  <div className="font-display font-bold uppercase text-xl tracking-[-0.01em] text-ink leading-none">
+                  <div className="font-display font-bold uppercase text-2xl md:text-3xl tracking-[-0.02em] text-ink leading-none">
                     {MARK.name}
                   </div>
-                  <div className="mt-1.5 text-sm uppercase tracking-[0.14em] text-ink-muted">
+                  <div className="mt-2 text-sm uppercase tracking-[0.14em] text-ink-muted">
                     {MARK.role}
                   </div>
                 </div>
@@ -80,10 +85,10 @@ export function About() {
                 ))}
               </ul>
             </div>
-            <blockquote className="md:col-span-7 font-display font-bold text-[clamp(1.4rem,2.6vw,2rem)] leading-[1.2] tracking-[-0.015em] text-ink">
-              <span aria-hidden="true" className="text-signal">“</span>
+            <blockquote className="md:col-span-7 font-display font-bold text-[clamp(1.5rem,2.8vw,2.2rem)] leading-[1.2] tracking-[-0.015em] text-ink">
+              <span aria-hidden="true" className="text-signal">"</span>
               {MARK.quote}
-              <span aria-hidden="true" className="text-signal">”</span>
+              <span aria-hidden="true" className="text-signal">"</span>
             </blockquote>
           </div>
         </ScrollReveal>

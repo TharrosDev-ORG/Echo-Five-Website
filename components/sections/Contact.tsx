@@ -21,12 +21,17 @@ export function Contact() {
       <div className="container-tight section-y">
         <div className="md:grid md:grid-cols-12 md:gap-x-10">
           <div className="md:col-span-9">
-            <span className="font-display font-bold text-signal text-sm tracking-[0.1em]">
-              {COPY.index}
-            </span>
-            <h2 className="mt-5 font-display font-bold uppercase text-[clamp(2.25rem,5.5vw,4.25rem)] leading-[0.96] tracking-[-0.02em] max-w-[16ch]">
-              {COPY.headLead} <span className="text-signal">{COPY.headAccent}</span>
-            </h2>
+            <div className="flex items-baseline gap-4 md:gap-6">
+              <span
+                aria-hidden="true"
+                className="font-display font-extrabold shrink-0 text-[clamp(2.25rem,5.5vw,4.25rem)] leading-[0.96] tracking-[-0.02em] text-signal"
+              >
+                {COPY.index}
+              </span>
+              <h2 className="font-display font-bold uppercase text-[clamp(2.25rem,5.5vw,4.25rem)] leading-[0.96] tracking-[-0.02em] max-w-[16ch]">
+                {COPY.headLead} <span className="text-signal">{COPY.headAccent}</span>
+              </h2>
+            </div>
             <p className="mt-7 max-w-xl text-lg leading-[1.6] text-paper/75">
               {COPY.body}
             </p>

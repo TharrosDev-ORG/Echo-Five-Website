@@ -1,13 +1,13 @@
 @import "tailwindcss";
 
 @theme {
-  --color-paper: oklch(0.985 0.004 255);
-  --color-surface: oklch(0.99 0.003 255);
-  --color-ink: oklch(0.22 0.025 260);
-  --color-ink-muted: oklch(0.48 0.02 260);
-  --color-signal: oklch(0.6 0.21 30);
-  --color-signal-deep: oklch(0.46 0.17 30);
-  --color-keyline: oklch(0.89 0.008 260);
+  --color-paper: oklch(0.975 0.005 255);
+  --color-surface: oklch(0.985 0.003 255);
+  --color-ink: oklch(0.18 0.055 255);
+  --color-ink-muted: oklch(0.50 0.03 255);
+  --color-signal: oklch(0.56 0.17 196);
+  --color-signal-deep: oklch(0.40 0.13 196);
+  --color-keyline: oklch(0.87 0.012 255);
 
   --font-sans: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
