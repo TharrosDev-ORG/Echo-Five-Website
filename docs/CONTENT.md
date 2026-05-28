@@ -13,14 +13,14 @@ Every word on the page comes from `lib/content.ts` (copy/data) or `lib/site.ts`
 | 04 | On the record (video) | `Proof` | `proof`, `site.video` |
 | 05 | How we make it measurable | `Method` | `method`, `site.advantaUrl` |
 | 06 | Credentials | `Credentials` | `credentials` |
-| — | The firm (about) | `About` | `about` |
+| — | The firm + founder (about) | `About` | `about`, `principal` |
 | 07 | Contact | `Contact` | `contact`, `site` |
 | — | Footer | `Footer` | `footer`, `nav`, `site` |
 
 ## Constants worth knowing (`lib/site.ts`)
 
-- `email` — drives every contact link. **Placeholder** `hello@echo-five.ca` until the
-  real inbox is confirmed.
+- `email` — drives every contact link (`Mark.Abdelnour@gmail.com`). Messages reach the
+  founder, Mark Abdelnour, directly.
 - `video.id` — the YouTube ID for the SSC adoption talk (`4IycJ3ehz7g`).
 - `advantaUrl` — the partner platform link.
 - `callsign` — the `ECHO·FIVE` wordmark text.
@@ -32,4 +32,6 @@ Every word on the page comes from `lib/content.ts` (copy/data) or `lib/site.ts`
   large wordmark) and a `name` (the caption).
 - **Credentials** (`credentials.items`) includes the Secret Level II clearance as a
   trust signal alongside the certifications.
+- The **founder block** (`principal`) in the About section names Mark Abdelnour so a
+  visitor knows who receives their email.
 - House style: first-person plural, no em dashes, specifics over adjectives.

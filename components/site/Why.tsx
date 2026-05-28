@@ -23,20 +23,20 @@ export default function Why() {
           </div>
         </div>
 
-        <ol className="mt-16 grid gap-px overflow-hidden border-t border-line sm:grid-cols-3">
+        <ol className="mt-20 grid gap-px overflow-hidden border-t border-line sm:grid-cols-3">
           {why.failures.map((f, i) => (
             <Reveal as="li" key={f.n} delay={i * 0.08}>
-              <div className="h-full border-t border-line pt-5 sm:border-t-0 sm:border-l sm:border-line sm:pt-0 sm:pl-6 first:sm:border-l-0">
+              <div className="h-full border-t border-line pt-6 sm:border-t-0 sm:border-l sm:border-line sm:pt-0 sm:pl-8 first:sm:border-l-0 first:sm:pl-0">
                 <span className="font-display text-3xl text-signal-deep">{f.n}</span>
-                <h3 className="t-h3 mt-3">{f.title}</h3>
-                <p className="t-body mt-3 text-muted">{f.body}</p>
+                <h3 className="t-h3 mt-4">{f.title}</h3>
+                <p className="t-body mt-4 text-muted">{f.body}</p>
               </div>
             </Reveal>
           ))}
         </ol>
 
         <Reveal delay={0.1}>
-          <p className="mt-14 font-display text-2xl text-ink sm:text-3xl">
+          <p className="mt-16 font-display text-2xl text-ink sm:text-3xl">
             {why.close}
           </p>
         </Reveal>

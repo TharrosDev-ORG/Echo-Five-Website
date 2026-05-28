@@ -1,8 +1,6 @@
 /**
  * Site-wide constants. Edit the email and URLs here in one place.
- *
- * NOTE: `email` is a placeholder until the real inbox is confirmed.
- * It feeds every "Book a conversation" / contact link on the site.
+ * `email` feeds every "Book a conversation" / contact link on the site.
  */
 export const site = {
   name: "Echofive Solutions",
@@ -10,7 +8,7 @@ export const site = {
   shortName: "Echofive",
   callsign: "ECHO·FIVE",
   url: "https://echo-five.ca",
-  email: "hello@echo-five.ca",
+  email: "Mark.Abdelnour@gmail.com",
   region: "Serving clients across Canada",
   tagline: "Change that lands. Tools that get used.",
   description:

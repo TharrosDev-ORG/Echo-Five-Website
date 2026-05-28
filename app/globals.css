@@ -102,7 +102,7 @@ a {
   font-family: var(--font-display);
   font-weight: 700;
   font-size: clamp(2.7rem, 7.2vw, 6.2rem);
-  line-height: 0.96;
+  line-height: 0.99;
   letter-spacing: -0.025em;
 }
 
@@ -110,7 +110,7 @@ a {
   font-family: var(--font-display);
   font-weight: 700;
   font-size: clamp(2rem, 4.6vw, 3.5rem);
-  line-height: 1.02;
+  line-height: 1.06;
   letter-spacing: -0.022em;
 }
 
@@ -149,7 +149,7 @@ a {
 }
 
 .section-pad {
-  padding-block: clamp(5rem, 11vw, 9rem);
+  padding-block: clamp(5.5rem, 12vw, 10.5rem);
 }
 
 /* Top hairline that frames a section block. */

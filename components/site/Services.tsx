@@ -35,7 +35,7 @@ export default function Services() {
         <ol className="mt-16 border-t border-line-dark">
           {services.items.map((s, i) => (
             <Reveal as="li" key={s.n} delay={i < 3 ? i * 0.06 : 0}>
-              <div className="group grid items-baseline gap-x-8 gap-y-3 border-b border-line-dark py-8 md:grid-cols-12">
+              <div className="group grid items-baseline gap-x-8 gap-y-4 border-b border-line-dark py-9 md:grid-cols-12">
                 <div className="flex items-baseline gap-4 md:col-span-5">
                   <span className="font-mono text-sm text-signal">{s.n}</span>
                   <h3 className="t-h3">{s.title}</h3>

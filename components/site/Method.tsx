@@ -47,7 +47,7 @@ export default function Method() {
               <h2 className="t-h2 mt-8 max-w-[16ch] text-balance">{method.heading}</h2>
             </Reveal>
             <Reveal delay={0.1}>
-              <p className="t-body mt-6 text-muted measure-wide">{method.body}</p>
+              <p className="t-body mt-7 text-muted measure-wide">{method.body}</p>
             </Reveal>
             <Reveal delay={0.15}>
               <a

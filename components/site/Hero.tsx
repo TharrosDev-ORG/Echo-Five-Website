@@ -37,21 +37,21 @@ export default function Hero() {
       <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-r from-ink-deep via-ink-deep/85 to-transparent" />
 
       <motion.div
-        className="u-container w-full pt-28 pb-16"
+        className="u-container w-full pt-32 pb-24"
         variants={container}
         initial="hidden"
         animate="show"
       >
         <motion.p
           variants={item}
-          className="t-label text-signal flex flex-wrap items-center gap-x-3 gap-y-1"
+          className="t-label text-signal flex flex-wrap items-center gap-x-3 gap-y-1.5 leading-relaxed tracking-[0.16em]"
         >
           <span>{hero.eyebrow}</span>
-          <span className="text-muted-on-dark opacity-70">/</span>
+          <span className="text-muted-on-dark opacity-60">/</span>
           <span className="text-muted-on-dark">{hero.context}</span>
         </motion.p>
 
-        <motion.h1 variants={item} className="t-display mt-7 max-w-[16ch]">
+        <motion.h1 variants={item} className="t-display mt-8 max-w-[16ch]">
           {hero.headline[0]}
           <br />
           <span className="text-signal">{hero.headline[1]}</span>
@@ -59,12 +59,12 @@ export default function Hero() {
 
         <motion.p
           variants={item}
-          className="t-lead mt-8 max-w-[46ch] text-muted-on-dark"
+          className="t-lead mt-9 max-w-[46ch] text-muted-on-dark"
         >
           {hero.sub}
         </motion.p>
 
-        <motion.div variants={item} className="mt-10 flex flex-wrap gap-3">
+        <motion.div variants={item} className="mt-11 flex flex-wrap gap-3.5">
           <a href={mailtoBook} className="btn btn-primary">
             Book a conversation
           </a>
@@ -75,7 +75,7 @@ export default function Hero() {
 
         <motion.ul
           variants={item}
-          className="mt-14 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-line-dark pt-6 font-mono text-[0.76rem] tracking-[0.04em] text-muted-on-dark"
+          className="mt-16 flex flex-wrap items-center gap-x-7 gap-y-3 border-t border-line-dark pt-7 font-mono text-[0.76rem] tracking-[0.04em] text-muted-on-dark"
         >
           {hero.trust.map((t) => (
             <li key={t} className="flex items-center gap-2">

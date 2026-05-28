@@ -12,17 +12,17 @@ export default function Proof() {
   return (
     <section id="proof" className="section-pad bg-paper-alt">
       <div className="u-container">
-        <div className="grid items-end gap-x-12 gap-y-6 lg:grid-cols-12">
+        <div className="grid items-end gap-x-12 gap-y-8 lg:grid-cols-12">
           <div className="lg:col-span-8">
             <SectionMark index={proof.index} kicker={proof.kicker} />
-            <h2 className="t-h2 mt-6 max-w-[20ch] text-balance">{proof.heading}</h2>
+            <h2 className="t-h2 mt-7 max-w-[20ch] text-balance">{proof.heading}</h2>
           </div>
           <div className="lg:col-span-4 lg:pb-2">
             <p className="t-body text-muted measure-wide">{proof.sub}</p>
           </div>
         </div>
 
-        <div className="mt-10 overflow-hidden border border-line bg-ink-deep">
+        <div className="mt-12 overflow-hidden border border-line bg-ink-deep">
           <div className="relative aspect-video">
             {playing ? (
               <iframe

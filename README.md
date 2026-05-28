@@ -51,8 +51,8 @@ DESIGN.md           Design system reference
 - **Contact email, URLs, video, company name**: `lib/site.ts`.
 - **Colors, type scale, spacing**: the `@theme` block in `app/globals.css`.
 
-> **Contact email is a placeholder.** `lib/site.ts` ships with `hello@echo-five.ca`.
-> Replace it with the real inbox before launch; it drives every contact link.
+> The contact email lives in `lib/site.ts` (`Mark.Abdelnour@gmail.com`) and drives
+> every contact link on the site. Messages reach Mark Abdelnour, the founder, directly.
 
 ## Client logos & certification badges
 

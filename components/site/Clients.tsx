@@ -22,18 +22,18 @@ export default function Clients() {
           </div>
         </div>
 
-        <div className="mt-14 space-y-12">
+        <div className="mt-16 space-y-16">
           {clients.groups.map((group) => (
-            <div key={group.label} className="grid gap-y-6 border-t border-line pt-8 lg:grid-cols-12 lg:gap-x-12">
+            <div key={group.label} className="grid gap-y-8 border-t border-line pt-10 lg:grid-cols-12 lg:gap-x-12">
               <Reveal className="lg:col-span-3">
                 <h3 className="font-mono text-[0.78rem] uppercase tracking-[0.14em] text-signal-deep">
                   {group.label}
                 </h3>
               </Reveal>
-              <ul className="grid grid-cols-2 gap-x-8 gap-y-7 sm:grid-cols-3 lg:col-span-9 lg:grid-cols-4">
+              <ul className="grid grid-cols-2 gap-x-8 gap-y-9 sm:grid-cols-3 lg:col-span-9 lg:grid-cols-4">
                 {group.orgs.map((org, i) => (
                   <Reveal as="li" key={org.name} delay={Math.min(i, 6) * 0.04}>
-                    <div className="group cursor-default border-t border-line pt-3 transition-colors duration-300 hover:border-signal-deep">
+                    <div className="group cursor-default border-t border-line pt-4 transition-colors duration-300 hover:border-signal-deep">
                       <span className="block font-display text-xl leading-none tracking-tight text-ink transition-colors duration-300 group-hover:text-signal-deep">
                         {org.short}
                       </span>

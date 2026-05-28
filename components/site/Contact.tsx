@@ -31,10 +31,10 @@ export default function Contact() {
           </div>
         </Reveal>
         <Reveal delay={0.05}>
-          <h2 className="t-display mt-7 max-w-[15ch]">{contact.heading}</h2>
+          <h2 className="t-display mt-8 max-w-[15ch]">{contact.heading}</h2>
         </Reveal>
         <Reveal delay={0.1}>
-          <p className="t-lead mt-7 max-w-[48ch] text-ink-deep/80">{contact.body}</p>
+          <p className="t-lead mt-8 max-w-[48ch] text-ink-deep/80">{contact.body}</p>
         </Reveal>
 
         <Reveal delay={0.15}>
@@ -52,6 +52,9 @@ export default function Contact() {
               {contact.cta}
             </a>
           </div>
+        </Reveal>
+        <Reveal delay={0.2}>
+          <p className="mt-6 max-w-[42ch] text-[0.92rem] text-ink-deep/70">{contact.note}</p>
         </Reveal>
       </div>
     </section>

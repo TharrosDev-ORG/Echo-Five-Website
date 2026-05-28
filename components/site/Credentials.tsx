@@ -22,10 +22,10 @@ export default function Credentials() {
           </div>
         </div>
 
-        <ul className="mt-14 grid border-t border-l border-line-dark sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="mt-16 grid border-t border-l border-line-dark sm:grid-cols-2 lg:grid-cols-3">
           {credentials.items.map((c, i) => (
             <Reveal as="li" key={c.title} delay={Math.min(i, 5) * 0.05}>
-              <div className="flex h-full flex-col justify-between gap-8 border-b border-r border-line-dark bg-ink-deep p-7">
+              <div className="flex h-full flex-col justify-between gap-10 border-b border-r border-line-dark bg-ink-deep p-8">
                 <div className="flex items-center justify-between">
                   <span className="font-mono text-[0.72rem] uppercase tracking-[0.14em] text-signal">
                     {c.issuer}

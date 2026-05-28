@@ -212,12 +212,21 @@ export const about = {
   ],
 };
 
+export const principal = {
+  monogram: "MA",
+  name: "Mark Abdelnour",
+  role: "Founder and Lead Consultant",
+  bio: "Mark founded Echofive after twenty years leading Microsoft 365 change and adoption across the Government of Canada and major enterprises. He is Prosci ADKAR certified, Microsoft 365 certified, and holds Secret Level II clearance. When you write to Echofive, your note reaches him directly, not a sales desk.",
+  credentials: "Prosci ADKAR · Microsoft 365 Certified · Secret Level II",
+};
+
 export const contact = {
   index: "07",
   kicker: "Start a conversation",
   heading: "Tell us what you are rolling out.",
   body: "Whether you are scoping a migration or trying to rescue an adoption that has stalled, we will tell you straight whether we can help. No pitch theatre.",
   cta: "Book a conversation",
+  note: "Your message goes straight to Mark Abdelnour, founder. No intake form, no gatekeeping.",
 };
 
 export const footer = {
