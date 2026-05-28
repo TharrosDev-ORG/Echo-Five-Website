@@ -1,4 +1,5 @@
 import Reveal from "@/components/site/Reveal";
+import SectionMark from "@/components/site/SectionMark";
 import { why } from "@/lib/content";
 
 export default function Why() {
@@ -6,10 +7,7 @@ export default function Why() {
     <section id="why" className="section-pad bg-paper">
       <div className="u-container">
         <Reveal>
-          <p className="flex items-center gap-3">
-            <span className="section-index">{why.index}</span>
-            <span className="t-label text-muted">{why.kicker}</span>
-          </p>
+          <SectionMark index={why.index} kicker={why.kicker} />
         </Reveal>
 
         <div className="mt-10 grid gap-x-12 gap-y-8 lg:grid-cols-12">

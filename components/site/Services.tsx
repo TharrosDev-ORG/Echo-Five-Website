@@ -1,4 +1,5 @@
 import Reveal from "@/components/site/Reveal";
+import SectionMark from "@/components/site/SectionMark";
 import { services } from "@/lib/content";
 
 export default function Services() {
@@ -8,10 +9,7 @@ export default function Services() {
         <div className="grid gap-x-12 gap-y-8 lg:grid-cols-12">
           <div className="lg:col-span-6">
             <Reveal>
-              <p className="flex items-center gap-3">
-                <span className="section-index">{services.index}</span>
-                <span className="t-label text-muted-on-dark">{services.kicker}</span>
-              </p>
+              <SectionMark index={services.index} kicker={services.kicker} tone="dark" />
             </Reveal>
             <Reveal delay={0.05}>
               <h2 className="t-h2 mt-8 max-w-[16ch] text-balance">{services.heading}</h2>

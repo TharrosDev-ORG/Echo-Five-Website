@@ -1,4 +1,5 @@
 import Reveal from "@/components/site/Reveal";
+import SectionMark from "@/components/site/SectionMark";
 import { clients } from "@/lib/content";
 
 export default function Clients() {
@@ -8,10 +9,7 @@ export default function Clients() {
         <div className="grid gap-x-12 gap-y-8 lg:grid-cols-12">
           <div className="lg:col-span-7">
             <Reveal>
-              <p className="flex items-center gap-3">
-                <span className="section-index">{clients.index}</span>
-                <span className="t-label text-muted">{clients.kicker}</span>
-              </p>
+              <SectionMark index={clients.index} kicker={clients.kicker} />
             </Reveal>
             <Reveal delay={0.05}>
               <h2 className="t-h2 mt-8 max-w-[16ch] text-balance">{clients.heading}</h2>
@@ -35,12 +33,14 @@ export default function Clients() {
               <ul className="grid grid-cols-2 gap-x-8 gap-y-7 sm:grid-cols-3 lg:col-span-9 lg:grid-cols-4">
                 {group.orgs.map((org, i) => (
                   <Reveal as="li" key={org.name} delay={Math.min(i, 6) * 0.04}>
-                    <span className="block font-display text-xl leading-none tracking-tight text-ink">
-                      {org.short}
-                    </span>
-                    <span className="mt-1.5 block text-[0.78rem] leading-snug text-muted">
-                      {org.name}
-                    </span>
+                    <div className="group cursor-default border-t border-line pt-3 transition-colors duration-300 hover:border-signal-deep">
+                      <span className="block font-display text-xl leading-none tracking-tight text-ink transition-colors duration-300 group-hover:text-signal-deep">
+                        {org.short}
+                      </span>
+                      <span className="mt-1.5 block text-[0.78rem] leading-snug text-muted">
+                        {org.name}
+                      </span>
+                    </div>
                   </Reveal>
                 ))}
               </ul>

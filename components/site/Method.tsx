@@ -1,4 +1,5 @@
 import Reveal from "@/components/site/Reveal";
+import SectionMark from "@/components/site/SectionMark";
 import { method } from "@/lib/content";
 import { site } from "@/lib/site";
 
@@ -40,10 +41,7 @@ export default function Method() {
         <div className="grid items-center gap-x-12 gap-y-10 lg:grid-cols-12">
           <div className="lg:col-span-6">
             <Reveal>
-              <p className="flex items-center gap-3">
-                <span className="section-index">{method.index}</span>
-                <span className="t-label text-muted">{method.kicker}</span>
-              </p>
+              <SectionMark index={method.index} kicker={method.kicker} />
             </Reveal>
             <Reveal delay={0.05}>
               <h2 className="t-h2 mt-8 max-w-[16ch] text-balance">{method.heading}</h2>

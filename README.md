@@ -9,7 +9,7 @@ One page, server-rendered, statically generated. The job of the site is to earn 
 - **Next.js 16** (App Router, Turbopack) · **React 19** · **TypeScript** (strict)
 - **Tailwind CSS v4** (`@tailwindcss/postcss`, tokens via `@theme`)
 - **Framer Motion** for entrance and the echo motif
-- Fonts via `next/font/google`: **Bricolage Grotesque** (display), **IBM Plex Sans** (body), **IBM Plex Mono** (labels)
+- Fonts via `next/font/google`: **Bricolage Grotesque** (display), **Hanken Grotesk** (body), **Geist Mono** (labels)
 
 No CMS, no database. All copy lives in `lib/content.ts`.
 

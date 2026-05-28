@@ -47,7 +47,7 @@ const nextConfig: NextConfig = {
 
   // Experimental features
   experimental: {
-    optimizePackageImports: ["framer-motion", "gsap"],
+    optimizePackageImports: ["framer-motion"],
   },
 };
 

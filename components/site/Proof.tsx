@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import EchoSignal from "@/components/motif/EchoSignal";
+import SectionMark from "@/components/site/SectionMark";
 import { proof } from "@/lib/content";
 import { site } from "@/lib/site";
 
@@ -13,10 +14,7 @@ export default function Proof() {
       <div className="u-container">
         <div className="grid items-end gap-x-12 gap-y-6 lg:grid-cols-12">
           <div className="lg:col-span-8">
-            <p className="flex items-center gap-3">
-              <span className="section-index">{proof.index}</span>
-              <span className="t-label text-muted">{proof.kicker}</span>
-            </p>
+            <SectionMark index={proof.index} kicker={proof.kicker} />
             <h2 className="t-h2 mt-6 max-w-[20ch] text-balance">{proof.heading}</h2>
           </div>
           <div className="lg:col-span-4 lg:pb-2">

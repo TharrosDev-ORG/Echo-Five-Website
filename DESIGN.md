@@ -28,8 +28,12 @@ paper, ink, paper, then a full **amber-drenched** contact close.
 ## Typography
 
 - **Display:** Bricolage Grotesque (500-800). Tight tracking, near-1.0 line height.
-- **Body:** IBM Plex Sans (400-600). Base 1.0625rem, line height 1.6.
-- **Mono:** IBM Plex Mono (400-500). Labels, section indices, tags, the callsign.
+- **Body:** Hanken Grotesk (400-700). Base 1.0625rem, line height 1.6.
+- **Mono:** Geist Mono (400-500). Section coordinates, tags, data, the callsign.
+
+Fonts were chosen against the reflex-reject list (no IBM Plex, no Space Grotesk):
+Bricolage carries character at display sizes, Hanken stays neutral and legible at
+body, Geist Mono reads as deliberate engineering, not costume.
 
 Scale via `clamp()` utilities in `globals.css`: `.t-display`, `.t-h2`, `.t-h3`,
 `.t-lead`, `.t-body`, `.t-label`. Hierarchy is carried by scale + weight, not color.
@@ -55,6 +59,8 @@ Body measure capped (`.measure`, `.measure-wide`).
 ## Components
 
 - `EchoSignal` — the brand watermark. `tone="signal" | "ink"`, always `aria-hidden`.
+- `SectionMark` — the echo coordinate that opens each section (glyph + channel
+  number + plainly-set label). One deliberate system, `tone="light" | "dark"`.
 - `Reveal` — scroll-in wrapper, polymorphic (`div | li | section`).
 - Buttons: `.btn` with `.btn-primary` (amber), `.btn-ghost`, `.btn-on-dark`.
 - `.link-arrow` — mono underline link with a widening gap on hover.

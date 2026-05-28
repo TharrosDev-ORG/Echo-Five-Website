@@ -17,10 +17,18 @@ export default function Contact() {
 
       <div className="u-container">
         <Reveal>
-          <p className="flex items-center gap-3">
-            <span className="font-mono text-[0.9rem] tracking-[0.1em]">{contact.index}</span>
-            <span className="t-label">{contact.kicker}</span>
-          </p>
+          <div className="flex items-center gap-3 text-ink-deep">
+            <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" className="shrink-0">
+              <g fill="none" stroke="currentColor">
+                <circle cx="12" cy="12" r="3.5" />
+                <circle cx="12" cy="12" r="9" opacity="0.5" />
+                <circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none" />
+              </g>
+            </svg>
+            <span className="font-mono text-[0.82rem] font-medium tabular-nums">{contact.index}</span>
+            <span className="h-px w-5 bg-ink-deep/30" aria-hidden="true" />
+            <span className="text-[0.9rem] font-medium text-ink-deep/80">{contact.kicker}</span>
+          </div>
         </Reveal>
         <Reveal delay={0.05}>
           <h2 className="t-display mt-7 max-w-[15ch]">{contact.heading}</h2>

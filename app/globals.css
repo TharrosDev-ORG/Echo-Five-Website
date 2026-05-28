@@ -20,8 +20,8 @@
   --color-line-dark: oklch(0.92 0.01 80 / 0.14);
 
   --font-display: var(--font-display), "Bricolage Grotesque", system-ui, sans-serif;
-  --font-sans: var(--font-sans), "IBM Plex Sans", system-ui, sans-serif;
-  --font-mono: var(--font-mono), "IBM Plex Mono", ui-monospace, monospace;
+  --font-sans: var(--font-sans), "Hanken Grotesk", system-ui, sans-serif;
+  --font-mono: var(--font-mono), "Geist Mono", ui-monospace, monospace;
 }
 
 * {
@@ -152,15 +152,6 @@ a {
   padding-block: clamp(5rem, 11vw, 9rem);
 }
 
-/* The structural index numeral that opens each section. */
-.section-index {
-  font-family: var(--font-mono);
-  font-weight: 500;
-  font-size: clamp(0.8rem, 1vw, 0.95rem);
-  letter-spacing: 0.1em;
-  color: var(--color-signal-deep);
-}
-
 /* Top hairline that frames a section block. */
 .rule-top {
   border-top: 1px solid var(--color-line);
@@ -225,12 +216,6 @@ a {
   gap: 0.85rem;
 }
 
-/* ----- Reveal animation base (progressive enhancement) ----- */
-.js-on [data-reveal] {
-  opacity: 0;
-  transform: translateY(18px);
-}
-
 /* ----- Motion preferences ----- */
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -242,9 +227,5 @@ a {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
-  }
-  .js-on [data-reveal] {
-    opacity: 1;
-    transform: none;
   }
 }

@@ -1,4 +1,5 @@
 import Reveal from "@/components/site/Reveal";
+import SectionMark from "@/components/site/SectionMark";
 import { credentials } from "@/lib/content";
 
 export default function Credentials() {
@@ -8,10 +9,7 @@ export default function Credentials() {
         <div className="grid gap-x-12 gap-y-8 lg:grid-cols-12">
           <div className="lg:col-span-7">
             <Reveal>
-              <p className="flex items-center gap-3">
-                <span className="section-index">{credentials.index}</span>
-                <span className="t-label text-muted-on-dark">{credentials.kicker}</span>
-              </p>
+              <SectionMark index={credentials.index} kicker={credentials.kicker} tone="dark" />
             </Reveal>
             <Reveal delay={0.05}>
               <h2 className="t-h2 mt-8 max-w-[16ch] text-balance">{credentials.heading}</h2>
@@ -24,10 +22,10 @@ export default function Credentials() {
           </div>
         </div>
 
-        <ul className="mt-14 grid gap-px border border-line-dark bg-line-dark sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="mt-14 grid border-t border-l border-line-dark sm:grid-cols-2 lg:grid-cols-3">
           {credentials.items.map((c, i) => (
             <Reveal as="li" key={c.title} delay={Math.min(i, 5) * 0.05}>
-              <div className="flex h-full flex-col justify-between gap-8 bg-ink-deep p-7">
+              <div className="flex h-full flex-col justify-between gap-8 border-b border-r border-line-dark bg-ink-deep p-7">
                 <div className="flex items-center justify-between">
                   <span className="font-mono text-[0.72rem] uppercase tracking-[0.14em] text-signal">
                     {c.issuer}

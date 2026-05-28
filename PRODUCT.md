@@ -51,8 +51,8 @@ for adoption spreading through an organization. Warm and confident, not cold gov
 - **Color (Committed):** warm paper base, deep warm ink that carries the serious
   weight, and one committed **signal amber** that carries meaning (the echo rings, key
   words, CTAs, the drenched closing section). No blues, no teal.
-- **Type:** Bricolage Grotesque for big confident display, IBM Plex Sans for credible
-  body, IBM Plex Mono for callsign-style labels, section indices, and data.
+- **Type:** Bricolage Grotesque for big confident display, Hanken Grotesk for credible
+  body, Geist Mono for callsign-style coordinates, labels, and data.
 - **Structure:** alternating warm-paper and deep-ink section grounds; editorial
   numbered lists instead of icon-card grids; a typographic client wall; one full-bleed
   amber-drenched contact close.
