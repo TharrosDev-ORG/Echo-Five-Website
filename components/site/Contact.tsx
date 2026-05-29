@@ -22,19 +22,19 @@ export default function Contact() {
           <SectionMark index={contact.index} kicker={contact.kicker} tone="signal" />
         </Reveal>
         <Reveal delay={0.05}>
-          <h2 className="t-display mt-8 max-w-[15ch]">{contact.heading}</h2>
+          <h2 className="t-display mt-10 max-w-[15ch]">{contact.heading}</h2>
         </Reveal>
         <Reveal delay={0.1}>
-          <p className="t-lead mt-8 max-w-[48ch] text-ink-deep/80">{contact.body}</p>
+          <p className="t-lead mt-10 max-w-[48ch] text-ink-deep/80">{contact.body}</p>
         </Reveal>
 
         <Reveal delay={0.15}>
-          <div className="mt-12 flex flex-col gap-8 border-t border-ink-deep/20 pt-8 sm:flex-row sm:items-end sm:justify-between">
+          <div className="mt-16 flex flex-col gap-8 border-t border-ink-deep/20 pt-12 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="font-mono text-[0.72rem] uppercase tracking-[0.12em] text-ink-deep/60">
                 Write to the founder
               </p>
-              <div className="mt-3">
+              <div className="mt-4">
                 <EmailActions />
               </div>
             </div>
@@ -47,7 +47,7 @@ export default function Contact() {
           </div>
         </Reveal>
         <Reveal delay={0.2}>
-          <p className="mt-6 max-w-[42ch] text-[0.92rem] text-ink-deep/70">{contact.note}</p>
+          <p className="mt-8 max-w-[42ch] text-[0.92rem] text-ink-deep/70">{contact.note}</p>
         </Reveal>
       </div>
     </section>

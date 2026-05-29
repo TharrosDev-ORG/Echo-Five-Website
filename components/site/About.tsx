@@ -10,7 +10,7 @@ export default function About() {
             <p className="t-label text-muted">{about.kicker}</p>
           </Reveal>
           <Reveal delay={0.05}>
-            <h2 className="t-display mt-7 text-[clamp(2.4rem,6vw,4.6rem)]">
+            <h2 className="t-display mt-10 text-[clamp(2.4rem,6vw,4.6rem)]">
               {about.heading[0]}
               <br />
               {about.heading[1]}
@@ -19,7 +19,7 @@ export default function About() {
             </h2>
           </Reveal>
         </div>
-        <div className="flex flex-col gap-6 lg:col-span-5 lg:col-start-8 lg:pt-3">
+        <div className="flex flex-col gap-8 lg:col-span-5 lg:col-start-8 lg:pt-3">
           {about.body.map((p, i) => (
             <Reveal key={i} delay={0.1 + i * 0.06}>
               <p className={i === 0 ? "t-lead text-ink" : "t-body text-muted"}>{p}</p>
@@ -29,9 +29,9 @@ export default function About() {
       </div>
 
       {/* Who you'll be working with */}
-      <div className="u-container mt-20 lg:mt-28">
+      <div className="u-container mt-24 lg:mt-32">
         <Reveal>
-          <div className="grid gap-x-12 gap-y-8 border-t border-line pt-12 lg:grid-cols-12">
+          <div className="grid gap-x-12 gap-y-8 border-t border-line pt-14 lg:grid-cols-12">
             <div className="flex items-center gap-5 lg:col-span-5">
               <div
                 className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-signal-deep/45 font-display text-xl text-signal-deep"
@@ -41,14 +41,14 @@ export default function About() {
               </div>
               <div>
                 <p className="font-display text-xl text-ink">{principal.name}</p>
-                <p className="mt-1 font-mono text-[0.78rem] uppercase tracking-[0.12em] text-muted">
+                <p className="mt-2 font-mono text-[0.78rem] uppercase tracking-[0.12em] text-muted">
                   {principal.role}
                 </p>
               </div>
             </div>
             <div className="lg:col-span-7">
               <p className="t-body text-muted measure-wide">{principal.bio}</p>
-              <p className="mt-5 font-mono text-[0.78rem] tracking-[0.03em] text-signal-deep">
+              <p className="mt-6 font-mono text-[0.78rem] tracking-[0.03em] text-signal-deep">
                 {principal.credentials}
               </p>
             </div>

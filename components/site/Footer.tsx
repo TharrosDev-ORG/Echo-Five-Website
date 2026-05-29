@@ -22,7 +22,7 @@ export default function Footer() {
                 {site.callsign}
               </span>
             </div>
-            <p className="t-body mt-5 max-w-[34ch] text-muted-on-dark">{site.tagline}</p>
+            <p className="t-body mt-6 max-w-[34ch] text-muted-on-dark">{site.tagline}</p>
           </div>
 
           <nav className="lg:col-span-4" aria-label="Footer">
@@ -44,7 +44,7 @@ export default function Footer() {
             >
               {site.email}
             </a>
-            <p className="mt-3 font-mono text-[0.78rem] tracking-[0.04em]">{site.region}</p>
+            <p className="mt-4 font-mono text-[0.78rem] tracking-[0.04em]">{site.region}</p>
           </div>
         </div>
 

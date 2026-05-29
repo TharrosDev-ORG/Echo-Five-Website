@@ -17,11 +17,11 @@ export default function Proof() {
           <div className="flex justify-center">
             <SectionMark index={proof.index} kicker={proof.kicker} tone="dark" />
           </div>
-          <h2 className="t-h2 mt-7 max-w-[20ch] text-balance">{proof.heading}</h2>
-          <p className="t-lead mt-6 max-w-[52ch] text-pretty text-muted-on-dark">{proof.sub}</p>
+          <h2 className="t-h2 mt-10 max-w-[20ch] text-balance">{proof.heading}</h2>
+          <p className="t-lead mt-10 max-w-[52ch] text-pretty text-muted-on-dark">{proof.sub}</p>
         </div>
 
-        <div className="mt-14 overflow-hidden border border-line-dark bg-ink-deep">
+        <div className="mt-20 overflow-hidden border border-line-dark bg-ink-deep">
           <div className="relative aspect-video">
             {playing ? (
               <iframe
@@ -46,7 +46,7 @@ export default function Proof() {
                     <path d="M0 0L22 13L0 26Z" fill="var(--color-signal)" />
                   </svg>
                 </span>
-                <span className="relative mt-6 font-mono text-[0.8rem] tracking-[0.08em] text-muted-on-dark">
+                <span className="relative mt-7 font-mono text-[0.8rem] tracking-[0.08em] text-muted-on-dark">
                   {proof.cta} · GOC M365 Council
                 </span>
               </button>

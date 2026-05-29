@@ -11,18 +11,18 @@ export default function Credentials() {
           <SectionMark index={credentials.index} kicker={credentials.kicker} tone="dark" />
         </Reveal>
         <Reveal delay={0.05}>
-          <h2 className="t-h2 mt-8 max-w-[20ch] text-balance">{credentials.heading}</h2>
+          <h2 className="t-h2 mt-14 max-w-[20ch] text-balance">{credentials.heading}</h2>
         </Reveal>
         <Reveal delay={0.1}>
-          <p className="t-body mt-6 max-w-[58ch] text-pretty text-muted-on-dark">{credentials.intro}</p>
+          <p className="t-body mt-10 max-w-[58ch] text-pretty text-muted-on-dark">{credentials.intro}</p>
         </Reveal>
 
         {/* A divided ledger of qualifications: issuer / title / detail per row,
             consistent with the editorial lists elsewhere (no card grid). */}
-        <ul className="mt-14 border-t border-line-dark">
+        <ul className="mt-24 border-t border-line-dark">
           {credentials.items.map((c, i) => (
             <Reveal as="li" key={c.title} delay={Math.min(i, 5) * 0.05}>
-              <div className="grid items-baseline gap-x-10 gap-y-2 border-b border-line-dark py-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)_auto]">
+              <div className="grid items-baseline gap-x-10 gap-y-4 border-b border-line-dark py-12 md:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)_auto]">
                 <span className="flex items-center gap-2.5">
                   <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true" className="shrink-0">
                     <g fill="none" stroke="var(--color-signal)">

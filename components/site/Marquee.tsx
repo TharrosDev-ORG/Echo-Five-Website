@@ -9,7 +9,7 @@ const names = clients.groups.flatMap((g) => g.orgs.map((o) => o.short));
 export default function Marquee() {
   const row = [...names, ...names];
   return (
-    <div className="marquee relative overflow-hidden border-b border-line bg-paper py-5" aria-hidden="true">
+    <div className="marquee relative overflow-hidden border-b border-line bg-paper py-6" aria-hidden="true">
       <div className="marquee-track">
         {row.map((n, i) => (
           <span

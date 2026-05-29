@@ -38,23 +38,23 @@ export default function Method() {
   return (
     <section id="method" className="pad-block-lg bg-paper">
       <div className="u-container">
-        <div className="grid items-center gap-x-12 gap-y-10 lg:grid-cols-12">
+        <div className="grid items-center gap-x-12 gap-y-16 lg:grid-cols-12">
           <div className="lg:col-span-5">
             <Reveal>
               <SectionMark index={method.index} kicker={method.kicker} />
             </Reveal>
             <Reveal delay={0.05}>
-              <h2 className="t-h2 mt-8 max-w-[16ch] text-balance">{method.heading}</h2>
+              <h2 className="t-h2 mt-12 max-w-[16ch] text-balance">{method.heading}</h2>
             </Reveal>
             <Reveal delay={0.1}>
-              <p className="t-body mt-7 text-pretty text-muted measure-wide">{method.body}</p>
+              <p className="t-body mt-10 text-pretty text-muted measure-wide">{method.body}</p>
             </Reveal>
             <Reveal delay={0.15}>
               <a
                 href={site.advantaUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="link-arrow mt-8"
+                className="link-arrow mt-12"
               >
                 {method.cta}
                 <span aria-hidden="true">&rarr;</span>
