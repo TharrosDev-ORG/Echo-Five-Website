@@ -4,10 +4,10 @@ export const alt = "Echofive Solutions — Microsoft 365 change management";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-const INK = "#18140f";
-const PAPER = "#f7f3ec";
-const AMBER = "#f2a83c";
-const MUTED = "#b7ad9c";
+const BG = "#0a0d12";
+const INK = "#eef1f4";
+const SIGNAL = "#3fe08a";
+const MUTED = "#7c8794";
 
 export default function OpengraphImage() {
   return new ImageResponse(
@@ -19,26 +19,26 @@ export default function OpengraphImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: INK,
-          color: PAPER,
+          background: BG,
+          color: INK,
           padding: 72,
           position: "relative",
           fontFamily: "sans-serif",
         }}
       >
-        {/* Echo rings */}
+        {/* Echo rings off the right edge */}
         {[520, 360, 220].map((d) => (
           <div
             key={d}
             style={{
               position: "absolute",
               top: 315 - d / 2,
-              left: 980 - d / 2,
+              left: 1000 - d / 2,
               width: d,
               height: d,
               borderRadius: d,
-              border: `1px solid ${AMBER}`,
-              opacity: 0.28,
+              border: `1px solid ${SIGNAL}`,
+              opacity: 0.3,
             }}
           />
         ))}
@@ -46,29 +46,30 @@ export default function OpengraphImage() {
           style={{
             position: "absolute",
             top: 305,
-            left: 970,
+            left: 990,
             width: 20,
             height: 20,
             borderRadius: 20,
-            background: AMBER,
+            background: SIGNAL,
           }}
         />
 
-        <div style={{ display: "flex", letterSpacing: 6, fontSize: 26, color: MUTED }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 14, letterSpacing: 6, fontSize: 26, color: MUTED }}>
+          <div style={{ width: 12, height: 12, borderRadius: 12, background: SIGNAL }} />
           ECHO · FIVE
         </div>
 
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ fontSize: 82, fontWeight: 700, lineHeight: 1.02, letterSpacing: -2 }}>
+          <div style={{ fontSize: 84, fontWeight: 800, lineHeight: 1.0, letterSpacing: -3 }}>
             Change that lands.
           </div>
           <div
             style={{
-              fontSize: 82,
-              fontWeight: 700,
-              lineHeight: 1.02,
-              letterSpacing: -2,
-              color: AMBER,
+              fontSize: 84,
+              fontWeight: 800,
+              lineHeight: 1.0,
+              letterSpacing: -3,
+              color: SIGNAL,
             }}
           >
             Tools that get used.

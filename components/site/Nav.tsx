@@ -2,20 +2,19 @@
 
 import { useEffect, useState } from "react";
 import { nav } from "@/lib/content";
-import { site, mailtoBook } from "@/lib/site";
+import { site } from "@/lib/site";
 
 function Mark() {
   return (
     <a href="#top" className="flex items-center gap-2.5" aria-label={`${site.name} home`}>
-      <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" className="shrink-0">
-        <g fill="none" stroke="currentColor">
+      <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" className="shrink-0 text-signal">
+        <g fill="none" stroke="currentColor" strokeWidth="1.5">
           <circle cx="12" cy="12" r="3" />
-          <circle cx="12" cy="12" r="7" opacity="0.55" />
-          <circle cx="12" cy="12" r="11" opacity="0.28" />
+          <circle cx="12" cy="12" r="7.5" opacity="0.5" />
           <circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none" />
         </g>
       </svg>
-      <span className="font-mono text-[0.92rem] font-medium tracking-[0.16em]">
+      <span className="font-mono text-[0.92rem] font-medium tracking-[0.16em] text-ink">
         {site.callsign}
       </span>
     </a>
@@ -59,7 +58,7 @@ export default function Nav() {
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-colors duration-500 ${
         scrolled
-          ? "bg-paper/90 backdrop-blur-md border-b border-line"
+          ? "bg-bg/85 backdrop-blur-md border-b border-line"
           : "bg-transparent border-b border-transparent"
       }`}
     >
@@ -75,19 +74,19 @@ export default function Nav() {
                 href={item.href}
                 aria-current={isActive ? "true" : undefined}
                 className={`group relative font-mono text-[0.78rem] tracking-[0.06em] transition-colors ${
-                  isActive ? "text-signal-deep" : "text-ink-soft hover:text-ink"
+                  isActive ? "text-signal" : "text-ink-soft hover:text-ink"
                 }`}
               >
                 {item.label}
                 <span
-                  className={`absolute -bottom-1.5 left-0 h-px bg-signal-deep transition-all duration-300 ${
+                  className={`absolute -bottom-1.5 left-0 h-px bg-signal transition-all duration-300 ${
                     isActive ? "w-full" : "w-0 group-hover:w-full group-hover:bg-line-strong"
                   }`}
                 />
               </a>
             );
           })}
-          <a href={mailtoBook} className="btn btn-primary !py-2.5 !px-4">
+          <a href="#contact" className="btn btn-primary !py-2.5 !px-4">
             Book a conversation
           </a>
         </nav>
@@ -119,8 +118,8 @@ export default function Nav() {
 
       {/* Mobile panel */}
       <div
-        className={`lg:hidden overflow-hidden bg-paper transition-[max-height] duration-500 ease-out ${
-          open ? "max-h-[28rem] border-b border-line" : "max-h-0"
+        className={`lg:hidden overflow-hidden bg-bg transition-[max-height] duration-500 ease-out ${
+          open ? "max-h-[30rem] border-b border-line" : "max-h-0"
         }`}
       >
         <nav className="u-container flex flex-col gap-1 py-6" aria-label="Mobile">
@@ -135,7 +134,7 @@ export default function Nav() {
             </a>
           ))}
           <a
-            href={mailtoBook}
+            href="#contact"
             onClick={() => setOpen(false)}
             className="btn btn-primary mt-4 justify-center"
           >

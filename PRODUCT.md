@@ -44,36 +44,40 @@ Three words: **precise · credible · human (not corporate)**.
 
 ## Aesthetic direction
 
-**Signal craft.** The name Echo-Five reads as a callsign, so the brand motif is the
-**echo**: concentric rings propagating outward from a focal point, the visual metaphor
-for adoption spreading through an organization. Warm and confident, not cold govtech.
+**Operations / Instrument (v3).** The name Echo-Five reads as a callsign, so the brand
+metaphor is the **signal**: a live readout, a waveform, echo rings propagating from a
+focal point, adoption spreading through an organization. The site should feel like
+serious infrastructure software, the adoption-analytics product itself, not a brochure.
+Dark, technical, restrained. Differentiation through rigor, never hype.
 
-- **Color (Committed):** warm paper base, deep warm ink that carries the serious
-  weight, and one committed **signal amber** that carries meaning (the echo rings, key
-  words, CTAs, the drenched closing section). No blues, no teal.
-- **Type:** Bricolage Grotesque for big confident display, Hanken Grotesk for credible
-  body, Geist Mono for callsign-style coordinates, labels, and data.
-- **Structure:** alternating warm-paper and deep-ink section grounds; editorial
-  numbered lists instead of icon-card grids; a typographic client wall; one full-bleed
-  amber-drenched contact close.
+- **Color (one committed accent):** cool graphite grounds carry the weight, one
+  **signal green** carries meaning (the live status, progress, key words, CTAs, the
+  drenched closing section). Rhythm comes from panel elevation, not light/dark flips.
+- **Type:** Archivo for big confident display, Geist for credible body, Geist Mono for
+  callsign-style coordinates (CH.NN), labels, and data.
+- **Structure:** graphite/raised section grounds; editorial divided lists instead of
+  icon-card grids; a mono data-grid client roster; an interactive ADKAR progress rail;
+  one full-bleed signal-drenched contact close that houses the form.
 
 ## Anti-references (do NOT look like these)
 
-- **The previous Echo-Five site (v1):** editorial-serif lane (Fraunces, tiny tracked
-  uppercase kickers, hairlines everywhere, beige).
-- **The previous Echo-Five site (v2):** Swiss-grid govtech in navy-slate + teal. Good,
-  but already done. This rebuild deliberately moves to warm ink + signal amber.
+- **Echo-Five v1:** editorial-serif lane (Fraunces, tiny tracked uppercase kickers,
+  hairlines everywhere, beige).
+- **Echo-Five v2:** Swiss-grid govtech in navy-slate + teal.
+- **Echo-Five (warm-amber rebuild):** warm paper + deep ink + signal amber, radar hero.
+  Good, but superseded by this dark instrument direction.
 - **GOV.UK clone:** government-blue + Transport-font cosplay. We want govtech rigor,
   not govtech costume.
-- **Generic SaaS:** gradient hero, three identical icon cards, rounded-everything,
-  navy-and-gold fintech, hero-metric template.
+- **Generic SaaS / dev-tool slop:** purple gradients, three identical icon cards,
+  rounded-everything, glowing-neon-on-black with no restraint.
 
 ## Strategic principles
 
-- Commit to the amber. It carries real surface (motif, CTAs, the drenched close), not
-  a timid 10% accent.
-- The echo motif is the brand. Use it as structural watermark, never as foreground
-  clip-art.
+- Commit to the signal. It carries real surface (motif, live state, CTAs, the drenched
+  close), not a timid 10% accent. Used green-on-graphite, it must stay restrained, never
+  neon slop.
+- The signal/echo metaphor is the brand. Use it as live readout and structure (the
+  oscilloscope hero, the progress rail), never as foreground clip-art.
 - Specificity is the credibility engine: name the clients, name the tools, name the
   certs and the clearance.
 - Accessibility is credibility for a public-sector audience: WCAG AA is the floor.

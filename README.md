@@ -2,14 +2,16 @@
 
 Marketing site for **Echofive Solutions Inc.**, a senior change management practice specializing in Microsoft 365 adoption for Canadian public-sector and enterprise organizations.
 
-One page, server-rendered, statically generated. The job of the site is to earn a first conversation.
+One page, server-rendered and statically generated, plus one server route for the
+contact form. The job of the site is to earn a first conversation. The visual identity
+is "Operations / Instrument": dark, technical, data-forward (see `DESIGN.md`).
 
 ## Stack
 
 - **Next.js 16** (App Router, Turbopack) · **React 19** · **TypeScript** (strict)
 - **Tailwind CSS v4** (`@tailwindcss/postcss`, tokens via `@theme`)
-- **Framer Motion** for entrance and the echo motif
-- Fonts via `next/font/google`: **Bricolage Grotesque** (display), **Hanken Grotesk** (body), **Geist Mono** (labels)
+- No animation library: motion is CSS + IntersectionObserver + a small canvas (`SignalField`)
+- Fonts via `next/font/google`: **Archivo** (display), **Geist** (body), **Geist Mono** (labels/data)
 
 No CMS, no database. All copy lives in `lib/content.ts`.
 
@@ -26,16 +28,17 @@ npm run build      # production build
 
 ```
 app/
-  layout.tsx           Fonts, metadata, JSON-LD, <head>
+  layout.tsx           Fonts, metadata, viewport, JSON-LD, <head>
   page.tsx             Section composition
-  opengraph-image.tsx  Generated 1200x630 social card (next/og)
+  opengraph-image.tsx  Generated 1200x630 dark social card (next/og)
   globals.css          Design tokens (@theme) + base + utilities
+  api/contact/route.ts Contact form delivery (Resend REST API)
 components/
-  motif/RadarHero      Live canvas radar behind the hero
-  motif/EchoSignal     Static "echo" rings (brand watermark)
-  site/                Nav, Hero, Marquee, Why, Services, Process,
-                       Clients, Proof, Method, Credentials, About,
-                       Contact, Footer, Reveal, SectionMark
+  motif/SignalField    Live oscilloscope canvas behind the hero
+  site/                Nav, Hero, TrustStrip, Why, Services, AdkarStepper,
+                       Method, Proof, ClientGrid, Credentials, About,
+                       Contact, ContactForm, Footer, Reveal, SectionMark,
+                       StatCounter, StickyCTA
 lib/
   site.ts              Site constants (name, email, URLs, video)
   content.ts           All page copy and data
@@ -51,11 +54,24 @@ DESIGN.md              Design system reference
 ## Editing content
 
 - **Copy** for any section: `lib/content.ts`.
-- **Contact email, URLs, video, company name**: `lib/site.ts`.
+- **Public contact email, URLs, video, company name**: `lib/site.ts`.
 - **Colors, type scale, spacing**: the `@theme` block in `app/globals.css`.
 
-> The contact email lives in `lib/site.ts` (`Mark.Abdelnour@gmail.com`) and drives
-> every contact link on the site. Messages reach Mark Abdelnour, the founder, directly.
+## Contact form
+
+The contact form posts to `app/api/contact/route.ts`, which delivers via the
+[Resend](https://resend.com) REST API. Configure these environment variables (e.g. in
+`.env.local` or your Vercel project) for live delivery:
+
+| Var | Purpose |
+| --- | --- |
+| `RESEND_API_KEY` | Resend API key. **If unset, the form degrades to a copyable mailto fallback** so the site still works. |
+| `CONTACT_TO` | Destination inbox (defaults to `site.email`). |
+| `CONTACT_FROM` | Verified sender, e.g. `Echofive <mark@echo-five.ca>` (requires a verified domain in Resend). |
+
+> The public address in `lib/site.ts` (`mark@echo-five.ca`) is shown on the site and
+> used as the mailto fallback. Form submissions reach Mark Abdelnour, the founder,
+> directly.
 
 ## Client logos & certification badges
 
