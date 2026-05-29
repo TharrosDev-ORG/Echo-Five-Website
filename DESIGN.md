@@ -42,14 +42,25 @@ Body measure capped (`.measure`, `.measure-wide`).
 ## Layout
 
 - `.u-container`: max 80rem, fluid side padding `clamp(1.25rem, 5vw, 4.5rem)`.
-- `.section-pad`: vertical rhythm `clamp(5.5rem, 12vw, 10.5rem)`.
-- Grounds alternate for rhythm. Dark (`bg-ink-deep`) lands on the hero, services,
-  proof, and credentials; the rest are warm paper, closing on the amber-drenched
-  contact. Dark grounds carry a faint `.grain` overlay for depth.
-- 12-column grids for asymmetric heading/body splits. Spacing varies by section on
-  purpose; no uniform padding everywhere.
-- No decorative cards. Services and the failure points are **divided editorial lists**
-  (hairline separators), not boxed card grids.
+- **Vertical rhythm scale** (replaces a single uniform `.section-pad`). Tokens in
+  `:root`: `--pad-2xl` `clamp(7rem,14vw,12rem)`, `--pad-xl` `clamp(5.5rem,11vw,9rem)`,
+  `--pad-lg` `clamp(4.5rem,9vw,7rem)`, `--pad-md` `clamp(3rem,6vw,4.5rem)`. Applied via
+  `.pad-block-*` and asymmetric `.pad-top-*` / `.pad-bot-*` so the scroll has a beat:
+  generous around pivots (Why, Proof, About, Contact), tight where sections share a
+  ground (the Process to Clients seam). `--gutter-num` reserves the left margin for
+  oversized list numerals.
+- **Header archetypes** (rotated so no two adjacent sections open the same way):
+  *Statement* (mark + big heading + intro below, then a gutter-numeral list — Why),
+  *Left rail* (slim framing column + wide content — Services, Method),
+  *Heading-led track* (lead + horizontal/vertical connected sequence — Process),
+  *Centered overture* (Proof, Contact). The `SectionMark` system is constant; its
+  composition is what varies.
+- Grounds alternate (`bg-ink-deep` dark vs warm paper), closing on the amber-drenched
+  contact; dark grounds carry a faint `.grain` overlay.
+- **No decorative cards.** Why failures, Services, and Credentials are all **divided
+  editorial lists** (hairline separators, gutter numerals), never boxed card grids.
+- Desktop nav and the multi-column footer defer to the `lg` breakpoint (hamburger +
+  stacked footer through tablet) so neither overflows at the `md` seam.
 
 ## Motion
 

@@ -1,7 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
-import type { ReactNode } from "react";
+import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
 
 type Props = {
   children: ReactNode;
@@ -11,27 +10,44 @@ type Props = {
 };
 
 /**
- * Fade-and-rise on scroll into view. Exponential ease-out, no bounce.
- * Falls back to a static element when the user prefers reduced motion.
+ * Fade-and-rise on scroll into view, driven by IntersectionObserver and CSS
+ * (see `.reveal` in globals.css). Content is visible by default; the hidden
+ * state only applies when the `js` class is present, so SSR, no-JS, crawlers,
+ * and headless renders never ship blank. Reduced motion is handled in CSS.
  */
-export default function Reveal({ children, delay = 0, className, as = "div" }: Props) {
-  const reduce = useReducedMotion();
-  const MotionTag = motion[as];
+export default function Reveal({ children, delay = 0, className = "", as = "div" }: Props) {
+  const ref = useRef<HTMLElement>(null);
 
-  if (reduce) {
-    const Tag = as;
-    return <Tag className={className}>{children}</Tag>;
-  }
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (!("IntersectionObserver" in window)) {
+      el.classList.add("is-in");
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            el.classList.add("is-in");
+            io.unobserve(el);
+          }
+        }
+      },
+      { rootMargin: "0px 0px -10% 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
+  const Tag = as;
   return (
-    <MotionTag
-      className={className}
-      initial={{ opacity: 0, y: 22 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-12% 0px -8% 0px" }}
-      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay }}
+    <Tag
+      ref={ref as React.Ref<HTMLElement & HTMLDivElement & HTMLLIElement>}
+      className={`reveal ${className}`.trim()}
+      style={{ "--reveal-delay": `${delay}s` } as CSSProperties}
     >
       {children}
-    </MotionTag>
+    </Tag>
   );
 }

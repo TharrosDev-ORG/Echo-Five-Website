@@ -3,7 +3,7 @@ import { about, principal } from "@/lib/content";
 
 export default function About() {
   return (
-    <section id="about" className="section-pad bg-paper">
+    <section id="about" className="pad-block-2xl bg-paper">
       <div className="u-container grid gap-x-12 gap-y-12 lg:grid-cols-12">
         <div className="lg:col-span-6">
           <Reveal>

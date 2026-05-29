@@ -66,7 +66,7 @@ export default function Nav() {
       <div className="u-container flex h-[4.5rem] items-center justify-between">
         <Mark />
 
-        <nav className="hidden items-center gap-8 md:flex" aria-label="Primary">
+        <nav className="hidden items-center gap-8 lg:flex" aria-label="Primary">
           {nav.map((item) => {
             const isActive = active === item.href.slice(1);
             return (
@@ -94,7 +94,7 @@ export default function Nav() {
 
         <button
           type="button"
-          className="flex flex-col gap-[5px] p-2 md:hidden"
+          className="flex flex-col gap-[5px] p-2 lg:hidden"
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
@@ -119,7 +119,7 @@ export default function Nav() {
 
       {/* Mobile panel */}
       <div
-        className={`md:hidden overflow-hidden bg-paper transition-[max-height] duration-500 ease-out ${
+        className={`lg:hidden overflow-hidden bg-paper transition-[max-height] duration-500 ease-out ${
           open ? "max-h-[28rem] border-b border-line" : "max-h-0"
         }`}
       >

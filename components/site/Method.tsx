@@ -36,10 +36,10 @@ function AdoptionMark() {
 
 export default function Method() {
   return (
-    <section id="method" className="section-pad bg-paper">
+    <section id="method" className="pad-block-lg bg-paper">
       <div className="u-container">
         <div className="grid items-center gap-x-12 gap-y-10 lg:grid-cols-12">
-          <div className="lg:col-span-6">
+          <div className="lg:col-span-5">
             <Reveal>
               <SectionMark index={method.index} kicker={method.kicker} />
             </Reveal>
@@ -47,7 +47,7 @@ export default function Method() {
               <h2 className="t-h2 mt-8 max-w-[16ch] text-balance">{method.heading}</h2>
             </Reveal>
             <Reveal delay={0.1}>
-              <p className="t-body mt-7 text-muted measure-wide">{method.body}</p>
+              <p className="t-body mt-7 text-pretty text-muted measure-wide">{method.body}</p>
             </Reveal>
             <Reveal delay={0.15}>
               <a
@@ -62,13 +62,13 @@ export default function Method() {
             </Reveal>
           </div>
 
-          <div className="lg:col-span-6">
+          <div className="lg:col-span-6 lg:col-start-7">
             <Reveal delay={0.1}>
-              <figure className="border border-line bg-ink-deep p-8">
+              <figure className="border border-line bg-ink-deep p-10">
                 <figcaption className="font-mono text-[0.74rem] uppercase tracking-[0.14em] text-muted-on-dark">
                   Adoption, week over week
                 </figcaption>
-                <div className="mt-6 h-44">
+                <div className="mt-6 h-56">
                   <AdoptionMark />
                 </div>
                 <p className="mt-6 font-mono text-[0.74rem] tracking-[0.04em] text-muted-on-dark">

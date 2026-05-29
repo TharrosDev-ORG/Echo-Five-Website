@@ -2,9 +2,11 @@ import Reveal from "@/components/site/Reveal";
 import SectionMark from "@/components/site/SectionMark";
 import { clients } from "@/lib/content";
 
+const totalOrgs = clients.groups.reduce((n, g) => n + g.orgs.length, 0);
+
 export default function Clients() {
   return (
-    <section id="clients" className="section-pad bg-paper">
+    <section id="clients" className="pad-top-md pad-bot-xl bg-paper">
       <div className="u-container">
         <div className="grid gap-x-12 gap-y-8 lg:grid-cols-12">
           <div className="lg:col-span-7">
@@ -18,6 +20,11 @@ export default function Clients() {
           <div className="lg:col-span-5 lg:pt-2">
             <Reveal delay={0.1}>
               <p className="t-body text-muted measure-wide">{clients.intro}</p>
+            </Reveal>
+            <Reveal delay={0.15}>
+              <p className="mt-5 font-mono text-[0.78rem] tracking-[0.04em] text-signal-deep">
+                {totalOrgs} organizations
+              </p>
             </Reveal>
           </div>
         </div>
@@ -34,10 +41,10 @@ export default function Clients() {
                 {group.orgs.map((org, i) => (
                   <Reveal as="li" key={org.name} delay={Math.min(i, 6) * 0.04}>
                     <div className="border-t border-line pt-4">
-                      <span className="block font-display text-xl leading-none tracking-tight text-ink">
+                      <span className="block font-display text-2xl leading-none tracking-tight text-ink">
                         {org.short}
                       </span>
-                      <span className="mt-1.5 block text-[0.78rem] leading-snug text-muted">
+                      <span className="mt-2 block text-[0.78rem] leading-snug text-muted">
                         {org.name}
                       </span>
                     </div>

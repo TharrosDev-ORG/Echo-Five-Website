@@ -1,6 +1,4 @@
-"use client";
-
-import { motion, useReducedMotion } from "framer-motion";
+import type { CSSProperties } from "react";
 
 type Props = {
   /** Color of the emanating rings. */
@@ -10,13 +8,12 @@ type Props = {
 
 /**
  * The Echofive mark made motion: concentric rings emanating from a focal
- * point, like a signal propagating through an organization. Used as a
+ * point, like a signal propagating through an organization. Pings animate via
+ * CSS (`.echo-ping` in globals.css); reduced motion drops them. Used as a
  * structural watermark, never as foreground content (aria-hidden).
  */
 export default function EchoSignal({ tone = "signal", className }: Props) {
-  const reduce = useReducedMotion();
-  const stroke =
-    tone === "signal" ? "var(--color-signal)" : "var(--color-ink)";
+  const stroke = tone === "signal" ? "var(--color-signal)" : "var(--color-ink)";
 
   // Static structural rings, always present.
   const staticRings = [60, 130, 205, 285, 370];
@@ -49,25 +46,17 @@ export default function EchoSignal({ tone = "signal", className }: Props) {
         <line x1="300" y1="40" x2="300" y2="560" strokeWidth="1" opacity="0.07" />
         <line x1="40" y1="300" x2="560" y2="300" strokeWidth="1" opacity="0.07" />
 
-        {!reduce &&
-          pings.map((p) => (
-            <motion.circle
-              key={`p-${p}`}
-              cx="300"
-              cy="300"
-              r="40"
-              strokeWidth="1.5"
-              initial={{ scale: 0.12, opacity: 0.5 }}
-              animate={{ scale: 4.2, opacity: 0 }}
-              transition={{
-                duration: 6,
-                ease: [0.16, 1, 0.3, 1],
-                repeat: Infinity,
-                delay: p * 1.5,
-              }}
-              style={{ transformOrigin: "300px 300px" }}
-            />
-          ))}
+        {pings.map((p) => (
+          <circle
+            key={`p-${p}`}
+            className="echo-ping"
+            cx="300"
+            cy="300"
+            r="40"
+            strokeWidth="1.5"
+            style={{ "--ping-delay": `${p * 1.5}s` } as CSSProperties}
+          />
+        ))}
       </g>
     </svg>
   );

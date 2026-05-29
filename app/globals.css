@@ -148,9 +148,31 @@ a {
   padding-inline: clamp(1.25rem, 5vw, 4.5rem);
 }
 
-.section-pad {
-  padding-block: clamp(5.5rem, 12vw, 10.5rem);
+/* Spacing rhythm scale. Sections vary their vertical pad on purpose so the
+ * scroll has a beat: generous around pivots, tight where sections flow on. */
+:root {
+  --pad-2xl: clamp(7rem, 14vw, 12rem);
+  --pad-xl: clamp(5.5rem, 11vw, 9rem);
+  --pad-lg: clamp(4.5rem, 9vw, 7rem);
+  --pad-md: clamp(3rem, 6vw, 4.5rem);
+  --gutter-num: clamp(2.5rem, 7vw, 5.5rem); /* left margin reserved for big numerals */
 }
+
+.section-pad {
+  padding-block: var(--pad-xl);
+}
+.pad-block-2xl { padding-block: var(--pad-2xl); }
+.pad-block-xl { padding-block: var(--pad-xl); }
+.pad-block-lg { padding-block: var(--pad-lg); }
+.pad-block-md { padding-block: var(--pad-md); }
+.pad-top-2xl { padding-top: var(--pad-2xl); }
+.pad-top-xl { padding-top: var(--pad-xl); }
+.pad-top-lg { padding-top: var(--pad-lg); }
+.pad-top-md { padding-top: var(--pad-md); }
+.pad-bot-2xl { padding-bottom: var(--pad-2xl); }
+.pad-bot-xl { padding-bottom: var(--pad-xl); }
+.pad-bot-lg { padding-bottom: var(--pad-lg); }
+.pad-bot-md { padding-bottom: var(--pad-md); }
 
 /* Top hairline that frames a section block. */
 .rule-top {
@@ -241,6 +263,60 @@ a {
   animation-play-state: paused;
 }
 
+/* ----- Reveals (no animation library) -----
+ * Content is visible by default, so SSR, no-JS, crawlers, and headless renders
+ * never ship blank. The `js` class (set before paint in <head>) opts into the
+ * hidden->shown transition; IntersectionObserver adds `is-in` on scroll-in. */
+.reveal {
+  opacity: 1;
+}
+.js .reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--reveal-delay, 0s);
+}
+.js .reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Hero loads its own staggered entrance (above the fold, animates on mount). */
+@keyframes echo-rise {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.js .hero-rise {
+  animation: echo-rise 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--rise-delay, 0s);
+}
+
+/* The echo motif: rings emanating outward from the focal point. */
+@keyframes echo-ping {
+  from {
+    transform: scale(0.12);
+    opacity: 0.5;
+  }
+  to {
+    transform: scale(4.2);
+    opacity: 0;
+  }
+}
+.echo-ping {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: echo-ping 6s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  animation-delay: var(--ping-delay, 0s);
+}
+
 /* ----- Motion preferences ----- */
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -252,5 +328,16 @@ a {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
+  }
+  /* Keep revealed content visible; drop the decorative pings entirely. */
+  .js .reveal,
+  .js .hero-rise {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+  .echo-ping {
+    animation: none !important;
+    opacity: 0 !important;
   }
 }

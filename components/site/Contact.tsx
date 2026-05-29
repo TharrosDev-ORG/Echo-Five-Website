@@ -9,7 +9,7 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="section-pad relative isolate overflow-hidden bg-signal text-ink-deep"
+      className="pad-block-2xl relative isolate overflow-hidden bg-signal text-ink-deep"
     >
       <div className="pointer-events-none absolute inset-0 -z-10 flex justify-end opacity-[0.18]">
         <div className="h-[150%] w-[110%] -translate-y-[12%] translate-x-[20%]">

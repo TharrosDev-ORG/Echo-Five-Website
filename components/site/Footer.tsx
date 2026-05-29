@@ -7,8 +7,8 @@ export default function Footer() {
   return (
     <footer className="bg-ink-deep text-muted-on-dark">
       <div className="u-container py-16">
-        <div className="grid gap-10 md:grid-cols-12">
-          <div className="md:col-span-5">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-12">
+          <div className="sm:col-span-2 lg:col-span-5">
             <div className="flex items-center gap-2.5 text-paper">
               <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
                 <g fill="none" stroke="currentColor">
@@ -25,7 +25,7 @@ export default function Footer() {
             <p className="t-body mt-5 max-w-[34ch] text-muted-on-dark">{site.tagline}</p>
           </div>
 
-          <nav className="md:col-span-4" aria-label="Footer">
+          <nav className="lg:col-span-4" aria-label="Footer">
             <ul className="grid grid-cols-2 gap-y-2 font-mono text-[0.8rem] tracking-[0.04em]">
               {nav.map((item) => (
                 <li key={item.href}>
@@ -37,10 +37,10 @@ export default function Footer() {
             </ul>
           </nav>
 
-          <div className="md:col-span-3">
+          <div className="lg:col-span-3">
             <a
               href={`mailto:${site.email}`}
-              className="font-mono text-[0.8rem] tracking-[0.04em] text-paper transition-colors hover:text-signal"
+              className="break-words font-mono text-[0.8rem] tracking-[0.04em] text-paper transition-colors hover:text-signal"
             >
               {site.email}
             </a>
