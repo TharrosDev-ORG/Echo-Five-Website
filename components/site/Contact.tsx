@@ -1,7 +1,9 @@
 import Reveal from "@/components/site/Reveal";
 import EchoSignal from "@/components/motif/EchoSignal";
+import SectionMark from "@/components/site/SectionMark";
+import EmailActions from "@/components/site/EmailActions";
 import { contact } from "@/lib/content";
-import { site, mailtoBook } from "@/lib/site";
+import { mailtoBook } from "@/lib/site";
 
 export default function Contact() {
   return (
@@ -17,18 +19,7 @@ export default function Contact() {
 
       <div className="u-container">
         <Reveal>
-          <div className="flex items-center gap-3 text-ink-deep">
-            <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" className="shrink-0">
-              <g fill="none" stroke="currentColor">
-                <circle cx="12" cy="12" r="3.5" />
-                <circle cx="12" cy="12" r="9" opacity="0.5" />
-                <circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none" />
-              </g>
-            </svg>
-            <span className="font-mono text-[0.82rem] font-medium tabular-nums">{contact.index}</span>
-            <span className="h-px w-5 bg-ink-deep/30" aria-hidden="true" />
-            <span className="text-[0.9rem] font-medium text-ink-deep/80">{contact.kicker}</span>
-          </div>
+          <SectionMark index={contact.index} kicker={contact.kicker} tone="signal" />
         </Reveal>
         <Reveal delay={0.05}>
           <h2 className="t-display mt-8 max-w-[15ch]">{contact.heading}</h2>
@@ -38,13 +29,15 @@ export default function Contact() {
         </Reveal>
 
         <Reveal delay={0.15}>
-          <div className="mt-12 flex flex-col gap-8 border-t border-ink-deep/20 pt-8 sm:flex-row sm:items-center sm:justify-between">
-            <a
-              href={mailtoBook}
-              className="font-display text-[clamp(1.7rem,4vw,3rem)] leading-none tracking-tight underline-offset-[6px] transition-all hover:underline"
-            >
-              {site.email}
-            </a>
+          <div className="mt-12 flex flex-col gap-8 border-t border-ink-deep/20 pt-8 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="font-mono text-[0.72rem] uppercase tracking-[0.12em] text-ink-deep/60">
+                Write to the founder
+              </p>
+              <div className="mt-3">
+                <EmailActions />
+              </div>
+            </div>
             <a
               href={mailtoBook}
               className="btn border border-ink-deep bg-ink-deep text-paper hover:translate-y-[-2px]"

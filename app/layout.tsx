@@ -27,8 +27,8 @@ const mono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: "Echofive Solutions — Microsoft 365 change management",
-    template: "%s — Echofive Solutions",
+    default: "Echofive Solutions · Microsoft 365 change management",
+    template: "%s · Echofive Solutions",
   },
   description: site.description,
   applicationName: site.name,
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
   icons: { icon: "/favicon.svg" },
   alternates: { canonical: "/" },
   openGraph: {
-    title: "Echofive Solutions — Microsoft 365 change management",
+    title: "Echofive Solutions · Microsoft 365 change management",
     description: site.description,
     url: site.url,
     siteName: site.name,

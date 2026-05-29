@@ -5,7 +5,7 @@
 
 export const nav = [
   { label: "Approach", href: "#why" },
-  { label: "Method", href: "#process" },
+  { label: "Process", href: "#process" },
   { label: "Clients", href: "#clients" },
   { label: "Credentials", href: "#credentials" },
   { label: "Contact", href: "#contact" },

@@ -33,8 +33,8 @@ export default function Clients() {
               <ul className="grid grid-cols-2 gap-x-8 gap-y-9 sm:grid-cols-3 lg:col-span-9 lg:grid-cols-4">
                 {group.orgs.map((org, i) => (
                   <Reveal as="li" key={org.name} delay={Math.min(i, 6) * 0.04}>
-                    <div className="group cursor-default border-t border-line pt-4 transition-colors duration-300 hover:border-signal-deep">
-                      <span className="block font-display text-xl leading-none tracking-tight text-ink transition-colors duration-300 group-hover:text-signal-deep">
+                    <div className="border-t border-line pt-4">
+                      <span className="block font-display text-xl leading-none tracking-tight text-ink">
                         {org.short}
                       </span>
                       <span className="mt-1.5 block text-[0.78rem] leading-snug text-muted">
