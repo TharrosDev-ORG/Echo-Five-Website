@@ -5,7 +5,7 @@
 
 export const nav = [
   { label: "Approach", href: "#why" },
-  { label: "Services", href: "#services" },
+  { label: "Method", href: "#process" },
   { label: "Clients", href: "#clients" },
   { label: "Credentials", href: "#credentials" },
   { label: "Contact", href: "#contact" },
@@ -102,8 +102,43 @@ export const services = {
   ],
 };
 
-export const clients = {
+export const process = {
   index: "03",
+  kicker: "How adoption happens",
+  heading: "Adoption is a sequence, not a switch.",
+  intro:
+    "We run every engagement on the Prosci ADKAR model. Change lands only when each person moves through five states, in order. Miss one and the rollout stalls right there.",
+  stages: [
+    {
+      key: "A",
+      name: "Awareness",
+      body: "People understand why the change is happening, in their own terms.",
+    },
+    {
+      key: "D",
+      name: "Desire",
+      body: "They have a reason to take part, not just a mandate from above.",
+    },
+    {
+      key: "K",
+      name: "Knowledge",
+      body: "They know how to work the new way, step by step.",
+    },
+    {
+      key: "A",
+      name: "Ability",
+      body: "They can do it under real conditions, on a busy day.",
+    },
+    {
+      key: "R",
+      name: "Reinforcement",
+      body: "The new way sticks, and the old habits do not creep back.",
+    },
+  ],
+};
+
+export const clients = {
+  index: "04",
   kicker: "Selected clients",
   heading: "Trusted across government and enterprise.",
   intro:
@@ -152,7 +187,7 @@ export const clients = {
 };
 
 export const proof = {
-  index: "04",
+  index: "05",
   kicker: "On the record",
   heading: "Building the Plane While Flying It",
   sub: "Shared Services Canada Microsoft 365 user adoption during COVID-19, presented to the Government of Canada M365 Council.",
@@ -160,7 +195,7 @@ export const proof = {
 };
 
 export const method = {
-  index: "05",
+  index: "06",
   kicker: "How we make it measurable",
   heading: "Adoption you can see, not just hope for.",
   body: "We deliver with Advanta365, a Microsoft 365 adoption and governance platform that gives every programme structure: guided learning pathways, adoption analytics, and governance guardrails in one place. It means our clients watch adoption move week to week, instead of waiting for a survey that arrives too late to act on.",
@@ -168,7 +203,7 @@ export const method = {
 };
 
 export const credentials = {
-  index: "06",
+  index: "07",
   kicker: "Credentials",
   heading: "Certified, cleared, and accountable.",
   intro:
@@ -221,7 +256,7 @@ export const principal = {
 };
 
 export const contact = {
-  index: "07",
+  index: "08",
   kicker: "Start a conversation",
   heading: "Tell us what you are rolling out.",
   body: "Whether you are scoping a migration or trying to rescue an adoption that has stalled, we will tell you straight whether we can help. No pitch theatre.",

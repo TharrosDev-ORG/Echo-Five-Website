@@ -6,23 +6,29 @@ data fetching. Everything renders at build time.
 ## Render model
 
 - `app/layout.tsx` sets up the three font families, metadata, the `ProfessionalService`
-  JSON-LD block, the skip link, and the `js-on` class used for progressive enhancement.
+  JSON-LD block, and the skip link.
+- `app/opengraph-image.tsx` generates the 1200x630 social share card at build time via
+  `next/og` (no static asset to maintain).
 - `app/page.tsx` composes the sections in order:
-  `Nav → Hero → Why → Services → Clients → Proof → Method → Credentials → About →
-  Contact → Footer`.
+  `Nav → Hero → Marquee → Why → Services → Process → Clients → Proof → Method →
+  Credentials → About → Contact → Footer`.
 - Each section is its own component in `components/site/`.
 
 ## Server vs client components
 
-Server components by default. Four components are client (`"use client"`) because they
-need browser APIs or interaction:
+Server components by default. The client (`"use client"`) components need browser APIs
+or interaction:
 
 | Component | Why it is a client component |
 | --- | --- |
-| `Nav` | scroll state, mobile menu toggle, body scroll lock |
+| `Nav` | scroll state, mobile menu, body scroll lock, scrollspy (IntersectionObserver) |
 | `Hero` | Framer Motion staggered entrance |
+| `RadarHero` | canvas radar on `requestAnimationFrame`, pointer parallax |
 | `Proof` | click-to-load YouTube facade (`useState`) |
 | `EchoSignal` / `Reveal` | Framer Motion + `useReducedMotion` |
+
+`RadarHero` reads `prefers-reduced-motion` directly and draws a single static frame
+when motion is not wanted; it cleans up its RAF loop and listeners on unmount.
 
 Client components still server-render their initial HTML, so all copy is present in the
 first response (verified: the homepage HTML contains every headline and the client

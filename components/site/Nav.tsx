@@ -25,12 +25,27 @@ function Mark() {
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [active, setActive] = useState("");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const sections = nav
+      .map((n) => document.getElementById(n.href.slice(1)))
+      .filter((el): el is HTMLElement => el !== null);
+    const obs = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) if (e.isIntersecting) setActive(e.target.id);
+      },
+      { rootMargin: "-45% 0px -50% 0px" },
+    );
+    sections.forEach((s) => obs.observe(s));
+    return () => obs.disconnect();
   }, []);
 
   useEffect(() => {
@@ -52,15 +67,26 @@ export default function Nav() {
         <Mark />
 
         <nav className="hidden items-center gap-8 md:flex" aria-label="Primary">
-          {nav.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              className="font-mono text-[0.78rem] tracking-[0.06em] text-ink-soft transition-colors hover:text-ink"
-            >
-              {item.label}
-            </a>
-          ))}
+          {nav.map((item) => {
+            const isActive = active === item.href.slice(1);
+            return (
+              <a
+                key={item.href}
+                href={item.href}
+                aria-current={isActive ? "true" : undefined}
+                className={`group relative font-mono text-[0.78rem] tracking-[0.06em] transition-colors ${
+                  isActive ? "text-signal-deep" : "text-ink-soft hover:text-ink"
+                }`}
+              >
+                {item.label}
+                <span
+                  className={`absolute -bottom-1.5 left-0 h-px bg-signal-deep transition-all duration-300 ${
+                    isActive ? "w-full" : "w-0 group-hover:w-full group-hover:bg-line-strong"
+                  }`}
+                />
+              </a>
+            );
+          })}
           <a href={mailtoBook} className="btn btn-primary !py-2.5 !px-4">
             Book a conversation
           </a>

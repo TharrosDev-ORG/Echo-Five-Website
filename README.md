@@ -26,23 +26,26 @@ npm run build      # production build
 
 ```
 app/
-  layout.tsx        Fonts, metadata, JSON-LD, <head>
-  page.tsx          Section composition
-  globals.css       Design tokens (@theme) + base + utilities
+  layout.tsx           Fonts, metadata, JSON-LD, <head>
+  page.tsx             Section composition
+  opengraph-image.tsx  Generated 1200x630 social card (next/og)
+  globals.css          Design tokens (@theme) + base + utilities
 components/
-  motif/EchoSignal  The animated "echo" rings (brand watermark)
-  site/             Nav, Hero, Why, Services, Clients, Proof,
-                    Method, Credentials, About, Contact, Footer, Reveal
+  motif/RadarHero      Live canvas radar behind the hero
+  motif/EchoSignal     Static "echo" rings (brand watermark)
+  site/                Nav, Hero, Marquee, Why, Services, Process,
+                       Clients, Proof, Method, Credentials, About,
+                       Contact, Footer, Reveal, SectionMark
 lib/
-  site.ts           Site constants (name, email, URLs, video)
-  content.ts        All page copy and data
+  site.ts              Site constants (name, email, URLs, video)
+  content.ts           All page copy and data
 public/
   favicon.svg
 docs/
-  ARCHITECTURE.md   How the site is put together
-  CONTENT.md        Where each piece of copy lives
-PRODUCT.md          Brand context (impeccable register: brand)
-DESIGN.md           Design system reference
+  ARCHITECTURE.md      How the site is put together
+  CONTENT.md           Where each piece of copy lives
+PRODUCT.md             Brand context (impeccable register: brand)
+DESIGN.md              Design system reference
 ```
 
 ## Editing content

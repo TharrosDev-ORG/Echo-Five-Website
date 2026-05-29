@@ -1,7 +1,9 @@
 import Nav from "@/components/site/Nav";
 import Hero from "@/components/site/Hero";
+import Marquee from "@/components/site/Marquee";
 import Why from "@/components/site/Why";
 import Services from "@/components/site/Services";
+import Process from "@/components/site/Process";
 import Clients from "@/components/site/Clients";
 import Proof from "@/components/site/Proof";
 import Method from "@/components/site/Method";
@@ -16,8 +18,10 @@ export default function Home() {
       <Nav />
       <main id="main">
         <Hero />
+        <Marquee />
         <Why />
         <Services />
+        <Process />
         <Clients />
         <Proof />
         <Method />

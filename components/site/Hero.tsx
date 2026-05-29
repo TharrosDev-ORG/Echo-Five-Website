@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import EchoSignal from "@/components/motif/EchoSignal";
+import RadarHero from "@/components/motif/RadarHero";
 import { hero } from "@/lib/content";
 import { mailtoBook } from "@/lib/site";
 
@@ -28,13 +28,12 @@ export default function Hero() {
       id="top"
       className="relative isolate flex min-h-svh flex-col justify-center overflow-hidden bg-ink-deep text-paper"
     >
-      {/* Echo motif watermark */}
-      <div className="pointer-events-none absolute inset-0 -z-10 flex justify-end">
-        <div className="h-[140%] w-[140%] -translate-y-[8%] translate-x-[22%] opacity-90 sm:w-[90%] lg:w-[68%]">
-          <EchoSignal tone="signal" className="h-full w-full" />
-        </div>
+      {/* Live radar motif */}
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        <RadarHero className="h-full w-full" />
       </div>
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-r from-ink-deep via-ink-deep/85 to-transparent" />
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-r from-ink-deep via-ink-deep/80 to-transparent" />
+      <div className="grain pointer-events-none absolute inset-0 -z-10" />
 
       <motion.div
         className="u-container w-full pt-32 pb-24"

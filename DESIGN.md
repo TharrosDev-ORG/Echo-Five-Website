@@ -42,7 +42,10 @@ Body measure capped (`.measure`, `.measure-wide`).
 ## Layout
 
 - `.u-container`: max 80rem, fluid side padding `clamp(1.25rem, 5vw, 4.5rem)`.
-- `.section-pad`: vertical rhythm `clamp(5rem, 11vw, 9rem)`.
+- `.section-pad`: vertical rhythm `clamp(5.5rem, 12vw, 10.5rem)`.
+- Grounds alternate for rhythm. Dark (`bg-ink-deep`) lands on the hero, services,
+  proof, and credentials; the rest are warm paper, closing on the amber-drenched
+  contact. Dark grounds carry a faint `.grain` overlay for depth.
 - 12-column grids for asymmetric heading/body splits. Spacing varies by section on
   purpose; no uniform padding everywhere.
 - No decorative cards. Services and the failure points are **divided editorial lists**
@@ -52,18 +55,26 @@ Body measure capped (`.measure`, `.measure-wide`).
 
 - Entrance: fade + 18-22px rise, exponential ease-out `cubic-bezier(0.16, 1, 0.3, 1)`,
   `whileInView` once. No bounce, no elastic.
-- The echo motif: rings ping outward on a 6s loop, staggered.
-- Everything respects `prefers-reduced-motion` (Framer `useReducedMotion` + a global
-  CSS fallback). No animated layout properties.
+- The hero radar: a canvas sweep rotates, rings hold, blips light as the beam crosses
+  them, and the whole field parallaxes subtly toward the pointer.
+- The static echo motif (`EchoSignal`): rings ping outward on a 6s loop.
+- The client ticker: a 42s linear marquee, paused on hover.
+- Everything respects `prefers-reduced-motion` (Framer `useReducedMotion`, a direct
+  `matchMedia` check in the radar, and a global CSS fallback). No animated layout
+  properties.
 
 ## Components
 
-- `EchoSignal` — the brand watermark. `tone="signal" | "ink"`, always `aria-hidden`.
+- `RadarHero` — the live canvas radar behind the hero. Pointer parallax, reduced-motion
+  static frame, self-cleaning RAF loop.
+- `EchoSignal` — the static brand watermark. `tone="signal" | "ink"`, always `aria-hidden`.
 - `SectionMark` — the echo coordinate that opens each section (glyph + channel
   number + plainly-set label). One deliberate system, `tone="light" | "dark"`.
+- `Marquee` — the atmospheric client ticker (aria-hidden; the real roster is Clients).
 - `Reveal` — scroll-in wrapper, polymorphic (`div | li | section`).
 - Buttons: `.btn` with `.btn-primary` (amber), `.btn-ghost`, `.btn-on-dark`.
 - `.link-arrow` — mono underline link with a widening gap on hover.
+- `.grain` — film-grain overlay (SVG turbulence) for dark grounds.
 
 ## Accessibility
 

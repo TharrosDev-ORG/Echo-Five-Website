@@ -4,7 +4,8 @@ import { credentials } from "@/lib/content";
 
 export default function Credentials() {
   return (
-    <section id="credentials" className="section-pad bg-ink-deep text-paper">
+    <section id="credentials" className="section-pad relative isolate overflow-hidden bg-ink-deep text-paper">
+      <div className="grain pointer-events-none absolute inset-0 -z-10" />
       <div className="u-container">
         <div className="grid gap-x-12 gap-y-8 lg:grid-cols-12">
           <div className="lg:col-span-7">

@@ -10,19 +10,20 @@ export default function Proof() {
   const [playing, setPlaying] = useState(false);
 
   return (
-    <section id="proof" className="section-pad bg-paper-alt">
+    <section id="proof" className="section-pad relative isolate overflow-hidden bg-ink-deep text-paper">
+      <div className="grain pointer-events-none absolute inset-0 -z-10" />
       <div className="u-container">
         <div className="grid items-end gap-x-12 gap-y-8 lg:grid-cols-12">
           <div className="lg:col-span-8">
-            <SectionMark index={proof.index} kicker={proof.kicker} />
+            <SectionMark index={proof.index} kicker={proof.kicker} tone="dark" />
             <h2 className="t-h2 mt-7 max-w-[20ch] text-balance">{proof.heading}</h2>
           </div>
           <div className="lg:col-span-4 lg:pb-2">
-            <p className="t-body text-muted measure-wide">{proof.sub}</p>
+            <p className="t-body text-muted-on-dark measure-wide">{proof.sub}</p>
           </div>
         </div>
 
-        <div className="mt-12 overflow-hidden border border-line bg-ink-deep">
+        <div className="mt-12 overflow-hidden border border-line-dark bg-ink-deep">
           <div className="relative aspect-video">
             {playing ? (
               <iframe

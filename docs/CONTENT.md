@@ -7,14 +7,16 @@ Every word on the page comes from `lib/content.ts` (copy/data) or `lib/site.ts`
 | --- | --- | --- | --- |
 | — | Navigation | `Nav` | `nav`, `site` |
 | — | Hero | `Hero` | `hero`, `site` |
+| — | Client ticker | `Marquee` | `clients` (short names, aria-hidden) |
 | 01 | Why rollouts stall | `Why` | `why` |
 | 02 | Where we shine (services) | `Services` | `services` |
-| 03 | Selected clients | `Clients` | `clients` |
-| 04 | On the record (video) | `Proof` | `proof`, `site.video` |
-| 05 | How we make it measurable | `Method` | `method`, `site.advantaUrl` |
-| 06 | Credentials | `Credentials` | `credentials` |
+| 03 | How adoption happens (ADKAR) | `Process` | `process` |
+| 04 | Selected clients | `Clients` | `clients` |
+| 05 | On the record (video) | `Proof` | `proof`, `site.video` |
+| 06 | How we make it measurable | `Method` | `method`, `site.advantaUrl` |
+| 07 | Credentials | `Credentials` | `credentials` |
 | — | The firm + founder (about) | `About` | `about`, `principal` |
-| 07 | Contact | `Contact` | `contact`, `site` |
+| 08 | Contact | `Contact` | `contact`, `site` |
 | — | Footer | `Footer` | `footer`, `nav`, `site` |
 
 ## Constants worth knowing (`lib/site.ts`)
