@@ -1,26 +1,35 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------ *
- * Echofive Solutions — design tokens
- * Strategy: Committed. Ink carries weight, amber "signal" carries
- * meaning. Warm paper base. No blues, no teal, no gradients-as-decor.
+ * Echofive Solutions — "Operations / Instrument" design tokens
+ * Dark-first. Cool graphite grounds, one committed chromatic accent
+ * ("signal" green) that carries live/progress/CTA meaning. Mono labels
+ * read as instrument coordinates. No gradients-as-decor, no blue-on-white.
  * ------------------------------------------------------------------ */
 @theme {
-  --color-paper: oklch(0.978 0.007 80);
-  --color-paper-alt: oklch(0.949 0.011 74);
-  --color-ink: oklch(0.205 0.018 45);
-  --color-ink-deep: oklch(0.158 0.022 40);
-  --color-ink-soft: oklch(0.305 0.02 45);
-  --color-muted: oklch(0.44 0.015 50);
-  --color-muted-on-dark: oklch(0.72 0.018 70);
-  --color-signal: oklch(0.78 0.158 68);
-  --color-signal-deep: oklch(0.52 0.14 52);
-  --color-line: oklch(0.205 0.018 45 / 0.14);
-  --color-line-strong: oklch(0.205 0.018 45 / 0.26);
-  --color-line-dark: oklch(0.92 0.01 80 / 0.14);
+  /* Grounds (cool graphite, panel-elevation rhythm) */
+  --color-bg: oklch(0.17 0.012 250);
+  --color-bg-raised: oklch(0.205 0.014 250);
+  --color-bg-elev: oklch(0.245 0.016 250);
 
-  --font-display: var(--font-display), "Bricolage Grotesque", system-ui, sans-serif;
-  --font-sans: var(--font-sans), "Hanken Grotesk", system-ui, sans-serif;
+  /* Ink (cool near-white -> muted) */
+  --color-ink: oklch(0.96 0.008 250);
+  --color-ink-soft: oklch(0.8 0.012 250);
+  --color-ink-muted: oklch(0.64 0.013 250); /* AA on --color-bg */
+
+  /* Signal (the one committed accent) */
+  --color-signal: oklch(0.84 0.19 150);
+  --color-signal-bright: oklch(0.9 0.2 150);
+  --color-signal-deep: oklch(0.5 0.13 150); /* signal as text on light/signal grounds */
+  --color-ink-on-signal: oklch(0.19 0.03 155); /* dark ink on signal fills / drenched close */
+
+  /* Keylines */
+  --color-line: oklch(0.96 0.008 250 / 0.1);
+  --color-line-strong: oklch(0.96 0.008 250 / 0.2);
+  --color-line-signal: oklch(0.84 0.19 150 / 0.32);
+
+  --font-display: var(--font-display), "Archivo", system-ui, sans-serif;
+  --font-sans: var(--font-sans), "Geist", system-ui, sans-serif;
   --font-mono: var(--font-mono), "Geist Mono", ui-monospace, monospace;
 }
 
@@ -37,12 +46,12 @@ html {
 }
 
 body {
-  background: var(--color-paper);
+  background: var(--color-bg);
   color: var(--color-ink);
   font-family: var(--font-sans);
   font-size: 1.0625rem;
   line-height: 1.6;
-  font-feature-settings: "kern", "liga", "calt";
+  font-feature-settings: "kern", "liga", "calt", "ss01";
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
@@ -50,7 +59,7 @@ body {
 
 ::selection {
   background: var(--color-signal);
-  color: var(--color-ink-deep);
+  color: var(--color-ink-on-signal);
 }
 
 a {
@@ -60,7 +69,7 @@ a {
 
 /* ----- Accessibility ----- */
 :focus-visible {
-  outline: 2px solid var(--color-signal-deep);
+  outline: 2px solid var(--color-signal);
   outline-offset: 3px;
   border-radius: 2px;
 }
@@ -71,8 +80,8 @@ a {
   left: 0.75rem;
   z-index: 100;
   padding: 0.6rem 1rem;
-  background: var(--color-ink-deep);
-  color: var(--color-paper);
+  background: var(--color-signal);
+  color: var(--color-ink-on-signal);
   font-family: var(--font-mono);
   font-size: 0.8rem;
   transform: translateY(-150%);
@@ -90,54 +99,57 @@ a {
   font-family: var(--font-mono);
 }
 
-.t-label {
+/* Mono coordinate / instrument label */
+.t-coord {
   font-family: var(--font-mono);
   font-size: 0.74rem;
   font-weight: 500;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
 }
 
 .t-display {
   font-family: var(--font-display);
-  font-weight: 700;
-  font-size: clamp(2.7rem, 7.2vw, 6.2rem);
-  line-height: 0.99;
-  letter-spacing: -0.025em;
+  font-weight: 800;
+  font-size: clamp(2.3rem, 7.4vw, 6.4rem);
+  line-height: 0.96;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
 }
 
 .t-h2 {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(2rem, 4.6vw, 3.5rem);
-  line-height: 1.06;
-  letter-spacing: -0.022em;
+  font-size: clamp(1.95rem, 4.6vw, 3.5rem);
+  line-height: 1.04;
+  letter-spacing: -0.025em;
 }
 
 .t-h3 {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: clamp(1.3rem, 2vw, 1.65rem);
-  line-height: 1.12;
+  font-size: clamp(1.3rem, 2vw, 1.7rem);
+  line-height: 1.14;
   letter-spacing: -0.015em;
 }
 
 .t-lead {
-  font-size: clamp(1.18rem, 1.7vw, 1.5rem);
-  line-height: 1.46;
+  font-size: clamp(1.16rem, 1.7vw, 1.5rem);
+  line-height: 1.5;
   font-weight: 400;
+  color: var(--color-ink-soft);
 }
 
 .t-body {
   font-size: 1.0625rem;
-  line-height: 1.62;
+  line-height: 1.64;
 }
 
 .measure {
   max-width: 38ch;
 }
 .measure-wide {
-  max-width: 62ch;
+  max-width: 64ch;
 }
 
 /* ----- Layout ----- */
@@ -148,19 +160,15 @@ a {
   padding-inline: clamp(1.25rem, 5vw, 4.5rem);
 }
 
-/* Spacing rhythm scale. Sections vary their vertical pad on purpose so the
- * scroll has a beat: generous around pivots, tight where sections flow on. */
+/* Spacing rhythm scale: sections vary vertical pad so the scroll has a beat. */
 :root {
   --pad-2xl: clamp(7rem, 14vw, 12rem);
   --pad-xl: clamp(5.5rem, 11vw, 9rem);
   --pad-lg: clamp(4.5rem, 9vw, 7rem);
   --pad-md: clamp(3rem, 6vw, 4.5rem);
-  --gutter-num: clamp(2.5rem, 7vw, 5.5rem); /* left margin reserved for big numerals */
+  --gutter-num: clamp(2.5rem, 7vw, 5rem);
 }
 
-.section-pad {
-  padding-block: var(--pad-xl);
-}
 .pad-block-2xl { padding-block: var(--pad-2xl); }
 .pad-block-xl { padding-block: var(--pad-xl); }
 .pad-block-lg { padding-block: var(--pad-lg); }
@@ -168,60 +176,78 @@ a {
 .pad-top-2xl { padding-top: var(--pad-2xl); }
 .pad-top-xl { padding-top: var(--pad-xl); }
 .pad-top-lg { padding-top: var(--pad-lg); }
-.pad-top-md { padding-top: var(--pad-md); }
 .pad-bot-2xl { padding-bottom: var(--pad-2xl); }
 .pad-bot-xl { padding-bottom: var(--pad-xl); }
 .pad-bot-lg { padding-bottom: var(--pad-lg); }
-.pad-bot-md { padding-bottom: var(--pad-md); }
 
-/* Top hairline that frames a section block. */
 .rule-top {
   border-top: 1px solid var(--color-line);
+}
+
+/* ----- Atmosphere: faint instrument grid + grain ----- */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, var(--color-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-line) 1px, transparent 1px);
+  background-size: clamp(56px, 7vw, 88px) clamp(56px, 7vw, 88px);
+}
+.grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+}
+
+/* ----- Panels (elevation rhythm instead of light/dark flips) ----- */
+.panel {
+  background: var(--color-bg-raised);
+  border: 1px solid var(--color-line);
+}
+.panel-elev {
+  background: var(--color-bg-elev);
+  border: 1px solid var(--color-line-strong);
 }
 
 /* ----- Buttons ----- */
 .btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.6rem;
   font-family: var(--font-mono);
   font-size: 0.82rem;
   font-weight: 500;
   letter-spacing: 0.04em;
-  padding: 0.95rem 1.5rem;
+  padding: 0.95rem 1.6rem;
   border: 1px solid transparent;
   transition:
-    background 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-    color 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-    border-color 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    background 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .btn-primary {
   background: var(--color-signal);
-  color: var(--color-ink-deep);
+  color: var(--color-ink-on-signal);
+  font-weight: 600;
 }
 .btn-primary:hover {
   transform: translateY(-2px);
-  background: oklch(0.83 0.16 70);
+  background: var(--color-signal-bright);
+  box-shadow: 0 0 0 1px var(--color-signal), 0 14px 40px -16px var(--color-signal);
 }
 .btn-ghost {
   border-color: var(--color-line-strong);
   color: var(--color-ink);
 }
 .btn-ghost:hover {
-  border-color: var(--color-ink);
-  transform: translateY(-2px);
-}
-.btn-on-dark {
-  border-color: var(--color-line-dark);
-  color: var(--color-paper);
-}
-.btn-on-dark:hover {
   border-color: var(--color-signal);
   color: var(--color-signal);
+  transform: translateY(-2px);
 }
 
-/* The animated underline arrow link. */
+/* Mono underline link with a widening gap on hover. */
 .link-arrow {
   display: inline-flex;
   align-items: center;
@@ -229,44 +255,99 @@ a {
   font-family: var(--font-mono);
   font-size: 0.82rem;
   letter-spacing: 0.04em;
-  color: var(--color-signal-deep);
-  border-bottom: 1px solid currentColor;
-  padding-bottom: 2px;
-  transition: gap 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  color: var(--color-signal);
+  border-bottom: 1px solid var(--color-line-signal);
+  padding-bottom: 3px;
+  transition:
+    gap 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.4s ease;
 }
 .link-arrow:hover {
   gap: 0.85rem;
+  border-color: var(--color-signal);
 }
 
-/* ----- Film grain (dark grounds only) ----- */
-.grain {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 160px 160px;
-  opacity: 0.06;
+/* Status dot: the "live" pulse used in nav + section coordinates. */
+.status-dot {
+  position: relative;
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-signal);
+}
+.status-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--color-signal);
+  animation: pulse-ring 2.4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: 0.7; }
+  100% { transform: scale(3.4); opacity: 0; }
 }
 
-/* ----- Marquee ----- */
+/* ----- Marquee (trust strip ticker) ----- */
 @keyframes marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }
 .marquee-track {
   display: flex;
   width: max-content;
-  animation: marquee 42s linear infinite;
+  animation: marquee 46s linear infinite;
 }
 .marquee:hover .marquee-track {
   animation-play-state: paused;
 }
 
-/* ----- Reveals (no animation library) -----
- * Content is visible by default, so SSR, no-JS, crawlers, and headless renders
- * never ship blank. The `js` class (set before paint in <head>) opts into the
- * hidden->shown transition; IntersectionObserver adds `is-in` on scroll-in. */
+/* ----- Client grid scanline ----- */
+@keyframes scan {
+  0% { transform: translateY(-100%); opacity: 0; }
+  12% { opacity: 1; }
+  88% { opacity: 1; }
+  100% { transform: translateY(2400%); opacity: 0; }
+}
+.scanline {
+  animation: scan 7s linear infinite;
+}
+
+/* ----- ADKAR stepper fill ----- */
+.stepper-rail {
+  position: relative;
+  background: var(--color-line-strong);
+}
+.stepper-fill {
+  position: absolute;
+  inset: 0;
+  transform-origin: left center;
+  transform: scaleX(0);
+  background: var(--color-signal);
+  transition: transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.stepper-on .stepper-fill {
+  transform: scaleX(1);
+}
+.stepper-node {
+  background: var(--color-bg-elev);
+  border: 1px solid var(--color-line-strong);
+  color: var(--color-ink-muted);
+  transition:
+    background 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--node-delay, 0s);
+}
+.stepper-on .stepper-node.lit {
+  background: var(--color-signal);
+  border-color: var(--color-signal);
+  color: var(--color-ink-on-signal);
+}
+
+/* ----- Reveals (no animation library) ----- */
 .reveal {
   opacity: 1;
 }
@@ -283,38 +364,23 @@ a {
   transform: none;
 }
 
-/* Hero loads its own staggered entrance (above the fold, animates on mount). */
+/* Hero staggered entrance (above the fold, animates on mount). */
 @keyframes echo-rise {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
+  from { opacity: 0; transform: translateY(22px); }
+  to { opacity: 1; transform: none; }
 }
 .js .hero-rise {
-  animation: echo-rise 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: echo-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
   animation-delay: var(--rise-delay, 0s);
 }
 
-/* The echo motif: rings emanating outward from the focal point. */
-@keyframes echo-ping {
-  from {
-    transform: scale(0.12);
-    opacity: 0.5;
-  }
-  to {
-    transform: scale(4.2);
-    opacity: 0;
-  }
+/* Sticky CTA slide-in */
+.sticky-cta {
+  transform: translateY(140%);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.echo-ping {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: echo-ping 6s cubic-bezier(0.16, 1, 0.3, 1) infinite;
-  animation-delay: var(--ping-delay, 0s);
+.sticky-cta.is-shown {
+  transform: translateY(0);
 }
 
 /* ----- Motion preferences ----- */
@@ -329,15 +395,20 @@ a {
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
   }
-  /* Keep revealed content visible; drop the decorative pings entirely. */
   .js .reveal,
   .js .hero-rise {
     opacity: 1 !important;
     transform: none !important;
     animation: none !important;
   }
-  .echo-ping {
-    animation: none !important;
-    opacity: 0 !important;
+  .status-dot::after,
+  .scanline {
+    display: none !important;
+  }
+  .stepper-fill {
+    transform: scaleX(1) !important;
+  }
+  .sticky-cta {
+    transform: translateY(0) !important;
   }
 }

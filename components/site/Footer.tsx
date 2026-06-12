@@ -5,16 +5,15 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-ink-deep text-muted-on-dark">
+    <footer className="rule-top bg-bg text-ink-muted">
       <div className="u-container py-16">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-12">
           <div className="sm:col-span-2 lg:col-span-5">
-            <div className="flex items-center gap-2.5 text-paper">
-              <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
-                <g fill="none" stroke="currentColor">
+            <div className="flex items-center gap-2.5 text-ink">
+              <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" className="text-signal">
+                <g fill="none" stroke="currentColor" strokeWidth="1.5">
                   <circle cx="12" cy="12" r="3" />
-                  <circle cx="12" cy="12" r="7" opacity="0.55" />
-                  <circle cx="12" cy="12" r="11" opacity="0.28" />
+                  <circle cx="12" cy="12" r="7.5" opacity="0.5" />
                   <circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none" />
                 </g>
               </svg>
@@ -22,7 +21,7 @@ export default function Footer() {
                 {site.callsign}
               </span>
             </div>
-            <p className="t-body mt-6 max-w-[34ch] text-muted-on-dark">{site.tagline}</p>
+            <p className="t-body mt-6 max-w-[34ch] text-ink-muted">{site.tagline}</p>
           </div>
 
           <nav className="lg:col-span-4" aria-label="Footer">
@@ -40,7 +39,7 @@ export default function Footer() {
           <div className="lg:col-span-3">
             <a
               href={`mailto:${site.email}`}
-              className="break-words font-mono text-[0.8rem] tracking-[0.04em] text-paper transition-colors hover:text-signal"
+              className="break-words font-mono text-[0.8rem] tracking-[0.04em] text-ink transition-colors hover:text-signal"
             >
               {site.email}
             </a>
@@ -48,7 +47,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col gap-4 border-t border-line-dark pt-6 text-[0.74rem] leading-relaxed md:flex-row md:items-start md:justify-between">
+        <div className="mt-14 flex flex-col gap-4 border-t border-line pt-6 text-[0.74rem] leading-relaxed md:flex-row md:items-start md:justify-between">
           <p className="font-mono tracking-[0.04em]">
             &copy; {year} {site.legalName}
           </p>

@@ -1,20 +1,20 @@
-import type { Metadata } from "next";
-import { Bricolage_Grotesque, Hanken_Grotesk, Geist_Mono } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Archivo, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { site } from "@/lib/site";
 
-const display = Bricolage_Grotesque({
+const display = Archivo({
   subsets: ["latin"],
   variable: "--font-display",
   display: "swap",
   weight: ["500", "600", "700", "800"],
 });
 
-const sans = Hanken_Grotesk({
+const sans = Geist({
   subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600"],
 });
 
 const mono = Geist_Mono({
@@ -54,6 +54,11 @@ export const metadata: Metadata = {
     type: "website",
   },
   robots: { index: true, follow: true },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0a0d12",
+  colorScheme: "dark",
 };
 
 const jsonLd = {
