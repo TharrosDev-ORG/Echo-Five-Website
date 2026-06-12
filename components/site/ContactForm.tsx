@@ -6,8 +6,9 @@ import { site, mailtoBook } from "@/lib/site";
 type Status = "idle" | "submitting" | "success" | "error";
 type FieldErrors = Partial<Record<"name" | "email" | "message", string>>;
 
+/* Dark fields on the signal-drenched close. */
 const fieldBase =
-  "w-full bg-bg text-ink placeholder:text-ink-muted border border-ink-on-signal/25 px-4 py-3 font-sans text-[1rem] outline-none transition-colors focus:border-bg focus:ring-2 focus:ring-bg";
+  "w-full bg-bg-deep text-ink placeholder:text-ink-muted border border-ink-on-signal/30 px-4 py-3 font-sans text-[1rem] outline-none transition-colors focus:border-bg-deep focus:ring-2 focus:ring-bg-deep";
 
 export default function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
@@ -65,12 +66,12 @@ export default function ContactForm() {
   if (status === "success") {
     return (
       <div
-        className="panel-elev flex flex-col items-start gap-4 p-8"
+        className="flex flex-col items-start gap-4 border border-ink-on-signal/25 bg-bg-deep p-8 text-ink"
         role="status"
         aria-live="polite"
       >
         <span className="status-dot" aria-hidden="true" />
-        <p className="t-h3 text-ink">Message sent.</p>
+        <p className="t-h3">Message sent.</p>
         <p className="t-body text-ink-muted">
           Thank you. Your note has reached Mark directly. You can expect a straight answer, usually
           within one business day.
@@ -89,7 +90,7 @@ export default function ContactForm() {
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label htmlFor="name" className="block t-coord text-ink-on-signal">
+          <label htmlFor="name" className="t-coord block">
             Name
           </label>
           <input
@@ -104,14 +105,14 @@ export default function ContactForm() {
             className={`mt-2 ${fieldBase}`}
           />
           {errors.name ? (
-            <p id="name-error" className="mt-2 font-mono text-[0.74rem] text-bg">
+            <p id="name-error" className="mt-2 font-mono text-[0.74rem] font-medium">
               {errors.name}
             </p>
           ) : null}
         </div>
 
         <div>
-          <label htmlFor="organization" className="block t-coord text-ink-on-signal">
+          <label htmlFor="organization" className="t-coord block">
             Organization
           </label>
           <input
@@ -125,7 +126,7 @@ export default function ContactForm() {
       </div>
 
       <div>
-        <label htmlFor="email" className="block t-coord text-ink-on-signal">
+        <label htmlFor="email" className="t-coord block">
           Email
         </label>
         <input
@@ -140,14 +141,14 @@ export default function ContactForm() {
           className={`mt-2 ${fieldBase}`}
         />
         {errors.email ? (
-          <p id="email-error" className="mt-2 font-mono text-[0.74rem] text-bg">
+          <p id="email-error" className="mt-2 font-mono text-[0.74rem] font-medium">
             {errors.email}
           </p>
         ) : null}
       </div>
 
       <div>
-        <label htmlFor="message" className="block t-coord text-ink-on-signal">
+        <label htmlFor="message" className="t-coord block">
           What are you rolling out?
         </label>
         <textarea
@@ -161,7 +162,7 @@ export default function ContactForm() {
           className={`mt-2 resize-y ${fieldBase}`}
         />
         {errors.message ? (
-          <p id="message-error" className="mt-2 font-mono text-[0.74rem] text-bg">
+          <p id="message-error" className="mt-2 font-mono text-[0.74rem] font-medium">
             {errors.message}
           </p>
         ) : null}
@@ -171,17 +172,13 @@ export default function ContactForm() {
         <button
           type="submit"
           disabled={status === "submitting"}
-          className="btn bg-bg text-signal hover:bg-ink-on-signal disabled:opacity-60"
+          className="btn bg-bg-deep text-signal hover:bg-bg disabled:opacity-60"
         >
           {status === "submitting" ? "Sending..." : "Send message"}
         </button>
 
         {/* Live status for screen readers + visible error / fallback. */}
-        <p
-          role="status"
-          aria-live="polite"
-          className="font-mono text-[0.78rem] text-ink-on-signal"
-        >
+        <p role="status" aria-live="polite" className="font-mono text-[0.78rem] font-medium">
           {message}
           {fallback ? (
             <>

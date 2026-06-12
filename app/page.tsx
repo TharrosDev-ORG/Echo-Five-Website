@@ -3,36 +3,40 @@ import Hero from "@/components/site/Hero";
 import TrustStrip from "@/components/site/TrustStrip";
 import Why from "@/components/site/Why";
 import Services from "@/components/site/Services";
-import AdkarStepper from "@/components/site/AdkarStepper";
+import Adkar from "@/components/site/Adkar";
 import Method from "@/components/site/Method";
 import Proof from "@/components/site/Proof";
-import ClientGrid from "@/components/site/ClientGrid";
+import Clients from "@/components/site/Clients";
 import Credentials from "@/components/site/Credentials";
 import About from "@/components/site/About";
 import Contact from "@/components/site/Contact";
 import Footer from "@/components/site/Footer";
 import StickyCTA from "@/components/site/StickyCTA";
+import ScrollFX from "@/components/site/ScrollFX";
 
-export default function Home() {
+/**
+ * One-page scroll narrative: problem → solution → proof → trust → ask.
+ */
+export default function Page() {
   return (
     <>
       <Nav />
       <main id="main">
-        {/* Problem -> solution -> how -> proof -> trust -> ask */}
         <Hero />
         <TrustStrip />
         <Why />
         <Services />
-        <AdkarStepper />
+        <Adkar />
         <Method />
         <Proof />
-        <ClientGrid />
+        <Clients />
         <Credentials />
         <About />
         <Contact />
       </main>
-      <StickyCTA />
       <Footer />
+      <StickyCTA />
+      <ScrollFX />
     </>
   );
 }

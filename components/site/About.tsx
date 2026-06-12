@@ -1,58 +1,46 @@
-import Reveal from "@/components/site/Reveal";
-import SectionMark from "@/components/site/SectionMark";
 import { about, principal } from "@/lib/content";
 
 export default function About() {
   return (
-    <section id="about" className="rule-top bg-bg-raised pad-block-2xl">
-      <div className="u-container grid gap-x-12 gap-y-12 lg:grid-cols-12">
-        <div className="lg:col-span-6">
-          <Reveal>
-            <SectionMark kicker={about.kicker} />
-          </Reveal>
-          <Reveal delay={0.05}>
-            <h2 className="t-display mt-9 text-[clamp(2.2rem,6vw,4.6rem)]">
-              <span className="block">{about.heading[0]}</span>
-              <span className="block">{about.heading[1]}</span>
-              <span className="block text-signal">{about.heading[2]}</span>
-            </h2>
-          </Reveal>
-        </div>
-        <div className="flex flex-col gap-7 lg:col-span-5 lg:col-start-8 lg:pt-3">
-          {about.body.map((p, i) => (
-            <Reveal key={i} delay={0.1 + i * 0.06}>
-              <p className={i === 0 ? "t-lead text-ink" : "t-body text-ink-muted"}>{p}</p>
-            </Reveal>
-          ))}
-        </div>
-      </div>
-
-      {/* Who you'll be working with */}
-      <div className="u-container mt-20 lg:mt-28">
-        <Reveal>
-          <div className="panel grid gap-x-12 gap-y-8 p-8 sm:p-10 lg:grid-cols-12">
-            <div className="flex items-center gap-5 lg:col-span-5">
-              <div
-                className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-line-signal font-display text-xl font-bold text-signal"
-                aria-hidden="true"
-              >
-                {principal.monogram}
-              </div>
-              <div>
-                <p className="font-display text-xl font-semibold text-ink">{principal.name}</p>
-                <p className="mt-2 font-mono text-[0.78rem] uppercase tracking-[0.12em] text-ink-muted">
-                  {principal.role}
-                </p>
-              </div>
-            </div>
-            <div className="lg:col-span-7">
-              <p className="t-body text-ink-muted measure-wide">{principal.bio}</p>
-              <p className="mt-6 font-mono text-[0.78rem] tracking-[0.03em] text-signal">
-                {principal.credentials}
+    <section id="about" className="pad-block-2xl rule-top bg-bg-deep" aria-labelledby="about-heading">
+      <div className="u-container grid items-start gap-x-16 gap-y-12 lg:grid-cols-[1.2fr_1fr]">
+        <div data-reveal-group>
+          <p data-reveal className="t-coord flex items-baseline gap-4 text-ink-muted">
+            <span className="text-signal">/</span>
+            {about.kicker}
+          </p>
+          <h2 id="about-heading" className="t-h2 mt-7 text-ink">
+            {about.heading.map((line, i) => (
+              <span key={line} data-reveal className={`block ${i === 2 ? "text-signal" : ""}`}>
+                {line}
+              </span>
+            ))}
+          </h2>
+          <div className="mt-9 flex max-w-[60ch] flex-col gap-5">
+            {about.body.map((para) => (
+              <p key={para.slice(0, 24)} data-reveal className="t-body text-ink-soft">
+                {para}
               </p>
+            ))}
+          </div>
+        </div>
+
+        <aside data-reveal="scale" className="panel-elev p-8 md:p-10 lg:mt-16" aria-label="Principal">
+          <div className="flex items-center gap-5">
+            <span
+              aria-hidden="true"
+              className="flex h-16 w-16 items-center justify-center border border-line-signal bg-bg-deep font-display text-xl font-[700] text-signal"
+            >
+              {principal.monogram}
+            </span>
+            <div>
+              <h3 className="t-h3 text-ink">{principal.name}</h3>
+              <p className="t-coord mt-1 text-ink-muted">{principal.role}</p>
             </div>
           </div>
-        </Reveal>
+          <p className="t-body mt-7 text-ink-soft">{principal.bio}</p>
+          <p className="t-coord mt-7 border-t border-line pt-5 text-signal">{principal.credentials}</p>
+        </aside>
       </div>
     </section>
   );
