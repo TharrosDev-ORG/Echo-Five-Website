@@ -1,60 +1,59 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
+import { gsap, EASE } from "@/lib/animation";
+import { contact } from "@/lib/content";
 
 /**
- * A slim persistent "Book a conversation" affordance. Appears once the hero is
- * scrolled past and retracts while the contact section (its destination) is on
- * screen, so it never competes with the form.
+ * Slim persistent ask. Slides in once the hero is passed, retreats when
+ * the contact section arrives (the real CTA takes over). Stays hidden
+ * under reduced motion — nav and contact already carry the action.
  */
 export default function StickyCTA() {
-  const [shown, setShown] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    let contactVisible = false;
+    const el = ref.current;
+    if (!el) return;
+    const mm = gsap.matchMedia();
 
-    const onScroll = () => {
-      const pastHero = window.scrollY > window.innerHeight * 0.85;
-      setShown(pastHero && !contactVisible);
-    };
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
+      gsap.set(el, { yPercent: 130 });
+      let shown = false;
 
-    const contact = document.getElementById("contact");
-    let io: IntersectionObserver | undefined;
-    if (contact && "IntersectionObserver" in window) {
-      io = new IntersectionObserver(
-        (entries) => {
-          for (const e of entries) contactVisible = e.isIntersecting;
-          onScroll();
-        },
-        { rootMargin: "0px 0px -25% 0px" },
-      );
-      io.observe(contact);
-    }
+      const update = () => {
+        const pastHero = window.scrollY > window.innerHeight * 0.9;
+        const contactEl = document.getElementById("contact");
+        const contactNear = contactEl
+          ? contactEl.getBoundingClientRect().top < window.innerHeight * 0.85
+          : false;
+        const next = pastHero && !contactNear;
+        if (next !== shown) {
+          shown = next;
+          gsap.to(el, { yPercent: next ? 0 : 130, duration: 0.6, ease: EASE, overwrite: true });
+        }
+      };
 
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      io?.disconnect();
-    };
+      update();
+      window.addEventListener("scroll", update, { passive: true });
+      return () => window.removeEventListener("scroll", update);
+    });
+
+    return () => mm.revert();
   }, []);
 
   return (
-    <div className="pointer-events-none fixed inset-x-0 bottom-0 z-40 flex justify-center px-4 pb-4 sm:justify-end sm:pr-6">
+    <div
+      ref={ref}
+      className="pointer-events-none fixed inset-x-0 bottom-5 z-40 flex justify-center px-4"
+      style={{ transform: "translateY(130%)" }}
+    >
       <a
         href="#contact"
-        className={`sticky-cta btn btn-primary pointer-events-auto shadow-[0_18px_50px_-18px_var(--color-signal)] ${
-          shown ? "is-shown" : ""
-        }`}
-        aria-hidden={!shown}
-        tabIndex={shown ? 0 : -1}
+        className="btn btn-primary pointer-events-auto shadow-[0_18px_50px_-18px_var(--color-signal)]"
       >
-        <span
-          className="status-dot"
-          style={{ background: "var(--color-ink-on-signal)" }}
-          aria-hidden="true"
-        />
-        Book a conversation
+        {contact.cta}
+        <span aria-hidden="true">→</span>
       </a>
     </div>
   );

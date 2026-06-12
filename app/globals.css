@@ -1,48 +1,46 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------ *
- * Echofive Solutions — "Operations / Instrument" design tokens
- * Dark-first. Cool graphite grounds, one committed chromatic accent
- * ("signal" green) that carries live/progress/CTA meaning. Mono labels
- * read as instrument coordinates. No gradients-as-decor, no blue-on-white.
+ * Echofive Solutions — "Deep Field / Sonar"
+ * Ground-zero rebuild. Near-black ink-navy depth field, one electric
+ * cyan "signal" accent carrying the echo/sonar callsign. Bricolage
+ * Grotesque display, Public Sans body, IBM Plex Mono coordinates.
+ * Motion: GSAP ScrollTrigger narrative + Three.js echo field hero.
  * ------------------------------------------------------------------ */
 @theme {
-  /* Grounds (cool graphite, panel-elevation rhythm) */
-  --color-bg: oklch(0.17 0.012 250);
-  --color-bg-raised: oklch(0.205 0.014 250);
-  --color-bg-elev: oklch(0.245 0.016 250);
+  /* Grounds: a depth field, darkest at the poles (hero / contact) */
+  --color-bg: oklch(0.165 0.022 252);
+  --color-bg-deep: oklch(0.125 0.02 254);
+  --color-bg-raised: oklch(0.2 0.024 252);
+  --color-bg-elev: oklch(0.24 0.026 250);
 
-  /* Ink (cool near-white -> muted) */
-  --color-ink: oklch(0.96 0.008 250);
-  --color-ink-soft: oklch(0.8 0.012 250);
-  --color-ink-muted: oklch(0.64 0.013 250); /* AA on --color-bg */
+  /* Ink */
+  --color-ink: oklch(0.965 0.006 230);
+  --color-ink-soft: oklch(0.81 0.014 235);
+  --color-ink-muted: oklch(0.66 0.02 238); /* AA on bg + bg-deep */
 
-  /* Signal (the one committed accent) */
-  --color-signal: oklch(0.84 0.19 150);
-  --color-signal-bright: oklch(0.9 0.2 150);
-  --color-signal-deep: oklch(0.5 0.13 150); /* signal as text on light/signal grounds */
-  --color-ink-on-signal: oklch(0.19 0.03 155); /* dark ink on signal fills / drenched close */
+  /* Signal: electric ice cyan — the echo */
+  --color-signal: oklch(0.85 0.131 210);
+  --color-signal-bright: oklch(0.92 0.105 203);
+  --color-ink-on-signal: oklch(0.17 0.05 240); /* dark ink on signal fills */
 
   /* Keylines */
-  --color-line: oklch(0.96 0.008 250 / 0.1);
-  --color-line-strong: oklch(0.96 0.008 250 / 0.2);
-  --color-line-signal: oklch(0.84 0.19 150 / 0.32);
+  --color-line: oklch(0.965 0.006 230 / 0.09);
+  --color-line-strong: oklch(0.965 0.006 230 / 0.18);
+  --color-line-signal: oklch(0.85 0.131 210 / 0.35);
 
-  --font-display: var(--font-display), "Archivo", system-ui, sans-serif;
-  --font-sans: var(--font-sans), "Geist", system-ui, sans-serif;
-  --font-mono: var(--font-mono), "Geist Mono", ui-monospace, monospace;
+  --font-display: var(--font-display), "Bricolage Grotesque", system-ui, sans-serif;
+  --font-sans: var(--font-sans), "Public Sans", system-ui, sans-serif;
+  --font-mono: var(--font-mono), "IBM Plex Mono", ui-monospace, monospace;
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+/* No universal reset here: Tailwind v4 preflight already zeroes margins and
+   sets border-box, and an unlayered `*` rule would override every layered
+   spacing utility. */
 
 html {
-  scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
-  scroll-padding-top: 5.5rem;
+  scroll-padding-top: 6rem;
 }
 
 body {
@@ -50,11 +48,10 @@ body {
   color: var(--color-ink);
   font-family: var(--font-sans);
   font-size: 1.0625rem;
-  line-height: 1.6;
-  font-feature-settings: "kern", "liga", "calt", "ss01";
+  line-height: 1.62;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 ::selection {
@@ -78,7 +75,7 @@ a {
   position: fixed;
   top: 0.75rem;
   left: 0.75rem;
-  z-index: 100;
+  z-index: 200;
   padding: 0.6rem 1rem;
   background: var(--color-signal);
   color: var(--color-ink-on-signal);
@@ -91,7 +88,7 @@ a {
   transform: translateY(0);
 }
 
-/* ----- Typography helpers ----- */
+/* ----- Typography ----- */
 .font-display {
   font-family: var(--font-display);
 }
@@ -99,106 +96,96 @@ a {
   font-family: var(--font-mono);
 }
 
-/* Mono coordinate / instrument label */
+/* Mono coordinate label: section index, nav, form labels */
 .t-coord {
   font-family: var(--font-mono);
-  font-size: 0.74rem;
+  font-size: 0.75rem;
   font-weight: 500;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
 }
 
 .t-display {
   font-family: var(--font-display);
-  font-weight: 800;
-  font-size: clamp(2.3rem, 7.4vw, 6.4rem);
-  line-height: 0.96;
-  letter-spacing: -0.03em;
+  font-weight: 750;
+  font-size: clamp(2.5rem, 8.6vw, 7rem);
+  line-height: 0.98;
+  letter-spacing: -0.028em;
   text-wrap: balance;
 }
 
 .t-h2 {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(1.95rem, 4.6vw, 3.5rem);
-  line-height: 1.04;
-  letter-spacing: -0.025em;
+  font-size: clamp(2rem, 5vw, 3.8rem);
+  line-height: 1.02;
+  letter-spacing: -0.022em;
+  text-wrap: balance;
 }
 
 .t-h3 {
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: clamp(1.3rem, 2vw, 1.7rem);
+  font-weight: 620;
+  font-size: clamp(1.32rem, 2.1vw, 1.75rem);
   line-height: 1.14;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.012em;
 }
 
 .t-lead {
-  font-size: clamp(1.16rem, 1.7vw, 1.5rem);
+  font-size: clamp(1.18rem, 1.7vw, 1.5rem);
   line-height: 1.5;
-  font-weight: 400;
   color: var(--color-ink-soft);
+  text-wrap: pretty;
 }
 
 .t-body {
   font-size: 1.0625rem;
-  line-height: 1.64;
+  line-height: 1.66;
 }
 
 .measure {
-  max-width: 38ch;
+  max-width: 40ch;
 }
 .measure-wide {
-  max-width: 64ch;
+  max-width: 62ch;
 }
 
 /* ----- Layout ----- */
 .u-container {
   width: 100%;
-  max-width: 80rem;
+  max-width: 82rem;
   margin-inline: auto;
   padding-inline: clamp(1.25rem, 5vw, 4.5rem);
 }
 
-/* Spacing rhythm scale: sections vary vertical pad so the scroll has a beat. */
 :root {
-  --pad-2xl: clamp(7rem, 14vw, 12rem);
+  --pad-2xl: clamp(7rem, 14vw, 12.5rem);
   --pad-xl: clamp(5.5rem, 11vw, 9rem);
   --pad-lg: clamp(4.5rem, 9vw, 7rem);
-  --pad-md: clamp(3rem, 6vw, 4.5rem);
-  --gutter-num: clamp(2.5rem, 7vw, 5rem);
 }
-
 .pad-block-2xl { padding-block: var(--pad-2xl); }
 .pad-block-xl { padding-block: var(--pad-xl); }
 .pad-block-lg { padding-block: var(--pad-lg); }
-.pad-block-md { padding-block: var(--pad-md); }
-.pad-top-2xl { padding-top: var(--pad-2xl); }
-.pad-top-xl { padding-top: var(--pad-xl); }
-.pad-top-lg { padding-top: var(--pad-lg); }
-.pad-bot-2xl { padding-bottom: var(--pad-2xl); }
-.pad-bot-xl { padding-bottom: var(--pad-xl); }
-.pad-bot-lg { padding-bottom: var(--pad-lg); }
 
 .rule-top {
   border-top: 1px solid var(--color-line);
 }
 
-/* ----- Atmosphere: faint instrument grid + grain ----- */
+/* ----- Atmosphere ----- */
 .bg-grid {
   background-image:
     linear-gradient(to right, var(--color-line) 1px, transparent 1px),
     linear-gradient(to bottom, var(--color-line) 1px, transparent 1px);
-  background-size: clamp(56px, 7vw, 88px) clamp(56px, 7vw, 88px);
+  background-size: clamp(60px, 7vw, 92px) clamp(60px, 7vw, 92px);
 }
 .grain {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: 160px 160px;
-  opacity: 0.05;
+  opacity: 0.045;
   mix-blend-mode: overlay;
 }
 
-/* ----- Panels (elevation rhythm instead of light/dark flips) ----- */
+/* Panels */
 .panel {
   background: var(--color-bg-raised);
   border: 1px solid var(--color-line);
@@ -217,15 +204,15 @@ a {
   font-family: var(--font-mono);
   font-size: 0.82rem;
   font-weight: 500;
-  letter-spacing: 0.04em;
-  padding: 0.95rem 1.6rem;
+  letter-spacing: 0.05em;
+  padding: 1rem 1.7rem;
   border: 1px solid transparent;
+  cursor: pointer;
   transition:
-    background 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-    color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-    border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    background 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .btn-primary {
   background: var(--color-signal);
@@ -233,9 +220,10 @@ a {
   font-weight: 600;
 }
 .btn-primary:hover {
-  transform: translateY(-2px);
   background: var(--color-signal-bright);
-  box-shadow: 0 0 0 1px var(--color-signal), 0 14px 40px -16px var(--color-signal);
+  box-shadow:
+    0 0 0 1px var(--color-signal),
+    0 18px 50px -18px var(--color-signal);
 }
 .btn-ghost {
   border-color: var(--color-line-strong);
@@ -244,10 +232,8 @@ a {
 .btn-ghost:hover {
   border-color: var(--color-signal);
   color: var(--color-signal);
-  transform: translateY(-2px);
 }
 
-/* Mono underline link with a widening gap on hover. */
 .link-arrow {
   display: inline-flex;
   align-items: center;
@@ -267,7 +253,7 @@ a {
   border-color: var(--color-signal);
 }
 
-/* Status dot: the "live" pulse used in nav + section coordinates. */
+/* Live status dot */
 .status-dot {
   position: relative;
   display: inline-block;
@@ -282,14 +268,14 @@ a {
   inset: 0;
   border-radius: 50%;
   background: var(--color-signal);
-  animation: pulse-ring 2.4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  animation: pulse-ring 2.6s cubic-bezier(0.16, 1, 0.3, 1) infinite;
 }
 @keyframes pulse-ring {
   0% { transform: scale(1); opacity: 0.7; }
   100% { transform: scale(3.4); opacity: 0; }
 }
 
-/* ----- Marquee (trust strip ticker) ----- */
+/* ----- Marquee (trust strip) ----- */
 @keyframes marquee {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
@@ -297,93 +283,56 @@ a {
 .marquee-track {
   display: flex;
   width: max-content;
-  animation: marquee 46s linear infinite;
+  animation: marquee 48s linear infinite;
 }
 .marquee:hover .marquee-track {
   animation-play-state: paused;
 }
 
-/* ----- Client grid scanline ----- */
-@keyframes scan {
-  0% { transform: translateY(-100%); opacity: 0; }
-  12% { opacity: 1; }
-  88% { opacity: 1; }
-  100% { transform: translateY(2400%); opacity: 0; }
-}
-.scanline {
-  animation: scan 7s linear infinite;
-}
-
-/* ----- ADKAR stepper fill ----- */
-.stepper-rail {
-  position: relative;
-  background: var(--color-line-strong);
-}
-.stepper-fill {
-  position: absolute;
-  inset: 0;
-  transform-origin: left center;
-  transform: scaleX(0);
-  background: var(--color-signal);
-  transition: transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.stepper-on .stepper-fill {
-  transform: scaleX(1);
-}
-.stepper-node {
-  background: var(--color-bg-elev);
-  border: 1px solid var(--color-line-strong);
-  color: var(--color-ink-muted);
-  transition:
-    background 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-    border-color 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-    color 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  transition-delay: var(--node-delay, 0s);
-}
-.stepper-on .stepper-node.lit {
-  background: var(--color-signal);
-  border-color: var(--color-signal);
-  color: var(--color-ink-on-signal);
-}
-
-/* ----- Reveals (no animation library) ----- */
-.reveal {
-  opacity: 1;
-}
-.js .reveal {
+/* ----- GSAP reveal initial states (JS only, so no-JS keeps content) ----- */
+/* GSAP leaves the inline end-state in place (no clearProps): an unlayered
+   rule here would otherwise re-hide elements the moment a tween finishes. */
+.js [data-reveal] {
   opacity: 0;
-  transform: translateY(20px);
-  transition:
-    opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-  transition-delay: var(--reveal-delay, 0s);
+  transform: translateY(26px);
 }
-.js .reveal.is-in {
-  opacity: 1;
-  transform: none;
+.js [data-reveal="left"] {
+  transform: translateX(-30px);
 }
-
-/* Hero staggered entrance (above the fold, animates on mount). */
-@keyframes echo-rise {
-  from { opacity: 0; transform: translateY(22px); }
-  to { opacity: 1; transform: none; }
+.js [data-reveal="scale"] {
+  transform: translateY(14px) scale(0.97);
 }
-.js .hero-rise {
-  animation: echo-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
-  animation-delay: var(--rise-delay, 0s);
+.js .hero-stage [data-hero] {
+  opacity: 0;
 }
 
-/* Sticky CTA slide-in */
-.sticky-cta {
-  transform: translateY(140%);
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+/* ADKAR rail fill: collapsed until the scrub drives it (GSAP's inline
+   transform takes over from these on first tick). */
+.js [data-rail-fill] {
+  transform: scaleY(0);
+  transform-origin: center top;
 }
-.sticky-cta.is-shown {
-  transform: translateY(0);
+@media (min-width: 768px) {
+  .js [data-rail-fill] {
+    transform: scaleX(0);
+    transform-origin: left center;
+  }
 }
 
-/* ----- Motion preferences ----- */
+/* ADKAR sequence: stages start dim, lit by the scrubbed wavefront. */
+.js [data-stage-letter] {
+  opacity: 0.6;
+}
+.js [data-stage-body] {
+  opacity: 0.35;
+}
+@media (min-width: 768px) {
+  .js [data-stage-body] {
+    transform: translateY(12px);
+  }
+}
+
+/* ----- Reduced motion: everything lands in its final state ----- */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -395,20 +344,20 @@ a {
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
   }
-  .js .reveal,
-  .js .hero-rise {
+  .js [data-reveal],
+  .js .hero-stage [data-hero],
+  .js [data-stage-body],
+  .js [data-stage-letter] {
     opacity: 1 !important;
     transform: none !important;
-    animation: none !important;
   }
-  .status-dot::after,
-  .scanline {
+  .js [data-stage-letter] {
+    color: var(--color-signal) !important;
+  }
+  .js [data-rail-fill] {
+    transform: none !important;
+  }
+  .status-dot::after {
     display: none !important;
-  }
-  .stepper-fill {
-    transform: scaleX(1) !important;
-  }
-  .sticky-cta {
-    transform: translateY(0) !important;
   }
 }

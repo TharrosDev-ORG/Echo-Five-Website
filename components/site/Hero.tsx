@@ -1,69 +1,103 @@
-import type { CSSProperties } from "react";
-import SignalField from "@/components/motif/SignalField";
-import { hero } from "@/lib/content";
-import { site } from "@/lib/site";
+"use client";
 
-/** Staggered load entrance via CSS (see `.hero-rise` in globals.css). */
-const rise = (delay: number) => ({ "--rise-delay": `${delay}s` }) as CSSProperties;
+import { useEffect, useRef } from "react";
+import dynamic from "next/dynamic";
+import { gsap, EASE } from "@/lib/animation";
+import { hero } from "@/lib/content";
+
+const EchoField = dynamic(() => import("@/components/three/EchoField"), { ssr: false });
 
 export default function Hero() {
+  const stageRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const mm = gsap.matchMedia(stageRef);
+
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
+      const tl = gsap.timeline({ defaults: { ease: EASE } });
+      tl.fromTo(
+        '[data-hero="line"]',
+        { yPercent: 112, opacity: 1 },
+        { yPercent: 0, duration: 1.3, stagger: 0.14 },
+        0.15,
+      )
+        .fromTo(
+          '[data-hero="meta"]',
+          { y: 18, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.9, stagger: 0.1 },
+          0.5,
+        )
+        .fromTo(
+          '[data-hero="chip"]',
+          { y: 14, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.7, stagger: 0.07 },
+          1.0,
+        );
+      return () => {
+        tl.kill();
+      };
+    });
+
+    return () => mm.revert();
+  }, []);
+
   return (
     <section
       id="top"
-      className="relative isolate flex min-h-[100svh] flex-col justify-center overflow-hidden pt-28 pb-20"
+      ref={stageRef}
+      className="hero-stage relative isolate flex min-h-svh flex-col overflow-hidden bg-bg-deep"
     >
-      {/* Living backdrop: instrument grid + signal field + grain */}
+      {/* Depth-field backdrop: faint grid + Three.js echo field + scrim. */}
       <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
-        <div className="bg-grid absolute inset-0 opacity-60" />
-        <SignalField className="absolute inset-0 h-full w-full opacity-90" />
-        <div className="absolute inset-0 bg-gradient-to-b from-bg/30 via-transparent to-bg" />
+        <div className="bg-grid absolute inset-0 opacity-50" />
+        <EchoField />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(to bottom, oklch(0.125 0.02 254 / 0.6), transparent 40%, oklch(0.125 0.02 254 / 0.85) 90%)",
+          }}
+        />
         <div className="grain absolute inset-0" />
       </div>
 
-      <div className="u-container w-full">
-        <div className="hero-rise flex flex-wrap items-center gap-x-3 gap-y-1.5" style={rise(0)}>
+      <div className="u-container relative flex flex-1 flex-col justify-end pb-[clamp(3.5rem,8vh,6.5rem)] pt-36">
+        <p data-hero="meta" className="t-coord flex flex-wrap items-center gap-x-3 gap-y-1 text-signal">
           <span className="status-dot" aria-hidden="true" />
-          <span className="t-coord text-signal">{site.callsign} // CH.00</span>
-          <span className="t-coord text-ink-muted">{hero.context}</span>
-        </div>
-
-        <p className="hero-rise mt-8 t-coord text-ink-muted" style={rise(0.06)}>
           {hero.eyebrow}
+          <span className="normal-case tracking-normal text-ink-muted">/ {hero.context}</span>
         </p>
 
-        <h1 className="t-display mt-5 max-w-[16ch]">
-          <span className="hero-rise block" style={rise(0.12)}>
-            {hero.headline[0]}
-          </span>
-          <span className="hero-rise block text-signal" style={rise(0.2)}>
-            {hero.headline[1]}
-          </span>
+        <h1 className="t-display mt-6 text-ink">
+          {hero.headline.map((line, i) => (
+            <span key={line} className="-mb-[0.1em] block overflow-hidden pb-[0.1em]">
+              <span data-hero="line" className={`block ${i === 1 ? "text-signal" : ""}`}>
+                {line}
+              </span>
+            </span>
+          ))}
         </h1>
 
-        <p className="hero-rise t-lead mt-9 measure-wide" style={rise(0.3)}>
+        <p data-hero="meta" className="t-lead measure-wide mt-7">
           {hero.sub}
         </p>
 
-        <div className="hero-rise mt-11 flex flex-wrap items-center gap-4" style={rise(0.4)}>
+        <div data-hero="meta" className="mt-9 flex flex-wrap items-center gap-4">
           <a href="#contact" className="btn btn-primary">
             Book a conversation
           </a>
-          <a href="#proof" className="btn btn-ghost">
-            Watch the talk
+          <a href="#services" className="btn btn-ghost">
+            What we do
           </a>
         </div>
 
         <ul
-          className="hero-rise mt-14 flex flex-wrap gap-2.5"
-          style={rise(0.5)}
+          className="mt-12 flex flex-wrap gap-x-7 gap-y-3 border-t border-line pt-6"
           aria-label="Credentials at a glance"
         >
-          {hero.trust.map((t) => (
-            <li
-              key={t}
-              className="panel px-3.5 py-2 font-mono text-[0.74rem] tracking-[0.04em] text-ink-soft"
-            >
-              {t}
+          {hero.trust.map((item) => (
+            <li key={item} data-hero="chip" className="t-coord text-ink-muted">
+              {item}
             </li>
           ))}
         </ul>

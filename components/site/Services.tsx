@@ -1,52 +1,52 @@
-import Reveal from "@/components/site/Reveal";
-import SectionMark from "@/components/site/SectionMark";
+import SectionHead from "./SectionHead";
 import { services } from "@/lib/content";
 
+/**
+ * Service index: large editorial rows rather than card grid. Each row
+ * leads with its mono index, sweeps to a raised ground on hover, and
+ * carries its discipline tag as a coordinate.
+ */
 export default function Services() {
   return (
-    <section id="services" className="rule-top bg-bg-raised pad-block-xl">
-      {/* Left rail holds the framing; the wide right column carries the list. */}
-      <div className="u-container grid gap-x-12 gap-y-16 lg:grid-cols-12">
-        <div className="lg:col-span-4 lg:sticky lg:top-28 lg:self-start">
-          <Reveal>
-            <SectionMark index={services.index} kicker={services.kicker} />
-          </Reveal>
-          <Reveal delay={0.05}>
-            <h2 className="t-h2 mt-10 text-balance">{services.heading}</h2>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <p className="t-body mt-8 text-pretty text-ink-muted">{services.intro}</p>
-          </Reveal>
-          <Reveal delay={0.15}>
-            <ul className="mt-9 flex flex-wrap gap-2">
-              {services.platforms.map((p) => (
-                <li
-                  key={p}
-                  className="panel-elev px-3 py-1.5 font-mono text-[0.72rem] tracking-[0.04em] text-ink-soft"
-                >
-                  {p}
-                </li>
-              ))}
-            </ul>
-          </Reveal>
+    <section id="services" className="pad-block-2xl rule-top bg-bg-deep" aria-labelledby="services-heading">
+      <div className="u-container">
+        <SectionHead
+          index={services.index}
+          kicker={services.kicker}
+          heading={services.heading}
+          headingId="services-heading"
+        />
+
+        <div className="mt-9 flex flex-wrap items-start justify-between gap-x-12 gap-y-6">
+          <p data-reveal className="t-lead measure-wide">
+            {services.intro}
+          </p>
+          <ul data-reveal className="flex max-w-sm flex-wrap gap-2" aria-label="Platforms covered">
+            {services.platforms.map((p) => (
+              <li key={p} className="t-coord border border-line px-3 py-2 text-ink-muted">
+                {p}
+              </li>
+            ))}
+          </ul>
         </div>
 
-        <ol className="border-t border-line lg:col-span-8">
-          {services.items.map((s, i) => (
-            <Reveal as="li" key={s.n} delay={i < 3 ? i * 0.06 : 0}>
-              <div className="group border-b border-line py-11 transition-colors md:grid md:grid-cols-[1fr_auto] md:items-start md:gap-x-12">
-                <div className="min-w-0">
-                  <div className="flex items-baseline gap-3">
-                    <span className="font-mono text-[0.8rem] tabular-nums text-signal">{s.n}</span>
-                    <h3 className="t-h3 transition-colors group-hover:text-signal">{s.title}</h3>
-                  </div>
-                  <p className="t-body mt-5 max-w-[62ch] text-ink-muted">{s.body}</p>
-                </div>
-                <p className="mt-4 font-mono text-[0.72rem] uppercase tracking-[0.12em] text-ink-muted md:mt-1 md:text-right">
-                  {s.tag}
-                </p>
-              </div>
-            </Reveal>
+        <ol data-reveal-group className="mt-16 border-t border-line">
+          {services.items.map((item) => (
+            <li key={item.n} data-reveal>
+              <article className="group grid gap-x-10 gap-y-3 border-b border-line py-8 transition-colors duration-500 hover:bg-bg md:grid-cols-[5rem_1fr_minmax(0,38ch)_auto] md:items-baseline md:py-10">
+                <span
+                  aria-hidden="true"
+                  className="t-coord text-ink-muted transition-colors duration-500 group-hover:text-signal"
+                >
+                  /{item.n}
+                </span>
+                <h3 className="t-h3 text-ink transition-transform duration-500 md:group-hover:translate-x-2">
+                  {item.title}
+                </h3>
+                <p className="t-body text-ink-muted">{item.body}</p>
+                <span className="t-coord hidden text-ink-muted lg:block">{item.tag}</span>
+              </article>
+            </li>
           ))}
         </ol>
       </div>

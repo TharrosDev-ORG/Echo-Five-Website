@@ -1,50 +1,41 @@
-import Reveal from "@/components/site/Reveal";
-import SectionMark from "@/components/site/SectionMark";
-import ContactForm from "@/components/site/ContactForm";
+import ContactForm from "./ContactForm";
 import { contact } from "@/lib/content";
+import { site } from "@/lib/site";
 
+/**
+ * The close: the page's one signal-drenched moment. Everything before
+ * holds the accent to lines and key words; here it floods the ground.
+ */
 export default function Contact() {
   return (
-    <section
-      id="contact"
-      className="pad-block-2xl relative isolate overflow-hidden bg-signal text-ink-on-signal"
-    >
-      {/* Faint echo rings, in ink, drifting off the right edge. */}
-      <div
-        className="pointer-events-none absolute inset-0 -z-10 flex justify-end opacity-[0.14]"
-        aria-hidden="true"
-      >
-        <svg viewBox="0 0 600 600" className="h-[150%] w-auto -translate-y-[10%] translate-x-[25%]">
-          <g fill="none" stroke="var(--color-ink-on-signal)" strokeWidth="1.5">
-            {[60, 130, 200, 270, 340].map((r) => (
-              <circle key={r} cx="300" cy="300" r={r} />
-            ))}
-            <circle cx="300" cy="300" r="10" fill="var(--color-ink-on-signal)" stroke="none" />
-          </g>
-        </svg>
-      </div>
-
-      <div className="u-container grid gap-x-16 gap-y-14 lg:grid-cols-2 lg:items-start">
-        <div>
-          <Reveal>
-            <SectionMark index={contact.index} kicker={contact.kicker} tone="signal" />
-          </Reveal>
-          <Reveal delay={0.05}>
-            <h2 className="t-display mt-9 max-w-[14ch]">{contact.heading}</h2>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <p className="t-lead mt-8 max-w-[46ch] text-ink-on-signal/85">{contact.body}</p>
-          </Reveal>
-          <Reveal delay={0.15}>
-            <p className="mt-10 max-w-[42ch] border-t border-ink-on-signal/20 pt-8 text-[0.95rem] text-ink-on-signal/75">
-              {contact.note}
-            </p>
-          </Reveal>
+    <section id="contact" className="bg-signal text-ink-on-signal" aria-labelledby="contact-heading">
+      <div className="u-container pad-block-2xl grid gap-x-16 gap-y-12 lg:grid-cols-[1.1fr_1fr]">
+        <div data-reveal-group>
+          <p data-reveal className="t-coord flex items-baseline gap-4 opacity-70">
+            <span>{contact.index}</span>
+            {contact.kicker}
+          </p>
+          <h2 data-reveal id="contact-heading" className="t-h2 mt-7 max-w-[16ch]">
+            {contact.heading}
+          </h2>
+          <p data-reveal className="t-lead mt-7 max-w-[46ch] !text-ink-on-signal opacity-85">
+            {contact.body}
+          </p>
+          <p data-reveal className="t-body mt-9 max-w-[46ch] border-t border-ink-on-signal/20 pt-6 opacity-75">
+            {contact.note}
+          </p>
+          <p data-reveal className="t-coord mt-10 opacity-70">
+            <a href={`mailto:${site.email}`} className="underline underline-offset-4">
+              {site.email}
+            </a>
+            <span aria-hidden="true"> · </span>
+            {site.region}
+          </p>
         </div>
 
-        <Reveal delay={0.1} className="lg:pt-2">
+        <div data-reveal="scale">
           <ContactForm />
-        </Reveal>
+        </div>
       </div>
     </section>
   );

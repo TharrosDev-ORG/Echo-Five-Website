@@ -1,15 +1,17 @@
 import { ImageResponse } from "next/og";
+import { site } from "@/lib/site";
 
-export const alt = "Echofive Solutions — Microsoft 365 change management";
+export const runtime = "edge";
+export const alt = `${site.name} — ${site.tagline}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-const BG = "#0a0d12";
-const INK = "#eef1f4";
-const SIGNAL = "#3fe08a";
-const MUTED = "#7c8794";
+const BG = "#0c1018";
+const SIGNAL = "#7fd4f2";
+const INK = "#f2f4f8";
+const MUTED = "#8b95a7";
 
-export default function OpengraphImage() {
+export default function OgImage() {
   return new ImageResponse(
     (
       <div
@@ -20,67 +22,71 @@ export default function OpengraphImage() {
           flexDirection: "column",
           justifyContent: "space-between",
           background: BG,
-          color: INK,
           padding: 72,
-          position: "relative",
           fontFamily: "sans-serif",
+          position: "relative",
         }}
       >
-        {/* Echo rings off the right edge */}
-        {[520, 360, 220].map((d) => (
-          <div
-            key={d}
-            style={{
-              position: "absolute",
-              top: 315 - d / 2,
-              left: 1000 - d / 2,
-              width: d,
-              height: d,
-              borderRadius: d,
-              border: `1px solid ${SIGNAL}`,
-              opacity: 0.3,
-            }}
-          />
-        ))}
+        {/* Echo rings */}
         <div
           style={{
             position: "absolute",
-            top: 305,
-            left: 990,
-            width: 20,
-            height: 20,
-            borderRadius: 20,
-            background: SIGNAL,
+            right: -160,
+            top: -160,
+            width: 640,
+            height: 640,
+            borderRadius: 9999,
+            border: `2px solid ${SIGNAL}33`,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
           }}
-        />
-
-        <div style={{ display: "flex", alignItems: "center", gap: 14, letterSpacing: 6, fontSize: 26, color: MUTED }}>
-          <div style={{ width: 12, height: 12, borderRadius: 12, background: SIGNAL }} />
-          ECHO · FIVE
-        </div>
-
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ fontSize: 84, fontWeight: 800, lineHeight: 1.0, letterSpacing: -3 }}>
-            Change that lands.
-          </div>
+        >
           <div
             style={{
-              fontSize: 84,
-              fontWeight: 800,
-              lineHeight: 1.0,
-              letterSpacing: -3,
-              color: SIGNAL,
+              width: 440,
+              height: 440,
+              borderRadius: 9999,
+              border: `2px solid ${SIGNAL}55`,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
-            Tools that get used.
+            <div
+              style={{
+                width: 250,
+                height: 250,
+                borderRadius: 9999,
+                border: `2px solid ${SIGNAL}99`,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <div style={{ width: 14, height: 14, borderRadius: 9999, background: SIGNAL }} />
+            </div>
           </div>
         </div>
 
-        <div style={{ display: "flex", fontSize: 28, color: MUTED }}>
-          Microsoft 365 change management · Canadian public sector and enterprise
+        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+          <div style={{ width: 12, height: 12, borderRadius: 9999, background: SIGNAL }} />
+          <div style={{ fontSize: 26, letterSpacing: 6, color: MUTED }}>ECHO·FIVE</div>
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+          <div style={{ fontSize: 84, fontWeight: 700, color: INK, lineHeight: 1.02, letterSpacing: -2 }}>
+            Change that lands.
+          </div>
+          <div style={{ fontSize: 84, fontWeight: 700, color: SIGNAL, lineHeight: 1.02, letterSpacing: -2 }}>
+            Tools that get used.
+          </div>
+          <div style={{ fontSize: 30, color: MUTED, marginTop: 16 }}>
+            Microsoft 365 change management · Canadian public sector and enterprise
+          </div>
         </div>
       </div>
     ),
-    { ...size },
+    size,
   );
 }

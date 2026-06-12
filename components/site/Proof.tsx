@@ -1,51 +1,60 @@
 "use client";
 
 import { useState } from "react";
-import SectionMark from "@/components/site/SectionMark";
 import { proof } from "@/lib/content";
 import { site } from "@/lib/site";
 
+/**
+ * The talk, behind a click-to-load facade so YouTube ships zero bytes
+ * until asked for.
+ */
 export default function Proof() {
-  const [playing, setPlaying] = useState(false);
+  const [loaded, setLoaded] = useState(false);
 
   return (
-    <section id="proof" className="rule-top pad-block-2xl">
+    <section id="proof" className="pad-block-xl rule-top bg-bg" aria-labelledby="proof-heading">
       <div className="u-container">
-        <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
-          <SectionMark index={proof.index} kicker={proof.kicker} className="justify-center" />
-          <h2 className="t-h2 mt-9 max-w-[20ch] text-balance">{proof.heading}</h2>
-          <p className="t-lead mt-8 max-w-[52ch] text-pretty">{proof.sub}</p>
+        <div data-reveal-group className="max-w-3xl">
+          <p data-reveal className="t-coord flex items-baseline gap-4 text-ink-muted">
+            <span className="text-signal">{proof.index}</span>
+            {proof.kicker}
+          </p>
+          <h2 data-reveal id="proof-heading" className="t-h2 mt-7 text-ink">
+            {proof.heading}
+          </h2>
+          <p data-reveal className="t-lead mt-6">
+            {proof.sub}
+          </p>
         </div>
 
-        <div className="panel-elev relative mt-16 overflow-hidden">
-          <div className="relative aspect-video">
-            {playing ? (
-              <iframe
-                className="absolute inset-0 h-full w-full"
-                src={`https://www.youtube-nocookie.com/embed/${site.video.id}?autoplay=1&rel=0`}
-                title={proof.heading}
-                allow="accelerated-encoding; autoplay; encrypted-media; picture-in-picture"
-                allowFullScreen
-              />
-            ) : (
-              <button
-                type="button"
-                onClick={() => setPlaying(true)}
-                className="group absolute inset-0 flex flex-col items-center justify-center"
-                aria-label={`Play video: ${proof.heading}`}
+        <div data-reveal className="panel-elev relative mt-12 aspect-video overflow-hidden">
+          {loaded ? (
+            <iframe
+              className="absolute inset-0 h-full w-full"
+              src={`https://www.youtube-nocookie.com/embed/${site.video.id}?autoplay=1`}
+              title={proof.heading}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          ) : (
+            <button
+              type="button"
+              onClick={() => setLoaded(true)}
+              className="group absolute inset-0 flex flex-col items-center justify-center gap-5"
+              aria-label={`${proof.cta}: ${proof.heading}`}
+            >
+              <span className="bg-grid absolute inset-0 opacity-40" aria-hidden="true" />
+              <span
+                aria-hidden="true"
+                className="relative flex h-20 w-20 items-center justify-center rounded-full border border-line-strong bg-bg-deep/80 transition-all duration-500 group-hover:border-signal group-hover:shadow-[0_0_50px_-10px_var(--color-signal)]"
               >
-                <div className="bg-grid pointer-events-none absolute inset-0 opacity-50" />
-                <span className="relative flex h-20 w-20 items-center justify-center rounded-full border border-line-signal bg-bg/60 backdrop-blur-sm transition-transform duration-500 ease-out group-hover:scale-110">
-                  <svg width="22" height="26" viewBox="0 0 22 26" aria-hidden="true">
-                    <path d="M0 0L22 13L0 26Z" fill="var(--color-signal)" />
-                  </svg>
-                </span>
-                <span className="relative mt-7 font-mono text-[0.8rem] tracking-[0.08em] text-ink-muted">
-                  {proof.cta} · GOC M365 Council
-                </span>
-              </button>
-            )}
-          </div>
+                <span className="ml-1 block h-0 w-0 border-y-[11px] border-l-[18px] border-y-transparent border-l-signal" />
+              </span>
+              <span className="t-coord relative text-ink-soft transition-colors group-hover:text-signal">
+                {proof.cta}
+              </span>
+            </button>
+          )}
         </div>
       </div>
     </section>
