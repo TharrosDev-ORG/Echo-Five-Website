@@ -20,8 +20,8 @@ export default function Trust() {
 
   return (
     <section className="rule-top rule-bottom band-2 overflow-hidden" aria-label="Trusted organizations">
-      <div className="u-container grid gap-10 py-12 md:grid-cols-[auto_1fr] md:items-center md:gap-16">
-        <div className="flex gap-10" data-reveal-group>
+      <div className="u-container grid gap-10 py-14 md:grid-cols-[auto_1fr] md:items-center md:gap-16">
+        <div className="flex flex-wrap gap-x-10 gap-y-6" data-reveal-group>
           {stats.map((s) => (
             <div key={s.label} data-reveal>
               <div

@@ -26,7 +26,11 @@ export default function Services() {
           </div>
         </div>
 
-        <div className="mt-16 grid gap-px md:mt-24 md:grid-cols-2" data-reveal-group>
+        <div
+          className="section-gap grid gap-px md:grid-cols-2"
+          data-reveal-group
+          style={{ background: "var(--color-line)", border: "1px solid var(--color-line)" }}
+        >
           {services.items.map((item) => (
             <article key={item.n} data-reveal className="svc">
               <div className="svc-top">
