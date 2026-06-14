@@ -9,14 +9,41 @@ import Magnetic from "@/components/fx/Magnetic";
 export default function Nav() {
   const { scrollTo, stop, start } = useSmoothScroll();
   const [scrolled, setScrolled] = useState(false);
+  const [active, setActive] = useState("");
   const [open, setOpen] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
+  const firstLinkRef = useRef<HTMLAnchorElement>(null);
 
+  // One rAF-batched scroll loop drives both the condensed header and the
+  // scrollspy (which section is in view).
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
+    const ids = nav.map((n) => n.href);
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      setScrolled(window.scrollY > 24);
+      const line = window.innerHeight * 0.35;
+      let current = "";
+      for (const href of ids) {
+        const el = document.querySelector(href);
+        if (el && el.getBoundingClientRect().top <= line) current = href;
+      }
+      // At the very bottom, the last section is the active one.
+      if (window.scrollY + window.innerHeight >= document.body.scrollHeight - 4) {
+        current = ids[ids.length - 1];
+      }
+      setActive(current);
+    };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+    update();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
   }, []);
 
   // Lock background scroll while the mobile menu is open.
@@ -25,6 +52,21 @@ export default function Nav() {
     else start();
     return () => start();
   }, [open, stop, start]);
+
+  // Mobile menu: Escape to close, move focus in on open, restore on close.
+  useEffect(() => {
+    if (!open) return;
+    const opener = toggleRef.current;
+    firstLinkRef.current?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      opener?.focus();
+    };
+  }, [open]);
 
   // Close the menu if the viewport grows past the mobile breakpoint.
   useEffect(() => {
@@ -63,18 +105,22 @@ export default function Nav() {
         </a>
 
         <nav className="hidden items-center gap-8 md:flex" aria-label="Primary">
-          {nav.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              onClick={go(item.href)}
-              className="t-coord"
-              style={{ color: "var(--color-ink-soft)" }}
-              data-cursor
-            >
-              {item.label}
-            </a>
-          ))}
+          {nav.map((item) => {
+            const isActive = active === item.href;
+            return (
+              <a
+                key={item.href}
+                href={item.href}
+                onClick={go(item.href)}
+                className="nav-link t-coord"
+                data-active={isActive ? "" : undefined}
+                aria-current={isActive ? "page" : undefined}
+                data-cursor
+              >
+                {item.label}
+              </a>
+            );
+          })}
         </nav>
 
         <div className="hidden md:block">
@@ -87,10 +133,12 @@ export default function Nav() {
 
         {/* Mobile toggle */}
         <button
+          ref={toggleRef}
           type="button"
           className="flex flex-col md:hidden"
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
+          aria-controls="mobile-menu"
           onClick={() => setOpen((v) => !v)}
           style={{ gap: 5, padding: 8 }}
         >
@@ -126,7 +174,11 @@ export default function Nav() {
 
       {/* Mobile overlay menu */}
       <div
+        id="mobile-menu"
         className="md:hidden"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Site menu"
         style={{
           position: "fixed",
           inset: 0,
@@ -141,14 +193,17 @@ export default function Nav() {
           pointerEvents: open ? "auto" : "none",
           transition: "transform 0.5s var(--ease-expo), opacity 0.4s ease",
         }}
+        inert={!open}
       >
-        {nav.map((item) => (
+        {nav.map((item, i) => (
           <a
             key={item.href}
+            ref={i === 0 ? firstLinkRef : undefined}
             href={item.href}
             onClick={go(item.href)}
             className="t-h3 font-display"
-            style={{ color: "var(--color-ink)" }}
+            aria-current={active === item.href ? "page" : undefined}
+            style={{ color: active === item.href ? "var(--color-cobalt)" : "var(--color-ink)" }}
           >
             {item.label}
           </a>

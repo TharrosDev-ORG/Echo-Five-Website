@@ -1,10 +1,18 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import dynamic from "next/dynamic";
 import { gsap, EASE, prefersReducedMotion } from "@/lib/gsap";
 import { hero } from "@/lib/content";
-import FlowField from "@/components/three/FlowField";
 import SplitText from "@/components/ui/SplitText";
+
+// Three.js is heavy and purely decorative — keep it out of the above-the-fold
+// bundle so the hero headline (LCP) isn't blocked. The CSS gradient fallback
+// shows instantly behind the content (and during the preloader).
+const FlowField = dynamic(() => import("@/components/three/FlowField"), {
+  ssr: false,
+  loading: () => <div className="flowfield" aria-hidden="true" />,
+});
 
 export default function Hero() {
   const ref = useRef<HTMLElement>(null);

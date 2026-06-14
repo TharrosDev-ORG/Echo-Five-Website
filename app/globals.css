@@ -356,6 +356,34 @@ html.lenis body {
   border-color: var(--color-cobalt);
 }
 
+/* Primary nav links + scrollspy active state */
+.nav-link {
+  position: relative;
+  color: var(--color-ink-soft);
+  transition: color 0.3s ease;
+}
+.nav-link:hover {
+  color: var(--color-ink);
+}
+.nav-link[data-active] {
+  color: var(--color-cobalt);
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -7px;
+  height: 2px;
+  background: var(--color-cobalt);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.4s var(--ease-expo);
+}
+.nav-link[data-active]::after {
+  transform: scaleX(1);
+}
+
 .link-arrow {
   display: inline-flex;
   align-items: center;

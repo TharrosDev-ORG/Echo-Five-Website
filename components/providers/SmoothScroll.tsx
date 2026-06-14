@@ -5,7 +5,6 @@ import {
   useContext,
   useEffect,
   useRef,
-  useState,
   type ReactNode,
 } from "react";
 import Lenis from "lenis";
@@ -16,14 +15,12 @@ type LenisContextValue = {
   scrollTo: (target: ScrollToTarget, options?: { offset?: number }) => void;
   stop: () => void;
   start: () => void;
-  ready: boolean;
 };
 
 const LenisContext = createContext<LenisContextValue>({
   scrollTo: () => {},
   stop: () => {},
   start: () => {},
-  ready: false,
 });
 
 export const useSmoothScroll = () => useContext(LenisContext);
@@ -36,7 +33,6 @@ export const useSmoothScroll = () => useContext(LenisContext);
  */
 export default function SmoothScroll({ children }: { children: ReactNode }) {
   const lenisRef = useRef<Lenis | null>(null);
-  const [ready, setReady] = useState(false);
 
   useEffect(() => {
     if (prefersReducedMotion()) {
@@ -58,19 +54,35 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
     lenis.on("scroll", onScroll);
 
     const raf = (time: number) => lenis.raf(time * 1000);
-    gsap.ticker.add(raf);
     gsap.ticker.lagSmoothing(0);
+    let tickerAdded = false;
 
-    // Hold scroll until the preloader lifts, then hand off + re-measure (the
-    // curtain hid layout while triggers were first computed).
+    // Hold scroll until the preloader lifts, then hand off: start the rAF loop
+    // only now (no scroll loop burns CPU behind the curtain), re-measure, and
+    // honour any incoming deep link (e.g. /#contact).
     lenis.stop();
     const start = () => {
+      if (!tickerAdded) {
+        gsap.ticker.add(raf);
+        tickerAdded = true;
+      }
       lenis.start();
       ScrollTrigger.refresh();
+      const hash = window.location.hash;
+      if (hash && hash.length > 1) {
+        requestAnimationFrame(() => lenis.scrollTo(hash, { offset: -72 }));
+      }
     };
     const loadedAlready = document.documentElement.dataset.loaded === "true";
     if (loadedAlready) start();
     else window.addEventListener("ef:loaded", start, { once: true });
+
+    // Same-page hash navigation after load.
+    const onHashChange = () => {
+      const hash = window.location.hash;
+      if (hash && hash.length > 1) lenis.scrollTo(hash, { offset: -72 });
+    };
+    window.addEventListener("hashchange", onHashChange);
 
     // Re-measure once pins/splits settle.
     const refresh = () => ScrollTrigger.refresh();
@@ -83,15 +95,13 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
       document.fonts.ready.then(() => ScrollTrigger.refresh());
     }
 
-    setReady(true);
-
     return () => {
       window.removeEventListener("ef:loaded", start);
+      window.removeEventListener("hashchange", onHashChange);
       lenis.off("scroll", onScroll);
-      gsap.ticker.remove(raf);
+      if (tickerAdded) gsap.ticker.remove(raf);
       lenis.destroy();
       lenisRef.current = null;
-      setReady(false);
     };
   }, []);
 
@@ -125,7 +135,7 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
   };
 
   return (
-    <LenisContext.Provider value={{ scrollTo, stop, start, ready }}>
+    <LenisContext.Provider value={{ scrollTo, stop, start }}>
       {children}
     </LenisContext.Provider>
   );
