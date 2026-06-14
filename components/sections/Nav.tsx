@@ -7,7 +7,7 @@ import { useSmoothScroll } from "@/components/providers/SmoothScroll";
 import Magnetic from "@/components/fx/Magnetic";
 
 export default function Nav() {
-  const { scrollTo } = useSmoothScroll();
+  const { scrollTo, stop, start } = useSmoothScroll();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
@@ -17,6 +17,21 @@ export default function Nav() {
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Lock background scroll while the mobile menu is open.
+  useEffect(() => {
+    if (open) stop();
+    else start();
+    return () => start();
+  }, [open, stop, start]);
+
+  // Close the menu if the viewport grows past the mobile breakpoint.
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    const onChange = (e: MediaQueryListEvent) => e.matches && setOpen(false);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
   }, []);
 
   const go = (href: string) => (e: React.MouseEvent) => {
@@ -73,11 +88,11 @@ export default function Nav() {
         {/* Mobile toggle */}
         <button
           type="button"
-          className="md:hidden"
+          className="flex flex-col md:hidden"
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
-          style={{ display: "inline-flex", flexDirection: "column", gap: 5, padding: 8 }}
+          style={{ gap: 5, padding: 8 }}
         >
           <span
             style={{

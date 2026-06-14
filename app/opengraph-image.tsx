@@ -13,17 +13,18 @@ const MUTED = "#6b6358";
 
 export default function OgImage() {
   // A light field of dots that "aligns" toward the lower right — the
-  // scattered → ordered motif, no echo/sonar imagery.
-  const dots: { x: number; y: number; r: number; c: string }[] = [];
-  for (let i = 0; i < 90; i++) {
-    const gx = i % 15;
-    const gy = Math.floor(i / 15);
-    const align = (gx / 14) * (gy / 5);
-    const jitter = (1 - align) * 26;
+  // scattered → ordered motif, no echo/sonar imagery. Rendered as divs so
+  // Satori (next/og) draws it reliably.
+  const dots: { x: number; y: number; s: number; c: string }[] = [];
+  for (let i = 0; i < 84; i++) {
+    const gx = i % 14;
+    const gy = Math.floor(i / 14);
+    const align = (gx / 13) * (gy / 5);
+    const jitter = (1 - align) * 24;
     dots.push({
-      x: 60 + gx * 78 + (Math.sin(i * 12.9) * jitter),
-      y: 70 + gy * 95 + (Math.cos(i * 4.7) * jitter),
-      r: 2 + align * 3.5,
+      x: 56 + gx * 82 + Math.sin(i * 12.9) * jitter,
+      y: 64 + gy * 104 + Math.cos(i * 4.7) * jitter,
+      s: 4 + align * 7,
       c: align > 0.55 ? COBALT : MUTED,
     });
   }
@@ -44,11 +45,21 @@ export default function OgImage() {
         }}
       >
         <div style={{ position: "absolute", inset: 0, display: "flex" }}>
-          <svg width="1200" height="630" viewBox="0 0 1200 630">
-            {dots.map((d, i) => (
-              <circle key={i} cx={d.x} cy={d.y} r={d.r} fill={d.c} opacity={0.5} />
-            ))}
-          </svg>
+          {dots.map((d, i) => (
+            <div
+              key={i}
+              style={{
+                position: "absolute",
+                left: d.x,
+                top: d.y,
+                width: d.s,
+                height: d.s,
+                borderRadius: d.s,
+                background: d.c,
+                opacity: 0.5,
+              }}
+            />
+          ))}
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>

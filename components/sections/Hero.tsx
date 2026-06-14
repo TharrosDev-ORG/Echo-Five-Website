@@ -17,6 +17,9 @@ export default function Hero() {
     let tl: gsap.core.Timeline | null = null;
     const run = () => {
       const words = el.querySelectorAll<HTMLElement>(".split-word");
+      // Establish the masked start explicitly so GSAP owns yPercent (avoids the
+      // immediateRender quirk of a fromTo placed at a timeline offset).
+      gsap.set(words, { yPercent: 110 });
       tl = gsap.timeline({ defaults: { ease: EASE } });
       tl.to(el.querySelectorAll('[data-hero="eyebrow"]'), {
         opacity: 1,
