@@ -252,6 +252,15 @@ html.lenis body {
   padding-block: var(--pad-lg);
 }
 
+/* Consistent vertical rhythm from a section header to its main content block,
+   and a larger break before a standalone pull-statement. */
+.section-gap {
+  margin-top: clamp(3.5rem, 6.5vw, 6rem);
+}
+.section-gap-lg {
+  margin-top: clamp(5rem, 9vw, 8.5rem);
+}
+
 .rule-top {
   border-top: 1px solid var(--color-line);
 }
@@ -638,7 +647,6 @@ body.cursor-ready.fine-pointer [data-cursor] {
   gap: 1.1rem;
   background: var(--color-paper-2);
   padding: clamp(1.9rem, 3.2vw, 3rem);
-  outline: 1px solid var(--color-line);
   transition: background 0.4s var(--ease-expo);
 }
 .svc::before {

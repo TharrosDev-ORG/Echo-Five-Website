@@ -19,7 +19,7 @@ export default function Credentials() {
           </div>
         </div>
 
-        <ul className="mt-14 md:mt-20" data-reveal-group style={{ borderTop: "1px solid var(--color-line)" }}>
+        <ul className="section-gap" data-reveal-group style={{ borderTop: "1px solid var(--color-line)" }}>
           {credentials.items.map((item) => (
             <li key={item.title} data-reveal className="cred-row">
               <span className="cred-issuer t-coord">{item.issuer}</span>

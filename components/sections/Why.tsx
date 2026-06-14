@@ -21,7 +21,7 @@ export default function Why() {
         </div>
 
         <ol
-          className="mt-20 grid gap-px md:grid-cols-3"
+          className="section-gap grid gap-px md:grid-cols-3"
           data-reveal-group
           style={{ background: "var(--color-line)", border: "1px solid var(--color-line)" }}
         >
@@ -54,7 +54,7 @@ export default function Why() {
           ))}
         </ol>
 
-        <div className="mt-20 md:mt-28" style={{ maxWidth: "24ch" }}>
+        <div className="section-gap-lg" style={{ maxWidth: "28ch" }}>
           <SplitText
             as="p"
             className="t-h2"

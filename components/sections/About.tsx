@@ -20,7 +20,7 @@ export default function About() {
           ))}
         </h2>
 
-        <div className="mt-16 grid gap-12 md:mt-24 md:grid-cols-12 md:gap-16">
+        <div className="section-gap grid gap-12 md:grid-cols-12 md:gap-16">
           <div className="md:col-span-7" data-reveal-group>
             {about.body.map((p, i) => (
               <p

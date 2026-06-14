@@ -37,7 +37,7 @@ export default function Proof() {
 
         <div
           data-reveal="scale"
-          className="proof-frame mt-12"
+          className="proof-frame section-gap"
         >
           {playing ? (
             <iframe

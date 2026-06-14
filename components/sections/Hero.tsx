@@ -66,14 +66,14 @@ export default function Hero() {
     <section
       ref={ref}
       id="top"
-      className="hero-stage relative flex min-h-[100svh] flex-col justify-center overflow-hidden"
+      className="hero-stage relative flex min-h-[100svh] flex-col overflow-hidden"
     >
       <FlowField />
 
-      <div className="u-container relative z-10 pt-24">
+      <div className="u-container relative z-10 flex flex-1 flex-col justify-center pt-28 pb-6">
         <div
           data-hero="eyebrow"
-          className="t-coord mb-8 flex flex-wrap items-center gap-x-3 gap-y-1"
+          className="t-coord mb-9 flex flex-wrap items-center gap-x-3 gap-y-1"
         >
           <span className="status-dot" aria-hidden="true" />
           <span style={{ color: "var(--color-ink)" }}>{hero.eyebrow}</span>
@@ -81,7 +81,7 @@ export default function Hero() {
           <span>{hero.context}</span>
         </div>
 
-        <h1 className="t-display" style={{ maxWidth: "16ch" }}>
+        <h1 className="t-display" style={{ maxWidth: "15ch" }}>
           <SplitText as="span" className="block" text={hero.headline[0]} />
           <SplitText
             as="span"
@@ -93,12 +93,12 @@ export default function Hero() {
         <p
           data-hero="sub"
           className="t-lead measure-wide"
-          style={{ marginTop: "clamp(1.75rem, 3vw, 2.75rem)" }}
+          style={{ marginTop: "clamp(2rem, 3.5vw, 3rem)" }}
         >
           {hero.sub}
         </p>
 
-        <ul className="mt-10 flex flex-wrap gap-3" aria-label="Credentials at a glance">
+        <ul className="mt-11 flex flex-wrap gap-3" aria-label="Credentials at a glance">
           {hero.trust.map((t) => (
             <li key={t} data-hero="chip" className="chip">
               {t}
@@ -107,11 +107,8 @@ export default function Hero() {
         </ul>
       </div>
 
-      <div className="u-container relative z-10">
-        <div
-          data-hero="cue"
-          className="mt-16 flex items-center gap-3 t-coord"
-        >
+      <div className="u-container relative z-10 pb-10">
+        <div data-hero="cue" className="flex items-center gap-3 t-coord">
           <span aria-hidden="true" className="scroll-cue" />
           Scroll to begin
         </div>

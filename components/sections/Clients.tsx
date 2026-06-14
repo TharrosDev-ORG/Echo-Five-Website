@@ -19,7 +19,7 @@ export default function Clients() {
           </div>
         </div>
 
-        <div className="mt-16 flex flex-col gap-14 md:mt-24">
+        <div className="section-gap flex flex-col gap-12 md:gap-16">
           {clients.groups.map((group) => (
             <div key={group.label}>
               <div className="mb-6 flex items-center gap-3" data-reveal="fade">
