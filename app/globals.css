@@ -46,9 +46,9 @@
    sets border-box. An unlayered `*` rule would override every layered utility. */
 
 :root {
-  --pad-2xl: clamp(7rem, 14vw, 13rem);
-  --pad-xl: clamp(5.5rem, 11vw, 9.5rem);
-  --pad-lg: clamp(4rem, 8vw, 6.5rem);
+  --pad-2xl: clamp(5.5rem, 9.5vw, 9rem);
+  --pad-xl: clamp(4.25rem, 7vw, 7rem);
+  --pad-lg: clamp(3.25rem, 5.5vw, 5rem);
   --container: 84rem;
   --gutter: clamp(1.25rem, 5vw, 4.5rem);
   --nav-h: 4.5rem;
@@ -255,10 +255,15 @@ html.lenis body {
 /* Consistent vertical rhythm from a section header to its main content block,
    and a larger break before a standalone pull-statement. */
 .section-gap {
-  margin-top: clamp(3.5rem, 6.5vw, 6rem);
+  margin-top: clamp(2.75rem, 5vw, 4.5rem);
 }
 .section-gap-lg {
-  margin-top: clamp(5rem, 9vw, 8.5rem);
+  margin-top: clamp(3.75rem, 6.5vw, 6rem);
+}
+
+/* Max-width measured in the element's own (display) font, for big statements. */
+.measure-statement {
+  max-width: 22ch;
 }
 
 .rule-top {
@@ -573,16 +578,6 @@ body.cursor-ready.fine-pointer [data-cursor] {
   transform: translateY(0.4em);
 }
 
-/* ADKAR: rail fill collapsed until the scrub drives it. */
-.js [data-rail-fill] {
-  transform: scaleX(0);
-  transform-origin: left center;
-}
-/* ADKAR stages start scattered/dim, lit as they align. */
-.js [data-stage] {
-  opacity: 0.32;
-}
-
 /* ---------- WebGL flow field ---------- */
 .flowfield {
   position: absolute;
@@ -691,99 +686,73 @@ body.cursor-ready.fine-pointer [data-cursor] {
   transform: translateX(6px);
 }
 
-/* ---------- ADKAR pinned track ---------- */
-.adkar-pin {
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  gap: clamp(2rem, 5vh, 4rem);
-  padding-block: clamp(5rem, 9vh, 8rem) clamp(2rem, 5vh, 4rem);
+/* ---------- ADKAR sequence (dense 5-up stepper) ---------- */
+/* Rail: a full-width line with five evenly-spaced nodes aligned to the columns. */
+.adkar-rail {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  margin-bottom: clamp(1.5rem, 2.4vw, 2.4rem);
 }
-.adkar-head {
-  flex: 0 0 auto;
+.adkar-rail::before {
+  content: "";
+  position: absolute;
+  left: 5px;
+  right: 5px;
+  top: 50%;
+  height: 2px;
+  background: var(--color-line);
+  transform: translateY(-50%);
 }
-.adkar-viewport {
-  flex: 1 1 auto;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
+.adkar-rail-node {
+  position: relative;
+  z-index: 1;
+  justify-self: start;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--color-cobalt);
+  box-shadow: 0 0 0 4px var(--color-paper-3);
 }
-.adkar-track {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  padding-inline: var(--gutter);
-}
-.js .adkar-track {
-  flex-direction: row;
-  flex-wrap: nowrap;
-  align-items: center;
-  width: max-content;
-  gap: clamp(1.5rem, 4vw, 4rem);
-  will-change: transform;
+.adkar-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: clamp(1.25rem, 2vw, 2.25rem);
 }
 .adkar-stage {
-  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 1.1rem;
-  padding: clamp(1.75rem, 3vw, 2.75rem);
-  background: var(--color-card);
-  border: 1px solid var(--color-line);
-  border-radius: 14px;
+  gap: 0.7rem;
 }
-.js .adkar-stage {
-  flex: 0 0 auto;
-  width: min(82vw, 38rem);
-}
-/* Staircase: stages climb left → right to read as an ascent. */
-.js .adkar-track .adkar-stage:nth-child(1) {
-  transform: translateY(54px);
-}
-.js .adkar-track .adkar-stage:nth-child(2) {
-  transform: translateY(27px);
-}
-.js .adkar-track .adkar-stage:nth-child(4) {
-  transform: translateY(-27px);
-}
-.js .adkar-track .adkar-stage:nth-child(5) {
-  transform: translateY(-54px);
+.adkar-stage-num {
+  color: var(--color-ink-muted);
 }
 .adkar-stage-key {
   font-family: var(--font-display);
   font-weight: 760;
-  font-size: clamp(3.5rem, 7vw, 6rem);
+  font-size: clamp(2.6rem, 4.5vw, 4rem);
   line-height: 0.9;
+  letter-spacing: -0.03em;
   color: var(--color-cobalt);
 }
-.adkar-stage-meta {
-  margin-top: -0.4rem;
-}
 .adkar-stage-name {
-  font-weight: 680;
-  font-size: clamp(1.5rem, 2.4vw, 2.1rem);
-  letter-spacing: -0.015em;
+  font-family: var(--font-display);
+  font-weight: 660;
+  font-size: clamp(1.25rem, 1.7vw, 1.6rem);
+  letter-spacing: -0.012em;
 }
-.adkar-rail {
-  position: relative;
-  height: 2px;
-  background: var(--color-line);
-  overflow: hidden;
-}
-.adkar-rail > [data-rail-fill] {
-  position: absolute;
-  inset: 0;
-  background: var(--color-cobalt);
-  transform-origin: left center;
-}
-@media (prefers-reduced-motion: reduce) {
-  .js .adkar-track {
-    flex-direction: column;
-    width: auto;
+@media (max-width: 1024px) {
+  .adkar-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(1.5rem, 4vw, 2.5rem) clamp(1.5rem, 4vw, 3rem);
   }
-  .js .adkar-stage {
-    width: auto;
-    transform: none !important;
+  .adkar-rail {
+    display: none;
+  }
+}
+@media (max-width: 560px) {
+  .adkar-grid {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -981,14 +950,10 @@ body.cursor-ready.fine-pointer [data-cursor] {
   }
   .js [data-reveal],
   .js .hero-stage [data-hero],
-  .js [data-stage],
   .js .split-word,
   .js .split-char {
     opacity: 1 !important;
     transform: none !important;
-  }
-  .js [data-rail-fill] {
-    transform: scaleX(1) !important;
   }
   .status-dot::after {
     display: none !important;

@@ -54,10 +54,10 @@ export default function Why() {
           ))}
         </ol>
 
-        <div className="section-gap-lg" style={{ maxWidth: "28ch" }}>
+        <div className="section-gap-lg">
           <SplitText
             as="p"
-            className="t-h2"
+            className="t-h2 measure-statement"
             text={why.close}
           />
         </div>
