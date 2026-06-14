@@ -2,6 +2,10 @@ import type { Metadata, Viewport } from "next";
 import { Bricolage_Grotesque, Public_Sans, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { site } from "@/lib/site";
+import SmoothScroll from "@/components/providers/SmoothScroll";
+import Preloader from "@/components/fx/Preloader";
+import Cursor from "@/components/fx/Cursor";
+import ScrollProgress from "@/components/fx/ScrollProgress";
 
 const display = Bricolage_Grotesque({
   subsets: ["latin"],
@@ -55,8 +59,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0c1018",
-  colorScheme: "dark",
+  themeColor: "#f3efe7",
+  colorScheme: "light",
 };
 
 const jsonLd = {
@@ -98,7 +102,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <a href="#main" className="skip-link">
           Skip to content
         </a>
-        {children}
+        <Preloader />
+        <SmoothScroll>{children}</SmoothScroll>
+        <ScrollProgress />
+        <Cursor />
+        <div className="grain" aria-hidden="true" />
       </body>
     </html>
   );

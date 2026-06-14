@@ -6,12 +6,28 @@ export const alt = `${site.name} — ${site.tagline}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-const BG = "#0c1018";
-const SIGNAL = "#7fd4f2";
-const INK = "#f2f4f8";
-const MUTED = "#8b95a7";
+const PAPER = "#f3efe7";
+const INK = "#15110c";
+const COBALT = "#2540ff";
+const MUTED = "#6b6358";
 
 export default function OgImage() {
+  // A light field of dots that "aligns" toward the lower right — the
+  // scattered → ordered motif, no echo/sonar imagery.
+  const dots: { x: number; y: number; r: number; c: string }[] = [];
+  for (let i = 0; i < 90; i++) {
+    const gx = i % 15;
+    const gy = Math.floor(i / 15);
+    const align = (gx / 14) * (gy / 5);
+    const jitter = (1 - align) * 26;
+    dots.push({
+      x: 60 + gx * 78 + (Math.sin(i * 12.9) * jitter),
+      y: 70 + gy * 95 + (Math.cos(i * 4.7) * jitter),
+      r: 2 + align * 3.5,
+      c: align > 0.55 ? COBALT : MUTED,
+    });
+  }
+
   return new ImageResponse(
     (
       <div
@@ -21,67 +37,35 @@ export default function OgImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: BG,
+          background: PAPER,
           padding: 72,
           fontFamily: "sans-serif",
           position: "relative",
         }}
       >
-        {/* Echo rings */}
-        <div
-          style={{
-            position: "absolute",
-            right: -160,
-            top: -160,
-            width: 640,
-            height: 640,
-            borderRadius: 9999,
-            border: `2px solid ${SIGNAL}33`,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <div
-            style={{
-              width: 440,
-              height: 440,
-              borderRadius: 9999,
-              border: `2px solid ${SIGNAL}55`,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <div
-              style={{
-                width: 250,
-                height: 250,
-                borderRadius: 9999,
-                border: `2px solid ${SIGNAL}99`,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <div style={{ width: 14, height: 14, borderRadius: 9999, background: SIGNAL }} />
-            </div>
+        <div style={{ position: "absolute", inset: 0, display: "flex" }}>
+          <svg width="1200" height="630" viewBox="0 0 1200 630">
+            {dots.map((d, i) => (
+              <circle key={i} cx={d.x} cy={d.y} r={d.r} fill={d.c} opacity={0.5} />
+            ))}
+          </svg>
+        </div>
+
+        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+          <div style={{ width: 10, height: 10, borderRadius: 9999, background: COBALT }} />
+          <div style={{ fontSize: 26, letterSpacing: 4, color: MUTED, fontWeight: 600 }}>
+            ECHOFIVE
           </div>
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          <div style={{ width: 12, height: 12, borderRadius: 9999, background: SIGNAL }} />
-          <div style={{ fontSize: 26, letterSpacing: 6, color: MUTED }}>ECHO·FIVE</div>
-        </div>
-
-        <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
-          <div style={{ fontSize: 84, fontWeight: 700, color: INK, lineHeight: 1.02, letterSpacing: -2 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 6, position: "relative" }}>
+          <div style={{ fontSize: 92, fontWeight: 800, color: INK, lineHeight: 1.0, letterSpacing: -3 }}>
             Change that lands.
           </div>
-          <div style={{ fontSize: 84, fontWeight: 700, color: SIGNAL, lineHeight: 1.02, letterSpacing: -2 }}>
+          <div style={{ fontSize: 92, fontWeight: 800, color: COBALT, lineHeight: 1.0, letterSpacing: -3 }}>
             Tools that get used.
           </div>
-          <div style={{ fontSize: 30, color: MUTED, marginTop: 16 }}>
+          <div style={{ fontSize: 28, color: MUTED, marginTop: 22 }}>
             Microsoft 365 change management · Canadian public sector and enterprise
           </div>
         </div>

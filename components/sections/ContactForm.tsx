@@ -6,10 +6,6 @@ import { site, mailtoBook } from "@/lib/site";
 type Status = "idle" | "submitting" | "success" | "error";
 type FieldErrors = Partial<Record<"name" | "email" | "message", string>>;
 
-/* Dark fields on the signal-drenched close. */
-const fieldBase =
-  "w-full bg-bg-deep text-ink placeholder:text-ink-muted border border-ink-on-signal/30 px-4 py-3 font-sans text-[1rem] outline-none transition-colors focus:border-bg-deep focus:ring-2 focus:ring-bg-deep";
-
 export default function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [errors, setErrors] = useState<FieldErrors>({});
@@ -52,7 +48,6 @@ export default function ContactForm() {
         setMessage("Please check the highlighted fields.");
         return;
       }
-      // Mail service unavailable: offer the direct address.
       setStatus("error");
       setFallback(true);
       setMessage("Our form could not send right now.");
@@ -65,14 +60,12 @@ export default function ContactForm() {
 
   if (status === "success") {
     return (
-      <div
-        className="flex flex-col items-start gap-4 border border-ink-on-signal/25 bg-bg-deep p-8 text-ink"
-        role="status"
-        aria-live="polite"
-      >
+      <div className="card founder" role="status" aria-live="polite">
         <span className="status-dot" aria-hidden="true" />
-        <p className="t-h3">Message sent.</p>
-        <p className="t-body text-ink-muted">
+        <p className="t-h3" style={{ marginTop: "1rem" }}>
+          Message sent.
+        </p>
+        <p className="t-body" style={{ color: "var(--color-ink-muted)", marginTop: "0.75rem" }}>
           Thank you. Your note has reached Mark directly. You can expect a straight answer, usually
           within one business day.
         </p>
@@ -102,10 +95,10 @@ export default function ContactForm() {
             aria-required="true"
             aria-invalid={errors.name ? "true" : undefined}
             aria-describedby={errors.name ? "name-error" : undefined}
-            className={`mt-2 ${fieldBase}`}
+            className="field mt-2"
           />
           {errors.name ? (
-            <p id="name-error" className="mt-2 font-mono text-[0.74rem] font-medium">
+            <p id="name-error" className="mt-2 font-mono" style={{ fontSize: "0.74rem", color: "var(--color-cobalt)" }}>
               {errors.name}
             </p>
           ) : null}
@@ -120,7 +113,7 @@ export default function ContactForm() {
             name="organization"
             type="text"
             autoComplete="organization"
-            className={`mt-2 ${fieldBase}`}
+            className="field mt-2"
           />
         </div>
       </div>
@@ -138,10 +131,10 @@ export default function ContactForm() {
           aria-required="true"
           aria-invalid={errors.email ? "true" : undefined}
           aria-describedby={errors.email ? "email-error" : undefined}
-          className={`mt-2 ${fieldBase}`}
+          className="field mt-2"
         />
         {errors.email ? (
-          <p id="email-error" className="mt-2 font-mono text-[0.74rem] font-medium">
+          <p id="email-error" className="mt-2 font-mono" style={{ fontSize: "0.74rem", color: "var(--color-cobalt)" }}>
             {errors.email}
           </p>
         ) : null}
@@ -159,10 +152,11 @@ export default function ContactForm() {
           aria-required="true"
           aria-invalid={errors.message ? "true" : undefined}
           aria-describedby={errors.message ? "message-error" : undefined}
-          className={`mt-2 resize-y ${fieldBase}`}
+          className="field mt-2"
+          style={{ resize: "vertical" }}
         />
         {errors.message ? (
-          <p id="message-error" className="mt-2 font-mono text-[0.74rem] font-medium">
+          <p id="message-error" className="mt-2 font-mono" style={{ fontSize: "0.74rem", color: "var(--color-cobalt)" }}>
             {errors.message}
           </p>
         ) : null}
@@ -172,19 +166,20 @@ export default function ContactForm() {
         <button
           type="submit"
           disabled={status === "submitting"}
-          className="btn bg-bg-deep text-signal hover:bg-bg disabled:opacity-60"
+          className="btn btn-primary"
+          style={{ opacity: status === "submitting" ? 0.6 : 1 }}
+          data-cursor
         >
           {status === "submitting" ? "Sending..." : "Send message"}
         </button>
 
-        {/* Live status for screen readers + visible error / fallback. */}
-        <p role="status" aria-live="polite" className="font-mono text-[0.78rem] font-medium">
+        <p role="status" aria-live="polite" className="font-mono" style={{ fontSize: "0.78rem" }}>
           {message}
           {fallback ? (
             <>
               {" "}
               Email{" "}
-              <a href={mailtoBook} className="underline">
+              <a href={mailtoBook} className="underline" style={{ color: "var(--color-cobalt)" }}>
                 {site.email}
               </a>{" "}
               directly.
