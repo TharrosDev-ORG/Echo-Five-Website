@@ -61,9 +61,13 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
     gsap.ticker.add(raf);
     gsap.ticker.lagSmoothing(0);
 
-    // Hold scroll until the preloader lifts, then hand off.
+    // Hold scroll until the preloader lifts, then hand off + re-measure (the
+    // curtain hid layout while triggers were first computed).
     lenis.stop();
-    const start = () => lenis.start();
+    const start = () => {
+      lenis.start();
+      ScrollTrigger.refresh();
+    };
     const loadedAlready = document.documentElement.dataset.loaded === "true";
     if (loadedAlready) start();
     else window.addEventListener("ef:loaded", start, { once: true });
@@ -71,6 +75,13 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
     // Re-measure once pins/splits settle.
     const refresh = () => ScrollTrigger.refresh();
     requestAnimationFrame(() => requestAnimationFrame(refresh));
+
+    // Fonts swap in after first paint (display: swap) and reflow the big
+    // headings — refresh so trigger positions don't go stale (the cause of
+    // reveals firing late or never).
+    if (typeof document !== "undefined" && document.fonts?.ready) {
+      document.fonts.ready.then(() => ScrollTrigger.refresh());
+    }
 
     setReady(true);
 

@@ -56,7 +56,7 @@ export default function Preloader() {
 
     tl.to(counter, {
       value: 100,
-      duration: 1.6,
+      duration: 1.1,
       ease: "power2.inOut",
       onUpdate: () => {
         count.textContent = String(Math.round(counter.value)).padStart(2, "0");
