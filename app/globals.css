@@ -19,7 +19,7 @@
   /* ---- Ink: warm near-black ---- */
   --color-ink: oklch(0.205 0.014 64); /* #14110D-ish */
   --color-ink-soft: oklch(0.405 0.013 66);
-  --color-ink-muted: oklch(0.525 0.013 68); /* AA on paper */
+  --color-ink-muted: oklch(0.46 0.014 68); /* AA on every paper band incl. paper-3 */
 
   /* ---- Cobalt: the single accent ---- */
   --color-cobalt: oklch(0.52 0.247 266); /* #2540FF-ish */
@@ -163,9 +163,9 @@ html.lenis body {
 /* Mono coordinate label — section index, nav, eyebrows, form labels */
 .t-coord {
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 500;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--color-ink-muted);
 }
@@ -197,10 +197,10 @@ html.lenis body {
 }
 
 .t-lead {
-  font-size: clamp(1.18rem, 1.9vw, 1.6rem);
-  line-height: 1.46;
+  font-size: clamp(1.18rem, 1.9vw, 1.55rem);
+  line-height: 1.52;
   color: var(--color-ink-soft);
-  font-weight: 380;
+  font-weight: 400;
   text-wrap: pretty;
 }
 
@@ -222,7 +222,7 @@ html.lenis body {
   max-width: 42ch;
 }
 .measure-wide {
-  max-width: 64ch;
+  max-width: 60ch;
 }
 .text-balance {
   text-wrap: balance;
@@ -390,8 +390,8 @@ html.lenis body {
   border: 1px solid var(--color-line);
   border-radius: 999px;
   font-family: var(--font-mono);
-  font-size: 0.74rem;
-  letter-spacing: 0.04em;
+  font-size: 0.78rem;
+  letter-spacing: 0.03em;
   color: var(--color-ink-soft);
   background: var(--color-card);
 }
@@ -778,8 +778,8 @@ body.cursor-ready.fine-pointer [data-cursor] {
   color: var(--color-cobalt);
 }
 .client-name {
-  font-size: 0.84rem;
-  line-height: 1.4;
+  font-size: 0.875rem;
+  line-height: 1.45;
   color: var(--color-ink-muted);
 }
 
@@ -809,7 +809,7 @@ body.cursor-ready.fine-pointer [data-cursor] {
 }
 .cred-detail {
   font-family: var(--font-mono);
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   color: var(--color-ink-muted);
 }
 
