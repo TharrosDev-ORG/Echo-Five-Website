@@ -1,109 +1,101 @@
-# Echofive Solutions — Design System ("Deep Field / Sonar")
+# Echofive Solutions — Design System ("Bone & Cobalt")
 
-The implementation reference. Tokens live in the `@theme` block of
-`app/globals.css`; this document explains the intent behind them.
+The implementation reference. Tokens live in the `@theme` block of `app/globals.css`;
+this document explains the intent behind them.
 
-This is the v4 ground-zero rebuild: a dark depth-field identity built around the
-echo/sonar callsign, rendered literally. A Three.js GPU particle field carries
-propagating echo pulses in the hero; GSAP ScrollTrigger drives the scroll
-narrative. The site should feel like precision instrumentation for serious
-public-sector buyers — captivating, never gimmicky.
+A light editorial identity. The concept is **change, flow, and alignment** — the human
+work between *buying* software and *actually using it*, expressed visually as
+*scattered → aligned* (disorder coming into order = adoption). Warm bone paper, deep warm
+ink, one electric cobalt accent. A Three.js curl-noise particle field drifts behind the
+hero like slow currents; Lenis smooth scroll drives a GSAP ScrollTrigger narrative. The
+site should feel confident and precise for serious public-sector buyers — captivating,
+never gimmicky.
 
 ## Color
 
-Strategy: **one committed accent on an ink-navy depth field**. The grounds are a
-depth gradient (darkest at the poles: hero and footer on `bg-deep`), one electric
-ice cyan "signal" carries meaning (the echo motif, live state, progress, key
-words, CTAs), and the page closes on a full signal-drenched contact. All OKLCH.
+Strategy: **one committed accent on a warm light field**. Grounds are layered bone tones
+for depth; deep warm ink carries text; one electric cobalt carries meaning (key words,
+progress, links, CTAs, the founder mark). All OKLCH.
 
-| Token | OKLCH | Role |
-| --- | --- | --- |
-| `--color-bg` | `0.165 0.022 252` | Base ground |
-| `--color-bg-deep` | `0.125 0.02 254` | Hero, alternating sections, footer |
-| `--color-bg-raised` | `0.2 0.024 252` | Hover sweeps, panels |
-| `--color-bg-elev` | `0.24 0.026 250` | Elevated panels (principal card, video) |
-| `--color-ink` | `0.965 0.006 230` | Primary text |
-| `--color-ink-soft` | `0.81 0.014 235` | Secondary text |
-| `--color-ink-muted` | `0.66 0.02 238` | Tertiary text (AA on bg + bg-deep) |
-| `--color-signal` | `0.85 0.131 210` | The committed accent: echo motif, progress, CTAs, key words |
-| `--color-signal-bright` | `0.92 0.105 203` | Hover / emphasis |
-| `--color-ink-on-signal` | `0.17 0.05 240` | Dark ink on signal fills + the drenched close |
-| `--color-line` | `ink / 0.09` | Keylines |
-| `--color-line-strong` | `ink / 0.18` | Stronger keylines |
-| `--color-line-signal` | `signal / 0.35` | Accent keylines, glows |
+| Token | Role |
+| --- | --- |
+| `--color-paper` | Base bone ground (`#F3EFE7`) |
+| `--color-paper-2` / `--color-paper-3` | Deeper bands for section rhythm |
+| `--color-card` | Near-white raised surfaces |
+| `--color-ink` | Primary text (`#14110D`-warm near-black) |
+| `--color-ink-soft` / `--color-ink-muted` | Secondary / tertiary text (AA on paper) |
+| `--color-cobalt` | The committed accent (`#2540FF`): key words, progress, links, CTAs |
+| `--color-cobalt-deep` / `--color-cobalt-soft` | Emphasis / tints |
+| `--color-on-cobalt` | Light text on cobalt fills |
+| `--color-line*` | Keylines (ink at alpha) and cobalt keylines |
 
-Rhythm comes from alternating `bg` / `bg-deep` section grounds with panel
-elevation inside, closing on the one **signal-drenched** contact section
-(`bg-signal` + `ink-on-signal`).
+Rhythm comes from alternating `paper` / `paper-2` / `paper-3` section grounds, closing on
+a single **deep-ink footer** for contrast.
 
 ## Typography
 
-- **Display:** Bricolage Grotesque (variable). Weights ~620–750 via
-  `font-[...]`, tight tracking, near-1.0 line height. Characterful without
-  being decorative.
-- **Body:** Public Sans (variable) — the USWDS government typeface, a quiet
-  trust signal for the audience. Base 1.0625rem, line height ~1.62.
-- **Mono:** IBM Plex Mono (400/500) for "coordinates": section indices,
-  kickers, nav, labels, buttons, client shorts. `.t-coord` is the canonical
-  label style (0.75rem, 0.2em tracking, uppercase).
+- **Display:** Bricolage Grotesque (variable), tight tracking, near-1.0 line height.
+- **Body:** Public Sans (variable) — the USWDS government typeface, a quiet trust signal.
+- **Mono:** IBM Plex Mono for "coordinates": section indices, kickers, labels, buttons.
+  `.t-coord` is the canonical label (0.72rem, 0.22em tracking, uppercase).
 
-Scale utilities: `.t-display`, `.t-h2`, `.t-h3`, `.t-lead`, `.t-body` (all
-`clamp()`-based). No serif, no italic anywhere. No em-dashes in copy.
+Scale utilities (all `clamp()`-based): `.t-display`, `.t-h2`, `.t-h3`, `.t-lead`,
+`.t-body`, `.t-mega-num`, plus `.index-num` (stroked numerals). No serif, no italic, no
+em-dashes in copy.
 
 ## Motion
 
-Two engines, one discipline:
+Two engines, one rAF loop, one discipline:
 
-- **Three.js** (`components/three/EchoField.tsx`): the hero particle plane.
-  Custom shader; echo rings propagate across ~24k points (12k mobile),
-  pointer parallaxes the camera. DPR capped at 1.75, additive blending,
-  single draw call. Pauses off-screen / hidden tab. Reduced motion renders
-  one static frame with a frozen wavefront.
-- **GSAP ScrollTrigger** (`lib/animation.ts` is the only import point):
-  - `ScrollFX.tsx` (mounted once) drives all `[data-reveal]` /
-    `[data-reveal-group]` rises and `[data-count]` count-ups, so content
-    sections stay server components.
-  - `Adkar.tsx` pins on desktop and scrubs a wavefront across the five
-    stages (rail fill + per-stage lighting); unpinned vertical rail on
-    mobile.
-  - Hero entrance: line-mask headline reveal, staggered meta/chips.
-  - `StickyCTA.tsx` slides in after the hero, retreats at contact.
+- **Lenis + GSAP** (`components/providers/SmoothScroll.tsx`): Lenis smooth scroll is
+  synced to GSAP's ticker and feeds `ScrollTrigger.update`, so reveals, pinning, and the
+  scroll-progress bar all share one clock. Scroll is held during the preloader and
+  released on the `ef:loaded` event.
+- **Three.js** (`components/three/FlowField.tsx`): the hero particle field. Custom
+  shaders displace points along a curl-noise flow field; the pointer scatters them and
+  they settle back. DPR capped at 2, normal blending tuned for a light ground, pauses
+  off-screen / hidden tab, full dispose on unmount, context-loss handled.
+- **GSAP ScrollTrigger storytelling:**
+  - `useReveal` (via `RevealRoot`) drives all `[data-reveal]` / `[data-reveal-group]`
+    rises and `[data-split]` masked-headline reveals, so content sections stay server
+    components.
+  - `Adkar.tsx` pins and scrubs a horizontal five-stage track (staircase ascent, rail
+    fill, per-stage lighting); collapses to a clean vertical stack on reduced motion.
+  - Hero entrance: line-mask headline reveal + staggered meta/chips on `ef:loaded`.
+  - FX: custom cursor, intro preloader, scroll-progress bar, magnetic CTAs.
 
-Rules: initial hidden states are gated behind the `.js` class (no-JS users
-see everything); `prefers-reduced-motion` forces all final states in CSS and
-skips every GSAP/marquee animation; never `clearProps` on elements whose
-hidden state lives in the stylesheet (it re-hides them).
+Rules: initial hidden states are gated behind the `.js` class (no-JS users see
+everything); `prefers-reduced-motion` forces all final states in CSS and skips every
+GSAP / Lenis / WebGL / marquee animation; never `clearProps` on elements whose hidden
+state lives in the stylesheet.
 
-### Two cascade gotchas (learned the hard way)
+### Two cascade gotchas (kept from the prior build, still true)
 
-1. **No unlayered universal resets.** An unlayered `* { margin: 0 }` beats
-   every Tailwind utility (they live in `@layer utilities`). Tailwind v4
-   preflight already handles the reset.
-2. **Tailwind v4 `scale-*` uses the `scale` property**, which composes with
-   GSAP's `transform`. Anything GSAP scales must get its initial scale from
-   GSAP (`fromTo`) or a plain `transform` rule, not Tailwind scale classes.
+1. **No unlayered universal resets.** An unlayered `* { margin: 0 }` beats every Tailwind
+   utility (they live in `@layer utilities`). Tailwind v4 preflight handles the reset.
+2. **Tailwind v4 `scale-*` uses the `scale` property**, which composes with GSAP's
+   `transform`. Anything GSAP scales must get its initial scale from GSAP (`fromTo`) or a
+   plain `transform` rule, not Tailwind scale classes.
 
 ## Layout
 
-- `.u-container`: max 82rem, fluid inline padding.
+- `.u-container`: max 84rem, fluid inline padding (`--gutter`).
 - Section padding via `.pad-block-2xl/xl/lg` so the scroll has a beat.
-- Faint `.bg-grid` + `.grain` atmosphere on hero/process; keylines
-  (`border-line`) structure everything else — grid-of-cells for clients and
-  failure cards, editorial full-width rows for services and credentials.
-- One-page narrative order: Hero → TrustStrip → Why → Services → ADKAR →
-  Method → Proof → Clients → Credentials → About → Contact → Footer.
+- Faint `.bg-grid` + `.grain` atmosphere; keylines (`--color-line`) structure
+  grids-of-cells (clients, failure cards) and editorial rows (services, credentials).
+- One-page narrative: Hero → Trust → Why → Services → ADKAR → Method → Proof →
+  Clients → Credentials → About → Contact → Footer.
 
 ## Conversion
 
-Primary action everywhere is `#contact` (nav CTA, hero, sticky bar). Contact
-is a real form → `/api/contact` (Resend; env: `RESEND_API_KEY`, `CONTACT_TO`,
-`CONTACT_FROM`) with honeypot + field validation + live-region errors, and a
+Primary action everywhere is `#contact` / the founder's email (nav CTA, hero chips,
+contact section). Contact is a real form → `/api/contact` (Resend; env: `RESEND_API_KEY`,
+`CONTACT_TO`, `CONTACT_FROM`) with honeypot + field validation + live-region errors, and a
 graceful mailto fallback when the mail service is unconfigured.
 
 ## Accessibility floor
 
-WCAG AA contrast on every text/ground pair (muted ink tuned for bg-deep;
-small signal text only on dark grounds). Skip link, single `h1`, ordered
-headings, semantic lists, `aria-current` nav state, focus-visible ring in
-signal, click-to-load video facade, reduced-motion fallbacks on every
-animated element.
+WCAG AA contrast on every text/ground pair. Skip link, single `h1`, ordered headings,
+semantic lists, keyboard-operable nav with smooth anchor scroll, focus-visible ring in
+cobalt, click-to-load video facade, and reduced-motion fallbacks on every animated
+element. The custom cursor is decorative, additive, and fine-pointer only.

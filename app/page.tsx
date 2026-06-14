@@ -1,21 +1,22 @@
-import Nav from "@/components/site/Nav";
-import Hero from "@/components/site/Hero";
-import TrustStrip from "@/components/site/TrustStrip";
-import Why from "@/components/site/Why";
-import Services from "@/components/site/Services";
-import Adkar from "@/components/site/Adkar";
-import Method from "@/components/site/Method";
-import Proof from "@/components/site/Proof";
-import Clients from "@/components/site/Clients";
-import Credentials from "@/components/site/Credentials";
-import About from "@/components/site/About";
-import Contact from "@/components/site/Contact";
-import Footer from "@/components/site/Footer";
-import StickyCTA from "@/components/site/StickyCTA";
-import ScrollFX from "@/components/site/ScrollFX";
+import Nav from "@/components/sections/Nav";
+import Hero from "@/components/sections/Hero";
+import RevealRoot from "@/components/ui/RevealRoot";
+import Trust from "@/components/sections/Trust";
+import Why from "@/components/sections/Why";
+import Services from "@/components/sections/Services";
+import Adkar from "@/components/sections/Adkar";
+import Method from "@/components/sections/Method";
+import Proof from "@/components/sections/Proof";
+import Clients from "@/components/sections/Clients";
+import Credentials from "@/components/sections/Credentials";
+import About from "@/components/sections/About";
+import Contact from "@/components/sections/Contact";
+import Footer from "@/components/sections/Footer";
 
 /**
- * One-page scroll narrative: problem → solution → proof → trust → ask.
+ * One-page scroll narrative: problem → approach → sequence → proof → trust → ask.
+ * The hero owns its load-triggered intro; RevealRoot drives scroll reveals for
+ * the remaining sections, which stay server components.
  */
 export default function Page() {
   return (
@@ -23,20 +24,20 @@ export default function Page() {
       <Nav />
       <main id="main">
         <Hero />
-        <TrustStrip />
-        <Why />
-        <Services />
-        <Adkar />
-        <Method />
-        <Proof />
-        <Clients />
-        <Credentials />
-        <About />
-        <Contact />
+        <RevealRoot>
+          <Trust />
+          <Why />
+          <Services />
+          <Adkar />
+          <Method />
+          <Proof />
+          <Clients />
+          <Credentials />
+          <About />
+          <Contact />
+        </RevealRoot>
       </main>
       <Footer />
-      <StickyCTA />
-      <ScrollFX />
     </>
   );
 }

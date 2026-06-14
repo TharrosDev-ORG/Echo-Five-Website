@@ -7,13 +7,13 @@ Every word on the page comes from `lib/content.ts` (copy/data) or `lib/site.ts`
 | --- | --- | --- | --- |
 | — | Navigation | `Nav` | `nav`, `site` |
 | 00 | Hero | `Hero` | `hero`, `site` |
-| — | Trust strip (ticker + stats) | `TrustStrip` | `clients` (short names + counts) |
+| — | Trust strip (ticker + stats) | `Trust` | `clients` (short names + counts) |
 | 01 | Why rollouts stall | `Why` | `why` |
 | 02 | Where we shine (services) | `Services` | `services` |
-| 03 | How adoption happens (ADKAR) | `AdkarStepper` | `process` |
+| 03 | How adoption happens (ADKAR) | `Adkar` | `process` |
 | 06 | How we make it measurable | `Method` | `method`, `site.advantaUrl` |
 | 05 | On the record (video) | `Proof` | `proof`, `site.video` |
-| 04 | Selected clients | `ClientGrid` | `clients` |
+| 04 | Selected clients | `Clients` | `clients` |
 | 07 | Credentials | `Credentials` | `credentials` |
 | — | The firm + founder (about) | `About` | `about`, `principal` |
 | 08 | Contact (form) | `Contact` / `ContactForm` | `contact`, `site` |
@@ -30,7 +30,8 @@ for narrative flow) does not have to match the numeric order.
   (see `app/api/contact/route.ts`).
 - `video.id` — the YouTube ID for the SSC adoption talk (`4IycJ3ehz7g`).
 - `advantaUrl` — the partner platform link.
-- `callsign` — the `ECHO·FIVE` wordmark text.
+- `callsign` — legacy constant, retained but no longer rendered (the wordmark is now the
+  "Echofive" lockup in `Nav` / `Footer`).
 
 ## Editing notes
 
