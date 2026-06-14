@@ -14,11 +14,15 @@ import { gsap, ScrollTrigger, prefersReducedMotion } from "@/lib/gsap";
 type ScrollToTarget = string | number | HTMLElement;
 type LenisContextValue = {
   scrollTo: (target: ScrollToTarget, options?: { offset?: number }) => void;
+  stop: () => void;
+  start: () => void;
   ready: boolean;
 };
 
 const LenisContext = createContext<LenisContextValue>({
   scrollTo: () => {},
+  stop: () => {},
+  start: () => {},
   ready: false,
 });
 
@@ -98,8 +102,19 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
     }
   };
 
+  const stop = () => {
+    const lenis = lenisRef.current;
+    if (lenis) lenis.stop();
+    else document.documentElement.style.overflow = "hidden";
+  };
+  const start = () => {
+    const lenis = lenisRef.current;
+    if (lenis) lenis.start();
+    else document.documentElement.style.overflow = "";
+  };
+
   return (
-    <LenisContext.Provider value={{ scrollTo, ready }}>
+    <LenisContext.Provider value={{ scrollTo, stop, start, ready }}>
       {children}
     </LenisContext.Provider>
   );

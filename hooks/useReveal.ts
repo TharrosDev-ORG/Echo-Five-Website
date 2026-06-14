@@ -55,18 +55,23 @@ export function useReveal<T extends HTMLElement = HTMLElement>(): RefObject<T | 
         });
       });
 
-      // Split headlines: masked line rise.
+      // Split headlines: masked line rise. fromTo pins the start explicitly so
+      // GSAP never has to read a percentage transform out of the matrix.
       const splits = Array.from(el.querySelectorAll<HTMLElement>("[data-split]"));
       splits.forEach((node) => {
         const words = node.querySelectorAll<HTMLElement>(".split-word");
         if (!words.length) return;
-        gsap.to(words, {
-          yPercent: 0,
-          duration: 1.1,
-          ease: EASE,
-          stagger: 0.04,
-          scrollTrigger: { trigger: node, start: "top 86%" },
-        });
+        gsap.fromTo(
+          words,
+          { yPercent: 110 },
+          {
+            yPercent: 0,
+            duration: 1.1,
+            ease: EASE,
+            stagger: 0.04,
+            scrollTrigger: { trigger: node, start: "top 86%" },
+          },
+        );
       });
     }, scope);
 

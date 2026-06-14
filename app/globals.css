@@ -439,11 +439,9 @@ html.lenis body {
 }
 .split-word {
   display: inline-block;
-  will-change: transform;
 }
 .split-char {
   display: inline-block;
-  will-change: transform, opacity;
 }
 
 /* ---------- Custom cursor ---------- */

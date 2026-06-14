@@ -23,31 +23,36 @@ export default function Preloader() {
   const [done, setDone] = useState(false);
 
   useEffect(() => {
-    if (prefersReducedMotion()) {
+    let finished = false;
+    const finish = () => {
+      if (finished) return;
+      finished = true;
+      document.documentElement.style.overflow = "";
       announceLoaded();
       setDone(true);
+    };
+
+    if (prefersReducedMotion()) {
+      finish();
       return;
     }
 
     const root = rootRef.current;
     const count = countRef.current;
     if (!root || !count) {
-      announceLoaded();
-      setDone(true);
+      finish();
       return;
     }
 
     // Lock scroll during the intro.
     document.documentElement.style.overflow = "hidden";
 
+    // Safety net: if the GSAP ticker stalls (e.g. the tab is backgrounded during
+    // load and rAF pauses), never leave the curtain blocking the page.
+    const safety = window.setTimeout(finish, 6000);
+
     const counter = { value: 0 };
-    const tl = gsap.timeline({
-      onComplete: () => {
-        document.documentElement.style.overflow = "";
-        announceLoaded();
-        setDone(true);
-      },
-    });
+    const tl = gsap.timeline({ onComplete: finish });
 
     tl.to(counter, {
       value: 100,
@@ -75,6 +80,7 @@ export default function Preloader() {
       );
 
     return () => {
+      window.clearTimeout(safety);
       tl.kill();
       document.documentElement.style.overflow = "";
     };

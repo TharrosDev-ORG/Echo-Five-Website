@@ -69,22 +69,36 @@ const vertexShader = /* glsl */ `
     return 42.0 * dot(m*m, vec4(dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3)));
   }
 
-  vec3 curl(vec3 p){
-    float e = 0.18;
+  // snoise returns a scalar; build a vec3 potential field from offset samples.
+  vec3 snoiseVec3(vec3 p){
+    float s  = snoise(p);
+    float s1 = snoise(vec3(p.y - 19.1, p.z + 33.4, p.x + 47.2));
+    float s2 = snoise(vec3(p.z + 74.2, p.x - 124.5, p.y + 99.4));
+    return vec3(s, s1, s2);
+  }
+
+  vec3 curlNoise(vec3 p){
+    const float e = 0.1;
     vec3 dx = vec3(e, 0.0, 0.0);
     vec3 dy = vec3(0.0, e, 0.0);
     vec3 dz = vec3(0.0, 0.0, e);
-    float x = snoise(p + dy).z - snoise(p - dy).z - snoise(p + dz).y + snoise(p - dz).y;
-    float y = snoise(p + dz).x - snoise(p - dz).x - snoise(p + dx).z + snoise(p - dx).z;
-    float z = snoise(p + dx).y - snoise(p - dx).y - snoise(p + dy).x + snoise(p - dy).x;
-    return normalize(vec3(x, y, z) + 0.0001) ;
+    vec3 p_x0 = snoiseVec3(p - dx);
+    vec3 p_x1 = snoiseVec3(p + dx);
+    vec3 p_y0 = snoiseVec3(p - dy);
+    vec3 p_y1 = snoiseVec3(p + dy);
+    vec3 p_z0 = snoiseVec3(p - dz);
+    vec3 p_z1 = snoiseVec3(p + dz);
+    float x = (p_y1.z - p_y0.z) - (p_z1.y - p_z0.y);
+    float y = (p_z1.x - p_z0.x) - (p_x1.z - p_x0.z);
+    float z = (p_x1.y - p_x0.y) - (p_y1.x - p_y0.x);
+    return normalize(vec3(x, y, z) / (2.0 * e) + 0.0001);
   }
 
   void main(){
     vec3 pos = position;
     float t = uTime * 0.05;
-    vec3 sample = pos * 0.16 + vec3(0.0, 0.0, t);
-    vec3 flow = curl(sample);
+    vec3 noiseP = pos * 0.16 + vec3(0.0, 0.0, t);
+    vec3 flow = curlNoise(noiseP);
     float amp = 0.9 + 0.5 * sin(uTime * 0.18 + aSeed * 6.2831);
     vec3 displaced = pos + flow * amp;
 
