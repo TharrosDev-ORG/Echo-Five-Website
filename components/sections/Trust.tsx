@@ -37,7 +37,7 @@ export default function Trust() {
           ))}
         </div>
 
-        <div className="marquee" style={{ ["--marquee-duration" as string]: "55s" }}>
+        <div className="marquee" aria-hidden="true" style={{ ["--marquee-duration" as string]: "55s" }}>
           <div className="marquee-track">
             {ticker.map((o, i) => (
               <span

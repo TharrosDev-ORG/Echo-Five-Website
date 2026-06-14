@@ -55,6 +55,13 @@ export const metadata: Metadata = {
     locale: "en_CA",
     type: "website",
   },
+  // The OG/Twitter image is generated and wired up automatically by
+  // app/opengraph-image.tsx; this just sets the card type and text.
+  twitter: {
+    card: "summary_large_image",
+    title: "Echofive Solutions · Microsoft 365 change management",
+    description: site.description,
+  },
   robots: { index: true, follow: true },
 };
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, createElement, type ElementType } from "react";
+import { useEffect, useRef, type ElementType } from "react";
 import { splitWords, splitChars } from "@/lib/splitText";
 
 type Props = {
@@ -18,7 +18,7 @@ type Props = {
  */
 export default function SplitText({
   text,
-  as = "span",
+  as: Tag = "span",
   className,
   mode = "words",
 }: Props) {
@@ -31,14 +31,9 @@ export default function SplitText({
     return () => result.revert();
   }, [text, mode]);
 
-  return createElement(
-    as,
-    {
-      ref,
-      className,
-      "data-split": "",
-      "aria-label": text,
-    },
-    text,
+  return (
+    <Tag ref={ref} className={className} data-split="" aria-label={text}>
+      {text}
+    </Tag>
   );
 }

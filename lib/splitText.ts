@@ -33,6 +33,9 @@ export function splitWords(el: HTMLElement): SplitResult {
     }
     const mask = document.createElement("span");
     mask.className = "split-line";
+    // The original text stays accessible via the parent's aria-label; hide the
+    // visual fragments so AT never reassembles the headline word-by-word.
+    mask.setAttribute("aria-hidden", "true");
     const word = document.createElement("span");
     word.className = "split-word";
     word.textContent = token;
@@ -63,6 +66,7 @@ export function splitChars(el: HTMLElement): SplitResult {
   for (const ch of text) {
     const span = document.createElement("span");
     span.className = "split-char";
+    span.setAttribute("aria-hidden", "true");
     span.textContent = ch === " " ? " " : ch;
     el.appendChild(span);
     chars.push(span);
