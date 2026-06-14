@@ -24,27 +24,27 @@ export default function Hero() {
       tl.to(el.querySelectorAll('[data-hero="eyebrow"]'), {
         opacity: 1,
         y: 0,
-        duration: 0.9,
+        duration: 0.7,
       })
         .to(
           words,
-          { yPercent: 0, duration: 1.15, stagger: 0.05 },
-          "-=0.5",
+          { yPercent: 0, duration: 0.95, stagger: 0.045 },
+          "-=0.4",
         )
         .to(
           el.querySelectorAll('[data-hero="sub"]'),
-          { opacity: 1, y: 0, duration: 1 },
-          "-=0.7",
+          { opacity: 1, y: 0, duration: 0.8 },
+          "-=0.6",
         )
         .to(
           el.querySelectorAll('[data-hero="chip"]'),
-          { opacity: 1, y: 0, duration: 0.8, stagger: 0.07 },
-          "-=0.7",
+          { opacity: 1, y: 0, duration: 0.7, stagger: 0.06 },
+          "-=0.55",
         )
         .to(
           el.querySelectorAll('[data-hero="cue"]'),
-          { opacity: 1, y: 0, duration: 0.8 },
-          "-=0.5",
+          { opacity: 1, y: 0, duration: 0.6 },
+          "-=0.45",
         );
     };
 

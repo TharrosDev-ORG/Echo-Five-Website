@@ -32,10 +32,10 @@ export function useReveal<T extends HTMLElement = HTMLElement>(): RefObject<T | 
           x: 0,
           y: 0,
           scale: 1,
-          duration: 1.05,
+          duration: 0.8,
           ease: EASE,
-          stagger: 0.08,
-          scrollTrigger: { trigger: group, start: "top 82%" },
+          stagger: 0.06,
+          scrollTrigger: { trigger: group, start: "top 90%", once: true },
         });
       });
 
@@ -49,9 +49,9 @@ export function useReveal<T extends HTMLElement = HTMLElement>(): RefObject<T | 
           x: 0,
           y: 0,
           scale: 1,
-          duration: 1.05,
+          duration: 0.8,
           ease: EASE,
-          scrollTrigger: { trigger: node, start: "top 86%" },
+          scrollTrigger: { trigger: node, start: "top 92%", once: true },
         });
       });
 
@@ -66,10 +66,10 @@ export function useReveal<T extends HTMLElement = HTMLElement>(): RefObject<T | 
           { yPercent: 110 },
           {
             yPercent: 0,
-            duration: 1.1,
+            duration: 0.9,
             ease: EASE,
-            stagger: 0.04,
-            scrollTrigger: { trigger: node, start: "top 86%" },
+            stagger: 0.035,
+            scrollTrigger: { trigger: node, start: "top 90%", once: true },
           },
         );
       });
