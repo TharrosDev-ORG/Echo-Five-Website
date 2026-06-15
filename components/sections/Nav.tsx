@@ -46,10 +46,11 @@ export default function Nav() {
     };
   }, []);
 
-  // Lock background scroll while the mobile menu is open.
+  // Lock background scroll only while the mobile menu is open (must not touch
+  // the scroll state on mount, which would fight the preloader's hold).
   useEffect(() => {
-    if (open) stop();
-    else start();
+    if (!open) return;
+    stop();
     return () => start();
   }, [open, stop, start]);
 

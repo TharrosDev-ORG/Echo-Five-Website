@@ -45,23 +45,22 @@ em-dashes in copy.
 
 ## Motion
 
-Two engines, one rAF loop, one discipline:
+Each mechanism stands alone so a hiccup in one can't leave content stuck hidden:
 
-- **Lenis + GSAP** (`components/providers/SmoothScroll.tsx`): Lenis smooth scroll is
-  synced to GSAP's ticker and feeds `ScrollTrigger.update`, so reveals, pinning, and the
-  scroll-progress bar all share one clock. Scroll is held during the preloader and
-  released on the `ef:loaded` event.
+- **Lenis** (`components/providers/SmoothScroll.tsx`): smooth scroll on the GSAP ticker.
+  It only smooths — nothing depends on it to become visible. Held during the preloader,
+  released on the `ef:loaded` event; also handles deep-link hashes.
 - **Three.js** (`components/three/FlowField.tsx`): the hero particle field. Custom
   shaders displace points along a curl-noise flow field; the pointer scatters them and
   they settle back. DPR capped at 2, normal blending tuned for a light ground, pauses
   off-screen / hidden tab, full dispose on unmount, context-loss handled.
-- **GSAP ScrollTrigger storytelling:**
-  - `useReveal` (via `RevealRoot`) drives all `[data-reveal]` / `[data-reveal-group]`
-    rises and `[data-split]` masked-headline reveals, so content sections stay server
-    components.
-  - `Adkar.tsx` pins and scrubs a horizontal five-stage track (staircase ascent, rail
-    fill, per-stage lighting); collapses to a clean vertical stack on reduced motion.
-  - Hero entrance: line-mask headline reveal + staggered meta/chips on `ef:loaded`.
+- **Reveals (IntersectionObserver + GSAP):**
+  - `useReveal` (via `RevealRoot`) reveals all `[data-reveal]` / `[data-reveal-group]`
+    rises and `[data-split]` masked headlines as they enter the viewport, so content
+    sections stay server components.
+  - `Adkar.tsx` is a dense five-up stepper (rail + nodes) that reveals via the same system.
+  - Hero entrance: line-mask headline reveal + staggered meta/chips, played on
+    `ef:loaded` with a safety timer so it can never be left hidden.
   - FX: custom cursor, intro preloader, scroll-progress bar, magnetic CTAs.
 
 Rules: initial hidden states are gated behind the `.js` class (no-JS users see

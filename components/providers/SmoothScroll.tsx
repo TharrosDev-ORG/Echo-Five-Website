@@ -8,7 +8,7 @@ import {
   type ReactNode,
 } from "react";
 import Lenis from "lenis";
-import { gsap, ScrollTrigger, prefersReducedMotion } from "@/lib/gsap";
+import { gsap, prefersReducedMotion } from "@/lib/gsap";
 
 type ScrollToTarget = string | number | HTMLElement;
 type LenisContextValue = {
@@ -26,19 +26,16 @@ const LenisContext = createContext<LenisContextValue>({
 export const useSmoothScroll = () => useContext(LenisContext);
 
 /**
- * Drives one rAF loop: Lenis smooth scroll synced to GSAP's ticker, with
- * ScrollTrigger updated from Lenis's scroll event. This keeps WebGL, reveals,
- * and pinning on a single, jank-free clock. Reduced-motion visitors get native
- * scroll (no Lenis) and ScrollTrigger still works off the default scroller.
+ * Lenis smooth scroll on the GSAP ticker (one rAF loop). Reveals and the
+ * progress bar run on IntersectionObserver / native scroll, so they don't
+ * depend on this — Lenis is purely the smoothing layer. Reduced-motion visitors
+ * get native scroll (no Lenis).
  */
 export default function SmoothScroll({ children }: { children: ReactNode }) {
   const lenisRef = useRef<Lenis | null>(null);
 
   useEffect(() => {
-    if (prefersReducedMotion()) {
-      ScrollTrigger.refresh();
-      return;
-    }
+    if (prefersReducedMotion()) return;
 
     const lenis = new Lenis({
       duration: 1.1,
@@ -50,24 +47,16 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
     });
     lenisRef.current = lenis;
 
-    const onScroll = () => ScrollTrigger.update();
-    lenis.on("scroll", onScroll);
-
     const raf = (time: number) => lenis.raf(time * 1000);
+    gsap.ticker.add(raf);
     gsap.ticker.lagSmoothing(0);
-    let tickerAdded = false;
 
-    // Hold scroll until the preloader lifts, then hand off: start the rAF loop
-    // only now (no scroll loop burns CPU behind the curtain), re-measure, and
-    // honour any incoming deep link (e.g. /#contact).
+    // Hold scroll until the preloader lifts, then hand off + honour any incoming
+    // deep link (e.g. /#contact). The rAF loop runs from mount so Lenis is never
+    // left half-initialised.
     lenis.stop();
     const start = () => {
-      if (!tickerAdded) {
-        gsap.ticker.add(raf);
-        tickerAdded = true;
-      }
       lenis.start();
-      ScrollTrigger.refresh();
       const hash = window.location.hash;
       if (hash && hash.length > 1) {
         requestAnimationFrame(() => lenis.scrollTo(hash, { offset: -72 }));
@@ -84,22 +73,10 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
     };
     window.addEventListener("hashchange", onHashChange);
 
-    // Re-measure once pins/splits settle.
-    const refresh = () => ScrollTrigger.refresh();
-    requestAnimationFrame(() => requestAnimationFrame(refresh));
-
-    // Fonts swap in after first paint (display: swap) and reflow the big
-    // headings — refresh so trigger positions don't go stale (the cause of
-    // reveals firing late or never).
-    if (typeof document !== "undefined" && document.fonts?.ready) {
-      document.fonts.ready.then(() => ScrollTrigger.refresh());
-    }
-
     return () => {
       window.removeEventListener("ef:loaded", start);
       window.removeEventListener("hashchange", onHashChange);
-      lenis.off("scroll", onScroll);
-      if (tickerAdded) gsap.ticker.remove(raf);
+      gsap.ticker.remove(raf);
       lenis.destroy();
       lenisRef.current = null;
     };

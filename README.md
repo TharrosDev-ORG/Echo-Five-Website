@@ -14,8 +14,8 @@ electric cobalt accent, carried by smooth-scroll storytelling and WebGL motion (
 
 - **Next.js 16** (App Router, Turbopack) · **React 19** · **TypeScript** (strict)
 - **Tailwind CSS v4** (`@tailwindcss/postcss`, tokens via `@theme`)
-- **GSAP + ScrollTrigger** for the scroll narrative; **Lenis** for smooth scroll
-  (one rAF loop drives both); **Three.js** for the hero flow field
+- **GSAP** for animation, **IntersectionObserver** for scroll reveals (robust, decoupled
+  from scroll); **Lenis** for smooth scroll; **Three.js** for the hero flow field
 - Fonts via `next/font/google`: **Bricolage Grotesque** (display), **Public Sans**
   (body), **IBM Plex Mono** (labels/coordinates)
 

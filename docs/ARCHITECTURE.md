@@ -19,17 +19,24 @@ client-side motion layer (Lenis + GSAP + Three.js) mounted over server-rendered 
 
 ## Motion architecture
 
-- **One loop:** `SmoothScroll` creates a Lenis instance, drives `lenis.raf` from
-  `gsap.ticker`, sets `lagSmoothing(0)`, and calls `ScrollTrigger.update` on Lenis scroll
-  — so smooth scroll, reveals, pinning, and the progress bar share a single clock.
-- **One GSAP entry:** `lib/gsap.ts` registers `ScrollTrigger` exactly once and exports
-  `gsap`, `ScrollTrigger`, eases, and a `prefersReducedMotion()` guard. Import GSAP only
-  from here.
-- **Scoped reveals:** `hooks/useReveal.ts` wraps work in `gsap.context(scope)` and reverts
-  on unmount (Strict-Mode safe). `RevealRoot` provides one client scope for the content
-  sections so they can stay server components; the hero owns its own load-triggered intro.
-- **Preloader handoff:** the preloader holds scroll (`lenis.stop()`), then dispatches the
-  `ef:loaded` event, which releases scroll and triggers the hero intro.
+Reveals are deliberately **not** coupled to the smooth-scroll layer — that coupling
+(ScrollTrigger position calculation vs. Lenis/ticker/refresh timing) proved fragile and
+left content stuck hidden. Each mechanism stands alone:
+
+- **Smooth scroll:** `SmoothScroll` creates a Lenis instance and drives `lenis.raf` from
+  `gsap.ticker` (`lagSmoothing(0)`). It only smooths scrolling, holds during the preloader,
+  and handles deep links — nothing depends on it to become visible.
+- **Reveals (robust):** `hooks/useReveal.ts` uses an **IntersectionObserver** to reveal
+  `[data-reveal]` items (grouped or solo) and the `.split-word` fragments of `[data-split]`
+  headings as they enter the viewport; GSAP runs the tween. `RevealRoot` provides one client
+  scope so the content sections stay server components.
+- **One GSAP entry:** `lib/gsap.ts` exports `gsap`, eases, and a `prefersReducedMotion()`
+  guard. No ScrollTrigger plugin.
+- **Progress + scrollspy:** the progress bar (`fx/ScrollProgress`) and the nav scrollspy use
+  rAF-batched native scroll listeners.
+- **Hero intro:** self-contained and idempotent — plays on whichever fires first
+  (already-loaded / the preloader's `ef:loaded` event / a safety timer), so the headline can
+  never be left hidden.
 
 ## Server vs client components
 
@@ -39,10 +46,9 @@ interaction:
 | Component | Why it is a client component |
 | --- | --- |
 | `SmoothScroll` | Lenis instance, GSAP ticker sync, scroll context |
-| `Nav` | scroll state, mobile menu, smooth anchor scroll |
+| `Nav` | condensed-on-scroll state, scrollspy (`aria-current`), mobile-menu dialog, smooth anchor scroll |
 | `Hero` | load-triggered intro timeline; renders `FlowField` |
 | `FlowField` | Three.js renderer on rAF; reduced-motion / no-WebGL fallback |
-| `Adkar` | pinned, scrubbed horizontal track (ScrollTrigger) |
 | `Proof` | click-to-load YouTube facade (`useState`) |
 | `ContactForm` | submission, validation/error state, mailto fallback |
 | `RevealRoot` | hosts the `useReveal` scope for content sections |
