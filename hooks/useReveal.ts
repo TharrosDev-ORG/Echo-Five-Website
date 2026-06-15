@@ -4,12 +4,16 @@ import { useEffect, useRef, type RefObject } from "react";
 import { gsap, EASE, prefersReducedMotion } from "@/lib/gsap";
 
 /**
- * Scoped reveal hook. Attach the returned ref to a wrapper; on mount it animates
- * every `[data-reveal]` descendant into place as it enters the viewport, plus
- * any `.split-word` produced by the splitter inside `[data-split]`. Items inside
- * a `[data-reveal-group]` stagger together. All work is wrapped in a
- * gsap.context tied to the scope, so Strict Mode double-mounts and unmounts
- * revert cleanly.
+ * Reveal-on-scroll driven by IntersectionObserver — deliberately independent of
+ * the smooth-scroll / GSAP-ticker / ScrollTrigger refresh lifecycle, which is
+ * fragile to compute (stale trigger positions left content stuck hidden).
+ * IntersectionObserver answers "is it in view?" natively and reliably; GSAP only
+ * runs the tween for easing + stagger.
+ *
+ * Attach the returned ref to a wrapper. Reveals:
+ *  - `[data-reveal-group]` → its `[data-reveal]` children, staggered as one;
+ *  - standalone `[data-reveal]`;
+ *  - `.split-word` fragments inside `[data-split]` headings.
  */
 export function useReveal<T extends HTMLElement = HTMLElement>(): RefObject<T | null> {
   const scope = useRef<T>(null);
@@ -17,16 +21,14 @@ export function useReveal<T extends HTMLElement = HTMLElement>(): RefObject<T | 
   useEffect(() => {
     const el = scope.current;
     if (!el) return;
-    if (prefersReducedMotion()) return; // CSS already shows final state
+    if (prefersReducedMotion()) return; // CSS already shows the final state
 
-    const ctx = gsap.context(() => {
-      // Grouped reveals stagger as one timeline.
-      const groups = Array.from(
-        el.querySelectorAll<HTMLElement>("[data-reveal-group]"),
-      );
-      groups.forEach((group) => {
-        const items = group.querySelectorAll<HTMLElement>("[data-reveal]");
-        if (!items.length) return;
+    const tweens: gsap.core.Tween[] = [];
+
+    const revealGroup = (group: HTMLElement) => {
+      const items = group.querySelectorAll<HTMLElement>("[data-reveal]");
+      if (!items.length) return;
+      tweens.push(
         gsap.to(items, {
           opacity: 1,
           x: 0,
@@ -35,15 +37,12 @@ export function useReveal<T extends HTMLElement = HTMLElement>(): RefObject<T | 
           duration: 0.8,
           ease: EASE,
           stagger: 0.06,
-          scrollTrigger: { trigger: group, start: "top 90%", once: true },
-        });
-      });
+        }),
+      );
+    };
 
-      // Standalone reveals.
-      const solo = Array.from(
-        el.querySelectorAll<HTMLElement>("[data-reveal]"),
-      ).filter((node) => !node.closest("[data-reveal-group]"));
-      solo.forEach((node) => {
+    const revealSolo = (node: HTMLElement) => {
+      tweens.push(
         gsap.to(node, {
           opacity: 1,
           x: 0,
@@ -51,31 +50,50 @@ export function useReveal<T extends HTMLElement = HTMLElement>(): RefObject<T | 
           scale: 1,
           duration: 0.8,
           ease: EASE,
-          scrollTrigger: { trigger: node, start: "top 92%", once: true },
-        });
-      });
+        }),
+      );
+    };
 
-      // Split headlines: masked line rise. fromTo pins the start explicitly so
-      // GSAP never has to read a percentage transform out of the matrix.
-      const splits = Array.from(el.querySelectorAll<HTMLElement>("[data-split]"));
-      splits.forEach((node) => {
-        const words = node.querySelectorAll<HTMLElement>(".split-word");
-        if (!words.length) return;
+    const revealSplit = (node: HTMLElement) => {
+      const words = node.querySelectorAll<HTMLElement>(".split-word");
+      if (!words.length) return;
+      // fromTo pins the start so GSAP never has to read a % transform from the
+      // computed matrix (which it can't do reliably).
+      tweens.push(
         gsap.fromTo(
           words,
           { yPercent: 110 },
-          {
-            yPercent: 0,
-            duration: 0.9,
-            ease: EASE,
-            stagger: 0.035,
-            scrollTrigger: { trigger: node, start: "top 90%", once: true },
-          },
-        );
-      });
-    }, scope);
+          { yPercent: 0, duration: 0.9, ease: EASE, stagger: 0.035 },
+        ),
+      );
+    };
 
-    return () => ctx.revert();
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          const node = entry.target as HTMLElement;
+          io.unobserve(node);
+          if (node.hasAttribute("data-reveal-group")) revealGroup(node);
+          else if (node.hasAttribute("data-split")) revealSplit(node);
+          else revealSolo(node);
+        }
+      },
+      { rootMargin: "0px 0px -8% 0px", threshold: 0 },
+    );
+
+    el.querySelectorAll<HTMLElement>("[data-reveal-group]").forEach((g) =>
+      io.observe(g),
+    );
+    el.querySelectorAll<HTMLElement>("[data-split]").forEach((n) => io.observe(n));
+    Array.from(el.querySelectorAll<HTMLElement>("[data-reveal]"))
+      .filter((n) => !n.closest("[data-reveal-group]"))
+      .forEach((n) => io.observe(n));
+
+    return () => {
+      io.disconnect();
+      tweens.forEach((t) => t.kill());
+    };
   }, []);
 
   return scope;

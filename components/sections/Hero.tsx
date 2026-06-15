@@ -22,11 +22,17 @@ export default function Hero() {
     const el = ref.current;
     if (!el) return;
 
+    let played = false;
     let tl: gsap.core.Timeline | null = null;
-    const run = () => {
+
+    // Idempotent: plays exactly once, on whichever trigger fires first.
+    const play = () => {
+      if (played) return;
+      played = true;
       const words = el.querySelectorAll<HTMLElement>(".split-word");
-      // Establish the masked start explicitly so GSAP owns yPercent (avoids the
-      // immediateRender quirk of a fromTo placed at a timeline offset).
+      // Own the start states explicitly rather than trusting only the CSS gate,
+      // so the headline can never get stuck hidden.
+      gsap.set(el.querySelectorAll("[data-hero]"), { opacity: 0, y: 22 });
       gsap.set(words, { yPercent: 110 });
       tl = gsap.timeline({ defaults: { ease: EASE } });
       tl.to(el.querySelectorAll('[data-hero="eyebrow"]'), {
@@ -34,11 +40,7 @@ export default function Hero() {
         y: 0,
         duration: 0.7,
       })
-        .to(
-          words,
-          { yPercent: 0, duration: 0.95, stagger: 0.045 },
-          "-=0.4",
-        )
+        .to(words, { yPercent: 0, duration: 0.95, stagger: 0.045 }, "-=0.4")
         .to(
           el.querySelectorAll('[data-hero="sub"]'),
           { opacity: 1, y: 0, duration: 0.8 },
@@ -56,16 +58,19 @@ export default function Hero() {
         );
     };
 
-    // gsap.set the slide offset for [data-hero] (CSS only sets opacity).
-    gsap.set(el.querySelectorAll("[data-hero]"), { y: 22 });
-
-    if (document.documentElement.dataset.loaded === "true") run();
-    else {
-      window.addEventListener("ef:loaded", run, { once: true });
+    // Trigger on whichever happens first: the page is already past the
+    // preloader, the preloader signals, or a safety timer (so a missed signal
+    // can never leave the hero invisible).
+    if (document.documentElement.dataset.loaded === "true") {
+      play();
+    } else {
+      window.addEventListener("ef:loaded", play, { once: true });
     }
+    const fallback = window.setTimeout(play, 3000);
 
     return () => {
-      window.removeEventListener("ef:loaded", run);
+      window.removeEventListener("ef:loaded", play);
+      window.clearTimeout(fallback);
       tl?.kill();
     };
   }, []);
