@@ -14,10 +14,11 @@ function announceLoaded() {
 }
 
 /**
- * Intro: the wordmark rises letter by letter while a counter races 0 → 100,
- * then the letters exit upward and the paper curtain lifts with a cobalt flash
- * chasing it. Reduced motion skips the curtain and signals "loaded" immediately
- * so nothing is gated behind motion.
+ * Intro: the wordmark is part of the server-rendered first paint (so the brand
+ * is on screen the instant the page arrives, even while JS is still loading);
+ * once hydrated, a counter races 0 → 100, the letters exit upward, and the
+ * paper curtain lifts with a cobalt flash chasing it. Reduced motion skips the
+ * curtain and signals "loaded" immediately so nothing is gated behind motion.
  */
 export default function Preloader() {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -60,48 +61,38 @@ export default function Preloader() {
 
     // Safety net: if the GSAP ticker stalls (e.g. the tab is backgrounded during
     // load and rAF pauses), never leave the curtain blocking the page.
-    const safety = window.setTimeout(finish, 6000);
+    const safety = window.setTimeout(finish, 4000);
 
     const chars = root.querySelectorAll<HTMLElement>(".pre-char > span");
     const flash = root.querySelector<HTMLElement>(".preloader-flash");
     const counter = { value: 0 };
     const tl = gsap.timeline({ onComplete: finish });
 
-    // Own the start state explicitly (the CSS transform is only a pre-paint
-    // guard; GSAP percent transforms need to be set by GSAP, and `y: 0`
-    // clears the pixel offset parsed from the stylesheet transform).
-    gsap.set(chars, { y: 0, yPercent: 110 });
+    // The wordmark has been visible since first paint — no entrance to stack
+    // on top of however long hydration took. Own the start state so the exit
+    // tween always leaves from identity.
+    gsap.set(chars, { y: 0, yPercent: 0 });
 
-    tl.to(chars, {
-      yPercent: 0,
-      duration: 0.8,
-      ease: EASE,
-      stagger: 0.045,
+    tl.to(counter, {
+      value: 100,
+      duration: 0.7,
+      ease: "power2.inOut",
+      onUpdate: () => {
+        count.textContent = String(Math.round(counter.value)).padStart(2, "0");
+      },
     })
-      .to(
-        counter,
-        {
-          value: 100,
-          duration: 0.95,
-          ease: "power2.inOut",
-          onUpdate: () => {
-            count.textContent = String(Math.round(counter.value)).padStart(2, "0");
-          },
-        },
-        "<+0.1",
-      )
       .to(chars, {
         yPercent: -120,
-        duration: 0.55,
+        duration: 0.5,
         ease: "power3.in",
-        stagger: 0.025,
+        stagger: 0.022,
       })
       .to(
         root.querySelectorAll("[data-pre]"),
         {
           yPercent: -120,
           opacity: 0,
-          duration: 0.5,
+          duration: 0.45,
           ease: "power3.in",
           stagger: 0.05,
         },
@@ -109,12 +100,12 @@ export default function Preloader() {
       )
       .to(
         flash,
-        { yPercent: -100, duration: 0.8, ease: EASE },
-        "-=0.2",
+        { yPercent: -100, duration: 0.75, ease: EASE },
+        "-=0.18",
       )
       .to(
         root,
-        { yPercent: -100, duration: 0.85, ease: EASE },
+        { yPercent: -100, duration: 0.8, ease: EASE },
         "<+0.08",
       );
 
