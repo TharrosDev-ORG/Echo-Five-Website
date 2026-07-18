@@ -79,7 +79,9 @@ moments** whose failure leaves everything readable:
   giant outlined roster marquee with scroll-velocity skew (`SkewMarquee`), full-row
   cobalt hover floods on the service rows, the cobalt-drenched contact close, and the
   oversized stroked footer wordmark.
-- FX: custom cursor, wordmark-cascade preloader with cobalt flash curtain,
+- FX: custom cursor, first-paint wordmark preloader with cobalt flash curtain
+  (the brand is server-rendered on the curtain, so even a slow JS load never shows
+  an empty screen; the intro plays once per session),
   scroll-progress bar, magnetic CTAs, hide-on-scroll-down nav, live ET clock.
 
 Rules: initial hidden states are gated behind the `.js` class (no-JS users see

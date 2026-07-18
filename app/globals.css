@@ -616,6 +616,10 @@ body.cursor-ready.fine-pointer [data-cursor] {
   display: none;
 }
 .js .preloader {
+  /* display must be re-declared here: the base rule hides it for no-JS
+     visitors, and without this the curtain is invisible while it still
+     locks scroll and delays the hero — an empty screen. */
+  display: block;
   position: fixed;
   inset: 0;
   z-index: 500;
@@ -659,8 +663,9 @@ body.cursor-ready.fine-pointer [data-cursor] {
   overflow: hidden;
 }
 .preloader-word .pre-char > span {
+  /* Visible from first paint — the brand shows while JS is still loading;
+     GSAP only animates the exit. */
   display: inline-block;
-  transform: translateY(110%);
 }
 .preloader-count {
   font-family: var(--font-display);
