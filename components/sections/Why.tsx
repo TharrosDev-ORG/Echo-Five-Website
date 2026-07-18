@@ -1,7 +1,12 @@
 import { why } from "@/lib/content";
 import SectionHeading from "@/components/ui/SectionHeading";
-import SplitText from "@/components/ui/SplitText";
+import TextScrub from "@/components/fx/TextScrub";
 
+/**
+ * The problem statement. Failure modes stack as sticky cards — each one slides
+ * up over the last as the visitor scrolls — and the section closes on a
+ * scroll-scrubbed pull statement that floods to full ink.
+ */
 export default function Why() {
   return (
     <section id="why" className="pad-block-xl rule-top">
@@ -20,42 +25,34 @@ export default function Why() {
           </div>
         </div>
 
-        <ol
-          className="section-gap grid gap-px md:grid-cols-3"
-          data-reveal-group
-          style={{ background: "var(--color-line)", border: "1px solid var(--color-line)" }}
-        >
-          {why.failures.map((f) => (
+        <ol className="stack-cards section-gap">
+          {why.failures.map((f, i) => (
             <li
               key={f.n}
-              data-reveal
-              className="flex flex-col gap-5"
-              style={{ background: "var(--color-paper)", padding: "clamp(1.75rem,3vw,2.75rem)" }}
+              className="stack-card"
+              style={{ ["--stack-i" as string]: i }}
             >
-              <span
-                className="font-display"
-                style={{
-                  fontWeight: 740,
-                  fontSize: "clamp(2.6rem,6vw,4rem)",
-                  lineHeight: 1,
-                  color: "var(--color-cobalt)",
-                }}
-                aria-hidden="true"
-              >
+              <span className="stack-card-letter" aria-hidden="true">
                 {f.n}
               </span>
               <h3 className="t-h3" style={{ maxWidth: "20ch" }}>
                 {f.title}
               </h3>
-              <p className="t-body" style={{ color: "var(--color-ink-muted)" }}>
-                {f.body}
-              </p>
+              <div className="flex h-full flex-col justify-between gap-6">
+                <p className="t-body" style={{ color: "var(--color-ink-muted)" }}>
+                  {f.body}
+                </p>
+                <span className="t-coord" aria-hidden="true">
+                  Failure mode {String(i + 1).padStart(2, "0")} / {String(why.failures.length).padStart(2, "0")}
+                </span>
+              </div>
             </li>
           ))}
         </ol>
+        <div className="stack-runout" aria-hidden="true" />
 
         <div className="section-gap-lg">
-          <SplitText
+          <TextScrub
             as="p"
             className="t-h2 measure-statement"
             text={why.close}

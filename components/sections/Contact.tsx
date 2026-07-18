@@ -3,9 +3,14 @@ import { site, mailtoBook } from "@/lib/site";
 import SplitText from "@/components/ui/SplitText";
 import ContactForm from "@/components/sections/ContactForm";
 
+/**
+ * The close: the one place the accent floods the full ground. Everything the
+ * page has been building toward — the ask — sits drenched in cobalt, with the
+ * form and the founder's direct address carried on the on-cobalt palette.
+ */
 export default function Contact() {
   return (
-    <section id="contact" className="pad-block-2xl rule-top band-2">
+    <section id="contact" className="drench pad-block-2xl">
       <div className="u-container">
         <div className="grid gap-14 md:grid-cols-12 md:gap-16">
           <div className="md:col-span-6">
@@ -25,7 +30,11 @@ export default function Contact() {
               <span className="t-coord">{site.region}</span>
             </div>
 
-            <p data-reveal className="t-body mt-8" style={{ color: "var(--color-ink-muted)", maxWidth: "44ch" }}>
+            <p
+              data-reveal
+              className="t-body mt-8"
+              style={{ color: "var(--color-on-cobalt-muted)", maxWidth: "44ch" }}
+            >
               {contact.note}
             </p>
           </div>

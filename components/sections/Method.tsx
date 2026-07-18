@@ -1,6 +1,7 @@
 import { method } from "@/lib/content";
 import { site } from "@/lib/site";
 import SectionHeading from "@/components/ui/SectionHeading";
+import AdoptionChart from "@/components/fx/AdoptionChart";
 
 const ArrowOut = () => (
   <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
@@ -9,9 +10,6 @@ const ArrowOut = () => (
 );
 
 export default function Method() {
-  // A simple rising "adoption" curve, drawn with bars.
-  const bars = [18, 26, 31, 44, 52, 66, 73, 88, 96];
-
   return (
     <section id="method" className="pad-block-xl rule-top">
       <div className="u-container">
@@ -30,38 +28,7 @@ export default function Method() {
           </div>
 
           <div className="md:col-span-6">
-            <figure
-              data-reveal="scale"
-              className="card"
-              style={{ borderRadius: 16, padding: "clamp(1.5rem,3vw,2.5rem)" }}
-            >
-              <figcaption className="t-coord mb-6 flex items-center justify-between">
-                <span>Adoption · week over week</span>
-                <span className="status-dot" aria-hidden="true" />
-              </figcaption>
-              <div style={{ display: "flex", alignItems: "flex-end", gap: "clamp(6px,1.2vw,14px)", height: "clamp(140px,22vw,230px)" }}>
-                {bars.map((h, i) => (
-                  <div
-                    key={i}
-                    style={{
-                      flex: 1,
-                      height: `${h}%`,
-                      borderRadius: "4px 4px 0 0",
-                      background:
-                        i >= bars.length - 2
-                          ? "var(--color-cobalt)"
-                          : "color-mix(in oklch, var(--color-cobalt) 26%, var(--color-paper-3))",
-                    }}
-                  />
-                ))}
-              </div>
-              <div className="mt-5 flex items-baseline justify-between">
-                <span className="font-display" style={{ fontWeight: 740, fontSize: "clamp(1.8rem,3vw,2.4rem)", letterSpacing: "-0.02em" }}>
-                  +96%
-                </span>
-                <span className="t-coord">Active usage at 8 weeks</span>
-              </div>
-            </figure>
+            <AdoptionChart />
           </div>
         </div>
       </div>

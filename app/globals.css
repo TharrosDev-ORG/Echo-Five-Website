@@ -6,8 +6,10 @@
  * electric cobalt accent. Concept: change, flow, and alignment — the
  * human work between buying software and actually using it. Bricolage
  * Grotesque display, Public Sans body, IBM Plex Mono coordinates.
- * Motion: Lenis smooth scroll → GSAP ScrollTrigger storytelling, with a
- * Three.js curl-noise flow field carrying the hero.
+ * Motion: Lenis smooth scroll; IntersectionObserver entrance reveals;
+ * GSAP ScrollTrigger for additive scrub moments (parallax, the pinned
+ * ADKAR sequence, scrubbed statements); a Three.js curl-noise flow
+ * field carrying the hero.
  * ================================================================== */
 @theme {
   /* ---- Grounds: warm paper, layered for depth ---- */
@@ -26,12 +28,14 @@
   --color-cobalt-deep: oklch(0.44 0.214 266);
   --color-cobalt-soft: oklch(0.9 0.055 266); /* tint for fills */
   --color-on-cobalt: oklch(0.985 0.01 250);
+  --color-on-cobalt-muted: oklch(0.985 0.01 250 / 0.88); /* AA body text on cobalt */
 
   /* ---- Keylines (ink at alpha) ---- */
   --color-line: oklch(0.205 0.014 64 / 0.12);
   --color-line-soft: oklch(0.205 0.014 64 / 0.07);
   --color-line-strong: oklch(0.205 0.014 64 / 0.2);
   --color-line-cobalt: oklch(0.52 0.247 266 / 0.4);
+  --color-line-on-cobalt: oklch(0.985 0.01 250 / 0.28);
 
   --font-display: var(--font-display), "Bricolage Grotesque", system-ui, sans-serif;
   --font-sans: var(--font-sans), "Public Sans", system-ui, sans-serif;
@@ -134,6 +138,10 @@ html.lenis body {
   outline-offset: 3px;
   border-radius: 2px;
 }
+/* On cobalt ground the cobalt ring vanishes — swap to the light ring. */
+.drench :focus-visible {
+  outline-color: var(--color-on-cobalt);
+}
 
 .skip-link {
   position: fixed;
@@ -173,9 +181,9 @@ html.lenis body {
 .t-display {
   font-family: var(--font-display);
   font-weight: 760;
-  font-size: clamp(2.9rem, 9.2vw, 8.5rem);
-  line-height: 0.94;
-  letter-spacing: -0.03em;
+  font-size: clamp(2.9rem, 9.6vw, 9.5rem);
+  line-height: 0.92;
+  letter-spacing: -0.032em;
   text-wrap: balance;
 }
 
@@ -207,15 +215,6 @@ html.lenis body {
 .t-body {
   font-size: 1.0625rem;
   line-height: 1.68;
-}
-
-.t-mega-num {
-  font-family: var(--font-display);
-  font-weight: 760;
-  font-size: clamp(3.5rem, 13vw, 11rem);
-  line-height: 0.82;
-  letter-spacing: -0.04em;
-  color: var(--color-cobalt);
 }
 
 .measure {
@@ -355,6 +354,30 @@ html.lenis body {
   color: var(--color-on-cobalt);
   border-color: var(--color-cobalt);
 }
+/* Inverted button for the cobalt-drenched close: light fill, ink wipe. */
+.btn-invert {
+  background: var(--color-on-cobalt);
+  color: var(--color-cobalt-deep);
+  font-weight: 600;
+}
+.btn-invert::after {
+  background: var(--color-ink);
+}
+.btn-invert:hover {
+  color: var(--color-paper);
+}
+
+/* ---------- Nav ---------- */
+.site-nav {
+  transition:
+    transform 0.6s var(--ease-expo),
+    background 0.4s ease,
+    border-color 0.4s ease,
+    backdrop-filter 0.4s ease;
+}
+.site-nav.nav-hidden {
+  transform: translateY(-100%);
+}
 
 /* Primary nav links + scrollspy active state */
 .nav-link {
@@ -452,6 +475,38 @@ html.lenis body {
   }
 }
 
+/* ---------- Hero ---------- */
+/* Bottom meta bar: mono facts in ruled columns. */
+.hero-meta {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  border-top: 1px solid var(--color-line);
+}
+@media (min-width: 900px) {
+  .hero-meta {
+    grid-template-columns: repeat(4, 1fr) auto;
+  }
+}
+.hero-meta-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 1.1rem clamp(0.75rem, 2vw, 1.5rem) 0.35rem 0;
+}
+.hero-meta-num {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  color: var(--color-ink-muted);
+}
+.hero-meta-val {
+  font-family: var(--font-mono);
+  font-size: clamp(0.78rem, 1vw, 0.9rem);
+  letter-spacing: 0.02em;
+  color: var(--color-ink);
+  white-space: nowrap;
+}
+
 /* ---------- Marquee ---------- */
 @keyframes marquee {
   from {
@@ -473,6 +528,29 @@ html.lenis body {
   animation-play-state: paused;
 }
 
+/* Giant outlined roster marquee — stroked display type, cobalt fill on the
+   duplicated hover row. Decorative (aria-hidden); the real roster is below. */
+.marquee-giant {
+  font-family: var(--font-display);
+  font-weight: 740;
+  font-size: clamp(3.4rem, 9vw, 8.5rem);
+  line-height: 1.06;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+  color: transparent;
+  -webkit-text-stroke: 1.5px oklch(0.205 0.014 64 / 0.34);
+}
+.marquee-giant .mg-sep {
+  -webkit-text-stroke: 0;
+  color: var(--color-cobalt);
+  font-weight: 400;
+  padding-inline: clamp(1.1rem, 2.5vw, 2.2rem);
+}
+.marquee-giant .mg-solid {
+  -webkit-text-stroke: 0;
+  color: var(--color-ink);
+}
+
 /* ---------- Split-text masks ---------- */
 .split-line {
   display: inline-block;
@@ -483,6 +561,12 @@ html.lenis body {
   display: inline-block;
 }
 .split-char {
+  display: inline-block;
+}
+
+/* Scroll-scrubbed statements: word opacity is driven entirely by GSAP, so
+   content is fully visible whenever the scrub is not running (no-JS, failure). */
+.scrub-word {
   display: inline-block;
 }
 
@@ -541,22 +625,57 @@ body.cursor-ready.fine-pointer [data-cursor] {
   position: fixed;
   inset: 0;
   z-index: 500;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  padding: clamp(1.5rem, 5vw, 3.5rem);
   background: var(--color-paper);
 }
 .preloader[data-done="true"] {
   pointer-events: none;
 }
+.preloader-inner {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: clamp(1.5rem, 5vw, 3.5rem);
+}
+/* The second curtain: a cobalt flash that follows the paper panel up. */
+.preloader-flash {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--color-cobalt);
+  transform: translateY(100%);
+}
+.preloader-word {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 760;
+  font-size: clamp(2.6rem, 9vw, 8rem);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--color-ink);
+}
+.preloader-word .pre-char {
+  display: inline-block;
+  overflow: hidden;
+}
+.preloader-word .pre-char > span {
+  display: inline-block;
+  transform: translateY(110%);
+}
 .preloader-count {
   font-family: var(--font-display);
   font-weight: 740;
-  font-size: clamp(4rem, 18vw, 16rem);
+  font-size: clamp(3rem, 10vw, 8rem);
   line-height: 0.8;
   letter-spacing: -0.04em;
   color: var(--color-ink);
+  font-variant-numeric: tabular-nums;
 }
 .preloader-label {
   font-family: var(--font-mono);
@@ -650,6 +769,16 @@ body.cursor-ready.fine-pointer [data-cursor] {
   border-color: var(--color-cobalt);
   box-shadow: 0 0 0 3px var(--color-cobalt-soft);
 }
+/* Field variant for the cobalt close: light-on-cobalt. */
+.drench .field {
+  background: oklch(1 0 0 / 0.09);
+  color: var(--color-on-cobalt);
+  border-color: var(--color-line-on-cobalt);
+}
+.drench .field:focus {
+  border-color: var(--color-on-cobalt);
+  box-shadow: 0 0 0 3px oklch(1 0 0 / 0.18);
+}
 
 /* ---------- Index numerals & dividers ---------- */
 .index-num {
@@ -662,126 +791,263 @@ body.cursor-ready.fine-pointer [data-cursor] {
   color: transparent;
 }
 
-/* ---------- Services grid ---------- */
-.svc {
-  position: relative;
+/* ---------- Why: sticky stacking failure cards ---------- */
+.stack-cards {
   display: flex;
   flex-direction: column;
-  gap: 1.1rem;
-  background: var(--color-paper-2);
-  padding: clamp(1.9rem, 3.2vw, 3rem);
-  transition: background 0.4s var(--ease-expo);
+  gap: clamp(1rem, 2vw, 1.5rem);
 }
-.svc::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 2px;
-  background: var(--color-cobalt);
-  transform: scaleY(0);
-  transform-origin: top;
-  transition: transform 0.5s var(--ease-expo);
-}
-.svc:hover {
+.stack-card {
+  position: sticky;
+  top: calc(var(--nav-h) + 1.25rem + var(--stack-i, 0) * 2.75rem);
+  display: grid;
+  gap: 1.25rem clamp(1.5rem, 4vw, 4rem);
   background: var(--color-card);
+  border: 1px solid var(--color-line);
+  border-radius: 20px;
+  padding: clamp(1.75rem, 3.5vw, 3.25rem);
+  box-shadow: 0 -18px 40px -32px oklch(0.205 0.014 64 / 0.35);
 }
-.svc:hover::before {
-  transform: scaleY(1);
+@media (min-width: 768px) {
+  .stack-card {
+    grid-template-columns: auto 1fr 1.1fr;
+    align-items: start;
+    min-height: 16rem;
+  }
 }
-.svc-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-}
-.svc-num {
-  font-family: var(--font-mono);
-  font-size: 0.82rem;
-  letter-spacing: 0.1em;
-  color: var(--color-ink-muted);
-  transition: color 0.4s ease;
-}
-.svc:hover .svc-num {
-  color: var(--color-cobalt);
-}
-.svc-title {
-  max-width: 22ch;
-  transition: transform 0.5s var(--ease-expo);
-}
-.svc:hover .svc-title {
-  transform: translateX(6px);
-}
-
-/* ---------- ADKAR sequence (dense 5-up stepper) ---------- */
-/* Rail: a full-width line with five evenly-spaced nodes aligned to the columns. */
-.adkar-rail {
-  position: relative;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  margin-bottom: clamp(1.5rem, 2.4vw, 2.4rem);
-}
-.adkar-rail::before {
-  content: "";
-  position: absolute;
-  left: 5px;
-  right: 5px;
-  top: 50%;
-  height: 2px;
-  background: var(--color-line);
-  transform: translateY(-50%);
-}
-.adkar-rail-node {
-  position: relative;
-  z-index: 1;
-  justify-self: start;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: var(--color-cobalt);
-  box-shadow: 0 0 0 4px var(--color-paper-3);
-}
-.adkar-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: clamp(1.25rem, 2vw, 2.25rem);
-}
-.adkar-stage {
-  display: flex;
-  flex-direction: column;
-  gap: 0.7rem;
-}
-.adkar-stage-num {
-  color: var(--color-ink-muted);
-}
-.adkar-stage-key {
+.stack-card-letter {
   font-family: var(--font-display);
   font-weight: 760;
-  font-size: clamp(2.6rem, 4.5vw, 4rem);
-  line-height: 0.9;
+  font-size: clamp(3.4rem, 8vw, 6.5rem);
+  line-height: 0.85;
   letter-spacing: -0.03em;
   color: var(--color-cobalt);
 }
+/* Room below the stack so the last card clears its sticky window. */
+.stack-runout {
+  height: clamp(2rem, 6vw, 5rem);
+}
+
+/* ---------- Services: editorial rows with cobalt hover flood ---------- */
+.svc-row {
+  position: relative;
+  display: grid;
+  gap: 0.9rem clamp(1.5rem, 3.5vw, 3.5rem);
+  padding-block: clamp(1.9rem, 3.4vw, 3rem);
+  border-top: 1px solid var(--color-line);
+  isolation: isolate;
+}
+.svc-row:last-child {
+  border-bottom: 1px solid var(--color-line);
+}
+@media (min-width: 900px) {
+  .svc-row {
+    grid-template-columns: 6.5rem 1.15fr 1fr auto;
+    align-items: start;
+  }
+}
+/* Full-row cobalt flood on hover. Text flips to the on-cobalt palette. */
+.svc-row::before {
+  content: "";
+  position: absolute;
+  inset: 0 calc(-1 * var(--gutter));
+  z-index: -1;
+  background: var(--color-cobalt);
+  transform: scaleY(0);
+  transform-origin: center bottom;
+  transition: transform 0.5s var(--ease-expo);
+}
+.svc-num {
+  font-family: var(--font-display);
+  font-weight: 740;
+  font-size: clamp(1.6rem, 2.6vw, 2.4rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  -webkit-text-stroke: 1.2px var(--color-line-strong);
+  color: transparent;
+  transition: color 0.35s ease, -webkit-text-stroke-color 0.35s ease;
+}
+.svc-title {
+  transition: color 0.35s ease, transform 0.5s var(--ease-expo);
+}
+.svc-body {
+  color: var(--color-ink-muted);
+  transition: color 0.35s ease;
+}
+.svc-tag {
+  justify-self: start;
+  transition: color 0.35s ease, border-color 0.35s ease;
+}
+@media (min-width: 900px) {
+  .svc-tag {
+    justify-self: end;
+  }
+}
+.svc-arrow {
+  position: absolute;
+  right: 0;
+  bottom: clamp(1.9rem, 3.4vw, 3rem);
+  opacity: 0;
+  color: var(--color-on-cobalt);
+  transform: translateX(-14px);
+  transition: opacity 0.35s ease, transform 0.5s var(--ease-expo);
+}
+@media (hover: hover) {
+  .svc-row:hover::before {
+    transform: scaleY(1);
+    transform-origin: center top;
+  }
+  .svc-row:hover .svc-num {
+    color: var(--color-on-cobalt);
+    -webkit-text-stroke-color: transparent;
+  }
+  .svc-row:hover .svc-title {
+    color: var(--color-on-cobalt);
+    transform: translateX(8px);
+  }
+  .svc-row:hover .svc-body {
+    color: var(--color-on-cobalt-muted);
+  }
+  .svc-row:hover .svc-tag {
+    color: var(--color-on-cobalt);
+    border-color: var(--color-line-on-cobalt);
+  }
+  .svc-row:hover .svc-arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ---------- ADKAR sequence ---------- */
+/* Default layout (no JS, touch, small screens, reduced motion): an editorial
+   vertical list. When the pinned horizontal scrub engages, the component adds
+   `.is-pinned` and the track becomes a wide row translated by ScrollTrigger. */
+.adkar-viewport {
+  position: relative;
+}
+.adkar-track {
+  display: flex;
+  flex-direction: column;
+}
+.adkar-panel {
+  display: grid;
+  gap: 0.75rem clamp(1.5rem, 4vw, 4rem);
+  padding-block: clamp(2rem, 4vw, 3.25rem);
+  border-top: 1px solid var(--color-line);
+}
+@media (min-width: 700px) {
+  .adkar-panel {
+    grid-template-columns: minmax(9rem, auto) 1fr;
+    align-items: center;
+  }
+}
+.adkar-key {
+  font-family: var(--font-display);
+  font-weight: 760;
+  font-size: clamp(4.5rem, 11vw, 9rem);
+  line-height: 0.82;
+  letter-spacing: -0.04em;
+  color: transparent;
+  -webkit-text-stroke: 1.6px var(--color-line-cobalt);
+}
+.adkar-panel.is-active .adkar-key,
+.adkar-track:not(.is-horizontal) .adkar-key {
+  color: var(--color-cobalt);
+  -webkit-text-stroke: 0;
+}
+.adkar-stage-num {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+}
 .adkar-stage-name {
   font-family: var(--font-display);
-  font-weight: 660;
-  font-size: clamp(1.25rem, 1.7vw, 1.6rem);
-  letter-spacing: -0.012em;
+  font-weight: 680;
+  font-size: clamp(1.5rem, 2.4vw, 2.2rem);
+  letter-spacing: -0.015em;
 }
-@media (max-width: 1024px) {
-  .adkar-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: clamp(1.5rem, 4vw, 2.5rem) clamp(1.5rem, 4vw, 3rem);
-  }
-  .adkar-rail {
-    display: none;
-  }
+/* Progress rail shown only in pinned mode. */
+.adkar-progress {
+  display: none;
 }
-@media (max-width: 560px) {
-  .adkar-grid {
-    grid-template-columns: 1fr;
-  }
+
+/* Horizontal pinned mode (added by JS on wide screens). */
+.is-pinned .adkar-viewport {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100svh;
+  overflow: hidden;
+  /* Tighter block padding so the pinned composition fits one viewport. */
+  padding-block: clamp(1.25rem, 3.5vh, 2.75rem);
+}
+.is-pinned .adkar-track.is-horizontal {
+  flex-direction: row;
+  width: max-content;
+  align-items: stretch;
+  will-change: transform;
+}
+.is-pinned .adkar-track.is-horizontal .adkar-panel {
+  grid-template-columns: 1fr;
+  align-content: start;
+  width: clamp(24rem, 34vw, 34rem);
+  flex: 0 0 auto;
+  border-top: 0;
+  border-left: 1px solid var(--color-line);
+  padding: clamp(1.5rem, 2.5vw, 2.5rem) clamp(1.75rem, 3vw, 3rem)
+    clamp(1.5rem, 2.5vw, 2.5rem);
+  transition: opacity 0.4s ease;
+}
+.is-pinned .adkar-track.is-horizontal .adkar-key {
+  font-size: clamp(8rem, 24vh, 15rem);
+  transition: color 0.4s ease;
+}
+.is-pinned .adkar-panel:not(.is-active) {
+  opacity: 0.45;
+}
+.is-pinned .adkar-panel:not(.is-active) .adkar-key {
+  color: transparent;
+  -webkit-text-stroke: 1.6px var(--color-line-cobalt);
+}
+.is-pinned .adkar-progress {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: clamp(2rem, 5vh, 4rem);
+}
+.adkar-progress-rail {
+  position: relative;
+  flex: 1;
+  height: 2px;
+  background: var(--color-line);
+  overflow: hidden;
+}
+.adkar-progress-fill {
+  position: absolute;
+  inset: 0;
+  background: var(--color-cobalt);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+.adkar-progress-count {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  color: var(--color-ink);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* ---------- Method chart ---------- */
+.chart-bar {
+  flex: 1;
+  border-radius: 4px 4px 0 0;
+  transform-origin: center bottom;
+}
+.js .chart-live .chart-bar {
+  transform: scaleY(0);
 }
 
 /* ---------- Clients roster ---------- */
@@ -794,7 +1060,7 @@ body.cursor-ready.fine-pointer [data-cursor] {
   transition: background 0.35s var(--ease-expo);
 }
 .client-cell:hover {
-  background: var(--color-card);
+  background: var(--color-ink);
 }
 .client-short {
   font-size: 1.05rem;
@@ -803,12 +1069,16 @@ body.cursor-ready.fine-pointer [data-cursor] {
   transition: color 0.35s ease;
 }
 .client-cell:hover .client-short {
-  color: var(--color-cobalt);
+  color: var(--color-cobalt-soft);
 }
 .client-name {
   font-size: 0.875rem;
   line-height: 1.45;
   color: var(--color-ink-muted);
+  transition: color 0.35s ease;
+}
+.client-cell:hover .client-name {
+  color: oklch(0.985 0.01 250 / 0.75);
 }
 
 /* ---------- Credentials list ---------- */
@@ -818,6 +1088,7 @@ body.cursor-ready.fine-pointer [data-cursor] {
   gap: 0.3rem;
   padding-block: clamp(1.4rem, 2.4vw, 2rem);
   border-bottom: 1px solid var(--color-line);
+  transition: padding-left 0.5s var(--ease-expo);
 }
 @media (min-width: 768px) {
   .cred-row {
@@ -825,9 +1096,16 @@ body.cursor-ready.fine-pointer [data-cursor] {
     align-items: baseline;
     gap: 2rem;
   }
+  .cred-row:hover {
+    padding-left: 1rem;
+  }
 }
 .cred-issuer {
   order: -1;
+  transition: color 0.35s ease;
+}
+.cred-row:hover .cred-issuer {
+  color: var(--color-cobalt);
 }
 .cred-title {
   font-family: var(--font-display);
@@ -878,17 +1156,48 @@ body.cursor-ready.fine-pointer [data-cursor] {
   border-top: 1px solid var(--color-line);
 }
 
-/* ---------- Contact ---------- */
+/* ---------- Contact: the cobalt-drenched close ---------- */
+.drench {
+  background: var(--color-cobalt);
+  color: var(--color-on-cobalt);
+}
+.drench ::selection {
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+.drench .t-coord {
+  color: var(--color-on-cobalt-muted);
+}
+.drench .t-lead {
+  color: var(--color-on-cobalt-muted);
+}
+.drench .index-num {
+  -webkit-text-stroke-color: var(--color-line-on-cobalt);
+}
 .contact-email {
+  position: relative;
   font-weight: 680;
   font-size: clamp(1.5rem, 3.5vw, 2.6rem);
   letter-spacing: -0.02em;
-  color: var(--color-ink);
-  transition: color 0.35s ease;
+  color: var(--color-on-cobalt);
   width: fit-content;
+  padding-bottom: 0.15em;
 }
-.contact-email:hover {
-  color: var(--color-cobalt);
+.contact-email::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--color-on-cobalt);
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 0.55s var(--ease-expo);
+}
+.contact-email:hover::after {
+  transform: scaleX(1);
+  transform-origin: left center;
 }
 
 /* ---------- Proof video ---------- */
@@ -899,6 +1208,10 @@ body.cursor-ready.fine-pointer [data-cursor] {
   overflow: hidden;
   border: 1px solid var(--color-line);
   background: var(--color-ink);
+}
+/* Scroll-scrub wrapper: GSAP animates scale/radius; static without JS. */
+.proof-scale {
+  will-change: transform;
 }
 .proof-media,
 .proof-poster {
@@ -961,7 +1274,48 @@ body.cursor-ready.fine-pointer [data-cursor] {
   transition: color 0.3s ease;
 }
 .footer-link:hover {
-  color: var(--color-cobalt);
+  color: var(--color-cobalt-soft);
+}
+/* Oversized closing wordmark: stroked paper, fills on hover. */
+.footer-mega {
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-family: var(--font-display);
+  font-weight: 760;
+  font-size: clamp(3.4rem, 15.5vw, 15rem);
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+  color: transparent;
+  -webkit-text-stroke: 1.5px color-mix(in oklch, var(--color-paper) 40%, transparent);
+  transition: color 0.6s var(--ease-expo), -webkit-text-stroke-color 0.6s ease;
+}
+.footer-mega:hover {
+  color: var(--color-paper);
+  -webkit-text-stroke-color: transparent;
+}
+.footer-top-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 50%;
+  border: 1px solid color-mix(in oklch, var(--color-paper) 30%, transparent);
+  color: var(--color-paper);
+  transition: background 0.4s var(--ease-expo), border-color 0.4s ease, color 0.4s ease;
+}
+.footer-top-btn:hover {
+  background: var(--color-cobalt);
+  border-color: var(--color-cobalt);
+  color: var(--color-on-cobalt);
+}
+.footer-top-btn svg {
+  transition: transform 0.4s var(--ease-expo);
+}
+.footer-top-btn:hover svg {
+  transform: translateY(-3px);
 }
 
 /* ---------- Reduced motion: everything lands final ---------- */
@@ -982,6 +1336,12 @@ body.cursor-ready.fine-pointer [data-cursor] {
   .js .split-char {
     opacity: 1 !important;
     transform: none !important;
+  }
+  .js .chart-live .chart-bar {
+    transform: none !important;
+  }
+  .stack-card {
+    position: static;
   }
   .status-dot::after {
     display: none !important;

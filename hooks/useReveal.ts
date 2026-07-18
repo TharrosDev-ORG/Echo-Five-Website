@@ -58,11 +58,12 @@ export function useReveal<T extends HTMLElement = HTMLElement>(): RefObject<T | 
       const words = node.querySelectorAll<HTMLElement>(".split-word");
       if (!words.length) return;
       // fromTo pins the start so GSAP never has to read a % transform from the
-      // computed matrix (which it can't do reliably).
+      // computed matrix (which it can't do reliably), and `y: 0` clears the
+      // pixel offset it parses out of the stylesheet's translateY(110%).
       tweens.push(
         gsap.fromTo(
           words,
-          { yPercent: 110 },
+          { y: 0, yPercent: 110 },
           { yPercent: 0, duration: 0.9, ease: EASE, stagger: 0.035 },
         ),
       );

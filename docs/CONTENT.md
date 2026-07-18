@@ -7,7 +7,7 @@ Every word on the page comes from `lib/content.ts` (copy/data) or `lib/site.ts`
 | --- | --- | --- | --- |
 | — | Navigation | `Nav` | `nav`, `site` |
 | 00 | Hero | `Hero` | `hero`, `site` |
-| — | Trust strip (ticker + stats) | `Trust` | `clients` (short names + counts) |
+| — | Trust strip (stats + giant marquee) | `Trust` | `clients` (short names + counts) |
 | 01 | Why rollouts stall | `Why` | `why` |
 | 02 | Where we shine (services) | `Services` | `services` |
 | 03 | How adoption happens (ADKAR) | `Adkar` | `process` |
@@ -37,8 +37,10 @@ for narrative flow) does not have to match the numeric order.
 
 - The **client roster** (`clients.groups`) is grouped into Government of Canada, Crown
   corporations & agencies, and Enterprise & non-profit. Each org has a `short` (the mono
-  code in the grid) and a `name` (the full name). `TrustStrip` derives its counts from
-  this data, so adding an org updates the stat automatically.
+  code in the grid, also the giant marquee mark) and a `name` (the full name). `Trust`
+  derives its counts from this data, so adding an org updates the stat automatically.
+- The **hero CTAs** live at `hero.cta` (`primary` scrolls to the contact close,
+  `secondary` to the approach section).
 - **Credentials** (`credentials.items`) includes the Secret Level II clearance as a
   trust signal alongside the certifications.
 - The **founder block** (`principal`) in the About section names Mark Abdelnour so a

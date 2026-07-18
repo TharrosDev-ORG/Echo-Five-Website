@@ -5,6 +5,7 @@ import { gsap, EASE, prefersReducedMotion } from "@/lib/gsap";
 import { site } from "@/lib/site";
 
 const LOADED_EVENT = "ef:loaded";
+const WORD = "Echofive";
 
 /** Fire the "loaded" signal the hero waits on to start its intro. */
 function announceLoaded() {
@@ -13,9 +14,10 @@ function announceLoaded() {
 }
 
 /**
- * Brief intro: a counter races 0 → 100 while the wordmark holds, then the
- * curtain lifts and the hero takes over. Reduced motion skips the curtain and
- * signals "loaded" immediately so nothing is gated behind motion.
+ * Intro: the wordmark rises letter by letter while a counter races 0 → 100,
+ * then the letters exit upward and the paper curtain lifts with a cobalt flash
+ * chasing it. Reduced motion skips the curtain and signals "loaded" immediately
+ * so nothing is gated behind motion.
  */
 export default function Preloader() {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -51,32 +53,60 @@ export default function Preloader() {
     // load and rAF pauses), never leave the curtain blocking the page.
     const safety = window.setTimeout(finish, 6000);
 
+    const chars = root.querySelectorAll<HTMLElement>(".pre-char > span");
+    const flash = root.querySelector<HTMLElement>(".preloader-flash");
     const counter = { value: 0 };
     const tl = gsap.timeline({ onComplete: finish });
 
-    tl.to(counter, {
-      value: 100,
-      duration: 1.1,
-      ease: "power2.inOut",
-      onUpdate: () => {
-        count.textContent = String(Math.round(counter.value)).padStart(2, "0");
-      },
+    // Own the start state explicitly (the CSS transform is only a pre-paint
+    // guard; GSAP percent transforms need to be set by GSAP, and `y: 0`
+    // clears the pixel offset parsed from the stylesheet transform).
+    gsap.set(chars, { y: 0, yPercent: 110 });
+
+    tl.to(chars, {
+      yPercent: 0,
+      duration: 0.8,
+      ease: EASE,
+      stagger: 0.045,
     })
-      .to(root.querySelectorAll("[data-pre]"), {
+      .to(
+        counter,
+        {
+          value: 100,
+          duration: 1.15,
+          ease: "power2.inOut",
+          onUpdate: () => {
+            count.textContent = String(Math.round(counter.value)).padStart(2, "0");
+          },
+        },
+        "<+0.1",
+      )
+      .to(chars, {
         yPercent: -120,
-        opacity: 0,
-        duration: 0.7,
-        ease: EASE,
-        stagger: 0.05,
+        duration: 0.65,
+        ease: "power3.in",
+        stagger: 0.03,
       })
       .to(
-        root,
+        root.querySelectorAll("[data-pre]"),
         {
-          yPercent: -100,
-          duration: 0.95,
-          ease: EASE,
+          yPercent: -120,
+          opacity: 0,
+          duration: 0.55,
+          ease: "power3.in",
+          stagger: 0.05,
         },
-        "-=0.25",
+        "<",
+      )
+      .to(
+        flash,
+        { yPercent: -100, duration: 0.85, ease: EASE },
+        "-=0.15",
+      )
+      .to(
+        root,
+        { yPercent: -100, duration: 0.9, ease: EASE },
+        "<+0.08",
       );
 
     return () => {
@@ -90,12 +120,24 @@ export default function Preloader() {
 
   return (
     <div ref={rootRef} className="preloader" data-done={done} aria-hidden="true">
-      <div data-pre className="preloader-label">
-        {site.name}
+      <div className="preloader-flash" />
+      <div className="preloader-word">
+        {/* Letters start below their masks (translateY 110%) and rise in. */}
+        {WORD.split("").map((ch, i) => (
+          <span key={i} className="pre-char">
+            <span style={i >= WORD.length - 4 ? { color: "var(--color-cobalt)" } : undefined}>
+              {ch}
+            </span>
+          </span>
+        ))}
       </div>
-      <div data-pre className="preloader-count">
-        <span ref={countRef}>00</span>
-        <span aria-hidden="true">%</span>
+      <div className="preloader-inner">
+        <div data-pre className="preloader-label">
+          {site.tagline}
+        </div>
+        <div data-pre className="preloader-count">
+          <span ref={countRef}>00</span>
+        </div>
       </div>
     </div>
   );

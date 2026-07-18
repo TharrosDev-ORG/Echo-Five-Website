@@ -45,11 +45,14 @@ em-dashes in copy.
 
 ## Motion
 
-Each mechanism stands alone so a hiccup in one can't leave content stuck hidden:
+Each mechanism stands alone so a hiccup in one can't leave content stuck hidden.
+Visibility runs on IntersectionObserver; **ScrollTrigger carries only additive scrub
+moments** whose failure leaves everything readable:
 
 - **Lenis** (`components/providers/SmoothScroll.tsx`): smooth scroll on the GSAP ticker.
   It only smooths — nothing depends on it to become visible. Held during the preloader,
-  released on the `ef:loaded` event; also handles deep-link hashes.
+  released on the `ef:loaded` event; emits `ScrollTrigger.update` and refreshes trigger
+  positions after fonts/preloader; also handles deep-link hashes.
 - **Three.js** (`components/three/FlowField.tsx`): the hero particle field. Custom
   shaders displace points along a curl-noise flow field; the pointer scatters them and
   they settle back. DPR capped at 2, normal blending tuned for a light ground, pauses
@@ -58,17 +61,34 @@ Each mechanism stands alone so a hiccup in one can't leave content stuck hidden:
   - `useReveal` (via `RevealRoot`) reveals all `[data-reveal]` / `[data-reveal-group]`
     rises and `[data-split]` masked headlines as they enter the viewport, so content
     sections stay server components.
-  - `Adkar.tsx` is a dense five-up stepper (rail + nodes) that reveals via the same system.
-  - Hero entrance: line-mask headline reveal + staggered meta/chips, played on
+  - Hero entrance: line-mask headline reveal + staggered sub/CTAs/meta bar, played on
     `ef:loaded` with a safety timer so it can never be left hidden.
-  - FX: custom cursor, intro preloader, scroll-progress bar, magnetic CTAs.
+- **Scrub moments (ScrollTrigger, additive only):**
+  - Hero scroll-exit drift (composition rises and softens as the hero leaves).
+  - `TextScrub` pull statements: words flood from faint to full ink with scroll; the
+    faint start state is applied only after the trigger exists.
+  - The Proof video frame swells from 0.88 → 1 as it enters.
+  - **The ADKAR sequence pins** on wide screens and travels horizontally under a
+    filling progress rail — the signature scroll moment. It opts in via classes from
+    `Adkar.tsx` (`gsap.matchMedia`, ≥1024px and ≥720px tall) and falls back to a
+    vertical editorial list on small screens, no JS, or reduced motion.
+- **Signature surfaces:** sticky stacking failure cards (CSS `position: sticky`), the
+  giant outlined roster marquee with scroll-velocity skew (`SkewMarquee`), full-row
+  cobalt hover floods on the service rows, the cobalt-drenched contact close, and the
+  oversized stroked footer wordmark.
+- FX: custom cursor, wordmark-cascade preloader with cobalt flash curtain,
+  scroll-progress bar, magnetic CTAs, hide-on-scroll-down nav, live ET clock.
 
 Rules: initial hidden states are gated behind the `.js` class (no-JS users see
 everything); `prefers-reduced-motion` forces all final states in CSS and skips every
 GSAP / Lenis / WebGL / marquee animation; never `clearProps` on elements whose hidden
 state lives in the stylesheet.
 
-### Two cascade gotchas (kept from the prior build, still true)
+### Three cascade/transform gotchas (still true)
+
+0. **GSAP parses stylesheet `translateY(110%)` as pixels.** Every percent-based rise
+   (`yPercent`) must also set `y: 0`, or the tween completes while the parsed pixel
+   offset keeps the words shifted out of their masks.
 
 1. **No unlayered universal resets.** An unlayered `* { margin: 0 }` beats every Tailwind
    utility (they live in `@layer utilities`). Tailwind v4 preflight handles the reset.
@@ -83,7 +103,8 @@ state lives in the stylesheet.
 - Faint `.bg-grid` + `.grain` atmosphere; keylines (`--color-line`) structure
   grids-of-cells (clients, failure cards) and editorial rows (services, credentials).
 - One-page narrative: Hero → Trust → Why → Services → ADKAR → Method → Proof →
-  Clients → Credentials → About → Contact → Footer.
+  Clients → Credentials → About → Contact (cobalt drench) → Footer (deep ink,
+  oversized wordmark).
 
 ## Conversion
 
