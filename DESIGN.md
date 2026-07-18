@@ -84,7 +84,15 @@ everything); `prefers-reduced-motion` forces all final states in CSS and skips e
 GSAP / Lenis / WebGL / marquee animation; never `clearProps` on elements whose hidden
 state lives in the stylesheet.
 
-### Three cascade/transform gotchas (still true)
+### Four cascade/transform gotchas (still true)
+
+00. **Tailwind's scanner can't see utilities inside class-name templates.** A
+   template like `` `z-50${cond ? " x" : ""}` `` glues `z-50` to `${`, the
+   scanner never extracts the candidate, and the utility is silently absent
+   from the build (this once left the whole nav with `z-index: auto`, making
+   every nav link unclickable). Structural CSS (position, z-index) for
+   stateful components lives in named classes in this file, never in
+   template-assembled utilities.
 
 0. **GSAP parses stylesheet `translateY(110%)` as pixels.** Every percent-based rise
    (`yPercent`) must also set `y: 0`, or the tween completes while the parsed pixel

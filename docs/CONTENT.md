@@ -30,8 +30,6 @@ for narrative flow) does not have to match the numeric order.
   (see `app/api/contact/route.ts`).
 - `video.id` — the YouTube ID for the SSC adoption talk (`4IycJ3ehz7g`).
 - `advantaUrl` — the partner platform link.
-- `callsign` — legacy constant, retained but no longer rendered (the wordmark is now the
-  "Echofive" lockup in `Nav` / `Footer`).
 
 ## Editing notes
 

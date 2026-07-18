@@ -97,6 +97,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       suppressHydrationWarning
     >
       <head>
+        {/* The Proof section's poster is the only third-party asset. */}
+        <link rel="dns-prefetch" href="https://i.ytimg.com" />
         {/* Opt into reveal animations only when JS runs, before first paint, so
             no-JS / crawlers keep content visible and there is no flash. */}
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />

@@ -93,7 +93,7 @@ export default function Nav() {
   return (
     <header
       ref={headerRef}
-      className={`site-nav fixed inset-x-0 top-0 z-50${hidden && !open ? " nav-hidden" : ""}`}
+      className={`site-nav${hidden && !open ? " nav-hidden" : ""}`}
       style={{
         background: scrolled ? "color-mix(in oklch, var(--color-paper) 78%, transparent)" : "transparent",
         backdropFilter: scrolled ? "blur(14px)" : "none",

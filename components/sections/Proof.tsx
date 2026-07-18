@@ -69,7 +69,7 @@ export default function Proof() {
               className="proof-media"
               src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`}
               title={proof.heading}
-              allow="accelerated-encoding; autoplay; encrypted-media; picture-in-picture"
+              allow="autoplay; encrypted-media; picture-in-picture"
               allowFullScreen
             />
           ) : (

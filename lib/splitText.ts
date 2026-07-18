@@ -25,6 +25,13 @@ export function splitWords(el: HTMLElement): SplitResult {
   el.innerHTML = "";
   const words: HTMLElement[] = [];
 
+  // The real text, visually hidden: aria-label is prohibited on generic
+  // elements, so AT reads this span while the visual fragments stay hidden.
+  const sr = document.createElement("span");
+  sr.className = "u-sr";
+  sr.textContent = text;
+  el.appendChild(sr);
+
   for (const token of tokens) {
     if (token.trim() === "") {
       // Preserve spacing between word masks.
@@ -33,7 +40,7 @@ export function splitWords(el: HTMLElement): SplitResult {
     }
     const mask = document.createElement("span");
     mask.className = "split-line";
-    // The original text stays accessible via the parent's aria-label; hide the
+    // The original text stays accessible via the hidden span above; hide the
     // visual fragments so AT never reassembles the headline word-by-word.
     mask.setAttribute("aria-hidden", "true");
     const word = document.createElement("span");
@@ -46,34 +53,6 @@ export function splitWords(el: HTMLElement): SplitResult {
 
   return {
     words,
-    revert: () => {
-      el.innerHTML = original;
-    },
-  };
-}
-
-/**
- * Split into characters (each wrapped, no mask). Used sparingly for short
- * labels/wordmarks where a per-letter cascade reads well. aria-label should be
- * set by the caller so the original text stays accessible.
- */
-export function splitChars(el: HTMLElement): SplitResult {
-  const original = el.innerHTML;
-  const text = el.textContent ?? "";
-  el.innerHTML = "";
-  const chars: HTMLElement[] = [];
-
-  for (const ch of text) {
-    const span = document.createElement("span");
-    span.className = "split-char";
-    span.setAttribute("aria-hidden", "true");
-    span.textContent = ch === " " ? " " : ch;
-    el.appendChild(span);
-    chars.push(span);
-  }
-
-  return {
-    words: chars,
     revert: () => {
       el.innerHTML = original;
     },
