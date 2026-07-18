@@ -20,7 +20,13 @@ export default function Nav() {
   // One rAF-batched scroll loop drives the condensed header, the hide-on-
   // scroll-down / return-on-scroll-up behaviour, and the scrollspy.
   useEffect(() => {
-    const ids = nav.map((n) => n.href);
+    // Resolve the spied sections once; querying the DOM on every scroll
+    // frame is wasted work.
+    const targets: { href: string; el: Element }[] = [];
+    for (const n of nav) {
+      const el = document.querySelector(n.href);
+      if (el) targets.push({ href: n.href, el });
+    }
     let raf = 0;
     const update = () => {
       raf = 0;
@@ -32,13 +38,12 @@ export default function Nav() {
       lastY.current = y;
       const line = window.innerHeight * 0.35;
       let current = "";
-      for (const href of ids) {
-        const el = document.querySelector(href);
-        if (el && el.getBoundingClientRect().top <= line) current = href;
+      for (const t of targets) {
+        if (t.el.getBoundingClientRect().top <= line) current = t.href;
       }
       // At the very bottom, the last section is the active one.
-      if (window.scrollY + window.innerHeight >= document.body.scrollHeight - 4) {
-        current = ids[ids.length - 1];
+      if (window.scrollY + window.innerHeight >= document.body.scrollHeight - 4 && targets.length) {
+        current = targets[targets.length - 1].href;
       }
       setActive(current);
     };

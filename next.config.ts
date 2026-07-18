@@ -47,7 +47,7 @@ const nextConfig: NextConfig = {
 
   // Experimental features
   experimental: {
-    optimizePackageImports: ["gsap", "three"],
+    optimizePackageImports: ["gsap"],
   },
 };
 

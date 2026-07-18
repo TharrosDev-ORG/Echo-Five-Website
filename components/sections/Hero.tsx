@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { gsap, EASE, prefersReducedMotion } from "@/lib/gsap";
 import { hero } from "@/lib/content";
@@ -8,13 +8,52 @@ import SplitText from "@/components/ui/SplitText";
 import Magnetic from "@/components/fx/Magnetic";
 import { useSmoothScroll } from "@/components/providers/SmoothScroll";
 
-// Three.js is heavy and purely decorative — keep it out of the above-the-fold
+// The WebGL field is purely decorative — keep it out of the above-the-fold
 // bundle so the hero headline (LCP) isn't blocked. The CSS gradient fallback
 // shows instantly behind the content (and during the preloader).
-const FlowField = dynamic(() => import("@/components/three/FlowField"), {
+const FlowField = dynamic(() => import("@/components/gl/FlowField"), {
   ssr: false,
   loading: () => <div className="flowfield" aria-hidden="true" />,
 });
+
+/**
+ * The particle field's chunk is downloaded only for visitors who will
+ * actually see it (motion allowed, WebGL present, no data-saver), and only
+ * once the intro has handed off and the main thread is idle — so the
+ * download and shader compile never compete with the entrance.
+ */
+function useFlowFieldReady() {
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    if (prefersReducedMotion()) return;
+    const conn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+    if (conn?.saveData) return;
+    const probe = document.createElement("canvas");
+    if (!probe.getContext("webgl2") && !probe.getContext("webgl")) return;
+
+    let idle = 0;
+    let timer = 0;
+    const arm = () => {
+      const go = () => setReady(true);
+      if (typeof window.requestIdleCallback === "function") {
+        idle = window.requestIdleCallback(go, { timeout: 1500 });
+      } else {
+        timer = window.setTimeout(go, 350);
+      }
+    };
+    if (document.documentElement.dataset.loaded === "true") arm();
+    else window.addEventListener("ef:loaded", arm, { once: true });
+
+    return () => {
+      window.removeEventListener("ef:loaded", arm);
+      if (idle) window.cancelIdleCallback?.(idle);
+      if (timer) window.clearTimeout(timer);
+    };
+  }, []);
+
+  return ready;
+}
 
 const ArrowDown = () => (
   <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
@@ -25,6 +64,7 @@ const ArrowDown = () => (
 export default function Hero() {
   const ref = useRef<HTMLElement>(null);
   const { scrollTo } = useSmoothScroll();
+  const fieldReady = useFlowFieldReady();
 
   useEffect(() => {
     if (prefersReducedMotion()) return;
@@ -113,7 +153,7 @@ export default function Hero() {
       id="top"
       className="hero-stage relative flex min-h-[100svh] flex-col overflow-hidden"
     >
-      <FlowField />
+      {fieldReady ? <FlowField /> : <div className="flowfield" aria-hidden="true" />}
 
       <div data-hero-inner className="relative z-10 flex flex-1 flex-col">
         <div className="u-container flex flex-1 flex-col justify-center pt-28 pb-10">
