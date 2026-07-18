@@ -11,10 +11,13 @@ type Props = {
 
 /**
  * Scroll-scrubbed statement: words sit faint and flood to full ink as the
- * paragraph crosses the viewport, tied to scroll position (scrub, not a
- * one-shot). The faint start state is applied by GSAP only *after* the
- * ScrollTrigger exists, so a failure anywhere leaves the text fully visible —
- * same invariant as the rest of the reveal system.
+ * paragraph crosses the viewport, tied to scroll position. One-way: once the
+ * flood completes the trigger is killed, so re-reading (scrolling back up)
+ * never returns the text to its faint state. The faint start is applied by
+ * GSAP only *after* the ScrollTrigger exists, so a failure anywhere leaves
+ * the text fully visible — same invariant as the rest of the reveal system.
+ * AT reads a visually-hidden copy of the full text; the animated word spans
+ * are aria-hidden.
  */
 export default function TextScrub({ text, as: Tag = "p", className }: Props) {
   const ref = useRef<HTMLElement>(null);
@@ -24,9 +27,14 @@ export default function TextScrub({ text, as: Tag = "p", className }: Props) {
     if (!el) return;
     if (prefersReducedMotion()) return;
 
-    // Split into plain word spans (no masks — opacity only).
+    // Split into plain word spans (no masks — opacity only), with the real
+    // text kept in a visually-hidden span for assistive tech.
     const original = el.innerHTML;
     el.innerHTML = "";
+    const sr = document.createElement("span");
+    sr.className = "u-sr";
+    sr.textContent = text;
+    el.appendChild(sr);
     const words: HTMLElement[] = [];
     for (const token of text.split(/(\s+)/)) {
       if (token.trim() === "") {
@@ -53,6 +61,13 @@ export default function TextScrub({ text, as: Tag = "p", className }: Props) {
           start: "top 82%",
           end: "top 32%",
           scrub: 0.4,
+          onUpdate(self) {
+            // Fully inked once: keep it that way.
+            if (self.progress >= 1) {
+              self.kill();
+              gsap.set(words, { opacity: 1 });
+            }
+          },
         },
       },
     );
@@ -65,7 +80,7 @@ export default function TextScrub({ text, as: Tag = "p", className }: Props) {
   }, [text]);
 
   return (
-    <Tag ref={ref} className={className} aria-label={text}>
+    <Tag ref={ref} className={className}>
       {text}
     </Tag>
   );

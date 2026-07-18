@@ -12,7 +12,6 @@ gsap.registerPlugin(ScrollTrigger);
 
 /** Expressive ease shared across the site (matches CSS cubic-bezier(0.16,1,0.3,1)). */
 export const EASE = "expo.out";
-export const EASE_SOFT = "power3.out";
 
 /** True when the visitor prefers reduced motion (guarded for SSR). */
 export const prefersReducedMotion = () =>

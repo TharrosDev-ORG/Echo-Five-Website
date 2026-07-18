@@ -47,7 +47,7 @@ components/
   fx/                     Cursor, Preloader, ScrollProgress, Magnetic, TextScrub,
                           SkewMarquee, AdoptionChart, LocalTime, ToTop
   three/FlowField         GPU curl-noise particle field behind the hero
-  ui/                     SplitText, Reveal, RevealRoot, SectionHeading
+  ui/                     SplitText, RevealRoot, SectionHeading
   sections/               Nav, Hero, Trust, Why, Services, Adkar, Method, Proof,
                           Clients, Credentials, About, Contact, ContactForm, Footer
 hooks/

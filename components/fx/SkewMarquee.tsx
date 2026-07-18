@@ -26,7 +26,12 @@ export default function SkewMarquee({ children, className, duration = "60s" }: P
     const skewTo = gsap.quickTo(wrap, "skewX", { duration: 0.5, ease: "power3.out" });
     let lastY = window.scrollY;
     let raf = 0;
+    let settle = 0;
     const onScroll = () => {
+      // Debounced settle: straighten only once scrolling actually pauses,
+      // instead of fighting the live skew on a fixed interval.
+      window.clearTimeout(settle);
+      settle = window.setTimeout(() => skewTo(0), 140);
       if (raf) return;
       raf = requestAnimationFrame(() => {
         raf = 0;
@@ -36,13 +41,11 @@ export default function SkewMarquee({ children, className, duration = "60s" }: P
         skewTo(gsap.utils.clamp(-6, 6, v * 0.12));
       });
     };
-    // Settle back to straight whenever scrolling pauses.
-    const settle = window.setInterval(() => skewTo(0), 300);
 
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
       window.removeEventListener("scroll", onScroll);
-      window.clearInterval(settle);
+      window.clearTimeout(settle);
       if (raf) cancelAnimationFrame(raf);
     };
   }, []);

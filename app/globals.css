@@ -43,7 +43,6 @@
 
   /* ---- Motion ---- */
   --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-soft: cubic-bezier(0.33, 1, 0.68, 1);
 }
 
 /* No universal reset here: Tailwind v4 preflight already zeroes margins and
@@ -52,7 +51,6 @@
 :root {
   --pad-2xl: clamp(5.5rem, 9.5vw, 9rem);
   --pad-xl: clamp(4.25rem, 7vw, 7rem);
-  --pad-lg: clamp(3.25rem, 5.5vw, 5rem);
   --container: 84rem;
   --gutter: clamp(1.25rem, 5vw, 4.5rem);
   --nav-h: 4.5rem;
@@ -143,6 +141,18 @@ html.lenis body {
   outline-color: var(--color-on-cobalt);
 }
 
+.u-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
 .skip-link {
   position: fixed;
   top: 0.75rem;
@@ -223,9 +233,6 @@ html.lenis body {
 .measure-wide {
   max-width: 60ch;
 }
-.text-balance {
-  text-wrap: balance;
-}
 
 /* ---------- Layout ---------- */
 .u-container {
@@ -234,23 +241,12 @@ html.lenis body {
   margin-inline: auto;
   padding-inline: var(--gutter);
 }
-.u-container-wide {
-  width: 100%;
-  max-width: 96rem;
-  margin-inline: auto;
-  padding-inline: var(--gutter);
-}
-
 .pad-block-2xl {
   padding-block: var(--pad-2xl);
 }
 .pad-block-xl {
   padding-block: var(--pad-xl);
 }
-.pad-block-lg {
-  padding-block: var(--pad-lg);
-}
-
 /* Consistent vertical rhythm from a section header to its main content block,
    and a larger break before a standalone pull-statement. */
 .section-gap {
@@ -280,12 +276,6 @@ html.lenis body {
 }
 
 /* ---------- Atmosphere ---------- */
-.bg-grid {
-  background-image:
-    linear-gradient(to right, var(--color-line-soft) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--color-line-soft) 1px, transparent 1px);
-  background-size: clamp(56px, 7vw, 92px) clamp(56px, 7vw, 92px);
-}
 .grain {
   position: fixed;
   inset: 0;
@@ -368,7 +358,13 @@ html.lenis body {
 }
 
 /* ---------- Nav ---------- */
+/* Positioning lives here (not in utility classes) so the stacking order can't
+   silently vanish if a class-name template hides a utility from the scanner. */
 .site-nav {
+  position: fixed;
+  inset-inline: 0;
+  top: 0;
+  z-index: 100;
   transition:
     transform 0.6s var(--ease-expo),
     background 0.4s ease,
@@ -560,9 +556,6 @@ html.lenis body {
 .split-word {
   display: inline-block;
 }
-.split-char {
-  display: inline-block;
-}
 
 /* Scroll-scrubbed statements: word opacity is driven entirely by GSAP, so
    content is fully visible whenever the scrub is not running (no-JS, failure). */
@@ -720,10 +713,6 @@ body.cursor-ready.fine-pointer [data-cursor] {
 .js .split-word {
   transform: translateY(110%);
 }
-.js .split-char {
-  opacity: 0;
-  transform: translateY(0.4em);
-}
 
 /* ---------- WebGL flow field ---------- */
 .flowfield {
@@ -769,6 +758,10 @@ body.cursor-ready.fine-pointer [data-cursor] {
   border-color: var(--color-cobalt);
   box-shadow: 0 0 0 3px var(--color-cobalt-soft);
 }
+.field:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px var(--color-card) inset;
+  -webkit-text-fill-color: var(--color-ink);
+}
 /* Field variant for the cobalt close: light-on-cobalt. */
 .drench .field {
   background: oklch(1 0 0 / 0.09);
@@ -778,6 +771,10 @@ body.cursor-ready.fine-pointer [data-cursor] {
 .drench .field:focus {
   border-color: var(--color-on-cobalt);
   box-shadow: 0 0 0 3px oklch(1 0 0 / 0.18);
+}
+.drench .field:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px var(--color-cobalt-deep) inset;
+  -webkit-text-fill-color: var(--color-on-cobalt);
 }
 
 /* ---------- Index numerals & dividers ---------- */
@@ -798,7 +795,9 @@ body.cursor-ready.fine-pointer [data-cursor] {
   gap: clamp(1rem, 2vw, 1.5rem);
 }
 .stack-card {
-  position: sticky;
+  /* Sticky stacking from md up; on small screens tall cards would smother
+     each other, so they read as a plain list. */
+  position: static;
   top: calc(var(--nav-h) + 1.25rem + var(--stack-i, 0) * 2.75rem);
   display: grid;
   gap: 1.25rem clamp(1.5rem, 4vw, 4rem);
@@ -810,6 +809,7 @@ body.cursor-ready.fine-pointer [data-cursor] {
 }
 @media (min-width: 768px) {
   .stack-card {
+    position: sticky;
     grid-template-columns: auto 1fr 1.1fr;
     align-items: start;
     min-height: 16rem;
@@ -1038,6 +1038,30 @@ body.cursor-ready.fine-pointer [data-cursor] {
   color: var(--color-ink);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
+}
+
+/* Shorter laptops (pin engages from 720px of height): compress the pinned
+   composition so the full sequence fits one viewport with no clipping. */
+@media (max-height: 880px) {
+  .is-pinned .adkar-viewport .t-h2 {
+    font-size: clamp(1.9rem, 3vw, 2.7rem);
+  }
+  .is-pinned .adkar-viewport .t-lead {
+    font-size: 1.05rem;
+    line-height: 1.45;
+  }
+  .is-pinned .adkar-viewport .section-gap {
+    margin-top: 1.75rem;
+  }
+  .is-pinned .adkar-progress {
+    margin-bottom: 1.5rem;
+  }
+  .is-pinned .adkar-track.is-horizontal .adkar-key {
+    font-size: clamp(5.5rem, 17vh, 9rem);
+  }
+  .is-pinned .adkar-track.is-horizontal .adkar-panel {
+    padding-block: 1.25rem;
+  }
 }
 
 /* ---------- Method chart ---------- */
@@ -1332,8 +1356,7 @@ body.cursor-ready.fine-pointer [data-cursor] {
   }
   .js [data-reveal],
   .js .hero-stage [data-hero],
-  .js .split-word,
-  .js .split-char {
+  .js .split-word {
     opacity: 1 !important;
     transform: none !important;
   }

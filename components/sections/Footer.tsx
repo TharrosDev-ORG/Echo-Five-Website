@@ -88,7 +88,7 @@ export default function Footer() {
         </div>
 
         <div style={{ marginTop: "clamp(2rem,4vw,3.5rem)" }}>
-          <ToTop className="footer-mega" aria-label="Echofive — back to top">
+          <ToTop className="footer-mega" aria-label="Echofive, back to top">
             Echofive
           </ToTop>
         </div>

@@ -39,7 +39,7 @@ export default function Services() {
 
         <div className="section-gap" data-reveal-group>
           {services.items.map((item) => (
-            <article key={item.n} data-reveal className="svc-row" data-cursor>
+            <article key={item.n} data-reveal className="svc-row">
               <span className="svc-num" aria-hidden="true">
                 {item.n}
               </span>

@@ -253,7 +253,9 @@ export default function FlowField() {
     // --- Run/pause gating ---
     let running = true;
     let rafId = 0;
-    const clock = new THREE.Clock();
+    // Monotonic elapsed time (THREE.Clock is deprecated).
+    const t0 = performance.now();
+    const elapsed = () => (performance.now() - t0) / 1000;
 
     const io = new IntersectionObserver(
       ([entry]) => {
@@ -280,12 +282,13 @@ export default function FlowField() {
 
     const loop = () => {
       if (!running) return;
-      uniforms.uTime.value = clock.getElapsedTime();
+      const t = elapsed();
+      uniforms.uTime.value = t;
       // Ease pointer + strength for fluid response.
       uniforms.uPointer.value.lerp(targetPointer, 0.08);
       uniforms.uPointerStrength.value +=
         (targetStrength - uniforms.uPointerStrength.value) * 0.06;
-      points.rotation.z = Math.sin(clock.getElapsedTime() * 0.04) * 0.06;
+      points.rotation.z = Math.sin(t * 0.04) * 0.06;
       renderer.render(scene, camera);
       rafId = requestAnimationFrame(loop);
     };

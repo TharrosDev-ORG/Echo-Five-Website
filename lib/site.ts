@@ -10,7 +10,6 @@ export const site = {
   name: "Echofive Solutions",
   legalName: "Echofive Solutions Inc.",
   shortName: "Echofive",
-  callsign: "ECHO·FIVE",
   url: "https://echo-five.ca",
   email: "mark@echo-five.ca",
   region: "Serving clients across Canada",
