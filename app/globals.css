@@ -520,7 +520,8 @@ html.lenis body {
   width: max-content;
   animation: marquee var(--marquee-duration, 50s) linear infinite;
 }
-.marquee:hover .marquee-track {
+.marquee:hover .marquee-track,
+.is-off .marquee-track {
   animation-play-state: paused;
 }
 
@@ -734,6 +735,14 @@ body.cursor-ready.fine-pointer [data-cursor] {
 }
 .flowfield canvas {
   display: block;
+  /* The field mounts post-idle; ease it in over the gradient fallback. */
+  opacity: 0;
+  animation: field-in 1.4s ease 0.1s forwards;
+}
+@keyframes field-in {
+  to {
+    opacity: 1;
+  }
 }
 
 /* ---------- Form fields ---------- */

@@ -13,7 +13,8 @@ type Props = {
 /**
  * Marquee wrapper that leans into scroll velocity: fast scrolling skews the
  * track, which settles straight as the scroll settles. The loop itself is the
- * plain CSS marquee animation (runs without JS); the skew is additive.
+ * plain CSS marquee animation (runs without JS); the skew is additive. Both
+ * the loop and the skew work are suspended while the marquee is off-screen.
  */
 export default function SkewMarquee({ children, className, duration = "60s" }: Props) {
   const wrapRef = useRef<HTMLDivElement>(null);
@@ -23,11 +24,26 @@ export default function SkewMarquee({ children, className, duration = "60s" }: P
     const wrap = wrapRef.current;
     if (!wrap) return;
 
+    // Suspend the infinite loop animation whenever the marquee is off-screen.
+    let visible = true;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        visible = entry.isIntersecting;
+        wrap.classList.toggle("is-off", !visible);
+      },
+      { rootMargin: "10% 0px" },
+    );
+    io.observe(wrap);
+
     const skewTo = gsap.quickTo(wrap, "skewX", { duration: 0.5, ease: "power3.out" });
     let lastY = window.scrollY;
     let raf = 0;
     let settle = 0;
     const onScroll = () => {
+      if (!visible) {
+        lastY = window.scrollY;
+        return;
+      }
       // Debounced settle: straighten only once scrolling actually pauses,
       // instead of fighting the live skew on a fixed interval.
       window.clearTimeout(settle);
@@ -44,6 +60,7 @@ export default function SkewMarquee({ children, className, duration = "60s" }: P
 
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
+      io.disconnect();
       window.removeEventListener("scroll", onScroll);
       window.clearTimeout(settle);
       if (raf) cancelAnimationFrame(raf);

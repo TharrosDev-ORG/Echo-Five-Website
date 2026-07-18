@@ -63,7 +63,7 @@ interaction:
 | `SmoothScroll` | Lenis instance, GSAP ticker sync, ScrollTrigger updates, scroll context |
 | `Nav` | condensed / hide-on-scroll state, scrollspy (`aria-current`), mobile-menu dialog, smooth anchor scroll |
 | `Hero` | load-triggered intro timeline, scroll-exit drift; renders `FlowField` |
-| `FlowField` | Three.js renderer on rAF; reduced-motion / no-WebGL fallback |
+| `FlowField` | raw-WebGL renderer on rAF; reduced-motion / no-WebGL fallback |
 | `Adkar` | pinned horizontal scrub on wide screens (class opt-in, static fallback) |
 | `Proof` | click-to-load YouTube facade (`useState`), frame swell scrub |
 | `ContactForm` | submission, validation/error state, mailto fallback |
@@ -106,5 +106,19 @@ same file, alongside component-specific blocks (`.svc-row`, `.stack-card`, `.adk
 ## Performance & headers
 
 `next.config.ts` sets AVIF/WebP image formats, a one-year cache TTL, security headers, and
-`optimizePackageImports` for `gsap` / `three`. The page is fully static; only
-`/api/contact` and `/opengraph-image` run on demand.
+`optimizePackageImports` for `gsap`. The page is fully static; only `/api/contact` and
+`/opengraph-image` run on demand.
+
+Performance posture:
+
+- **No 3D library.** The hero field (`components/gl/FlowField.tsx`) is raw WebGL — one
+  points draw call, two shaders, and two hand-rolled matrices — instead of a ~130KB-gzip
+  scene graph.
+- **The WebGL chunk is gated.** It downloads only after the intro hands off and the main
+  thread goes idle, and never for reduced-motion, data-saver, or no-WebGL visitors.
+- **Adaptive quality.** Particle count and device-pixel-ratio drop on low-memory /
+  low-core devices before the first frame renders.
+- **Nothing runs off-screen.** The field and the marquee loop pause when out of view or
+  on a hidden tab (IntersectionObserver + visibilitychange).
+- **The intro plays once per session** (`sessionStorage`); repeat visits go straight to
+  the page.

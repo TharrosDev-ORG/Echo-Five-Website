@@ -30,11 +30,20 @@ export default function Preloader() {
       if (finished) return;
       finished = true;
       document.documentElement.style.overflow = "";
+      try {
+        sessionStorage.setItem("ef:intro", "1");
+      } catch {}
       announceLoaded();
       setDone(true);
     };
 
-    if (prefersReducedMotion()) {
+    // The intro plays once per session: returning within the same tab goes
+    // straight to the page.
+    let seen = false;
+    try {
+      seen = sessionStorage.getItem("ef:intro") === "1";
+    } catch {}
+    if (seen || prefersReducedMotion()) {
       finish();
       return;
     }
@@ -73,7 +82,7 @@ export default function Preloader() {
         counter,
         {
           value: 100,
-          duration: 1.15,
+          duration: 0.95,
           ease: "power2.inOut",
           onUpdate: () => {
             count.textContent = String(Math.round(counter.value)).padStart(2, "0");
@@ -83,16 +92,16 @@ export default function Preloader() {
       )
       .to(chars, {
         yPercent: -120,
-        duration: 0.65,
+        duration: 0.55,
         ease: "power3.in",
-        stagger: 0.03,
+        stagger: 0.025,
       })
       .to(
         root.querySelectorAll("[data-pre]"),
         {
           yPercent: -120,
           opacity: 0,
-          duration: 0.55,
+          duration: 0.5,
           ease: "power3.in",
           stagger: 0.05,
         },
@@ -100,12 +109,12 @@ export default function Preloader() {
       )
       .to(
         flash,
-        { yPercent: -100, duration: 0.85, ease: EASE },
-        "-=0.15",
+        { yPercent: -100, duration: 0.8, ease: EASE },
+        "-=0.2",
       )
       .to(
         root,
-        { yPercent: -100, duration: 0.9, ease: EASE },
+        { yPercent: -100, duration: 0.85, ease: EASE },
         "<+0.08",
       );
 

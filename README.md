@@ -17,8 +17,8 @@ outlined client marquee, a cobalt-drenched close), and WebGL motion (see `DESIGN
 - **Tailwind CSS v4** (`@tailwindcss/postcss`, tokens via `@theme`)
 - **GSAP** for animation (+ ScrollTrigger for additive scrub moments: the pinned ADKAR
   sequence, scrubbed statements, parallax), **IntersectionObserver** for entrance
-  reveals (robust, decoupled from scroll); **Lenis** for smooth scroll; **Three.js**
-  for the hero flow field
+  reveals (robust, decoupled from scroll); **Lenis** for smooth scroll; a
+  dependency-free **raw-WebGL** hero flow field (~4KB instead of a 130KB library)
 - Fonts via `next/font/google`: **Bricolage Grotesque** (display), **Public Sans**
   (body), **IBM Plex Mono** (labels/coordinates)
 
@@ -46,7 +46,7 @@ components/
   providers/SmoothScroll  Lenis smooth scroll synced to GSAP ScrollTrigger
   fx/                     Cursor, Preloader, ScrollProgress, Magnetic, TextScrub,
                           SkewMarquee, AdoptionChart, LocalTime, ToTop
-  three/FlowField         GPU curl-noise particle field behind the hero
+  gl/FlowField            Raw-WebGL curl-noise particle field behind the hero
   ui/                     SplitText, RevealRoot, SectionHeading
   sections/               Nav, Hero, Trust, Why, Services, Adkar, Method, Proof,
                           Clients, Credentials, About, Contact, ContactForm, Footer

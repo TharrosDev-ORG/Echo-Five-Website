@@ -53,10 +53,13 @@ moments** whose failure leaves everything readable:
   It only smooths — nothing depends on it to become visible. Held during the preloader,
   released on the `ef:loaded` event; emits `ScrollTrigger.update` and refreshes trigger
   positions after fonts/preloader; also handles deep-link hashes.
-- **Three.js** (`components/three/FlowField.tsx`): the hero particle field. Custom
-  shaders displace points along a curl-noise flow field; the pointer scatters them and
-  they settle back. DPR capped at 2, normal blending tuned for a light ground, pauses
-  off-screen / hidden tab, full dispose on unmount, context-loss handled.
+- **Raw WebGL** (`components/gl/FlowField.tsx`): the hero particle field, one points
+  draw call with custom shaders and no library. Points displace along a curl-noise
+  flow field; the pointer scatters them and they settle back. Adaptive quality
+  (particle count + DPR drop on low-power devices), normal blending tuned for a light
+  ground, pauses off-screen / hidden tab, full dispose on unmount, context-loss
+  handled. Its chunk loads only post-intro on idle, and never for reduced-motion,
+  data-saver, or no-WebGL visitors.
 - **Reveals (IntersectionObserver + GSAP):**
   - `useReveal` (via `RevealRoot`) reveals all `[data-reveal]` / `[data-reveal-group]`
     rises and `[data-split]` masked headlines as they enter the viewport, so content
