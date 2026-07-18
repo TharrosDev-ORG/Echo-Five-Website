@@ -1,5 +1,6 @@
 import { about, principal } from "@/lib/content";
 import SplitText from "@/components/ui/SplitText";
+import TextScrub from "@/components/fx/TextScrub";
 
 export default function About() {
   return (
@@ -21,17 +22,20 @@ export default function About() {
         </h2>
 
         <div className="section-gap grid gap-12 md:grid-cols-12 md:gap-16">
-          <div className="md:col-span-7" data-reveal-group>
-            {about.body.map((p, i) => (
-              <p
-                key={i}
-                data-reveal
-                className="t-body measure-wide"
-                style={{ marginTop: i === 0 ? 0 : "1.5rem", color: i === 0 ? "var(--color-ink)" : "var(--color-ink-soft)" }}
-              >
-                {p}
-              </p>
-            ))}
+          <div className="md:col-span-7">
+            <TextScrub className="t-lead measure-wide" text={about.body[0]} />
+            <div data-reveal-group>
+              {about.body.slice(1).map((p, i) => (
+                <p
+                  key={i}
+                  data-reveal
+                  className="t-body measure-wide"
+                  style={{ marginTop: "1.5rem", color: "var(--color-ink-soft)" }}
+                >
+                  {p}
+                </p>
+              ))}
+            </div>
           </div>
 
           <aside className="md:col-span-5" data-reveal="scale">

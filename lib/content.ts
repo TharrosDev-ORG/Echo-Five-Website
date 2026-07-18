@@ -16,6 +16,10 @@ export const hero = {
   context: "Canadian public sector and enterprise",
   headline: ["Change that lands.", "Tools that get used."],
   sub: "We help government and enterprise organizations move to Microsoft 365 and actually adopt it. Strategy, communications, training, and technical writing, delivered end to end.",
+  cta: {
+    primary: "Start a conversation",
+    secondary: "See how we work",
+  },
   trust: [
     "20+ years",
     "Secret Level II cleared",

@@ -8,7 +8,7 @@ import {
   type ReactNode,
 } from "react";
 import Lenis from "lenis";
-import { gsap, prefersReducedMotion } from "@/lib/gsap";
+import { gsap, ScrollTrigger, prefersReducedMotion } from "@/lib/gsap";
 
 type ScrollToTarget = string | number | HTMLElement;
 type LenisContextValue = {
@@ -47,9 +47,18 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
     });
     lenisRef.current = lenis;
 
+    // Keep ScrollTrigger's scrub effects in step with the smoothed scroll, and
+    // re-measure once everything above the fold has settled (fonts + preloader).
+    lenis.on("scroll", ScrollTrigger.update);
+
     const raf = (time: number) => lenis.raf(time * 1000);
     gsap.ticker.add(raf);
     gsap.ticker.lagSmoothing(0);
+
+    const refresh = () => ScrollTrigger.refresh();
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(refresh).catch(() => {});
+    }
 
     // Hold scroll until the preloader lifts, then hand off + honour any incoming
     // deep link (e.g. /#contact). The rAF loop runs from mount so Lenis is never
@@ -57,6 +66,7 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
     lenis.stop();
     const start = () => {
       lenis.start();
+      ScrollTrigger.refresh();
       const hash = window.location.hash;
       if (hash && hash.length > 1) {
         requestAnimationFrame(() => lenis.scrollTo(hash, { offset: -72 }));

@@ -1,18 +1,45 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { gsap, prefersReducedMotion } from "@/lib/gsap";
 import { proof } from "@/lib/content";
 import { site } from "@/lib/site";
 
 /**
  * "On the record" — a lazy YouTube facade. We render the poster + a play
  * affordance and only mount the iframe on click, so nothing from YouTube loads
- * (or autoplays) until the visitor chooses to watch.
+ * (or autoplays) until the visitor chooses to watch. The frame swells to full
+ * size as it scrolls into view (scrub; static without JS).
  */
 export default function Proof() {
   const [playing, setPlaying] = useState(false);
+  const scaleRef = useRef<HTMLDivElement>(null);
   const id = site.video.id;
   const poster = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+
+  useEffect(() => {
+    if (prefersReducedMotion()) return;
+    const el = scaleRef.current;
+    if (!el) return;
+    const tween = gsap.fromTo(
+      el,
+      { scale: 0.88 },
+      {
+        scale: 1,
+        ease: "none",
+        scrollTrigger: {
+          trigger: el,
+          start: "top 92%",
+          end: "top 38%",
+          scrub: 0.4,
+        },
+      },
+    );
+    return () => {
+      tween.scrollTrigger?.kill();
+      tween.kill();
+    };
+  }, []);
 
   return (
     <section id="proof" className="pad-block-xl rule-top">
@@ -35,10 +62,8 @@ export default function Proof() {
           </div>
         </div>
 
-        <div
-          data-reveal="scale"
-          className="proof-frame section-gap"
-        >
+        <div ref={scaleRef} className="proof-scale section-gap">
+          <div className="proof-frame">
           {playing ? (
             <iframe
               className="proof-media"
@@ -68,6 +93,7 @@ export default function Proof() {
               </span>
             </button>
           )}
+          </div>
         </div>
       </div>
     </section>

@@ -9,20 +9,27 @@ import Magnetic from "@/components/fx/Magnetic";
 export default function Nav() {
   const { scrollTo, stop, start } = useSmoothScroll();
   const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const [active, setActive] = useState("");
   const [open, setOpen] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const firstLinkRef = useRef<HTMLAnchorElement>(null);
+  const lastY = useRef(0);
 
-  // One rAF-batched scroll loop drives both the condensed header and the
-  // scrollspy (which section is in view).
+  // One rAF-batched scroll loop drives the condensed header, the hide-on-
+  // scroll-down / return-on-scroll-up behaviour, and the scrollspy.
   useEffect(() => {
     const ids = nav.map((n) => n.href);
     let raf = 0;
     const update = () => {
       raf = 0;
-      setScrolled(window.scrollY > 24);
+      const y = window.scrollY;
+      setScrolled(y > 24);
+      const delta = y - lastY.current;
+      if (y < 160 || delta < -4) setHidden(false);
+      else if (delta > 4) setHidden(true);
+      lastY.current = y;
       const line = window.innerHeight * 0.35;
       let current = "";
       for (const href of ids) {
@@ -86,9 +93,8 @@ export default function Nav() {
   return (
     <header
       ref={headerRef}
-      className="fixed inset-x-0 top-0 z-50"
+      className={`site-nav fixed inset-x-0 top-0 z-50${hidden && !open ? " nav-hidden" : ""}`}
       style={{
-        transition: "background 0.4s ease, border-color 0.4s ease, backdrop-filter 0.4s ease",
         background: scrolled ? "color-mix(in oklch, var(--color-paper) 78%, transparent)" : "transparent",
         backdropFilter: scrolled ? "blur(14px)" : "none",
         borderBottom: scrolled ? "1px solid var(--color-line)" : "1px solid transparent",

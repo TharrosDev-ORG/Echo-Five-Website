@@ -98,7 +98,7 @@ export default function ContactForm() {
             className="field mt-2"
           />
           {errors.name ? (
-            <p id="name-error" className="mt-2 font-mono" style={{ fontSize: "0.74rem", color: "var(--color-cobalt)" }}>
+            <p id="name-error" className="mt-2 font-mono" style={{ fontSize: "0.74rem", fontWeight: 600, color: "var(--color-on-cobalt)" }}>
               {errors.name}
             </p>
           ) : null}
@@ -134,7 +134,7 @@ export default function ContactForm() {
           className="field mt-2"
         />
         {errors.email ? (
-          <p id="email-error" className="mt-2 font-mono" style={{ fontSize: "0.74rem", color: "var(--color-cobalt)" }}>
+          <p id="email-error" className="mt-2 font-mono" style={{ fontSize: "0.74rem", fontWeight: 600, color: "var(--color-on-cobalt)" }}>
             {errors.email}
           </p>
         ) : null}
@@ -156,7 +156,7 @@ export default function ContactForm() {
           style={{ resize: "vertical" }}
         />
         {errors.message ? (
-          <p id="message-error" className="mt-2 font-mono" style={{ fontSize: "0.74rem", color: "var(--color-cobalt)" }}>
+          <p id="message-error" className="mt-2 font-mono" style={{ fontSize: "0.74rem", fontWeight: 600, color: "var(--color-on-cobalt)" }}>
             {errors.message}
           </p>
         ) : null}
@@ -166,7 +166,7 @@ export default function ContactForm() {
         <button
           type="submit"
           disabled={status === "submitting"}
-          className="btn btn-primary"
+          className="btn btn-invert"
           style={{ opacity: status === "submitting" ? 0.6 : 1 }}
           data-cursor
         >
@@ -179,7 +179,7 @@ export default function ContactForm() {
             <>
               {" "}
               Email{" "}
-              <a href={mailtoBook} className="underline" style={{ color: "var(--color-cobalt)" }}>
+              <a href={mailtoBook} className="underline" style={{ color: "var(--color-on-cobalt)", fontWeight: 600 }}>
                 {site.email}
               </a>{" "}
               directly.

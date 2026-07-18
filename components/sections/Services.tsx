@@ -1,6 +1,17 @@
 import { services } from "@/lib/content";
 import SectionHeading from "@/components/ui/SectionHeading";
 
+const ArrowRight = () => (
+  <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+    <path d="M4 11h14m0 0-6-6m6 6-6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+/**
+ * The service list as editorial rows: stroked numeral, title, body, tag.
+ * Hovering floods the full row cobalt and flips the type to the on-cobalt
+ * palette. All content is always visible — the flood is pure emphasis.
+ */
 export default function Services() {
   return (
     <section id="services" className="pad-block-xl rule-top band-2">
@@ -26,21 +37,22 @@ export default function Services() {
           </div>
         </div>
 
-        <div
-          className="section-gap grid gap-px md:grid-cols-2"
-          data-reveal-group
-          style={{ background: "var(--color-line)", border: "1px solid var(--color-line)" }}
-        >
+        <div className="section-gap" data-reveal-group>
           {services.items.map((item) => (
-            <article key={item.n} data-reveal className="svc">
-              <div className="svc-top">
-                <span className="svc-num">{item.n}</span>
-                <span className="t-coord">{item.tag}</span>
-              </div>
-              <h3 className="t-h3 svc-title">{item.title}</h3>
-              <p className="t-body" style={{ color: "var(--color-ink-muted)" }}>
+            <article key={item.n} data-reveal className="svc-row" data-cursor>
+              <span className="svc-num" aria-hidden="true">
+                {item.n}
+              </span>
+              <h3 className="t-h3 svc-title" style={{ maxWidth: "18ch" }}>
+                {item.title}
+              </h3>
+              <p className="t-body svc-body" style={{ maxWidth: "48ch" }}>
                 {item.body}
               </p>
+              <span className="t-coord svc-tag">{item.tag}</span>
+              <span className="svc-arrow" aria-hidden="true">
+                <ArrowRight />
+              </span>
             </article>
           ))}
         </div>

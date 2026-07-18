@@ -1,10 +1,14 @@
 /**
  * Single GSAP entry point. Import gsap from here so every component shares one
- * instance. Reveals run on IntersectionObserver and the progress bar / scrollspy
- * on native scroll, so no ScrollTrigger plugin is needed.
+ * instance. Entrance reveals run on IntersectionObserver (robust, decoupled from
+ * scroll); ScrollTrigger is used only for *additive* scrub effects (parallax,
+ * pins, progress rails) that can never leave content hidden if they fail.
  * Client-side only — never import from a server component.
  */
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 /** Expressive ease shared across the site (matches CSS cubic-bezier(0.16,1,0.3,1)). */
 export const EASE = "expo.out";
@@ -15,4 +19,4 @@ export const prefersReducedMotion = () =>
   typeof window !== "undefined" &&
   window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-export { gsap };
+export { gsap, ScrollTrigger };
