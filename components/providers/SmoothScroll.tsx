@@ -4,6 +4,7 @@ import {
   createContext,
   useContext,
   useEffect,
+  useMemo,
   useRef,
   type ReactNode,
 } from "react";
@@ -26,6 +27,10 @@ const LenisContext = createContext<LenisContextValue>({
 export const useSmoothScroll = () => useContext(LenisContext);
 
 /**
+ * Anchor offsets come from CSS `scroll-padding-top` (globals.css), which Lenis,
+ * native anchors, and `scrollIntoView` all honour. Adding a JS offset on top
+ * of it double-counts the gap.
+ *
  * Lenis smooth scroll on the GSAP ticker (one rAF loop). Reveals and the
  * progress bar run on IntersectionObserver / native scroll, so they don't
  * depend on this — Lenis is purely the smoothing layer. Reduced-motion visitors
@@ -69,7 +74,7 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
       ScrollTrigger.refresh();
       const hash = window.location.hash;
       if (hash && hash.length > 1) {
-        requestAnimationFrame(() => lenis.scrollTo(hash, { offset: -72 }));
+        requestAnimationFrame(() => lenis.scrollTo(hash));
       }
     };
     const loadedAlready = document.documentElement.dataset.loaded === "true";
@@ -79,7 +84,7 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
     // Same-page hash navigation after load.
     const onHashChange = () => {
       const hash = window.location.hash;
-      if (hash && hash.length > 1) lenis.scrollTo(hash, { offset: -72 });
+      if (hash && hash.length > 1) lenis.scrollTo(hash);
     };
     window.addEventListener("hashchange", onHashChange);
 
@@ -92,37 +97,46 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  const scrollTo: LenisContextValue["scrollTo"] = (target, options) => {
-    const offset = options?.offset ?? -72;
-    const lenis = lenisRef.current;
-    if (lenis) {
-      lenis.scrollTo(target, { offset, duration: 1.25 });
-      return;
-    }
-    // Reduced-motion / pre-ready fallback.
-    const el =
-      typeof target === "string" ? document.querySelector(target) : null;
-    if (el instanceof HTMLElement) {
-      const top = el.getBoundingClientRect().top + window.scrollY + offset;
-      window.scrollTo({ top, behavior: "smooth" });
-    } else if (typeof target === "number") {
-      window.scrollTo({ top: target, behavior: "smooth" });
-    }
-  };
-
-  const stop = () => {
-    const lenis = lenisRef.current;
-    if (lenis) lenis.stop();
-    else document.documentElement.style.overflow = "hidden";
-  };
-  const start = () => {
-    const lenis = lenisRef.current;
-    if (lenis) lenis.start();
-    else document.documentElement.style.overflow = "";
-  };
+  // Stable identity, so consumers can list these in effect dependencies.
+  const value = useMemo<LenisContextValue>(
+    () => ({
+      scrollTo: (target, options) => {
+        const offset = options?.offset ?? 0;
+        const lenis = lenisRef.current;
+        if (lenis) {
+          // Lenis ignores scrollTo while stopped (e.g. behind the mobile menu),
+          // and start() resets any running animation, so resume first.
+          lenis.start();
+          lenis.scrollTo(target, { offset, duration: 1.25 });
+          return;
+        }
+        // Reduced-motion / pre-ready fallback: native scrolling, which respects
+        // scroll-padding-top and the visitor's motion preference.
+        const behavior: ScrollBehavior = prefersReducedMotion() ? "auto" : "smooth";
+        document.documentElement.style.overflow = "";
+        if (typeof target === "number") {
+          window.scrollTo({ top: target + offset, behavior });
+          return;
+        }
+        const el = typeof target === "string" ? document.querySelector(target) : target;
+        if (el instanceof HTMLElement) el.scrollIntoView({ behavior, block: "start" });
+      },
+      stop: () => {
+        const lenis = lenisRef.current;
+        if (lenis) lenis.stop();
+        else document.documentElement.style.overflow = "hidden";
+      },
+      start: () => {
+        const lenis = lenisRef.current;
+        if (lenis) lenis.start();
+        else document.documentElement.style.overflow = "";
+      },
+    }),
+    [],
+  );
 
   return (
-    <LenisContext.Provider value={{ scrollTo, stop, start }}>
+    <LenisContext.Provider value={value}>
       {children}
     </LenisContext.Provider>
   );

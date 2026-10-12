@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { mailtoBook, site } from "@/lib/site";
 
-export default function Error({
+export default function ErrorPage({
   error,
   reset,
 }: {

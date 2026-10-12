@@ -6,7 +6,7 @@ this document explains the intent behind them.
 A light editorial identity. The concept is **change, flow, and alignment** — the human
 work between *buying* software and *actually using it*, expressed visually as
 *scattered → aligned* (disorder coming into order = adoption). Warm bone paper, deep warm
-ink, one electric cobalt accent. A Three.js curl-noise particle field drifts behind the
+ink, one electric cobalt accent. A raw-WebGL curl-noise particle field drifts behind the
 hero like slow currents; Lenis smooth scroll drives a GSAP ScrollTrigger narrative. The
 site should feel confident and precise for serious public-sector buyers — captivating,
 never gimmicky.

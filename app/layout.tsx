@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Bricolage_Grotesque, Public_Sans, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { site } from "@/lib/site";
+import { principal } from "@/lib/content";
 import SmoothScroll from "@/components/providers/SmoothScroll";
 import Preloader from "@/components/fx/Preloader";
 import Cursor from "@/components/fx/Cursor";
@@ -77,7 +78,12 @@ const jsonLd = {
   description: site.description,
   url: site.url,
   email: site.email,
-  areaServed: "CA",
+  areaServed: { "@type": "Country", name: "Canada" },
+  founder: {
+    "@type": "Person",
+    name: principal.name,
+    jobTitle: principal.role,
+  },
   serviceType: "Microsoft 365 change management and adoption consulting",
   knowsAbout: [
     "Microsoft 365 adoption",

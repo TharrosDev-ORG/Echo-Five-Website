@@ -29,7 +29,16 @@ export default function Cursor() {
     const ringX = gsap.quickTo(ring, "x", { duration: 0.45, ease: "power3" });
     const ringY = gsap.quickTo(ring, "y", { duration: 0.45, ease: "power3" });
 
+    // Stay hidden until the pointer's position is actually known; otherwise the
+    // ring sits in the top-left corner and then eases in from (0, 0).
+    let shown = false;
     const onMove = (e: PointerEvent) => {
+      if (e.pointerType !== "mouse" && e.pointerType !== "pen") return;
+      if (!shown) {
+        shown = true;
+        gsap.set([dot, ring], { x: e.clientX, y: e.clientY });
+        document.body.classList.add("cursor-visible");
+      }
       dotX(e.clientX);
       dotY(e.clientY);
       ringX(e.clientX);
@@ -46,15 +55,24 @@ export default function Cursor() {
       if (t.closest(interactiveSel)) ring.classList.remove("is-hover");
     };
 
+    // Hide when the pointer leaves the window (relatedTarget is null only then).
+    const onWindowOut = (e: PointerEvent) => {
+      if (e.relatedTarget) return;
+      shown = false;
+      document.body.classList.remove("cursor-visible");
+    };
+
     window.addEventListener("pointermove", onMove, { passive: true });
     document.addEventListener("pointerover", onOver, { passive: true });
     document.addEventListener("pointerout", onOut, { passive: true });
+    document.addEventListener("pointerout", onWindowOut, { passive: true });
 
     return () => {
       window.removeEventListener("pointermove", onMove);
       document.removeEventListener("pointerover", onOver);
       document.removeEventListener("pointerout", onOut);
-      document.body.classList.remove("cursor-ready", "fine-pointer");
+      document.removeEventListener("pointerout", onWindowOut);
+      document.body.classList.remove("cursor-ready", "fine-pointer", "cursor-visible");
     };
   }, []);
 

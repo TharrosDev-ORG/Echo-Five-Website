@@ -314,39 +314,51 @@ export default function FlowField() {
       target.y = ndcY * halfH;
       targetStrength = 1;
     };
-    const onLeave = () => {
-      targetStrength = 0;
+    // `pointerout` bubbles from every element the pointer crosses; only a null
+    // relatedTarget means it actually left the window.
+    const onLeave = (e: PointerEvent) => {
+      if (!e.relatedTarget) targetStrength = 0;
     };
     window.addEventListener("pointermove", onMove, { passive: true });
-    window.addEventListener("pointerout", onLeave, { passive: true });
+    document.addEventListener("pointerout", onLeave, { passive: true });
 
     // --- Run/pause gating ---
-    let running = true;
+    // One rAF chain at most: every signal funnels through `sync`, which only
+    // starts the loop when it is stopped. (Calling `loop()` directly from each
+    // observer used to stack a second chain and double the GPU work.)
+    let running = false;
+    let inView = true;
     let lost = false;
     let rafId = 0;
     const t0 = performance.now();
 
+    const sync = () => {
+      const shouldRun = inView && !document.hidden && !lost;
+      if (shouldRun && !running) {
+        running = true;
+        rafId = requestAnimationFrame(loop);
+      } else if (!shouldRun && running) {
+        running = false;
+        cancelAnimationFrame(rafId);
+      }
+    };
+
     const io = new IntersectionObserver(
       ([entry]) => {
-        running = entry.isIntersecting && !document.hidden && !lost;
-        if (running) loop();
+        inView = entry.isIntersecting;
+        sync();
       },
       { threshold: 0 },
     );
     io.observe(mount);
 
-    const onVisibility = () => {
-      running = !document.hidden && !lost;
-      if (running) loop();
-    };
-    document.addEventListener("visibilitychange", onVisibility);
+    document.addEventListener("visibilitychange", sync);
 
     // --- Context loss ---
     const onContextLost = (e: Event) => {
       e.preventDefault();
       lost = true;
-      running = false;
-      cancelAnimationFrame(rafId);
+      sync();
     };
     canvas.addEventListener("webglcontextlost", onContextLost);
 
@@ -367,16 +379,16 @@ export default function FlowField() {
       gl.drawArrays(gl.POINTS, 0, count);
       rafId = requestAnimationFrame(loop);
     };
-    loop();
+    sync();
 
     return () => {
       running = false;
       cancelAnimationFrame(rafId);
       io.disconnect();
       window.removeEventListener("pointermove", onMove);
-      window.removeEventListener("pointerout", onLeave);
+      document.removeEventListener("pointerout", onLeave);
       window.removeEventListener("resize", setSize);
-      document.removeEventListener("visibilitychange", onVisibility);
+      document.removeEventListener("visibilitychange", sync);
       canvas.removeEventListener("webglcontextlost", onContextLost);
       if (!lost) {
         buffers.forEach((b) => b && gl.deleteBuffer(b));

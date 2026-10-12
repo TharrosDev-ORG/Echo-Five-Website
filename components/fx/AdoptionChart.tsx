@@ -86,7 +86,7 @@ export default function AdoptionChart() {
           />
         ))}
       </div>
-      <div className="mt-5 flex items-baseline justify-between">
+      <div className="mt-5 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
         <span
           ref={numRef}
           className="font-display"

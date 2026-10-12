@@ -15,7 +15,7 @@ export default function Proof() {
   const [playing, setPlaying] = useState(false);
   const scaleRef = useRef<HTMLDivElement>(null);
   const id = site.video.id;
-  const poster = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+  const thumb = (name: string) => `https://i.ytimg.com/vi/${id}/${name}.jpg`;
 
   useEffect(() => {
     if (prefersReducedMotion()) return;
@@ -81,7 +81,17 @@ export default function Proof() {
               data-cursor
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={poster} alt="" aria-hidden="true" loading="lazy" />
+              <img
+                src={thumb("hqdefault")}
+                srcSet={`${thumb("hqdefault")} 480w, ${thumb("sddefault")} 640w, ${thumb("maxresdefault")} 1280w`}
+                sizes="(min-width: 84rem) 78rem, 92vw"
+                width={1280}
+                height={720}
+                alt=""
+                aria-hidden="true"
+                loading="lazy"
+                decoding="async"
+              />
               <span className="proof-scrim" aria-hidden="true" />
               <span className="proof-play" aria-hidden="true">
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
