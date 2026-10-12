@@ -1,7 +1,7 @@
 # Architecture
 
 A single statically-generated page plus one server route for the contact form, with a
-client-side motion layer (Lenis + GSAP + Three.js) mounted over server-rendered content.
+client-side motion layer (Lenis + GSAP + raw WebGL) mounted over server-rendered content.
 
 ## Render model
 
@@ -80,8 +80,12 @@ headline and the full client roster without JavaScript).
 
 ## Contact form
 
-`ContactForm` POSTs JSON to `/api/contact`. The route validates, drops honeypot
-submissions silently, and sends via Resend. Configuration (env):
+`ContactForm` POSTs JSON to `/api/contact`. Validation rules live once in
+`lib/contact.ts`: the form runs them for instant feedback (and focuses the first invalid
+field), the route runs them again as the authority. The route also rejects cross-origin
+posts and bodies over 16K characters, throttles each IP to 5 messages per 10 minutes
+(in-memory, so per server instance), drops honeypot submissions silently, and sends via
+Resend. Configuration (env):
 
 - `RESEND_API_KEY` — when absent, the route returns `503 { fallback: true }` and the form
   reveals the owned-domain mailto fallback, so the site still works unconfigured.

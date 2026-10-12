@@ -4,7 +4,7 @@ import SkewMarquee from "@/components/fx/SkewMarquee";
 /**
  * Trust strip: three derived counts over a giant outlined roster marquee that
  * leans with scroll velocity. Counts are computed from the roster so they never
- * drift from the data; the marquee is decorative (the real roster is §04).
+ * drift from the data; the marquee is decorative (the real roster is §06).
  */
 export default function Trust() {
   const all = clients.groups.flatMap((g) => g.orgs);
@@ -51,7 +51,6 @@ export default function Trust() {
           <span
             key={`${short}-${i}`}
             className="marquee-giant"
-            aria-hidden={i >= marks.length ? "true" : undefined}
           >
             {i % 4 === 1 ? <span className="mg-solid">{short}</span> : short}
             <span className="mg-sep">/</span>

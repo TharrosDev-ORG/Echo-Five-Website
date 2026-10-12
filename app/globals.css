@@ -8,7 +8,7 @@
  * Grotesque display, Public Sans body, IBM Plex Mono coordinates.
  * Motion: Lenis smooth scroll; IntersectionObserver entrance reveals;
  * GSAP ScrollTrigger for additive scrub moments (parallax, the pinned
- * ADKAR sequence, scrubbed statements); a Three.js curl-noise flow
+ * ADKAR sequence, scrubbed statements); a raw-WebGL curl-noise flow
  * field carrying the hero.
  * ================================================================== */
 @theme {
@@ -601,8 +601,8 @@ body.cursor-ready.fine-pointer button,
 body.cursor-ready.fine-pointer [data-cursor] {
   cursor: none;
 }
-.cursor-ready.fine-pointer .cursor-dot,
-.cursor-ready.fine-pointer .cursor-ring {
+.cursor-ready.fine-pointer.cursor-visible .cursor-dot,
+.cursor-ready.fine-pointer.cursor-visible .cursor-ring {
   opacity: 1;
 }
 .cursor-ring.is-hover {
@@ -790,6 +790,41 @@ body.cursor-ready.fine-pointer [data-cursor] {
   -webkit-box-shadow: 0 0 0 1000px var(--color-cobalt-deep) inset;
   -webkit-text-fill-color: var(--color-on-cobalt);
 }
+/* Invalid fields: a heavier light keyline plus a darker well, so the state
+   reads on cobalt without relying on hue (red on blue fails contrast). */
+.drench .field[aria-invalid="true"] {
+  border-color: var(--color-on-cobalt);
+  border-width: 2px;
+  background: oklch(0.3 0.15 266 / 0.35);
+}
+.field-error {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--color-on-cobalt);
+}
+.field-error::before {
+  content: "!";
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 50%;
+  background: var(--color-on-cobalt);
+  color: var(--color-cobalt-deep);
+  font-size: 0.7rem;
+}
+/* Light cards on the cobalt ground (the form's success state) must reset the
+   inherited on-cobalt text color, or the heading vanishes into the card. */
+.drench .card {
+  color: var(--color-ink);
+}
 
 /* ---------- Index numerals & dividers ---------- */
 .index-num {
@@ -856,7 +891,9 @@ body.cursor-ready.fine-pointer [data-cursor] {
 }
 @media (min-width: 900px) {
   .svc-row {
-    grid-template-columns: 6.5rem 1.15fr 1fr auto;
+    /* Every row is its own grid, so the tag column needs a fixed width: an
+       `auto` track would size to each row's tag and stagger the body column. */
+    grid-template-columns: 6.5rem minmax(0, 1.15fr) minmax(0, 1fr) 11rem;
     align-items: start;
   }
 }
@@ -895,6 +932,7 @@ body.cursor-ready.fine-pointer [data-cursor] {
 @media (min-width: 900px) {
   .svc-tag {
     justify-self: end;
+    text-align: right;
   }
 }
 .svc-arrow {
@@ -1089,7 +1127,18 @@ body.cursor-ready.fine-pointer [data-cursor] {
 }
 
 /* ---------- Clients roster ---------- */
+/* Keylines come from each cell's right/bottom edge plus the grid's top/left
+   edge, so a partly filled last row ends cleanly instead of showing the empty
+   tracks as grey blocks. */
+.client-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+  border-top: 1px solid var(--color-line);
+  border-left: 1px solid var(--color-line);
+}
 .client-cell {
+  border-right: 1px solid var(--color-line);
+  border-bottom: 1px solid var(--color-line);
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -1389,5 +1438,49 @@ body.cursor-ready.fine-pointer [data-cursor] {
   .cursor-dot,
   .cursor-ring {
     display: none !important;
+  }
+}
+
+/* ---------- Print: everything visible, no chrome or effects ---------- */
+@media print {
+  .js [data-reveal],
+  .js .hero-stage [data-hero],
+  .js .split-word,
+  .js .chart-live .chart-bar,
+  .scrub-word,
+  [data-hero-inner] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .site-nav,
+  .preloader,
+  .scroll-progress,
+  .cursor-dot,
+  .cursor-ring,
+  .grain,
+  .flowfield,
+  .skip-link {
+    display: none !important;
+  }
+  .stack-card {
+    position: static !important;
+    break-inside: avoid;
+  }
+  .adkar-track {
+    transform: none !important;
+  }
+  .is-pinned .adkar-track.is-horizontal {
+    flex-direction: column;
+    width: auto;
+  }
+  .is-pinned .adkar-track.is-horizontal .adkar-panel {
+    width: auto;
+    opacity: 1;
+    border-left: 0;
+    border-top: 1px solid var(--color-line);
+  }
+  .drench {
+    background: none;
+    color: var(--color-ink);
   }
 }

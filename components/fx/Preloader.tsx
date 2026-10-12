@@ -26,15 +26,21 @@ export default function Preloader() {
   const [done, setDone] = useState(false);
 
   useEffect(() => {
-    let finished = false;
-    const finish = () => {
-      if (finished) return;
-      finished = true;
+    // Two beats: `reveal` hands the page over (unlocks scroll, starts the hero
+    // intro) as the curtain begins to lift, so the two overlap; `finish`
+    // unmounts the curtain once it is fully off screen.
+    let revealed = false;
+    const reveal = () => {
+      if (revealed) return;
+      revealed = true;
       document.documentElement.style.overflow = "";
       try {
         sessionStorage.setItem("ef:intro", "1");
       } catch {}
       announceLoaded();
+    };
+    const finish = () => {
+      reveal();
       setDone(true);
     };
 
@@ -61,7 +67,7 @@ export default function Preloader() {
 
     // Safety net: if the GSAP ticker stalls (e.g. the tab is backgrounded during
     // load and rAF pauses), never leave the curtain blocking the page.
-    const safety = window.setTimeout(finish, 4000);
+    const safety = window.setTimeout(finish, 2500);
 
     const chars = root.querySelectorAll<HTMLElement>(".pre-char > span");
     const flash = root.querySelector<HTMLElement>(".preloader-flash");
@@ -73,9 +79,10 @@ export default function Preloader() {
     // tween always leaves from identity.
     gsap.set(chars, { y: 0, yPercent: 0 });
 
+    // Whole sequence is ~0.95s; the page is handed over at ~0.5s.
     tl.to(counter, {
       value: 100,
-      duration: 0.7,
+      duration: 0.3,
       ease: "power2.inOut",
       onUpdate: () => {
         count.textContent = String(Math.round(counter.value)).padStart(2, "0");
@@ -83,31 +90,24 @@ export default function Preloader() {
     })
       .to(chars, {
         yPercent: -120,
-        duration: 0.5,
+        duration: 0.3,
         ease: "power3.in",
-        stagger: 0.022,
+        stagger: 0.012,
       })
       .to(
         root.querySelectorAll("[data-pre]"),
         {
           yPercent: -120,
           opacity: 0,
-          duration: 0.45,
+          duration: 0.3,
           ease: "power3.in",
-          stagger: 0.05,
+          stagger: 0.04,
         },
         "<",
       )
-      .to(
-        flash,
-        { yPercent: -100, duration: 0.75, ease: EASE },
-        "-=0.18",
-      )
-      .to(
-        root,
-        { yPercent: -100, duration: 0.8, ease: EASE },
-        "<+0.08",
-      );
+      .to(flash, { yPercent: -100, duration: 0.5, ease: EASE }, "-=0.2")
+      .to(root, { yPercent: -100, duration: 0.45, ease: EASE }, "<+0.05")
+      .call(reveal, [], "<");
 
     return () => {
       window.clearTimeout(safety);
@@ -122,7 +122,6 @@ export default function Preloader() {
     <div ref={rootRef} className="preloader" data-done={done} aria-hidden="true">
       <div className="preloader-flash" />
       <div className="preloader-word">
-        {/* Letters start below their masks (translateY 110%) and rise in. */}
         {WORD.split("").map((ch, i) => (
           <span key={i} className="pre-char">
             <span style={i >= WORD.length - 4 ? { color: "var(--color-cobalt)" } : undefined}>

@@ -142,7 +142,7 @@ export const process = {
 };
 
 export const clients = {
-  index: "04",
+  index: "06",
   kicker: "Selected clients",
   heading: "Trusted across government and enterprise.",
   intro:
@@ -199,7 +199,7 @@ export const proof = {
 };
 
 export const method = {
-  index: "06",
+  index: "04",
   kicker: "How we make it measurable",
   heading: "Adoption you can see, not just hope for.",
   body: "We deliver with Advanta365, a Microsoft 365 adoption and governance platform that gives every programme structure: guided learning pathways, adoption analytics, and governance guardrails in one place. It means our clients watch adoption move week to week, instead of waiting for a survey that arrives too late to act on.",

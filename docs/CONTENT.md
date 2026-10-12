@@ -11,17 +11,16 @@ Every word on the page comes from `lib/content.ts` (copy/data) or `lib/site.ts`
 | 01 | Why rollouts stall | `Why` | `why` |
 | 02 | Where we shine (services) | `Services` | `services` |
 | 03 | How adoption happens (ADKAR) | `Adkar` | `process` |
-| 06 | How we make it measurable | `Method` | `method`, `site.advantaUrl` |
+| 04 | How we make it measurable | `Method` | `method`, `site.advantaUrl` |
 | 05 | On the record (video) | `Proof` | `proof`, `site.video` |
-| 04 | Selected clients | `Clients` | `clients` |
+| 06 | Selected clients | `Clients` | `clients` |
 | 07 | Credentials | `Credentials` | `credentials` |
 | — | The firm + founder (about) | `About` | `about`, `principal` |
 | 08 | Contact (form) | `Contact` / `ContactForm` | `contact`, `site` |
 | — | Footer | `Footer` | `footer`, `nav`, `site` |
 
-The `index` numbers in `content.ts` are stable section coordinates (CH.NN), so the
-visual scroll order (which re-sequences Method before Proof, and Proof before Clients
-for narrative flow) does not have to match the numeric order.
+The `index` numbers in `content.ts` follow the visual scroll order. If you move a
+section in `app/page.tsx`, renumber the indexes so the page still reads 01, 02, 03...
 
 ## Constants worth knowing (`lib/site.ts`)
 

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { nav } from "@/lib/content";
-import { site, mailtoBook } from "@/lib/site";
+import { site } from "@/lib/site";
 import { useSmoothScroll } from "@/components/providers/SmoothScroll";
 import Magnetic from "@/components/fx/Magnetic";
 
@@ -66,10 +66,15 @@ export default function Nav() {
     return () => start();
   }, [open, stop, start]);
 
-  // Mobile menu: Escape to close, move focus in on open, restore on close.
+  // Mobile menu: Escape to close, move focus in on open, restore on close. The
+  // page behind is made inert so Tab cannot wander out of the modal menu.
   useEffect(() => {
     if (!open) return;
     const opener = toggleRef.current;
+    const behind = [document.getElementById("main"), document.querySelector("footer")].filter(
+      (n): n is HTMLElement => n instanceof HTMLElement,
+    );
+    behind.forEach((n) => (n.inert = true));
     firstLinkRef.current?.focus();
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setOpen(false);
@@ -77,6 +82,7 @@ export default function Nav() {
     document.addEventListener("keydown", onKey);
     return () => {
       document.removeEventListener("keydown", onKey);
+      behind.forEach((n) => (n.inert = false));
       opener?.focus();
     };
   }, [open]);
@@ -126,7 +132,7 @@ export default function Nav() {
                 onClick={go(item.href)}
                 className="nav-link t-coord"
                 data-active={isActive ? "" : undefined}
-                aria-current={isActive ? "page" : undefined}
+                aria-current={isActive ? "true" : undefined}
                 data-cursor
               >
                 {item.label}
@@ -137,7 +143,7 @@ export default function Nav() {
 
         <div className="hidden md:block">
           <Magnetic>
-            <a href={mailtoBook} className="btn btn-primary" data-cursor>
+            <a href="#contact" onClick={go("#contact")} className="btn btn-primary" data-cursor>
               Start a conversation
             </a>
           </Magnetic>
@@ -214,13 +220,18 @@ export default function Nav() {
             href={item.href}
             onClick={go(item.href)}
             className="t-h3 font-display"
-            aria-current={active === item.href ? "page" : undefined}
+            aria-current={active === item.href ? "true" : undefined}
             style={{ color: active === item.href ? "var(--color-cobalt)" : "var(--color-ink)" }}
           >
             {item.label}
           </a>
         ))}
-        <a href={mailtoBook} className="btn btn-primary" style={{ alignSelf: "flex-start", marginTop: "1rem" }}>
+        <a
+          href="#contact"
+          onClick={go("#contact")}
+          className="btn btn-primary"
+          style={{ alignSelf: "flex-start", marginTop: "1rem" }}
+        >
           Start a conversation
         </a>
       </div>

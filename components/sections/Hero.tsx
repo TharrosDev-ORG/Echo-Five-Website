@@ -203,18 +203,20 @@ export default function Hero() {
         </div>
 
         <div className="u-container pb-8">
-          <dl className="hero-meta" aria-label="Credentials at a glance">
+          <ul className="hero-meta" aria-label="Credentials at a glance">
             {hero.trust.map((t, i) => (
-              <div key={t} data-hero="meta" className="hero-meta-cell">
-                <dt className="hero-meta-num">{String(i + 1).padStart(2, "0")}</dt>
-                <dd className="hero-meta-val">{t}</dd>
-              </div>
+              <li key={t} data-hero="meta" className="hero-meta-cell">
+                <span className="hero-meta-num" aria-hidden="true">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span className="hero-meta-val">{t}</span>
+              </li>
             ))}
-            <div data-hero="meta" className="hero-meta-cell hidden md:flex" aria-hidden="true">
+            <li data-hero="meta" className="hero-meta-cell hidden md:flex" aria-hidden="true">
               <span className="hero-meta-num">Scroll</span>
               <span className="scroll-cue" style={{ height: 26 }} />
-            </div>
-          </dl>
+            </li>
+          </ul>
         </div>
       </div>
     </section>

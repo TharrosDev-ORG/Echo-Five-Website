@@ -27,15 +27,7 @@ export default function Clients() {
                 <span style={{ flex: 1, height: 1, background: "var(--color-line)" }} aria-hidden="true" />
                 <span className="t-coord">{String(group.orgs.length).padStart(2, "0")}</span>
               </div>
-              <ul
-                className="grid gap-px"
-                data-reveal-group
-                style={{
-                  gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 15rem), 1fr))",
-                  background: "var(--color-line)",
-                  border: "1px solid var(--color-line)",
-                }}
-              >
+              <ul className="client-grid" data-reveal-group>
                 {group.orgs.map((org) => (
                   <li
                     key={org.short}
