@@ -1,3 +1,5 @@
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { ImageResponse } from "next/og";
 import { hero, ogImage } from "@/lib/content";
 import { site } from "@/lib/site";
@@ -10,12 +12,15 @@ const BLACK = "#0A0A0B";
 const WHITE = "#FFFFFF";
 const BLUE = "#2F5BFF";
 const BLUE_L = "#6E8CFF";
+const DISPLAY = "Bricolage Grotesque";
 const MUTED = "#A1A1AA";
 
 /** The mark at 2x its 32px viewBox: five 6px bars, 4px apart, widths top to bottom. */
 const BAR_WIDTHS = [48, 38, 28, 18, 8];
 
-export default function OgImage() {
+export default async function OgImage() {
+  const bricolageBold = await readFile(join(process.cwd(), "app/fonts/BricolageGrotesque-Bold-latin.woff"));
+
   return new ImageResponse(
     (
       <div
@@ -36,16 +41,16 @@ export default function OgImage() {
               <div key={w} style={{ width: w, height: 6, borderRadius: 3, background: BLUE }} />
             ))}
           </div>
-          <div style={{ display: "flex", fontSize: 40, fontWeight: 700, color: WHITE, letterSpacing: -1 }}>
+          <div style={{ display: "flex", fontFamily: DISPLAY, fontSize: 40, fontWeight: 700, color: WHITE, letterSpacing: -1 }}>
             {site.shortName}
           </div>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ fontSize: 88, fontWeight: 700, color: WHITE, lineHeight: 1.02, letterSpacing: -3 }}>
+          <div style={{ fontFamily: DISPLAY, fontSize: 88, fontWeight: 700, color: WHITE, lineHeight: 1.02, letterSpacing: -3 }}>
             {hero.headline[0]}
           </div>
-          <div style={{ fontSize: 88, fontWeight: 700, color: BLUE_L, lineHeight: 1.02, letterSpacing: -3 }}>
+          <div style={{ fontFamily: DISPLAY, fontSize: 88, fontWeight: 700, color: BLUE_L, lineHeight: 1.02, letterSpacing: -3 }}>
             {hero.headline[1]}
           </div>
           <div style={{ fontSize: 28, color: WHITE, marginTop: 40, maxWidth: 960, lineHeight: 1.35 }}>
@@ -57,6 +62,6 @@ export default function OgImage() {
         </div>
       </div>
     ),
-    size,
+    { ...size, fonts: [{ name: DISPLAY, data: bricolageBold, weight: 700, style: "normal" }] },
   );
 }
