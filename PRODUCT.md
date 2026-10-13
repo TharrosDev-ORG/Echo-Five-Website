@@ -1,4 +1,4 @@
-# Echofive Solutions — Product / Brand Context
+# Echofive Solutions: Product / Brand Context
 
 register: brand
 
@@ -78,19 +78,25 @@ governance guardrails, or week-to-week measurement.
 
 ## Aesthetic direction
 
-**Spruce & Citron.** Premium and conversion-focused: deep spruce grounds for weight,
-cool paper for reading, one accent per ground (citron on dark, moss on light). Confident
-type, generous space, quiet texture, and purposeful motion that never hides content.
+**Signal.** Premium and conversion-focused, with a point of view: black and white
+grounds for weight and reading, one electric blue for actions, key data, and a thin
+"signal line" (from the Echofive name) that starts as the adoption curve and travels down
+every page, becoming each page's key diagram. Giant typographic numerals carry the proof.
+Crafted restraint: award-quality type and layout, CSS-only motion, never hiding content.
 
-- **Color:** citron marks the primary action and key data on dark grounds; moss does the
-  same on light grounds. Citron never appears on a light ground. See `DESIGN.md`.
-- **Type:** Instrument Sans headings, Geist text. Sentence-case headings.
+- **Color:** black (`#0A0A0B`) and white grounds, mist for alternate bands, and one blue
+  (`#2F5BFF`). On black, small blue text uses a lighter blue (`#6E8CFF`) because the
+  main blue is only 3.83:1 there. The closing call to action is a full blue band with
+  solid white text. See `DESIGN.md`.
+- **Type:** Bricolage Grotesque headings, Geist text. Sentence-case headings, very large
+  and tight for the home headline and the proof numerals ("30+", "II", "ADKAR", "365").
 - **Structure:** a home page that leads with proof (30+ years, clearance, certifications,
-  named clients), then services, the ADKAR model, the Advanta365 band, and the talk.
-  Inner pages for Services, Approach, Advanta365, About, and Contact. A clear
-  "Start a conversation" path on every page, including a fixed bar on phones.
-- **Motion:** reveal on scroll, a drawn adoption curve, a slow client marquee. All
-  progressive enhancement and all off under reduced motion.
+  named clients), then why rollouts stall, services, the ADKAR model, the Advanta365
+  band, and the talk. Inner pages for Services, Approach, Advanta365, About, and Contact.
+  A clear "Start a conversation" path on every page, including a fixed bar on phones.
+- **Motion:** reveal on scroll, a signal line that draws down the page, a headline that
+  rises once on load, a slow client marquee. All progressive enhancement and all off
+  under reduced motion; every page is fully readable without JavaScript.
 
 ## Anti-references (do NOT look like these)
 
@@ -102,9 +108,17 @@ type, generous space, quiet texture, and purposeful motion that never hides cont
 - **Echo-Five (warm-amber rebuild):** warm paper + deep ink + signal amber, radar hero.
 - **Echo-Five dark "Operations / Instrument":** graphite + signal green oscilloscope.
 - **Echo-Five "Bone & Cobalt":** warm bone + cobalt, WebGL field, pinned scroll scenes.
-  Visually strong, but long and effect-heavy; hard for busy buyers to scan.
+  Visually strong, but long and effect-heavy; hard for busy buyers to scan. Signal stays
+  distinct from it: blue on black and white rather than cobalt on bone, no WebGL, no
+  pinned scenes.
 - **GOV.UK clone:** government-blue + Transport-font cosplay. We want govtech rigor,
   not govtech costume.
+- **Navy or gov-blue looks:** Signal's dark is black, never navy, and its blue is an
+  electric accent rather than a ground (except the single closing band).
+- **"Spruce & Citron" (the previous direction of this site):** deep spruce grounds with
+  citron and moss accents. Premium, but generic: it read as a well-made template and
+  lacked a signature. Signal replaces it with one memorable idea (the line) and giant
+  numerals.
 - **Generic SaaS / dev-tool slop:** purple gradients, three identical icon cards,
   rounded-everything, glowing-neon-on-black with no restraint.
 

@@ -603,6 +603,30 @@ const checks = [
       return isDark === wantDark ? [] : [`header background ${bg}, expected ${wantDark ? "dark" : "not dark"}`];
     },
   },
+  {
+    // The skip link must be the first Tab stop and must be on screen when focused.
+    name: "skip-link-first",
+    mode: "js",
+    widths: [1440],
+    routes: ["/"],
+    async run(page) {
+      const fails = [];
+      await page.evaluate(() => document.activeElement instanceof HTMLElement && document.activeElement.blur());
+      await page.keyboard.press("Tab");
+      const first = await page.evaluate(() => {
+        const el = document.activeElement;
+        const r = el.getBoundingClientRect();
+        return { cls: el.className, href: el.getAttribute("href"), top: r.top, left: r.left, h: r.height };
+      });
+      if (!/skip-link/.test(first.cls) || first.href !== "#main") {
+        fails.push(`first Tab stop is ${first.cls || "?"} (${first.href}), expected the skip link to #main`);
+      }
+      if (first.top < 0 || first.left < 0 || first.h < 1) {
+        fails.push(`skip link not on screen when focused (top ${first.top}, left ${first.left})`);
+      }
+      return fails;
+    },
+  },
 ];
 
 // Waits run on the Node side: page timers never fire when JavaScript is disabled.

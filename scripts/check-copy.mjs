@@ -2,7 +2,16 @@
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 
-const rules = [{ name: "em-dash", dirs: ["app", "components", "lib"], pattern: /—|\\u2014/ }];
+const rules = [
+  { name: "em-dash", dirs: ["app", "components", "lib"], pattern: /—|\\u2014/ },
+  {
+    name: "legacy-tokens",
+    dirs: ["app", "components", "lib"],
+    pattern: /spruce|citron|moss|paper-2|instrument|\btexture\b|card-shadow/i,
+  },
+  { name: "old-years", dirs: ["lib"], pattern: /20\+|\btwenty\b/i },
+  { name: "advanta-claims", dirs: ["lib"], pattern: /analytics|guardrail|week to week/i },
+];
 
 const walk = (dir) =>
   readdirSync(dir).flatMap((name) => {
