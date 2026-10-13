@@ -18,7 +18,7 @@ type Props = {
 /** A figure and its label, read in that order ("59 Playbooks"). */
 export default function Stat({ value, label, detail, size = "lg", accent = false, className }: Props) {
   return (
-    <div className={cx("flex flex-col gap-1.5", className)}>
+    <div className={cx("flex flex-col", size === "mega" ? "gap-2" : "gap-1.5", className)}>
       <p
         className={cx(
           "font-display",

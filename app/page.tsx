@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import type { Metadata } from "next";
 import { hero, pages } from "@/lib/content";
 import AdoptionCurve from "@/components/illustrations/AdoptionCurve";
@@ -17,20 +18,34 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 
+/**
+ * Hero facts: two columns on phones, four from lg, with an edge line between
+ * neighbours. Spelled out per position so no two border rules compete.
+ */
+const factClass = [
+  "pr-4",
+  "border-l border-edge pl-4 lg:pl-6",
+  "pr-4 lg:border-l lg:border-edge lg:pl-6",
+  "border-l border-edge pl-4 lg:pl-6",
+];
+
 /** Home: the pitch and proof, a summary of each topic, then the ask. */
 export default function Home() {
   return (
     <>
       <PageHero
         tone="dark"
-        size="display"
+        size="mega"
         eyebrow={hero.context}
-        title={
-          <>
-            <span className="block">{hero.headline[0]}</span>
-            <span className="block text-accent">{hero.headline[1]}</span>
-          </>
-        }
+        title={hero.headline.map((line, i) => (
+          <span
+            key={line}
+            className={i === 0 ? "hero-line block" : "hero-line block text-accent"}
+            style={{ "--i": i } as CSSProperties}
+          >
+            {line}
+          </span>
+        ))}
         lead={hero.sub}
         actions={
           <>
@@ -42,13 +57,18 @@ export default function Home() {
             </Button>
           </>
         }
-        visual={
-          // Capped below lg so the panel does not take over the first screens on tablets.
-          <div className="card card-panel max-w-md lg:max-w-none">
-            <AdoptionCurve />
-          </div>
-        }
-      />
+      >
+        {/* From lg the curve takes whatever height is left in the first screen, within bounds. */}
+        <AdoptionCurve variant="bleed" className="h-40 sm:h-48 lg:h-auto lg:max-h-60 lg:min-h-36 lg:flex-1" />
+        <ul className="mt-10 grid grid-cols-2 gap-y-6 border-t border-edge pt-6 lg:grid-cols-4">
+          {hero.facts.map((fact, i) => (
+            <li key={fact.title} className={factClass[i]}>
+              <p className="text-small font-semibold text-fg">{fact.title}</p>
+              <p className="mt-0.5 text-small text-fg-2">{fact.detail}</p>
+            </li>
+          ))}
+        </ul>
+      </PageHero>
       <ProofStrip />
       <ClientMarquee />
       <WhyRolloutsStall />

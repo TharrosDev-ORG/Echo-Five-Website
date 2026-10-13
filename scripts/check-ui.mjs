@@ -161,6 +161,29 @@ const checks = [
     },
   },
   {
+    // The mega headline must stay at least 48px and break to more lines rather than clip at phone widths.
+    name: "hero-fit",
+    mode: "js",
+    widths: [360, 390],
+    routes: ["/"],
+    async run(page) {
+      const got = await page.evaluate(() => {
+        const h1 = document.querySelector("h1");
+        if (!h1) return null;
+        const limit = window.innerWidth - 15.5;
+        const over = [h1, ...h1.querySelectorAll("*")]
+          .map((el) => ({ text: el.textContent.trim().slice(0, 30), right: el.getBoundingClientRect().right }))
+          .filter((r) => r.right > limit);
+        return { size: parseFloat(getComputedStyle(h1).fontSize), over, limit };
+      });
+      if (!got) return ["no h1"];
+      const fails = [];
+      if (got.size < 48) fails.push(`h1 font-size ${got.size}px < 48px`);
+      for (const o of got.over) fails.push(`'${o.text}' right ${o.right.toFixed(1)} > ${got.limit}`);
+      return fails;
+    },
+  },
+  {
     name: "index-row-focus",
     mode: "js",
     widths: [1440],

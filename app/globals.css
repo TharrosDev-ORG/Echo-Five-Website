@@ -91,7 +91,6 @@
   --color-edge: var(--edge);
   --color-edge-strong: var(--edge-strong);
   --color-raised: var(--raised);
-  --color-sheet: var(--sheet);
 }
 
 :root,
@@ -108,7 +107,6 @@
   --edge: var(--color-line);
   --edge-strong: var(--color-line-strong);
   --raised: var(--color-white);
-  --sheet: var(--color-white);
   --focus: var(--color-blue);
 }
 
@@ -124,7 +122,6 @@
   --edge: var(--color-line-dark);
   --edge-strong: var(--color-line-dark-strong);
   --raised: var(--color-black-2);
-  --sheet: var(--color-white);
   --focus: var(--color-blue-l);
 }
 
@@ -141,7 +138,6 @@
   --edge: rgb(255 255 255 / 0.24);
   --edge-strong: rgb(255 255 255 / 0.5);
   --raised: var(--color-blue-d);
-  --sheet: var(--color-white);
   --focus: #ffffff;
 }
 
@@ -405,21 +401,25 @@
        while the flood and focus ring have room around it. */
     padding: 1.5rem 1rem;
     margin-inline: -1rem;
-    border-top: 1px solid var(--edge);
     color: var(--fg);
     text-decoration: none;
     transition:
       background-color 200ms var(--ease-out-soft),
       color 200ms var(--ease-out-soft);
   }
-  .index-list > li:last-child > .index-row {
+  /* The lines sit on the list items, so they end on the content edges; only the flood bleeds past them. */
+  .index-list > li {
+    border-top: 1px solid var(--edge);
+  }
+  .index-list > li:last-child {
     border-bottom: 1px solid var(--edge);
   }
   @media (min-width: 768px) {
     .index-row {
       grid-template-columns: 4rem minmax(0, 1fr) auto;
       gap: 1.5rem;
-      align-items: center;
+      /* Number, title, and tag share the title's first baseline. */
+      align-items: baseline;
     }
   }
   .index-row-num {
@@ -686,12 +686,16 @@
     width: max-content;
     animation: marquee var(--marquee-duration, 60s) linear infinite;
   }
-  /* Each copy keeps a trailing gap so the loop seam matches the spacing between names. */
+  /* Each copy keeps a trailing gap so the loop seam matches the spacing between names.
+     The same gap sits between each name and the node that leads it. */
+  .marquee {
+    --marquee-gap: clamp(1.25rem, 0.8rem + 1.6vw, 2.25rem);
+  }
   .marquee-list {
     display: flex;
     flex-shrink: 0;
-    gap: 0.75rem;
-    padding-right: 0.75rem;
+    gap: var(--marquee-gap);
+    padding-right: var(--marquee-gap);
   }
   .marquee:hover .marquee-track,
   .marquee:focus-within .marquee-track,
@@ -838,24 +842,62 @@
 @media (prefers-reduced-motion: no-preference) {
   html.js [data-reveal] {
     transition:
-      opacity 500ms var(--ease-out-soft),
-      transform 500ms var(--ease-out-soft);
+      opacity 600ms var(--ease-out-soft),
+      transform 600ms var(--ease-out-soft);
     transition-delay: calc(var(--reveal-index, 0) * 60ms);
   }
   html.js [data-reveal]:not([data-revealed]) {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(16px);
   }
 
-  .illo-draw {
+  /* Giant numerals and letters rise out of a clip mask as their Reveal enters.
+     The resting inset is negative so descenders and overhangs are never cut. */
+  html.js [data-reveal] :is(.stat-mega, .mega-rise) {
+    clip-path: inset(-0.25em -0.25em -0.35em -0.25em);
+    transition:
+      clip-path 600ms var(--ease-out-soft),
+      transform 600ms var(--ease-out-soft);
+    transition-delay: calc(var(--reveal-index, 0) * 60ms + var(--i, 0) * 70ms);
+  }
+  html.js [data-reveal]:not([data-revealed]) :is(.stat-mega, .mega-rise) {
+    clip-path: inset(0 0 100% 0);
+    transform: translateY(0.25em);
+  }
+
+  /* Home headline: each line rises from a clip mask once on load. The one
+     above-the-fold animation; the default (no JS, reduced motion) is static. */
+  html.js .hero-line {
+    animation: hero-rise 600ms var(--ease-out-soft) both;
+    animation-delay: calc(var(--i, 0) * 80ms);
+  }
+
+  /* The hero's adoption curve draws once on load. */
+  html.js [data-hero] .illo-draw {
     animation: illo-draw 1.6s var(--ease-out-soft) 0.2s both;
   }
-  .illo-pop {
+  html.js [data-hero] .illo-pop {
     animation: illo-pop 450ms var(--ease-out-soft) both;
     animation-delay: calc(0.35s + var(--i, 0) * 0.22s);
   }
-  .illo-fade {
+  html.js [data-hero] .illo-fade {
     animation: illo-fade 900ms ease-out 0.6s both;
+  }
+
+  /* Diagrams inside a Reveal (AdkarPath, PhaseTrack) draw when revealed. Until
+     then the line is undrawn and the nodes hidden, so nothing flashes drawn first. */
+  html.js [data-reveal]:not([data-revealed]) .illo-draw {
+    stroke-dashoffset: 1;
+  }
+  html.js [data-reveal]:not([data-revealed]) .illo-pop {
+    opacity: 0;
+  }
+  html.js [data-revealed] .illo-draw {
+    animation: illo-draw 1.2s var(--ease-out-soft) 0.15s both;
+  }
+  html.js [data-revealed] .illo-pop {
+    animation: illo-pop 450ms var(--ease-out-soft) both;
+    animation-delay: calc(0.3s + var(--i, 0) * 0.16s);
   }
 }
 
@@ -880,6 +922,16 @@
   to {
     opacity: 1;
     transform: scale(1);
+  }
+}
+@keyframes hero-rise {
+  from {
+    clip-path: inset(0 0 100% 0);
+    transform: translateY(0.3em);
+  }
+  to {
+    clip-path: inset(-0.25em -0.25em -0.35em -0.25em);
+    transform: none;
   }
 }
 @keyframes illo-fade {
@@ -963,4 +1015,23 @@
    Unlayered so it wins over the text-mega size utility. */
 .footer-wordmark {
   font-size: min(23.5vw, 18.5rem);
+}
+
+/*
+ * Mega type sized to its column, never larger than text-mega and never below
+ * its 3rem floor. Unlayered so it wins over the text-mega size utility.
+ *
+ * The home headline: "Tools that get used." is about 8.45em wide, so it holds
+ * one line wherever the container allows and breaks to more lines at the floor.
+ */
+.hero-mega {
+  font-size: clamp(3rem, min(0.9rem + 9vw, 100cqi / 8.6), 10rem);
+}
+/* Giant numerals in a grid cell: the cell is the query container, and --fit is
+   the widest mark's width in em ("ADKAR" is about 3.2em). */
+.mega-fit {
+  container-type: inline-size;
+}
+.mega-fit .stat-mega {
+  font-size: clamp(3rem, min(0.9rem + 9vw, 100cqi / var(--fit, 3.3)), 10rem);
 }

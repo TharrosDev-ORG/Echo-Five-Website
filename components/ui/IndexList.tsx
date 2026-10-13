@@ -27,7 +27,7 @@ export default function IndexList({ items, className }: Props) {
   return (
     <ol className={cx("index-list", className)}>
       {items.map((item) => (
-        <li key={item.href}>
+        <li key={item.index}>
           <Row item={item} />
         </li>
       ))}

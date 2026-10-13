@@ -1,26 +1,36 @@
 import { credentials, proofStrip } from "@/lib/content";
+import { cx } from "@/lib/cx";
+import Reveal from "@/components/ui/Reveal";
 import Section from "@/components/ui/Section";
 import Stat from "@/components/ui/Stat";
-import { Icon } from "@/components/ui/icons";
 
-/** Four short credentials directly under the hero. Not revealed: it can sit above the fold. */
+/** Desktop placement on the 12-column grid: four quarters, every other one dropped a step. */
+const place = [
+  "lg:col-start-1",
+  "lg:col-start-4 lg:mt-16",
+  "lg:col-start-7",
+  "lg:col-start-10 lg:mt-16",
+];
+
+/**
+ * The four credentials as giant marks ("30+", "II", "ADKAR", "365"), each with
+ * the claim it stands for beneath. Stacked on phones, two by two on tablets,
+ * staggered quarters from lg. The marks share one size, fitted so "ADKAR"
+ * holds a quarter column (see `.mega-fit`).
+ */
 export default function ProofStrip() {
   return (
-    <Section aria-label={credentials.heading} spacing="sm" className="border-b border-edge">
-      <ul className="grid gap-x-8 gap-y-7 sm:grid-cols-2 lg:grid-cols-4 lg:gap-x-0">
-        {proofStrip.map((item) => (
-          <li
-            key={item.value}
-            className="flex items-start gap-4 lg:flex-col lg:border-l lg:border-edge lg:px-8 lg:first:border-l-0 lg:first:pl-0"
+    <Section aria-label={credentials.heading}>
+      <ul className="grid gap-y-12 sm:grid-cols-2 sm:gap-x-8 sm:gap-y-14 lg:grid-cols-12 lg:gap-x-6 lg:gap-y-0">
+        {proofStrip.map((item, i) => (
+          <Reveal
+            as="li"
+            index={i}
+            key={item.mark}
+            className={cx("mega-fit border-t border-edge pt-6 lg:col-span-3", place[i])}
           >
-            <span
-              aria-hidden="true"
-              className="inline-flex size-11 shrink-0 items-center justify-center rounded-control bg-accent/12 text-accent"
-            >
-              <Icon name={item.icon} size={22} />
-            </span>
-            <Stat size="md" value={item.value} label={item.label} className="min-w-0 pt-1 lg:pt-0" />
-          </li>
+            <Stat size="mega" value={item.mark} label={item.value} detail={item.label} />
+          </Reveal>
         ))}
       </ul>
     </Section>

@@ -31,7 +31,7 @@ export default function Marquee({ items, label, duration = 60, labels }: Props) 
         <li
           key={item.label}
           title={item.title && item.title !== item.label ? item.title : undefined}
-          className="flex min-h-12 items-center rounded-control border border-edge bg-raised px-5 font-display text-[1.0625rem] font-semibold tracking-[-0.01em] whitespace-nowrap text-fg"
+          className="flex min-h-12 items-center gap-[var(--marquee-gap)] font-display text-h2 font-semibold whitespace-nowrap text-fg before:size-1.5 before:shrink-0 before:rounded-full before:bg-accent-fill before:content-['']"
         >
           {item.title && item.title !== item.label ? (
             <>

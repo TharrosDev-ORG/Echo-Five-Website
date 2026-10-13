@@ -15,9 +15,13 @@ type Props = {
   visual?: ReactNode;
   /** `light` (default) for inner pages; `dark` for the home and Advanta365 heroes. */
   tone?: "light" | "dark";
-  /** `display` is the larger home-page headline size. */
-  size?: "page" | "display";
-  /** Extra content under the actions (e.g. a price callout or badges). */
+  /**
+   * `display` is a larger headline. `mega` is the home opener: a `text-mega`
+   * headline across the full container, the lead beside the actions from lg,
+   * and `children` pinned to the bottom of a screen-high hero.
+   */
+  size?: "page" | "display" | "mega";
+  /** Extra content under the actions (e.g. a price callout or badges). With `mega`, full width at the hero's foot. */
   children?: ReactNode;
   className?: string;
 };
@@ -37,6 +41,48 @@ export default function PageHero({
   children,
   className,
 }: Props) {
+  const mega = size === "mega";
+  const lede = lead ? <p className="mt-6 max-w-[60ch] text-lead text-fg-2">{lead}</p> : null;
+  const buttons = actions ? <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">{actions}</div> : null;
+
+  if (mega) {
+    return (
+      <header
+        data-hero=""
+        data-hero-tone={tone}
+        className={cx(
+          toneClass[tone],
+          tone === "light" && "border-b border-edge",
+          // The node sits at the desktop top padding (4rem) plus 0.75rem, on the eyebrow.
+          "relative isolate overflow-hidden [--rail-node-y:4.75rem]",
+          className,
+        )}
+      >
+        <SignalRail />
+        {/* A query container, so the headline can size itself to the column (see .hero-mega). */}
+        <Container className="@container flex flex-col pt-12 pb-12 md:pt-16 md:pb-14 lg:min-h-[calc(100svh-var(--header-h))] lg:pt-16 lg:pb-10">
+          {eyebrow ? <p className="mb-5 max-w-[48rem] text-small font-medium text-fg-2">{eyebrow}</p> : null}
+          <h1 className="hero-mega max-w-none text-mega text-fg">{title}</h1>
+          {lead || actions ? (
+            <div className="lg:mt-10 lg:grid lg:grid-cols-12 lg:items-end lg:gap-x-8">
+              {lead ? (
+                <p className="mt-6 max-w-[60ch] text-lead text-fg-2 lg:col-span-6 lg:mt-0 xl:col-span-7">{lead}</p>
+              ) : null}
+              {actions ? (
+                <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap lg:col-span-6 lg:mt-0 lg:justify-end xl:col-span-5">
+                  {actions}
+                </div>
+              ) : null}
+            </div>
+          ) : null}
+          {children ? (
+            <div className="mt-12 lg:mt-0 lg:flex lg:flex-1 lg:flex-col lg:justify-end lg:pt-10">{children}</div>
+          ) : null}
+        </Container>
+      </header>
+    );
+  }
+
   return (
     <header
       data-hero=""
@@ -72,8 +118,8 @@ export default function PageHero({
           >
             {title}
           </h1>
-          {lead ? <p className="mt-6 max-w-[60ch] text-lead text-fg-2">{lead}</p> : null}
-          {actions ? <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">{actions}</div> : null}
+          {lede}
+          {buttons}
           {children ? <div className="mt-8">{children}</div> : null}
         </div>
         {visual ? <div className="min-w-0">{visual}</div> : null}

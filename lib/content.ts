@@ -88,12 +88,15 @@ export const hero = {
   ],
 };
 
-/** The proof strip under the home hero: four short credentials. */
-export const proofStrip: { value: string; label: string; icon: IconName }[] = [
-  { value: "30+ years", label: "Federal and enterprise rollouts", icon: "certificate" },
-  { value: "Secret Level II", label: "Cleared for federal engagements", icon: "shield" },
-  { value: "Prosci ADKAR", label: "Certified 2009 and 2016", icon: "certificate" },
-  { value: "Microsoft\u00A0365", label: "Certified: Fundamentals", icon: "certificate" },
+/**
+ * The proof strip under the home hero: four short credentials. `mark` is a
+ * display-only short form of the same claim, set as a giant numeral.
+ */
+export const proofStrip: { mark: string; value: string; label: string; icon: IconName }[] = [
+  { mark: "30+", value: "30+ years", label: "Federal and enterprise rollouts", icon: "certificate" },
+  { mark: "II", value: "Secret Level II", label: "Cleared for federal engagements", icon: "shield" },
+  { mark: "ADKAR", value: "Prosci ADKAR", label: "Certified 2009 and 2016", icon: "certificate" },
+  { mark: "365", value: "Microsoft\u00A0365", label: "Certified: Fundamentals", icon: "certificate" },
 ];
 
 export const why = {
