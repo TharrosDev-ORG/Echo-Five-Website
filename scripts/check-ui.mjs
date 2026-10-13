@@ -122,22 +122,16 @@ const checks = [
         // Background behind an element: composite translucent layers up to the first opaque one.
         const background = (el) => {
           const layers = [];
-          // The header only goes translucent-dark while it sits over the black hero, so that is what is beneath it.
-          let base = { r: 255, g: 255, b: 255, a: 1 };
           for (let n = el; n; n = n.parentElement) {
             const cs = getComputedStyle(n);
             if (cs.backgroundImage !== "none") return null;
             const bg = parse(cs.backgroundColor);
             if (bg && bg.a > 0) {
               layers.push(bg);
-              if (n.hasAttribute("data-over-dark")) {
-                base = { r: 10, g: 10, b: 11, a: 1 };
-                break;
-              }
               if (bg.a >= 1) break;
             }
           }
-          let result = base;
+          let result = { r: 255, g: 255, b: 255, a: 1 };
           for (const layer of layers.reverse()) result = over(layer, result);
           return result;
         };
@@ -347,27 +341,44 @@ const checks = [
     },
   },
   {
-    // Header goes dark only where the page opens on a black hero, including after client navigation.
+    // The header is dark only where the page opens on a black hero, including after client navigation.
     name: "header-tone",
     mode: "js",
     widths: [1440],
     routes: ["/"],
     async run(page) {
       const fails = [];
-      const over = () => page.evaluate(() => document.querySelector(".site-header")?.hasAttribute("data-over-dark"));
+      const dark = () =>
+        page.evaluate(() => getComputedStyle(document.querySelector(".site-header")).backgroundColor === "rgb(10, 10, 11)");
+      const settle = () => page.waitForTimeout(400);
       await page.evaluate(() => window.scrollTo(0, 0));
-      await page.waitForTimeout(150);
-      if (!(await over())) fails.push("/ at scrollY 0: .site-header lacks data-over-dark");
+      await settle();
+      if (!(await dark())) fails.push("/ at scrollY 0: header is not dark");
       await page.goto(BASE_URL + "/about", { waitUntil: "networkidle" });
-      await page.waitForTimeout(150);
-      if (await over()) fails.push("/about: .site-header has data-over-dark");
-      await page.goto(BASE_URL + "/", { waitUntil: "networkidle" });
-      await page.waitForTimeout(150);
+      await settle();
+      if (await dark()) fails.push("/about: header is dark");
+      await page.locator('.site-header a[href="/"]').first().click();
+      await page.waitForURL(BASE_URL + "/");
+      await settle();
+      if (!(await dark())) fails.push("/about then client nav to /: header is not dark");
       await page.locator('nav[aria-label="Primary"] a', { hasText: /^About$/ }).click();
       await page.waitForURL("**/about");
-      await page.waitForTimeout(300);
-      if (await over()) fails.push("/ then client nav to /about: .site-header still has data-over-dark");
+      await settle();
+      if (await dark()) fails.push("/ then client nav to /about: header still dark");
       return fails;
+    },
+  },
+  {
+    // The dark state comes from the server-rendered DOM, so it holds before (or without) JavaScript.
+    name: "header-tone-ssr",
+    mode: "nojs",
+    widths: [1440],
+    routes: ["/", "/product", "/about"],
+    async run(page, { route }) {
+      const bg = await page.evaluate(() => getComputedStyle(document.querySelector(".site-header")).backgroundColor);
+      const wantDark = route === "/" || route === "/product";
+      const isDark = bg === "rgb(10, 10, 11)";
+      return isDark === wantDark ? [] : [`header background ${bg}, expected ${wantDark ? "dark" : "not dark"}`];
     },
   },
 ];

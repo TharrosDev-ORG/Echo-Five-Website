@@ -501,22 +501,26 @@
     border-bottom-color: var(--color-line);
     background-color: rgb(255 255 255 / 0.97);
   }
-  /* Over a black page hero the header takes the dark ground's tokens (logo, links, button, focus ring). */
-  .site-header[data-over-dark] {
+  /*
+   * Over a black page hero the header takes the dark ground's tokens (logo, links,
+   * button, focus ring). The state is keyed on the server-rendered hero tone, so it
+   * is correct on first paint and without JS; Header.tsx only sets data-past-hero
+   * once the visitor has scrolled the hero out from under it.
+   *
+   * It is solid black rather than translucent: the header sits in flow above the
+   * hero, so for the first 72px of scroll the white page ground is behind it and
+   * translucent black would flash grey.
+   */
+  body:has([data-hero-tone="dark"]) .site-header:not([data-past-hero]) {
     --fg: var(--color-on-dark);
     --fg-2: var(--color-on-dark-2);
     --accent: var(--color-blue-l);
     --edge: var(--color-line-dark);
     --edge-strong: var(--color-line-dark-strong);
     --focus: var(--color-blue-l);
-    /*
-     * The header is in flow above the hero, so for the first 72px of scroll the
-     * white page ground is behind it; translucent black would flash grey there.
-     * Over the black hero, solid black reads identically.
-     */
     background-color: var(--color-black);
   }
-  .site-header[data-over-dark][data-scrolled] {
+  body:has([data-hero-tone="dark"]) .site-header[data-scrolled]:not([data-past-hero]) {
     border-bottom-color: var(--color-line-dark);
   }
   @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {

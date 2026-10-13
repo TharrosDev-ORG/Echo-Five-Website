@@ -19,26 +19,22 @@ export default function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [overDark, setOverDark] = useState(false);
+  const [pastHero, setPastHero] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const drawerRef = useRef<HTMLDivElement>(null);
 
-  // Hairline under the header once the page has moved, and the dark state while
-  // it still sits over a black page hero. Re-reads the hero on every route change,
-  // so client navigation from a dark hero to a light page flips it back.
+  // Hairline under the header once the page has moved. On a page that opens on a
+  // black hero the header is dark (pure CSS, from the server-rendered hero tone) until
+  // the hero has scrolled out from under it; this only reports that moment. The hero
+  // is re-read on every route change, so client navigation resets it.
   useEffect(() => {
     const hero = document.querySelector<HTMLElement>("[data-hero-tone]");
-    const isDark = hero?.dataset.heroTone === "dark";
     const update = () => {
       setScrolled(window.scrollY > 8);
-      if (!hero || !isDark) {
-        setOverDark(false);
-        return;
-      }
-      // Dark while more than half of the header still overlaps the hero.
+      // Past once less than half of the header still overlaps the hero.
       const headerH = headerRef.current?.offsetHeight ?? 0;
-      setOverDark(hero.getBoundingClientRect().bottom > headerH / 2);
+      setPastHero(hero ? hero.getBoundingClientRect().bottom <= headerH / 2 : false);
     };
     window.addEventListener("scroll", update, { passive: true });
     window.addEventListener("resize", update);
@@ -112,7 +108,7 @@ export default function Header() {
         ref={headerRef}
         className="site-header"
         data-scrolled={scrolled ? "" : undefined}
-        data-over-dark={overDark ? "" : undefined}
+        data-past-hero={pastHero ? "" : undefined}
       >
         <Container className="flex h-full items-center justify-between gap-6">
           <Logo />
@@ -134,7 +130,7 @@ export default function Header() {
             <Button
               href={navCta.href}
               size="sm"
-              tone={overDark ? "dark" : "light"}
+              // No tone: the button takes the header's tokens, so it follows the dark state with no JS.
               className="hidden min-[900px]:inline-flex"
             >
               {navCta.label}
