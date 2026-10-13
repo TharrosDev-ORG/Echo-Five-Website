@@ -413,10 +413,8 @@ export const advanta = {
     { title: "Master Communications Plan", format: "XLSX" },
     { title: "Go/No-Go Decision Checklist", format: "XLSX" },
   ] as { title: string; format: string; detail?: string }[],
-  price: {
+  purchase: {
     heading: "One purchase. The whole toolkit.",
-    amount: "$1,499.99",
-    currency: "CAD",
     note: "Includes every playbook, template, field guide, and job aid.",
     includes: [
       "59 playbooks covering all seven phases",
@@ -609,7 +607,7 @@ export const pages = {
     heading: "Advanta365",
     lead: "The change management and user adoption toolkit behind real SharePoint Online rollouts. Ready to use as is, or tailor with AI.",
     description:
-      "Advanta365 is the change management and user adoption toolkit behind real SharePoint Online rollouts: 59 playbooks, 130 templates, 4 field guides, and training with 58 job aids. $1,499.99 CAD, one purchase.",
+      "Advanta365 is the change management and user adoption toolkit behind real SharePoint Online rollouts: 59 playbooks, 130 templates, 4 field guides, and training with 58 job aids.",
   },
   about: {
     title: "About",

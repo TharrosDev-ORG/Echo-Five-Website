@@ -5,23 +5,19 @@ import Section from "@/components/ui/Section";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { Check } from "@/components/ui/icons";
 
-const { price } = advanta;
+const { purchase } = advanta;
 
-/** Single-price panel: a black block with the price, everything the purchase includes, and who built the toolkit. */
+/** Purchase panel: a black block with the purchase actions, everything the purchase includes, and who built the toolkit. */
 export default function Pricing() {
   return (
     <Section id="pricing" labelledBy="pricing-heading">
-      <SectionHeading id="pricing-heading" eyebrow={advanta.name} title={price.heading} />
+      <SectionHeading id="pricing-heading" eyebrow={advanta.name} title={purchase.heading} />
 
       <Reveal className="surface-dark mt-10 lg:mt-14">
         <div className="grid gap-12 px-5 py-10 sm:p-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:gap-12 lg:p-14">
           <div className="min-w-0">
             <p className="text-small font-semibold text-fg-2">{advanta.name}</p>
-            <p className="mt-4 flex flex-wrap items-baseline gap-x-3">
-              <span className="font-display text-display tabular-nums text-fg">{price.amount}</span>
-              <span className="text-lead font-medium text-fg-2">{price.currency}</span>
-            </p>
-            <p className="mt-4 max-w-[40ch] text-fg-2">{price.note}</p>
+            <p className="mt-4 max-w-[40ch] text-fg-2">{purchase.note}</p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Button href={advanta.urls.purchase} external size="lg">
@@ -39,7 +35,7 @@ export default function Pricing() {
           </div>
 
           <ul className="grid min-w-0 content-start gap-4 lg:border-l lg:border-edge lg:pl-12">
-            {price.includes.map((item) => (
+            {purchase.includes.map((item) => (
               <li key={item} className="flex gap-3 text-fg">
                 <Check size={20} className="mt-0.5 shrink-0 text-accent" />
                 {item}

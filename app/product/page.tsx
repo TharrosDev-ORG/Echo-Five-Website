@@ -4,7 +4,6 @@ import PageHero from "@/components/site/PageHero";
 import CtaBand from "@/components/site/CtaBand";
 import Button from "@/components/ui/Button";
 import ToolkitStack from "@/components/illustrations/ToolkitStack";
-import PriceCallout from "@/components/product/PriceCallout";
 import ToolkitCounts from "@/components/product/ToolkitCounts";
 import ToolkitContents from "@/components/product/ToolkitContents";
 import ToolkitPhases from "@/components/product/ToolkitPhases";
@@ -35,9 +34,7 @@ export default function ProductPage() {
           </>
         }
         visual={<ToolkitStack className="mx-auto w-full max-w-72 sm:max-w-sm lg:max-w-md" />}
-      >
-        <PriceCallout />
-      </PageHero>
+      />
 
       <ToolkitCounts />
       <ToolkitContents />

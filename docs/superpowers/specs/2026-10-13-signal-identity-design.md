@@ -213,7 +213,7 @@ image. Wordmark "Echofive" in Bricolage 700.
 6. **ADKAR teaser (white):** five giant letters (`text-mega`) along `AdkarPath`, stage
    names under; link to `/approach`.
 7. **Advanta365 band (black):** heading, provenance lines, the four counts as giant
-   numerals in a row, price, primary "Explore Advanta365" and secondary free samples.
+   numerals in a row, primary "Explore Advanta365" and secondary free samples.
    Keep `ToolkitStack`, restyled to black/white/blue line art.
 8. **Talk (white):** keep the click-to-load embed; frame is a 0-radius black panel with
    a blue play button.
@@ -234,10 +234,10 @@ active letter; `EngagementSteps` as an `IndexList`-style numbered sequence; talk
 
 ### Advanta365 (`/product`)
 
-Black hero with `ToolkitStack` and `PriceCallout`; counts as giant numerals; contents as
+Black hero with `ToolkitStack`; counts as giant numerals; contents as
 a 3x2 grid of edge-bordered cells (no shadows); `PhaseTrack` as the continuation of the
 signal line with seven nodes and names; free samples as an indexed list with format
-badges; formats; pricing panel (black, price in `text-display`); relationship note and
+badges; formats; purchase panel (black); relationship note and
 disclaimer; `CtaBand`.
 
 ### About

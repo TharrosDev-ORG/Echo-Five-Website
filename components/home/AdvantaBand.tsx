@@ -8,8 +8,7 @@ import Stat from "@/components/ui/Stat";
 
 /**
  * Black band introducing the Advanta365 toolkit: who built it, the four
- * counts as giant numerals across the container, then the price and the two
- * ways in.
+ * counts as giant numerals across the container, then the two ways in.
  */
 export default function AdvantaBand() {
   return (
@@ -49,22 +48,13 @@ export default function AdvantaBand() {
         ))}
       </ul>
 
-      <div className="mt-16 flex flex-col gap-8 border-t border-edge pt-8 md:mt-20 lg:flex-row lg:items-end lg:justify-between">
-        <div>
-          <p className="text-small text-fg-2">{advanta.price.heading}</p>
-          <p className="mt-2 font-display text-h2 text-fg tabular-nums">
-            {advanta.price.amount}{" "}
-            <span className="font-sans text-lead font-medium tracking-normal text-fg-2">{advanta.price.currency}</span>
-          </p>
-        </div>
-        <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-          <Button href="/product" size="lg" arrow>
-            {advanta.cta.explore}
-          </Button>
-          <Button href={advanta.urls.samples} external variant="secondary" size="lg">
-            {advanta.cta.samplesShort}
-          </Button>
-        </div>
+      <div className="mt-16 flex flex-col gap-3 border-t border-edge pt-8 sm:flex-row sm:flex-wrap md:mt-20">
+        <Button href="/product" size="lg" arrow>
+          {advanta.cta.explore}
+        </Button>
+        <Button href={advanta.urls.samples} external variant="secondary" size="lg">
+          {advanta.cta.samplesShort}
+        </Button>
       </div>
     </Section>
   );

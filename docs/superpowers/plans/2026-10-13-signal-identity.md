@@ -215,7 +215,7 @@ Restart the server after each rebuild (`pkill -f "next start"`). Review screensh
 
 - [ ] **Step 1: Add check `phase-line`** (js, [1440], ["/product"]): the `ol[aria-label]` rendered by PhaseTrack contains exactly one element with `[data-phase-line]`, whose rect spans from the first node center to the last node center within 2px.
 - [ ] **Step 2: Run** it. Expected: FAIL (no `[data-phase-line]`).
-- [ ] **Step 3: Implement** spec "Pages > Advanta365": counts as `Stat size="mega"` (on "130" and "59" check no wrap at 360), contents as a 3x2 grid of `border-edge` cells with shared borders (`gap-px bg-edge` technique), free samples as `IndexList`, pricing panel `surface-dark` with price in `text-display`, relationship note and disclaimer.
+- [ ] **Step 3: Implement** spec "Pages > Advanta365": counts as `Stat size="mega"` (on "130" and "59" check no wrap at 360), contents as a 3x2 grid of `border-edge` cells with shared borders (`gap-px bg-edge` technique), free samples as `IndexList`, purchase panel `surface-dark`, relationship note and disclaimer.
 - [ ] **Step 4: Run** full `npm run check:ui -- --shots`. Expected: PASS. Inspect `/product` at 360 and 1440.
 - [ ] **Step 5: Commit** `git commit -m "Restyle Advanta365 page with the phase line"`
 

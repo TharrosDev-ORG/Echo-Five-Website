@@ -10,6 +10,7 @@ const rules = [
     pattern: /spruce|citron|moss|paper-2|instrument|\btexture\b|card-shadow/i,
   },
   { name: "old-years", dirs: ["lib"], pattern: /20\+|\btwenty\b/i },
+  { name: "no-price", dirs: ["app", "components", "lib"], pattern: /\$\s?\d[\d,]*\.\d{2}|\bCAD\b/ },
   { name: "advanta-claims", dirs: ["lib"], pattern: /analytics|guardrail|week to week/i },
 ];
 

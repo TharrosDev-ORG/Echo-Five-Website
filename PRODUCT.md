@@ -69,7 +69,7 @@ governance guardrails, or week-to-week measurement.
   Strategy (DOCX); SharePoint Governance Framework (DOCX); SharePoint End-User Training
   Deck (PPTX, a 60-minute instructor-led session); Master Communications Plan (XLSX);
   Go/No-Go Decision Checklist (XLSX).
-- Price: $1,499.99 CAD, one purchase for the whole toolkit.
+- Do not publish the price on the site.
 - Purchase `https://www.advanta365.com/purchase`, free samples
   `https://www.advanta365.com/catalog?free=1`, contact `hello@advanta365.com`.
 - Echofive uses Advanta365 inside its engagements.

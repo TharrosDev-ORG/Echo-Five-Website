@@ -21,7 +21,7 @@ type Props = {
    * and `children` pinned to the bottom of a screen-high hero.
    */
   size?: "page" | "display" | "mega";
-  /** Extra content under the actions (e.g. a price callout or badges). With `mega`, full width at the hero's foot. */
+  /** Extra content under the actions (e.g. badges). With `mega`, full width at the hero's foot. */
   children?: ReactNode;
   /**
    * Draw the signal rail in the left gutter (default). Pass `false` where a

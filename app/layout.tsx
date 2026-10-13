@@ -96,9 +96,6 @@ const jsonLd = {
   ],
   makesOffer: {
     "@type": "Offer",
-    // "$1,499.99" -> "1499.99", so the structured data follows the displayed price.
-    price: advanta.price.amount.replace(/[^0-9.]/g, ""),
-    priceCurrency: advanta.price.currency,
     url: advanta.urls.purchase,
     itemOffered: {
       "@type": "Product",
