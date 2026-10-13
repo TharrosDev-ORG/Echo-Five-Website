@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Instrument_Sans } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { site } from "@/lib/site";
 import { advanta, principal } from "@/lib/content";
@@ -8,18 +8,20 @@ import Footer from "@/components/site/Footer";
 import MobileCtaBar from "@/components/site/MobileCtaBar";
 import RevealObserver from "@/components/ui/RevealObserver";
 
-const display = Instrument_Sans({
-  subsets: ["latin"],
+// Self-hosted (OFL) latin variable subsets. Fetching these through
+// next/font/google fails on Vercel's Turbopack builders.
+const display = localFont({
+  src: "./fonts/InstrumentSans-Variable-latin.woff2",
   variable: "--font-instrument-sans",
   display: "swap",
-  weight: ["500", "600", "700"],
+  weight: "500 700",
 });
 
-const sans = Geist({
-  subsets: ["latin"],
+const sans = localFont({
+  src: "./fonts/Geist-Variable-latin.woff2",
   variable: "--font-geist",
   display: "swap",
-  weight: ["400", "500", "600"],
+  weight: "400 600",
 });
 
 const defaultTitle = `${site.name} · Microsoft 365 change management`;

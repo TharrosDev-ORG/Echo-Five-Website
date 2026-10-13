@@ -12,7 +12,7 @@ spruce grounds, cool paper, citron accents on dark and moss on light (see `DESIG
 
 - **Next.js 16** (App Router, Turbopack) · **React 19** · **TypeScript** (strict)
 - **Tailwind CSS v4** (`@tailwindcss/postcss`, tokens via `@theme`)
-- Fonts via `next/font/google`: **Instrument Sans** (headings), **Geist** (text)
+- Fonts self-hosted via `next/font/local` (`app/fonts`, OFL): **Instrument Sans** (headings), **Geist** (text)
 - No animation libraries: motion is CSS plus one small IntersectionObserver, and every
   page is fully readable without JavaScript.
 
