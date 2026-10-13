@@ -16,6 +16,25 @@ const args = process.argv.slice(2);
 const only = args.find((a) => a.startsWith("--only="))?.slice(7).split(",");
 const shots = args.includes("--shots");
 
+// Node-side WCAG helpers for checks that read colors out of the page.
+const parseRgb = (c) => {
+  const m = c.match(/rgba?\(([^)]+)\)/);
+  if (!m) return null;
+  const p = m[1].split(/[\s,/]+/).filter(Boolean).map(Number);
+  return { r: p[0], g: p[1], b: p[2], a: p.length > 3 ? p[3] : 1 };
+};
+const relLum = ({ r, g, b }) => {
+  const f = (v) => {
+    v /= 255;
+    return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
+  };
+  return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
+};
+const contrastOf = (a, b) => {
+  const [x, y] = [relLum(a), relLum(b)].sort((p, q) => q - p);
+  return (x + 0.05) / (y + 0.05);
+};
+
 /**
  * Each check returns a list of failure messages (empty = pass).
  * mode: "js" (default browser), "nojs" (JavaScript disabled), "reduced" (prefers-reduced-motion).
@@ -127,6 +146,86 @@ const checks = [
         }
         return fails;
       });
+    },
+  },
+  {
+    name: "index-row-focus",
+    mode: "js",
+    widths: [1440],
+    routes: ["/", "/product"],
+    async run(page) {
+      // Rows arrive with the pages that use IndexList; no rows means nothing to check.
+      if ((await page.locator(".index-row").count()) === 0) return [];
+      let focused = false;
+      for (let i = 0; i < 60 && !focused; i++) {
+        await page.keyboard.press("Tab");
+        focused = await page.evaluate(() => document.activeElement?.classList.contains("index-row") ?? false);
+      }
+      if (!focused) return ["could not reach an .index-row with Tab in 60 presses"];
+      await page.waitForTimeout(300);
+      const got = await page.evaluate(() => {
+        const cs = getComputedStyle(document.activeElement);
+        return {
+          style: cs.outlineStyle,
+          width: cs.outlineWidth,
+          color: cs.outlineColor,
+          bg: cs.backgroundColor,
+          matchesFocusVisible: document.activeElement.matches(":focus-visible"),
+        };
+      });
+      const fails = [];
+      if (!got.matchesFocusVisible) fails.push("row is not :focus-visible after Tab");
+      if (got.style === "none" || parseFloat(got.width) === 0) fails.push(`no outline (style ${got.style}, width ${got.width})`);
+      const fg = parseRgb(got.color);
+      const bg = parseRgb(got.bg);
+      if (!fg || !bg || bg.a < 1) {
+        fails.push(`cannot resolve opaque colors (outline ${got.color}, bg ${got.bg})`);
+      } else {
+        const r = contrastOf(fg, bg);
+        if (r < 3) fails.push(`outline ${got.color} on ${got.bg} ratio=${r.toFixed(2)} < 3`);
+      }
+      return fails;
+    },
+  },
+  {
+    name: "btn-hover-contrast",
+    mode: "js",
+    widths: [1440],
+    routes: ["/", "/product"],
+    async run(page) {
+      const fails = [];
+      const buttons = page.locator(".btn-primary:visible");
+      const n = Math.min(await buttons.count(), 6);
+      for (let i = 0; i < n; i++) {
+        const btn = buttons.nth(i);
+        const label = (await btn.innerText()).replace(/\s+/g, " ").trim().slice(0, 24);
+        await btn.scrollIntoViewIfNeeded();
+        try {
+          await btn.hover({ timeout: 3000 });
+        } catch (err) {
+          fails.push(`'${label}' could not be hovered: ${err.message.split("\n")[0]}`);
+          continue;
+        }
+        await page.waitForTimeout(300);
+        // The fill is a gradient sweep, so read the hover color token through a probe element.
+        const got = await btn.evaluate((el) => {
+          const probe = document.createElement("span");
+          probe.style.backgroundColor = "var(--accent-hover)";
+          el.appendChild(probe);
+          const bg = getComputedStyle(probe).backgroundColor;
+          probe.remove();
+          return { text: getComputedStyle(el).color, bg };
+        });
+        const fg = parseRgb(got.text);
+        const bg = parseRgb(got.bg);
+        if (!fg || !bg) {
+          fails.push(`'${label}' unreadable colors (text ${got.text}, hover ${got.bg})`);
+          continue;
+        }
+        const r = contrastOf(fg, bg);
+        if (r < 4.5) fails.push(`'${label}' text ${got.text} on hover ${got.bg} ratio=${r.toFixed(2)} < 4.5`);
+      }
+      return fails;
     },
   },
   {

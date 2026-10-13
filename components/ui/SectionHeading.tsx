@@ -14,6 +14,13 @@ type Props = {
   align?: "start" | "center";
   /** A link or button placed beside the heading on wide screens (e.g. "All services"). */
   action?: ReactNode;
+  /** Section number such as "01", shown before the eyebrow. Decorative. */
+  index?: string;
+  /**
+   * 40px blue stroke above the title, shown below 1024px where the vertical rail
+   * is hidden. Pass `false` for nested sub-headings inside a section.
+   */
+  stroke?: boolean;
   className?: string;
 };
 
@@ -29,12 +36,30 @@ export default function SectionHeading({
   id,
   align = "start",
   action,
+  index,
+  stroke = true,
   className,
 }: Props) {
   const centered = align === "center";
   const heading = (
     <div className={cx("max-w-3xl", centered && "mx-auto text-center")}>
-      {eyebrow ? <p className="mb-3 text-small font-semibold text-accent">{eyebrow}</p> : null}
+      {stroke ? (
+        <span
+          aria-hidden="true"
+          data-rail-stroke
+          className={cx("mb-6 block h-px w-10 bg-accent-fill lg:hidden", centered && "mx-auto")}
+        />
+      ) : null}
+      {index || eyebrow ? (
+        <div className={cx("mb-3 flex items-baseline gap-3", centered && "justify-center")}>
+          {index ? (
+            <span aria-hidden="true" className="text-label tabular-nums text-fg-3" data-heading-index>
+              {index}
+            </span>
+          ) : null}
+          {eyebrow ? <p className="text-small font-semibold text-accent">{eyebrow}</p> : null}
+        </div>
+      ) : null}
       <Tag id={id} className={cx(sizeClass[size ?? Tag], "text-fg")}>
         {title}
       </Tag>

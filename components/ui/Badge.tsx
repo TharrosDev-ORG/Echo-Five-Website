@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { cx } from "@/lib/cx";
 
 type Props = {
-  /** `neutral` hairline pill, `accent` tinted pill, `solid` filled with the accent. */
+  /** `neutral` and `accent` are hairline pills with no fill; `solid` is filled with the accent. */
   tone?: "neutral" | "accent" | "solid";
   icon?: ReactNode;
   className?: string;
@@ -10,8 +10,8 @@ type Props = {
 };
 
 const toneClass = {
-  neutral: "border-edge-strong bg-raised text-fg-2",
-  accent: "border-accent/40 bg-accent/12 text-fg",
+  neutral: "border-edge-strong text-fg",
+  accent: "border-edge-strong text-fg",
   solid: "border-transparent bg-accent-fill text-on-accent",
 };
 

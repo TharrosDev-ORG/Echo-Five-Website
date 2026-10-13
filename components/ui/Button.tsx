@@ -9,10 +9,11 @@ type Size = "sm" | "md" | "lg";
 type StyleProps = {
   variant?: Variant;
   /**
-   * `light` (moss) or `dark` (citron). Leave unset to follow the surrounding
-   * surface; set it when a button sits on a ground that is not a Section.
+   * Ground the button sits on: `light`, `dark` (black), or `blue`. Leave unset
+   * to follow the surrounding surface; set it when a button sits on a ground
+   * that is not a Section.
    */
-  tone?: "light" | "dark";
+  tone?: "light" | "dark" | "blue";
   size?: Size;
   fullWidth?: boolean;
   className?: string;

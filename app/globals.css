@@ -229,13 +229,13 @@
   .link {
     color: var(--accent);
     font-weight: 600;
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 0.22em;
-    transition: text-decoration-thickness 150ms;
+    text-decoration: none;
+    background: linear-gradient(currentColor, currentColor) no-repeat 0 100% / 100% 1px;
+    padding-bottom: 0.1em;
+    transition: background-size 200ms var(--ease-out-soft);
   }
   .link:hover {
-    text-decoration-thickness: 2px;
+    background-size: 100% 2px;
   }
 
   .skip-link {
@@ -275,9 +275,10 @@
     text-decoration: none;
     cursor: pointer;
     transition:
-      background-color 150ms ease,
-      border-color 150ms ease,
-      color 150ms ease,
+      background-size 200ms var(--ease-out-soft),
+      background-color 200ms var(--ease-out-soft),
+      border-color 200ms var(--ease-out-soft),
+      color 200ms var(--ease-out-soft),
       transform 150ms ease;
   }
   .btn:active {
@@ -298,13 +299,18 @@
     padding: 0.875rem 1.5rem;
     font-size: 1.0625rem;
   }
+  /* Primary: --accent-hover sweeps in from the left over the --accent-fill base.
+     On blue grounds the tokens make it white with blue-d text. */
   .btn-primary {
-    background-color: var(--accent-fill);
+    background:
+      linear-gradient(var(--accent-hover), var(--accent-hover)) no-repeat left center / 0% 100%,
+      var(--accent-fill);
     color: var(--on-accent);
   }
   .btn-primary:hover {
-    background-color: var(--accent-hover);
+    background-size: 100% 100%;
   }
+  /* Secondary: 1px outline; hover inverts to --fg (black on white, white on black and blue). */
   .btn-secondary {
     background-color: transparent;
     border-color: var(--edge-strong);
@@ -312,6 +318,8 @@
   }
   .btn-secondary:hover {
     border-color: var(--fg);
+    background-color: var(--fg);
+    color: var(--raised);
   }
   .btn-ghost {
     padding-inline: 0;
@@ -323,10 +331,10 @@
   }
   .btn-arrow {
     flex: none;
-    transition: transform 150ms ease;
+    transition: transform 200ms var(--ease-out-soft);
   }
   .btn:hover .btn-arrow {
-    transform: translateX(2px);
+    transform: translateX(3px);
   }
 
   /* ---------------------------------------------------------------- *
@@ -349,30 +357,121 @@
     }
   }
   .card-panel {
-    border-radius: var(--radius-panel);
+    border-radius: var(--radius-card);
   }
   @media (min-width: 640px) {
     .card-panel {
       padding: 2.25rem;
     }
   }
+  /* Linked cards do not lift; hover darkens the border. */
   a.card {
     text-decoration: none;
-    transition:
-      transform 200ms var(--ease-out-soft),
-      box-shadow 200ms var(--ease-out-soft),
-      border-color 200ms ease;
+    transition: border-color 200ms var(--ease-out-soft);
   }
   a.card:hover {
-    transform: translateY(-2px);
     border-color: var(--edge-strong);
-    box-shadow: none;
   }
   a.card:hover .btn-arrow {
-    transform: translateX(2px);
+    transform: translateX(3px);
   }
   a.card:focus-visible {
     outline-offset: 4px;
+  }
+
+  /* Giant numerals ("10,000", "ADKAR") wrap instead of clipping on narrow phones. */
+  .stat-mega {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  /* ---------------------------------------------------------------- *
+   * Index rows (components/ui/IndexList.tsx)
+   * ---------------------------------------------------------------- */
+  .index-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.75rem;
+    align-items: start;
+    min-height: 2.75rem;
+    /* Inline padding is offset by a negative margin so text stays on the container edge
+       while the flood and focus ring have room around it. */
+    padding: 1.5rem 1rem;
+    margin-inline: -1rem;
+    border-top: 1px solid var(--edge);
+    color: var(--fg);
+    text-decoration: none;
+    transition:
+      background-color 200ms var(--ease-out-soft),
+      color 200ms var(--ease-out-soft);
+  }
+  .index-list > li:last-child > .index-row {
+    border-bottom: 1px solid var(--edge);
+  }
+  @media (min-width: 768px) {
+    .index-row {
+      grid-template-columns: 4rem minmax(0, 1fr) auto;
+      gap: 1.5rem;
+      align-items: center;
+    }
+  }
+  .index-row-num {
+    color: var(--fg-3);
+  }
+  .index-row-body {
+    margin-top: 0.375rem;
+    max-width: 52ch;
+    color: var(--fg-2);
+  }
+  .index-row-end {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .index-row-tag {
+    padding: 0.125rem 0.625rem;
+    border: 1px solid var(--edge-strong);
+    border-radius: 9999px;
+    color: var(--fg-2);
+    white-space: nowrap;
+  }
+  .index-row-arrow {
+    flex: none;
+    opacity: 0;
+    transform: translateX(-8px);
+    transition:
+      opacity 200ms var(--ease-out-soft),
+      transform 200ms var(--ease-out-soft);
+  }
+  /* Hover and keyboard focus flood the row; every descendant follows the row color. */
+  .index-row:hover,
+  .index-row:focus-visible {
+    background-color: var(--accent-fill);
+    color: var(--on-accent);
+  }
+  .index-row:hover *,
+  .index-row:focus-visible * {
+    color: inherit;
+  }
+  .index-row:hover .index-row-tag,
+  .index-row:focus-visible .index-row-tag {
+    border-color: currentColor;
+  }
+  .index-row:hover .index-row-arrow,
+  .index-row:focus-visible .index-row-arrow {
+    opacity: 1;
+    transform: none;
+  }
+  .index-row:focus-visible {
+    outline-color: var(--on-accent);
+    outline-offset: -4px;
+  }
+  /* Touch has no hover: keep the arrow visible at rest. */
+  @media (hover: none) {
+    .index-row-arrow {
+      opacity: 1;
+      transform: none;
+    }
   }
 
   /* ---------------------------------------------------------------- *
