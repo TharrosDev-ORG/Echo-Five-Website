@@ -12,10 +12,8 @@ paper, midnight ink and bands, one vermilion accent (see `DESIGN.md`).
 
 - **Next.js 16** (App Router, Turbopack) · **React 19** · **TypeScript** (strict)
 - **Tailwind CSS v4** (`@tailwindcss/postcss`, tokens via `@theme`)
-- Fonts via `next/font/google`: **Schibsted Grotesk** (display), **IBM Plex Sans** (body),
-  **IBM Plex Mono** (labels)
-- No animation libraries: entrance fades are CSS transitions toggled by one small
-  IntersectionObserver component.
+- Fonts via `next/font/google`: **Schibsted Grotesk** (headings), **IBM Plex Sans** (text)
+- No animation libraries and no scroll animation.
 
 No CMS, no database. All copy lives in `lib/content.ts`.
 
@@ -34,17 +32,17 @@ npm run build      # production build
 ```
 app/
   layout.tsx           Fonts, metadata, JSON-LD, header/footer chrome
-  page.tsx             Home: hero, problem, services, ADKAR, credentials, talk, CTA
+  page.tsx             Home: hero, why rollouts stall, services, ADKAR, credentials, talk, CTA
   services/ approach/ about/ contact/   Inner pages
   opengraph-image.tsx  Generated 1200x630 social card (prerendered)
   sitemap.ts robots.ts not-found.tsx error.tsx
   globals.css          Design tokens (@theme) and component styles
   api/contact/route.ts Contact form delivery (Resend REST API)
 components/
-  site/                Header, Footer, PageHeader, CtaBand, Reveal, icons
-  blocks/              Reusable content blocks (Intro, ServiceGrid, ServiceRows,
-                       Failures, AdkarSteps, Stats, Credentials, ClientRoster,
-                       Principal, MethodPoints, Talk)
+  site/                Header, Footer, Section (document layout), PageHeader,
+                       CtaBand, icons
+  blocks/              Content blocks: Failures, ServiceList, AdkarList, Figures,
+                       Credentials, ClientList, Principal, MethodList, Talk
   contact/ContactForm  The contact form (client component)
 lib/
   content.ts           All page copy and data
@@ -80,8 +78,8 @@ The contact form posts to `app/api/contact/route.ts`, which delivers via the
 
 WCAG AA contrast on every text/ground pair, one `h1` per page, skip link, keyboard-operable
 menu (focus moves in, page behind is inert, Escape closes), labelled form fields with
-inline errors and focus management, and `prefers-reduced-motion` support. Entrance fades
-are gated behind a `.js` class so no-JS visitors and crawlers always see all content.
+inline errors and focus management, and `prefers-reduced-motion` support. Every page is
+fully readable without JavaScript.
 
 ## Client logos & certification badges
 

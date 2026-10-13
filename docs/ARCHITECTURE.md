@@ -10,13 +10,12 @@ Next.js 16 App Router, statically generated. Five content pages and one API rout
 | Component | Why it is a client component |
 | --- | --- |
 | `site/Header` | scroll keyline, active route (`usePathname`), mobile dialog menu |
-| `site/Reveal` | IntersectionObserver for entrance fades, re-armed per route |
 | `blocks/Talk` | click-to-load YouTube facade (`useState`) |
 | `contact/ContactForm` | submission, validation, focus management, email fallback |
 
-- `app/layout.tsx` sets fonts, site-wide metadata, JSON-LD, the skip link, header,
-  footer, and adds a `js` class before first paint so fade start-states never apply
-  without JavaScript.
+- `app/layout.tsx` sets fonts, site-wide metadata, JSON-LD, the skip link, header, and
+  footer.
+- `components/site/Section.tsx` provides the document layout every content section uses.
 - `lib/metadata.ts` gives each inner page its own title, description, and canonical URL.
   The home page sets its canonical in `app/page.tsx`.
 

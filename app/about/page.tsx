@@ -1,12 +1,12 @@
 import { about, clients, credentials, pages } from "@/lib/content";
 import { pageMetadata } from "@/lib/metadata";
 import PageHeader from "@/components/site/PageHeader";
-import Intro from "@/components/blocks/Intro";
-import Principal from "@/components/blocks/Principal";
-import Stats from "@/components/blocks/Stats";
-import Credentials from "@/components/blocks/Credentials";
-import ClientRoster from "@/components/blocks/ClientRoster";
+import Section from "@/components/site/Section";
 import CtaBand from "@/components/site/CtaBand";
+import Principal from "@/components/blocks/Principal";
+import Figures from "@/components/blocks/Figures";
+import Credentials from "@/components/blocks/Credentials";
+import ClientList from "@/components/blocks/ClientList";
 
 const page = pages.about;
 export const metadata = pageMetadata("/about", page.title, page.description);
@@ -14,52 +14,25 @@ export const metadata = pageMetadata("/about", page.title, page.description);
 export default function AboutPage() {
   return (
     <>
-      <PageHeader label={page.label} heading={page.heading} lead={page.lead} />
+      <PageHeader heading={page.heading} lead={page.lead} />
 
-      <section className="section" aria-label="About the firm">
-        <div className="container two-col">
-          <div>
-            {about.body.slice(1).map((p, i) => (
-              <p
-                key={i}
-                className={i === 0 ? "t-lead measure" : "t-body measure"}
-                style={{ marginTop: i === 0 ? 0 : "1.5rem" }}
-                data-reveal
-              >
-                {p}
-              </p>
-            ))}
-            <div style={{ marginTop: "clamp(2.5rem, 4vw, 3rem)" }}>
-              <Stats />
-            </div>
-          </div>
-          <Principal />
-        </div>
-      </section>
+      <Section id="firm" heading="The firm">
+        {about.body.slice(1).map((p, i) => (
+          <p key={i} className={i === 0 ? "t-lead measure" : "measure"}>
+            {p}
+          </p>
+        ))}
+        <Figures />
+        <Principal />
+      </Section>
 
-      <section id="credentials" className="section band" aria-labelledby="credentials-heading">
-        <div className="container">
-          <Intro
-            id="credentials-heading"
-            label={credentials.kicker}
-            heading={credentials.heading}
-            side={<p className="t-body measure">{credentials.intro}</p>}
-          />
-          <Credentials />
-        </div>
-      </section>
+      <Section id="credentials" heading={credentials.heading} band note={credentials.intro}>
+        <Credentials />
+      </Section>
 
-      <section id="clients" className="section" aria-labelledby="clients-heading">
-        <div className="container">
-          <Intro
-            id="clients-heading"
-            label={clients.kicker}
-            heading={clients.heading}
-            side={<p className="t-body measure">{clients.intro}</p>}
-          />
-          <ClientRoster />
-        </div>
-      </section>
+      <Section id="clients" heading={clients.heading} note={clients.intro}>
+        <ClientList />
+      </Section>
 
       <CtaBand />
     </>

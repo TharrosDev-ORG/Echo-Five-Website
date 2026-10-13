@@ -88,12 +88,11 @@ export default function ContactForm() {
 
   if (status === "success") {
     return (
-      <div className="card form-card" role="status" aria-live="polite">
-        <span className="status-dot" aria-hidden="true" style={{ display: "inline-block" }} />
-        <h2 ref={successRef} tabIndex={-1} className="t-h3" style={{ marginTop: "1rem", outline: "none" }}>
+      <div className="form" role="status" aria-live="polite">
+        <h2 ref={successRef} tabIndex={-1} className="t-h3" style={{ outline: "none" }}>
           Message sent.
         </h2>
-        <p className="t-body" style={{ marginTop: "0.75rem" }}>
+        <p className="t-muted">
           Thank you. Your note has reached Mark directly. You can expect a straight answer, usually
           within one business day.
         </p>
@@ -119,14 +118,14 @@ export default function ContactForm() {
     ) : null;
 
   return (
-    <form ref={formRef} onSubmit={onSubmit} noValidate className="card form-card form-grid" aria-label="Contact form">
+    <form ref={formRef} onSubmit={onSubmit} noValidate className="form" aria-label="Contact form">
       {/* Honeypot: visually hidden, off the tab order. */}
       <div aria-hidden="true" className="u-sr">
         <label htmlFor="company">Company</label>
         <input id="company" name="company" type="text" tabIndex={-1} autoComplete="off" />
       </div>
 
-      <div className="form-grid form-grid-2">
+      <div className="form-row">
         <div>
           <label htmlFor="name" className="field-label">
             Name

@@ -5,7 +5,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { nav } from "@/lib/content";
 import { site } from "@/lib/site";
-import { ArrowRight, Close, Menu } from "@/components/site/icons";
 
 const isCurrent = (pathname: string, href: string) =>
   pathname === href || pathname.startsWith(`${href}/`);
@@ -60,12 +59,7 @@ export default function Header() {
     <header className="site-header" data-scrolled={scrolled || open ? "" : undefined}>
       <div className="container site-header-inner">
         <Link href="/" className="wordmark" aria-label={`${site.name}, home`}>
-          <span className="wordmark-mark" aria-hidden="true">
-            E<span>5</span>
-          </span>
-          <span>
-            Echo<span className="accent">five</span>
-          </span>
+          Echofive
         </Link>
 
         <nav aria-label="Primary" className="primary-nav">
@@ -83,7 +77,6 @@ export default function Header() {
             ))}
           <Link href="/contact" className="btn btn-primary btn-sm">
             Start a conversation
-            <ArrowRight />
           </Link>
         </nav>
 
@@ -95,7 +88,6 @@ export default function Header() {
           aria-controls="mobile-menu"
           onClick={() => setOpen((v) => !v)}
         >
-          {open ? <Close /> : <Menu />}
           {open ? "Close" : "Menu"}
         </button>
       </div>
@@ -127,12 +119,14 @@ export default function Header() {
             onClick={() => setOpen(false)}
           >
             {item.label}
-            <ArrowRight size={20} />
           </Link>
         ))}
-        <a href={`mailto:${site.email}`} className="t-small" style={{ marginTop: "1.5rem" }}>
-          Or email <span className="link">{site.email}</span>
-        </a>
+        <p className="t-small" style={{ marginTop: "var(--s-5)" }}>
+          Or email{" "}
+          <a href={`mailto:${site.email}`} className="link">
+            {site.email}
+          </a>
+        </p>
       </div>
     </header>
   );

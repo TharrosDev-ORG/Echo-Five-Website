@@ -7,14 +7,14 @@ Components never hard-code marketing copy.
 | --- | --- | --- |
 | Header and mobile menu | `site/Header` | `nav`, `site` |
 | Home hero + at-a-glance panel | `app/page.tsx` | `hero` (`hero.facts`), `clients` |
-| Problem (failure modes) | `blocks/Failures` | `why` |
-| Services overview / full list | `blocks/ServiceGrid`, `blocks/ServiceRows` | `services` |
-| ADKAR sequence | `blocks/AdkarSteps` | `process` |
-| Measurement (Advanta365) | `blocks/MethodPoints` + page copy | `method`, `methodPoints`, `site.advantaUrl` |
+| Why rollouts stall | `blocks/Failures` | `why` |
+| Services overview / full list | `blocks/ServiceList` | `services` |
+| ADKAR stages | `blocks/AdkarList` | `process` |
+| Measurement (Advanta365) | `blocks/MethodList` + page copy | `method`, `methodPoints`, `site.advantaUrl` |
 | Conference talk | `blocks/Talk` | `proof`, `site.video` |
-| Stats | `blocks/Stats` | derived from `clients` |
+| Figures (years, departments, organizations) | `blocks/Figures` | derived from `clients` |
 | Credentials | `blocks/Credentials` | `credentials` |
-| Client roster | `blocks/ClientRoster` | `clients` |
+| Client list | `blocks/ClientList` | `clients` |
 | Founder card | `blocks/Principal` | `principal` |
 | About page body | `app/about/page.tsx` | `about` |
 | Inner page headers + SEO descriptions | `site/PageHeader` | `pages` |
@@ -27,6 +27,9 @@ Components never hard-code marketing copy.
 - Only claims already made elsewhere on the site appear in summaries (e.g. `hero.facts`
   restates the credentials list). Don't add numbers or outcomes without a source.
 - No em dashes in body copy.
+- Avoid "X, not Y" constructions, stacked sentence fragments, and stock phrases. The two
+  taglines in `hero.headline` and `pages.about.heading` are kept on purpose.
+- Section headings are plain and sentence case ("What we do", "Credentials").
 
 ## Constants worth knowing (`lib/site.ts`)
 

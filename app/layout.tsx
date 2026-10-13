@@ -1,11 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { Schibsted_Grotesk, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
+import { Schibsted_Grotesk, IBM_Plex_Sans } from "next/font/google";
 import "./globals.css";
 import { site } from "@/lib/site";
 import { principal } from "@/lib/content";
 import Header from "@/components/site/Header";
 import Footer from "@/components/site/Footer";
-import Reveal from "@/components/site/Reveal";
 
 const display = Schibsted_Grotesk({
   subsets: ["latin"],
@@ -20,12 +19,6 @@ const sans = IBM_Plex_Sans({
   weight: ["400", "500", "600"],
 });
 
-const mono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-  display: "swap",
-  weight: ["400", "500"],
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -98,15 +91,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className={`${display.variable} ${sans.variable} ${mono.variable}`}
+      className={`${display.variable} ${sans.variable}`}
       suppressHydrationWarning
     >
       <head>
         {/* The talk poster is the only third-party asset. */}
         <link rel="dns-prefetch" href="https://i.ytimg.com" />
-        {/* Opt into entrance fades only when JS runs, before first paint, so
-            no-JS visitors and crawlers always see everything. */}
-        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -119,7 +109,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Header />
         <main id="main">{children}</main>
         <Footer />
-        <Reveal />
       </body>
     </html>
   );

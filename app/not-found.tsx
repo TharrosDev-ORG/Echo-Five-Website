@@ -1,11 +1,10 @@
 import Link from "next/link";
-import { ArrowRight } from "@/components/site/icons";
 
 export default function NotFound() {
   return (
     <section className="section">
       <div className="container" style={{ minHeight: "50vh", display: "grid", alignContent: "center" }}>
-        <p className="t-label label-row">Error 404</p>
+        <p className="t-muted">Error 404: page not found</p>
         <h1 className="t-h1" style={{ marginTop: "1rem", maxWidth: "18ch" }}>
           This page does not exist.
         </h1>
@@ -16,7 +15,6 @@ export default function NotFound() {
         <div className="flex flex-wrap gap-3" style={{ marginTop: "2rem" }}>
           <Link href="/" className="btn btn-primary">
             Back to home
-            <ArrowRight />
           </Link>
           <Link href="/contact" className="btn btn-secondary">
             Contact us

@@ -17,7 +17,7 @@ export default function ErrorPage({
   return (
     <section className="section">
       <div className="container" style={{ minHeight: "50vh", display: "grid", alignContent: "center" }}>
-        <p className="t-label label-row">Something went wrong</p>
+        <p className="t-muted">Something went wrong</p>
         <h1 className="t-h1" style={{ marginTop: "1rem", maxWidth: "18ch" }}>
           We hit an unexpected snag.
         </h1>

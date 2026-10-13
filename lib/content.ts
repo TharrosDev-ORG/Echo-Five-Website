@@ -12,12 +12,12 @@ export const nav = [
 
 export const hero = {
   eyebrow: "Microsoft 365 change management",
-  context: "Canadian public sector and enterprise",
+  context: "for Canadian public sector and enterprise organizations",
   headline: ["Change that lands.", "Tools that get used."],
   sub: "We help government and enterprise organizations move to Microsoft 365 and actually adopt it. Strategy, communications, training, and technical writing, delivered end to end.",
   cta: {
     primary: "Start a conversation",
-    secondary: "See our approach",
+    secondary: "How we work",
   },
   /** The at-a-glance panel: every line restates a claim made elsewhere on the site. */
   facts: [
@@ -37,13 +37,13 @@ export const hero = {
 export const why = {
   index: "01",
   kicker: "Why rollouts stall",
-  heading: "The software ships. The behaviour change doesn't.",
+  heading: "Why Microsoft 365 rollouts stall",
   body: "Most Microsoft 365 rollouts are run as IT projects with a training session bolted on at the end. The licences get paid for. The old habits stay. People route around the new tools, shadow systems creep back in, and the productivity that was promised never arrives. The technology was never the hard part. Getting thousands of people to work differently is.",
   failures: [
     {
       n: "A",
-      title: "Adoption is treated as a launch day, not a programme.",
-      body: "Go-live becomes the finish line. Nobody owns the months where habits actually change.",
+      title: "Go-live is treated as the finish line.",
+      body: "Nobody owns the months after launch, which is when habits actually change.",
     },
     {
       n: "B",
@@ -52,19 +52,19 @@ export const why = {
     },
     {
       n: "C",
-      title: "Training ends before proficiency begins.",
-      body: "A single session covers the buttons, not the workflow people return to on a busy Tuesday.",
+      title: "Training stops before people are proficient.",
+      body: "A single session shows where the buttons are. It does not cover the workflow people come back to on a busy Tuesday.",
     },
   ],
-  close: "We work the other side of the deployment: the people.",
+  close: "That is the part of a deployment we work on: the people.",
 };
 
 export const services = {
   index: "02",
-  kicker: "Where we shine",
-  heading: "Adoption, run as a programme.",
+  kicker: "Services",
+  heading: "What we do",
   intro:
-    "We bridge strategy and execution: the roadmap and the floor walking, the comms plan and the job aid. Every engagement is built to move a measurable behaviour, not to tick a project box.",
+    "We cover both the strategy and the hands-on work: the roadmap and the floor walking, the communications plan and the job aids. Each engagement is aimed at a specific behaviour we can measure.",
   platforms: [
     "SharePoint Online",
     "Microsoft Teams",
@@ -100,7 +100,7 @@ export const services = {
     {
       n: "05",
       title: "AI coaching",
-      body: "We coach teams to use Copilot and ChatGPT as a thinking companion: faster, clearer, higher-quality deliverables, with human judgment kept firmly in the loop.",
+      body: "We coach teams to use Copilot and ChatGPT to produce clearer, better work faster, with people still making the judgment calls.",
       tag: "Copilot · ChatGPT",
     },
     {
@@ -115,9 +115,9 @@ export const services = {
 export const process = {
   index: "03",
   kicker: "How adoption happens",
-  heading: "Adoption is a sequence, not a switch.",
+  heading: "How adoption happens",
   intro:
-    "We run every engagement on the Prosci ADKAR model. Change lands only when each person moves through five states, in order. Miss one and the rollout stalls right there.",
+    "We run every engagement on the Prosci ADKAR model. Each person has to move through five stages in order, and a rollout stalls at whichever stage gets skipped.",
   stages: [
     {
       key: "A",
@@ -127,7 +127,7 @@ export const process = {
     {
       key: "D",
       name: "Desire",
-      body: "They have a reason to take part, not just a mandate from above.",
+      body: "They have their own reason to take part, beyond a mandate from above.",
     },
     {
       key: "K",
@@ -150,9 +150,9 @@ export const process = {
 export const clients = {
   index: "06",
   kicker: "Selected clients",
-  heading: "Trusted across government and enterprise.",
+  heading: "Clients",
   intro:
-    "Two decades of department-wide rollouts, from national security to Crown corporations to the private sector.",
+    "Two decades of department-wide rollouts across national security, Crown corporations, and the private sector.",
   groups: [
     {
       label: "Government of Canada",
@@ -198,7 +198,7 @@ export const clients = {
 
 export const proof = {
   index: "05",
-  kicker: "On the record",
+  kicker: "Conference talk",
   heading: "Building the Plane While Flying It",
   sub: "Shared Services Canada Microsoft 365 user adoption during COVID-19, presented to the Government of Canada M365 Council.",
   cta: "Watch the talk",
@@ -206,18 +206,17 @@ export const proof = {
 
 export const method = {
   index: "04",
-  kicker: "How we make it measurable",
-  heading: "Adoption you can see, not just hope for.",
-  body: "We deliver with Advanta365, a Microsoft 365 adoption and governance platform that gives every programme structure: guided learning pathways, adoption analytics, and governance guardrails in one place. It means our clients watch adoption move week to week, instead of waiting for a survey that arrives too late to act on.",
+  kicker: "Measurement",
+  heading: "Measuring adoption",
+  body: "We deliver with Advanta365, a Microsoft 365 adoption and governance platform that puts guided learning pathways, adoption analytics, and governance guardrails in one place. Clients can see adoption change week to week instead of waiting for a survey that arrives too late to act on.",
   cta: "Visit Advanta365",
 };
 
 export const credentials = {
   index: "07",
   kicker: "Credentials",
-  heading: "Certified, cleared, and accountable.",
-  intro:
-    "The qualifications our work is built on. Held to the standard a public-sector engagement demands.",
+  heading: "Credentials",
+  intro: "The certifications and security clearance behind our work.",
   items: [
     {
       title: "Prosci ADKAR Change Management",
@@ -253,7 +252,7 @@ export const about = {
   body: [
     "Echofive Solutions is a senior change management practice built around one specialty: helping organizations actually adopt Microsoft 365.",
     "We bring more than twenty years of moving federal and enterprise teams off legacy systems and onto Teams, SharePoint Online, Copilot, and OneDrive, with the strategy, communications, training, and technical writing that make the change stick. Prosci aligned, Microsoft certified, Secret Level II cleared.",
-    "Small enough to stay accountable. Experienced enough to run a department-wide rollout from first roadmap to embedded change agent.",
+    "The firm is small enough to stay accountable and experienced enough to run a department-wide rollout, from the first roadmap to embedded change agents.",
   ],
 };
 
@@ -261,7 +260,7 @@ export const principal = {
   monogram: "MA",
   name: "Mark Abdelnour",
   role: "Founder and Lead Consultant",
-  bio: "Mark founded Echofive after twenty years leading Microsoft 365 change and adoption across the Government of Canada and major enterprises. He is Prosci ADKAR certified, Microsoft 365 certified, and holds Secret Level II clearance. When you write to Echofive, your note reaches him directly, not a sales desk.",
+  bio: "Mark founded Echofive after twenty years leading Microsoft 365 change and adoption across the Government of Canada and major enterprises. He is Prosci ADKAR certified, Microsoft 365 certified, and holds Secret Level II clearance. When you write to Echofive, your note reaches him directly.",
   credentials: "Prosci ADKAR · Microsoft 365 Certified · Secret Level II",
 };
 
@@ -269,9 +268,9 @@ export const contact = {
   index: "08",
   kicker: "Start a conversation",
   heading: "Tell us what you are rolling out.",
-  body: "Whether you are scoping a migration or trying to rescue an adoption that has stalled, we will tell you straight whether we can help. No pitch theatre.",
+  body: "Whether you are scoping a migration or trying to rescue an adoption that has stalled, we will tell you plainly whether we can help.",
   cta: "Book a conversation",
-  note: "Your message goes straight to Mark Abdelnour, founder. No intake form, no gatekeeping.",
+  note: "Your message goes straight to Mark Abdelnour, the founder.",
 };
 
 export const footer = {
@@ -283,23 +282,20 @@ export const footer = {
 export const pages = {
   services: {
     title: "Services",
-    label: "Services",
-    heading: "Adoption, run as a programme.",
-    lead: "We bridge strategy and execution: the roadmap and the floor walking, the comms plan and the job aid. Every engagement is built to move a measurable behaviour, not to tick a project box.",
+    heading: "Microsoft 365 adoption services",
+    lead: "We cover both the strategy and the hands-on work: the roadmap and the floor walking, the communications plan and the job aids. Each engagement is aimed at a specific behaviour we can measure.",
     description:
       "Microsoft 365 adoption strategy, communications, training, technical writing, AI coaching, and migration support for government and enterprise.",
   },
   approach: {
     title: "Approach",
-    label: "Approach",
-    heading: "The software ships. The behaviour change doesn't.",
-    lead: "Most Microsoft 365 rollouts are run as IT projects with a training session bolted on at the end. We work the other side of the deployment: the people.",
+    heading: "How we work",
+    lead: "Most Microsoft 365 rollouts are run as IT projects with a training session added at the end. We work on the people side of the deployment, using the Prosci ADKAR model and measuring adoption as it happens.",
     description:
-      "Why Microsoft 365 rollouts stall, and how Echofive runs adoption on the Prosci ADKAR model with measurable progress week to week.",
+      "Why Microsoft 365 rollouts stall, and how Echofive runs adoption on the Prosci ADKAR model with progress measured week to week.",
   },
   about: {
     title: "About",
-    label: "The firm",
     heading: "Twenty years. One job. Done properly.",
     lead: "Echofive Solutions is a senior change management practice built around one specialty: helping organizations actually adopt Microsoft 365.",
     description:
@@ -307,9 +303,8 @@ export const pages = {
   },
   contact: {
     title: "Contact",
-    label: "Start a conversation",
     heading: "Tell us what you are rolling out.",
-    lead: "Whether you are scoping a migration or trying to rescue an adoption that has stalled, we will tell you straight whether we can help. No pitch theatre.",
+    lead: "Whether you are scoping a migration or trying to rescue an adoption that has stalled, we will tell you plainly whether we can help.",
     description:
       "Start a conversation with Echofive Solutions about your Microsoft 365 rollout. Your message goes straight to the founder.",
   },
