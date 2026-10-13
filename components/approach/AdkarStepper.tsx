@@ -88,7 +88,7 @@ export default function AdkarStepper() {
                 "flex min-h-11 cursor-pointer items-center justify-center rounded-control border px-1 py-2 font-semibold",
                 "transition-colors duration-150",
                 selected
-                  ? "border-accent bg-accent text-on-accent"
+                  ? "border-accent-fill bg-accent-fill text-on-accent"
                   : "border-edge text-fg-2 hover:border-edge-strong hover:text-fg",
               )}
             >

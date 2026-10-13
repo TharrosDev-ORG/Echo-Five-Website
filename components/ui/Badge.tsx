@@ -12,7 +12,7 @@ type Props = {
 const toneClass = {
   neutral: "border-edge-strong bg-raised text-fg-2",
   accent: "border-accent/40 bg-accent/12 text-fg",
-  solid: "border-transparent bg-accent text-on-accent",
+  solid: "border-transparent bg-accent-fill text-on-accent",
 };
 
 /** Small pill for tags and file formats (DOCX, PPTX). */

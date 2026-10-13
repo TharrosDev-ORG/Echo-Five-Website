@@ -15,7 +15,7 @@ export default function FounderCard({ photo }: Props) {
       aria-labelledby="founder-name"
       className="card card-panel grid gap-8 md:grid-cols-[minmax(0,15rem)_minmax(0,1fr)] md:items-start lg:grid-cols-[minmax(0,18rem)_minmax(0,1fr)] lg:gap-12"
     >
-      <div className="surface-dark texture relative aspect-square w-full max-w-60 overflow-hidden rounded-card md:max-w-none">
+      <div className="surface-dark relative aspect-square w-full max-w-60 overflow-hidden rounded-card md:max-w-none">
         {photo ? (
           <Image src={photo.src} alt={photo.alt} fill sizes="(min-width: 1024px) 18rem, 15rem" className="object-cover" />
         ) : (

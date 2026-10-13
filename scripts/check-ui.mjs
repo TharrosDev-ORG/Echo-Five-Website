@@ -129,6 +129,37 @@ const checks = [
       });
     },
   },
+  {
+    name: "tokens",
+    mode: "js",
+    widths: [1440],
+    routes: ["/"],
+    async run(page) {
+      const got = await page.evaluate(() => {
+        const probe = (parent) => {
+          const s = document.createElement("span");
+          s.style.color = "var(--accent)";
+          parent.appendChild(s);
+          const c = getComputedStyle(s).color;
+          s.remove();
+          return c;
+        };
+        const dark = document.querySelector(".surface-dark");
+        return {
+          body: getComputedStyle(document.body).backgroundColor,
+          accentLight: probe(document.body),
+          accentDark: dark ? probe(dark) : "no .surface-dark",
+          h1Font: getComputedStyle(document.querySelector("h1")).fontFamily,
+        };
+      });
+      const fails = [];
+      if (got.body !== "rgb(255, 255, 255)") fails.push(`body bg ${got.body}`);
+      if (got.accentLight !== "rgb(47, 91, 255)") fails.push(`accent on light ${got.accentLight}`);
+      if (got.accentDark !== "rgb(110, 140, 255)") fails.push(`accent on dark ${got.accentDark}`);
+      if (!/bricolage/i.test(got.h1Font)) fails.push(`h1 font ${got.h1Font}`);
+      return fails;
+    },
+  },
 ];
 
 // Waits run on the Node side: page timers never fire when JavaScript is disabled.
@@ -159,6 +190,10 @@ const contextFor = async (mode, width) => {
 const failures = [];
 let ran = 0;
 const selected = checks.filter((c) => !only || only.includes(c.name));
+if (!selected.length) {
+  console.log(`No checks match --only=${only}`);
+  process.exit(1);
+}
 if (shots) mkdirSync(".screenshots", { recursive: true });
 
 for (const check of selected) {

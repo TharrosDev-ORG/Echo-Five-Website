@@ -9,7 +9,7 @@ import Stat from "@/components/ui/Stat";
 /** Dark band introducing the Advanta365 toolkit, with its key counts. */
 export default function AdvantaBand() {
   return (
-    <Section id="advanta365" tone="dark" texture labelledBy="advanta-heading">
+    <Section id="advanta365" tone="dark" labelledBy="advanta-heading">
       <div className="grid items-center gap-14 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:gap-16">
         <div className="min-w-0">
           <SectionHeading

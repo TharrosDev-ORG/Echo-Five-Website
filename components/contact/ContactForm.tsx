@@ -99,7 +99,7 @@ export default function ContactForm({ className }: Props) {
       <div className={cardClass} role="status" aria-live="polite">
         <span
           aria-hidden="true"
-          className="inline-flex size-12 items-center justify-center rounded-full bg-accent text-on-accent"
+          className="inline-flex size-12 items-center justify-center rounded-full bg-accent-fill text-on-accent"
         >
           <Check size={24} strokeWidth={2.25} />
         </span>

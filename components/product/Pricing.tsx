@@ -24,7 +24,7 @@ function CheckList({ items }: { items: readonly string[] }) {
 /** Single-price card with everything the purchase includes, plus who built the toolkit. */
 export default function Pricing() {
   return (
-    <Section id="pricing" tone="dark" texture labelledBy="pricing-heading">
+    <Section id="pricing" tone="dark" labelledBy="pricing-heading">
       <div className="grid gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center lg:gap-16">
         <div className="min-w-0">
           <SectionHeading id="pricing-heading" eyebrow={advanta.name} title={price.heading} />

@@ -15,7 +15,7 @@ export default function EngagementSteps() {
           <div className="flex items-center gap-4">
             <span
               aria-hidden="true"
-              className="inline-flex size-11 shrink-0 items-center justify-center rounded-control bg-accent font-display text-h3 text-on-accent"
+              className="inline-flex size-11 shrink-0 items-center justify-center rounded-control bg-accent-fill font-display text-h3 text-on-accent"
             >
               {step.n}
             </span>

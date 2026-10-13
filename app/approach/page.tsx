@@ -40,7 +40,7 @@ export default function ApproachPage() {
         <StallClose className="mt-12 md:mt-16" />
       </Section>
 
-      <Section id="adkar" tone="dark" texture labelledBy="adkar-heading">
+      <Section id="adkar" tone="dark" labelledBy="adkar-heading">
         <SectionHeading id="adkar-heading" title={adkar.heading} lead={adkar.intro} />
         <div className="mt-10 md:mt-14">
           <AdkarStepper />

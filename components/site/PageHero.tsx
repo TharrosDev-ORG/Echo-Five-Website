@@ -41,7 +41,6 @@ export default function PageHero({
       data-hero=""
       className={cx(
         toneClass[tone],
-        tone === "dark" && "texture",
         tone === "light" && "border-b border-edge",
         "overflow-hidden",
         className,

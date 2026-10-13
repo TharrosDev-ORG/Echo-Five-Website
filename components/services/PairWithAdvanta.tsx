@@ -7,7 +7,7 @@ const { pairWithAdvanta } = services;
 /** Dark promo panel pointing service buyers at the Advanta365 toolkit. */
 export default function PairWithAdvanta({ headingId }: { headingId: string }) {
   return (
-    <div className="surface-dark texture grid gap-10 overflow-hidden rounded-panel px-5 py-10 sm:p-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:items-center lg:gap-14 lg:p-14">
+    <div className="surface-dark grid gap-10 overflow-hidden rounded-panel px-5 py-10 sm:p-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:items-center lg:gap-14 lg:p-14">
       <div className="min-w-0">
         <p className="mb-4 text-small font-medium text-fg-2">{advanta.byline}</p>
         <h2 id={headingId} className="text-h2 text-fg">

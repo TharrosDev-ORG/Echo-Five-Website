@@ -25,7 +25,7 @@ export default function Talk({ className }: { className?: string }) {
   return (
     <div
       className={cx(
-        "relative aspect-video overflow-hidden rounded-panel border border-edge bg-spruce shadow-[var(--card-shadow)]",
+        "relative aspect-video overflow-hidden rounded-panel border border-edge bg-black",
         className,
       )}
     >
@@ -61,13 +61,13 @@ export default function Talk({ className }: { className?: string }) {
           />
           <span
             aria-hidden="true"
-            className="absolute inset-0 bg-gradient-to-t from-spruce/80 via-spruce/10 to-transparent"
+            className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent"
           />
           <span
             aria-hidden="true"
-            className="absolute bottom-4 left-4 inline-flex min-h-12 items-center gap-2.5 rounded-full bg-citron py-2 pr-5 pl-2 font-semibold text-spruce transition-transform duration-150 group-hover:-translate-y-0.5 sm:bottom-6 sm:left-6"
+            className="absolute bottom-4 left-4 inline-flex min-h-12 items-center gap-2.5 rounded-full bg-blue py-2 pr-5 pl-2 font-semibold text-white transition-transform duration-150 group-hover:-translate-y-0.5 sm:bottom-6 sm:left-6"
           >
-            <span className="flex size-8 items-center justify-center rounded-full bg-spruce text-citron">
+            <span className="flex size-8 items-center justify-center rounded-full bg-white text-blue">
               <Play size={14} />
             </span>
             {talk.cta}

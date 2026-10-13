@@ -12,7 +12,7 @@ type Props = {
 /** The dark closing band at the end of every page except Contact. */
 export default function CtaBand({ heading = ctaBand.heading, body = ctaBand.body }: Props) {
   return (
-    <section className="surface-dark texture" aria-labelledby="cta-band-heading" data-cta-band="">
+    <section className="surface-dark" aria-labelledby="cta-band-heading" data-cta-band="">
       <Container className="grid gap-10 py-16 md:py-24 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] lg:items-center">
         <div className="max-w-2xl">
           <h2 id="cta-band-heading" className="text-h2 text-fg">
