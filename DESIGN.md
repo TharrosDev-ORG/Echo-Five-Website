@@ -1,134 +1,82 @@
-# Echofive Solutions — Design System ("Bone & Cobalt")
+# Echofive Solutions — Design System ("Midnight & Vermilion")
 
 The implementation reference. Tokens live in the `@theme` block of `app/globals.css`;
 this document explains the intent behind them.
 
-A light editorial identity. The concept is **change, flow, and alignment** — the human
-work between *buying* software and *actually using it*, expressed visually as
-*scattered → aligned* (disorder coming into order = adoption). Warm bone paper, deep warm
-ink, one electric cobalt accent. A raw-WebGL curl-noise particle field drifts behind the
-hero like slow currents; Lenis smooth scroll drives a GSAP ScrollTrigger narrative. The
-site should feel confident and precise for serious public-sector buyers — captivating,
-never gimmicky.
+A crisp institutional identity for risk-averse, procurement-literate public-sector
+buyers. The site should read like a serious firm's brief: clear structure, plain
+language, real specifics up front, and one confident accent. Premium through restraint,
+not effects.
 
 ## Color
 
-Strategy: **one committed accent on a warm light field**. Grounds are layered bone tones
-for depth; deep warm ink carries text; one electric cobalt carries meaning (key words,
-progress, links, CTAs, the founder mark). All OKLCH.
+One committed accent on cool white paper, with midnight bands for weight. All OKLCH.
 
-| Token | Role |
-| --- | --- |
-| `--color-paper` | Base bone ground (`#F3EFE7`) |
-| `--color-paper-2` / `--color-paper-3` | Deeper bands for section rhythm |
-| `--color-card` | Near-white raised surfaces |
-| `--color-ink` | Primary text (`#14110D`-warm near-black) |
-| `--color-ink-soft` / `--color-ink-muted` | Secondary / tertiary text (AA on paper) |
-| `--color-cobalt` | The committed accent (`#2540FF`): key words, progress, links, CTAs |
-| `--color-cobalt-deep` / `--color-cobalt-soft` | Emphasis / tints |
-| `--color-on-cobalt` | Light text on cobalt fills |
-| `--color-line*` | Keylines (ink at alpha) and cobalt keylines |
+| Token | Hex (approx.) | Role |
+| --- | --- | --- |
+| `--color-paper` | `#F9FAFC` | Base ground |
+| `--color-paper-2` | `#EFF3F6` | Alternate band (`.band`) |
+| `--color-card` | `#FFFFFF` | Raised surfaces |
+| `--color-night` / `--color-night-2` | `#0C1628` / `#162137` | Hero, statement, CTA band, footer (`.on-night`) |
+| `--color-ink` | `#0F1828` | Primary text |
+| `--color-ink-2` / `--color-ink-3` | `#444D5E` / `#59616F` | Body / tertiary text |
+| `--color-on-night` / `--color-on-night-2` | `#F9FAFC` / `#B7BECB` | Text on night |
+| `--color-accent` | `#BE2612` | Vermilion: CTAs, links, labels, key marks |
+| `--color-accent-bright` | `#F77B5A` | Accent on night grounds |
+| `--color-accent-soft` | | Focus halo, invalid-field fill |
 
-Rhythm comes from alternating `paper` / `paper-2` / `paper-3` section grounds, closing on
-a single **deep-ink footer** for contrast.
+Measured contrast (WCAG 2.x): ink on paper 17:1, ink-2 8.1:1, ink-3 6.0:1, accent on
+paper 5.8:1, white on accent 6.1:1, on-night-2 on night 9.7:1, accent-bright on night
+6.9:1. Every pair is AA; recheck if you change a token.
 
 ## Typography
 
-- **Display:** Bricolage Grotesque (variable), tight tracking, near-1.0 line height.
-- **Body:** Public Sans (variable) — the USWDS government typeface, a quiet trust signal.
-- **Mono:** IBM Plex Mono for "coordinates": section indices, kickers, labels, buttons.
-  `.t-coord` is the canonical label (0.72rem, 0.22em tracking, uppercase).
+- **Display:** Schibsted Grotesk, 700 to 800, tight tracking.
+- **Body:** IBM Plex Sans, 400 to 600.
+- **Labels:** IBM Plex Mono, uppercase, 0.12em tracking (`.t-label`).
 
-Scale utilities (all `clamp()`-based): `.t-display`, `.t-h2`, `.t-h3`, `.t-lead`,
-`.t-body`, `.t-mega-num`, plus `.index-num` (stroked numerals). No serif, no italic, no
-em-dashes in copy.
-
-## Motion
-
-Each mechanism stands alone so a hiccup in one can't leave content stuck hidden.
-Visibility runs on IntersectionObserver; **ScrollTrigger carries only additive scrub
-moments** whose failure leaves everything readable:
-
-- **Lenis** (`components/providers/SmoothScroll.tsx`): smooth scroll on the GSAP ticker.
-  It only smooths — nothing depends on it to become visible. Held during the preloader,
-  released on the `ef:loaded` event; emits `ScrollTrigger.update` and refreshes trigger
-  positions after fonts/preloader; also handles deep-link hashes.
-- **Raw WebGL** (`components/gl/FlowField.tsx`): the hero particle field, one points
-  draw call with custom shaders and no library. Points displace along a curl-noise
-  flow field; the pointer scatters them and they settle back. Adaptive quality
-  (particle count + DPR drop on low-power devices), normal blending tuned for a light
-  ground, pauses off-screen / hidden tab, full dispose on unmount, context-loss
-  handled. Its chunk loads only post-intro on idle, and never for reduced-motion,
-  data-saver, or no-WebGL visitors.
-- **Reveals (IntersectionObserver + GSAP):**
-  - `useReveal` (via `RevealRoot`) reveals all `[data-reveal]` / `[data-reveal-group]`
-    rises and `[data-split]` masked headlines as they enter the viewport, so content
-    sections stay server components.
-  - Hero entrance: line-mask headline reveal + staggered sub/CTAs/meta bar, played on
-    `ef:loaded` with a safety timer so it can never be left hidden.
-- **Scrub moments (ScrollTrigger, additive only):**
-  - Hero scroll-exit drift (composition rises and softens as the hero leaves).
-  - `TextScrub` pull statements: words flood from faint to full ink with scroll; the
-    faint start state is applied only after the trigger exists.
-  - The Proof video frame swells from 0.88 → 1 as it enters.
-  - **The ADKAR sequence pins** on wide screens and travels horizontally under a
-    filling progress rail — the signature scroll moment. It opts in via classes from
-    `Adkar.tsx` (`gsap.matchMedia`, ≥1024px and ≥720px tall) and falls back to a
-    vertical editorial list on small screens, no JS, or reduced motion.
-- **Signature surfaces:** sticky stacking failure cards (CSS `position: sticky`), the
-  giant outlined roster marquee with scroll-velocity skew (`SkewMarquee`), full-row
-  cobalt hover floods on the service rows, the cobalt-drenched contact close, and the
-  oversized stroked footer wordmark.
-- FX: custom cursor, first-paint wordmark preloader with cobalt flash curtain
-  (the brand is server-rendered on the curtain, so even a slow JS load never shows
-  an empty screen; the intro plays once per session),
-  scroll-progress bar, magnetic CTAs, hide-on-scroll-down nav, live ET clock.
-
-Rules: initial hidden states are gated behind the `.js` class (no-JS users see
-everything); `prefers-reduced-motion` forces all final states in CSS and skips every
-GSAP / Lenis / WebGL / marquee animation; never `clearProps` on elements whose hidden
-state lives in the stylesheet.
-
-### Four cascade/transform gotchas (still true)
-
-00. **Tailwind's scanner can't see utilities inside class-name templates.** A
-   template like `` `z-50${cond ? " x" : ""}` `` glues `z-50` to `${`, the
-   scanner never extracts the candidate, and the utility is silently absent
-   from the build (this once left the whole nav with `z-index: auto`, making
-   every nav link unclickable). Structural CSS (position, z-index) for
-   stateful components lives in named classes in this file, never in
-   template-assembled utilities.
-
-0. **GSAP parses stylesheet `translateY(110%)` as pixels.** Every percent-based rise
-   (`yPercent`) must also set `y: 0`, or the tween completes while the parsed pixel
-   offset keeps the words shifted out of their masks.
-
-1. **No unlayered universal resets.** An unlayered `* { margin: 0 }` beats every Tailwind
-   utility (they live in `@layer utilities`). Tailwind v4 preflight handles the reset.
-2. **Tailwind v4 `scale-*` uses the `scale` property**, which composes with GSAP's
-   `transform`. Anything GSAP scales must get its initial scale from GSAP (`fromTo`) or a
-   plain `transform` rule, not Tailwind scale classes.
+Scale (all `clamp()`): `.t-display` (home hero), `.t-h1` (inner pages), `.t-h2`,
+`.t-h3`, `.t-lead`, `.t-body`, `.t-small`. One `h1` per page.
 
 ## Layout
 
-- `.u-container`: max 84rem, fluid inline padding (`--gutter`).
-- Section padding via `.pad-block-2xl/xl/lg` so the scroll has a beat.
-- Faint `.bg-grid` + `.grain` atmosphere; keylines (`--color-line`) structure
-  grids-of-cells (clients, failure cards) and editorial rows (services, credentials).
-- One-page narrative: Hero → Trust → Why → Services → ADKAR → Method → Proof →
-  Clients → Credentials → About → Contact (cobalt drench) → Footer (deep ink,
-  oversized wordmark).
+- `.container`: max 76rem with fluid gutters. `.section` gives consistent vertical rhythm.
+- Grounds alternate `paper` / `.band`; `.on-night` marks the hero, the statement panel,
+  the closing CTA band, and the footer.
+- `Intro` opens every section: accent-ruled label, heading, then a lead or a link in a
+  right column (`.intro--split`) on wide screens.
+- Detail lives on inner pages; the home page summarizes and links to each one.
+
+## Components
+
+Header (sticky, active page underline, mobile dialog menu), PageHeader (breadcrumb, h1,
+lead), CtaBand (closing ask on every page but Contact), service cards and rows, failure
+cards, the ADKAR stepper (horizontal on desktop, vertical rail on mobile), stats,
+credential rows, client roster grid, founder card, click-to-load talk video, and the
+contact form.
+
+## Motion
+
+Deliberately minimal so pages are fast and easy to scan:
+
+- Entrance fades (`[data-reveal]`): 14px rise and fade, staggered via `--reveal-i`, run
+  by `components/site/Reveal.tsx` (one IntersectionObserver, re-armed per route, with a
+  safety timer). The hidden start state is gated behind `.js`.
+- Hover states on buttons, links, cards, and the video poster.
+- `prefers-reduced-motion` turns all of it off.
+
+No smooth-scroll hijacking, scroll-pinned sequences, preloaders, custom cursors, or
+WebGL. These were removed in the redesign because they slowed reading and loading.
+
+## Cascade gotcha
+
+Component classes in `globals.css` are unlayered, so they beat Tailwind utilities (which
+live in `@layer utilities`). Never rely on a utility like `md:hidden` to override a
+component class's `display`; put the breakpoint in the component CSS instead (see
+`.primary-nav` and `.menu-toggle`).
 
 ## Conversion
 
-Primary action everywhere is `#contact` / the founder's email (nav CTA, hero chips,
-contact section). Contact is a real form → `/api/contact` (Resend; env: `RESEND_API_KEY`,
-`CONTACT_TO`, `CONTACT_FROM`) with honeypot + field validation + live-region errors, and a
-graceful mailto fallback when the mail service is unconfigured.
-
-## Accessibility floor
-
-WCAG AA contrast on every text/ground pair. Skip link, single `h1`, ordered headings,
-semantic lists, keyboard-operable nav with smooth anchor scroll, focus-visible ring in
-cobalt, click-to-load video facade, and reduced-motion fallbacks on every animated
-element. The custom cursor is decorative, additive, and fine-pointer only.
+Every page ends on the CTA band, and the header carries "Start a conversation" at all
+times. The contact page pairs the form with the direct email address, what happens next,
+and the firm's credentials.

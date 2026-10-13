@@ -1,23 +1,23 @@
 import type { Metadata, Viewport } from "next";
-import { Bricolage_Grotesque, Public_Sans, IBM_Plex_Mono } from "next/font/google";
+import { Schibsted_Grotesk, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { site } from "@/lib/site";
 import { principal } from "@/lib/content";
-import SmoothScroll from "@/components/providers/SmoothScroll";
-import Preloader from "@/components/fx/Preloader";
-import Cursor from "@/components/fx/Cursor";
-import ScrollProgress from "@/components/fx/ScrollProgress";
+import Header from "@/components/site/Header";
+import Footer from "@/components/site/Footer";
+import Reveal from "@/components/site/Reveal";
 
-const display = Bricolage_Grotesque({
+const display = Schibsted_Grotesk({
   subsets: ["latin"],
   variable: "--font-display",
   display: "swap",
 });
 
-const sans = Public_Sans({
+const sans = IBM_Plex_Sans({
   subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
+  weight: ["400", "500", "600"],
 });
 
 const mono = IBM_Plex_Mono({
@@ -47,7 +47,6 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: site.legalName }],
   icons: { icon: "/favicon.svg" },
-  alternates: { canonical: "/" },
   openGraph: {
     title: "Echofive Solutions · Microsoft 365 change management",
     description: site.description,
@@ -67,7 +66,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f3efe7",
+  themeColor: "#f9fafc",
   colorScheme: "light",
 };
 
@@ -103,10 +102,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       suppressHydrationWarning
     >
       <head>
-        {/* The Proof section's poster is the only third-party asset. */}
+        {/* The talk poster is the only third-party asset. */}
         <link rel="dns-prefetch" href="https://i.ytimg.com" />
-        {/* Opt into reveal animations only when JS runs, before first paint, so
-            no-JS / crawlers keep content visible and there is no flash. */}
+        {/* Opt into entrance fades only when JS runs, before first paint, so
+            no-JS visitors and crawlers always see everything. */}
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
         <script
           type="application/ld+json"
@@ -117,11 +116,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <a href="#main" className="skip-link">
           Skip to content
         </a>
-        <Preloader />
-        <SmoothScroll>{children}</SmoothScroll>
-        <ScrollProgress />
-        <Cursor />
-        <div className="grain" aria-hidden="true" />
+        <Header />
+        <main id="main">{children}</main>
+        <Footer />
+        <Reveal />
       </body>
     </html>
   );

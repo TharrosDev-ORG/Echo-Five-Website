@@ -15,26 +15,24 @@ export default function ErrorPage({
   }, [error]);
 
   return (
-    <main style={{ minHeight: "100svh", display: "flex", alignItems: "center" }}>
-      <div className="u-container">
-        <p className="t-coord" style={{ marginBottom: "1.5rem", color: "var(--color-cobalt)" }}>
-          Something went wrong
-        </p>
-        <h1 className="t-h2" style={{ maxWidth: "20ch" }}>
+    <section className="section">
+      <div className="container" style={{ minHeight: "50vh", display: "grid", alignContent: "center" }}>
+        <p className="t-label label-row">Something went wrong</p>
+        <h1 className="t-h1" style={{ marginTop: "1rem", maxWidth: "18ch" }}>
           We hit an unexpected snag.
         </h1>
-        <p className="t-lead measure-wide" style={{ marginTop: "clamp(1.5rem,3vw,2.25rem)" }}>
+        <p className="t-lead" style={{ marginTop: "1.5rem", maxWidth: "52ch" }}>
           Please try again. If it keeps happening, reach us directly and we will sort it out.
         </p>
-        <div style={{ marginTop: "2.5rem", display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+        <div className="flex flex-wrap gap-3" style={{ marginTop: "2rem" }}>
           <button type="button" onClick={reset} className="btn btn-primary">
             Try again
           </button>
-          <a href={mailtoBook} className="btn btn-ghost">
+          <a href={mailtoBook} className="btn btn-secondary">
             Email {site.shortName}
           </a>
         </div>
       </div>
-    </main>
+    </section>
   );
 }
