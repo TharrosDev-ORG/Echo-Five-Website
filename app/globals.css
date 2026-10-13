@@ -119,7 +119,7 @@
   --fg-3: var(--color-on-dark-2);
   --accent: var(--color-blue-l);
   --accent-fill: var(--color-blue);
-  --accent-hover: #4a72ff;
+  --accent-hover: var(--color-blue-d);
   --on-accent: #ffffff;
   --edge: var(--color-line-dark);
   --edge-strong: var(--color-line-dark-strong);
