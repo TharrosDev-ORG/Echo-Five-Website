@@ -11,6 +11,7 @@ Components never hard-code marketing copy.
 | Services overview / full list | `blocks/ServiceList` | `services` |
 | ADKAR stages | `blocks/AdkarList` | `process` |
 | Measurement (Advanta365) | `blocks/MethodList` + page copy | `method`, `methodPoints`, `site.advantaUrl` |
+| Product page (Advanta365) | `app/product/page.tsx` + `blocks/MethodList` | `pages.product`, `method`, `methodPoints`, `site.advantaUrl` |
 | Conference talk | `blocks/Talk` | `proof`, `site.video` |
 | Figures (years, departments, organizations) | `blocks/Figures` | derived from `clients` |
 | Credentials | `blocks/Credentials` | `credentials` |
