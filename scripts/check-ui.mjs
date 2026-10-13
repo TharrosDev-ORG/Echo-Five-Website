@@ -35,6 +35,18 @@ const contrastOf = (a, b) => {
   return (x + 0.05) / (y + 0.05);
 };
 
+// A rail line must be fully drawn when motion is off or JS is absent.
+const railStaticFails = async (page) => {
+  const got = await page.evaluate(() =>
+    [...document.querySelectorAll(".signal-rail-line")].map((el) => getComputedStyle(el).transform),
+  );
+  const fails = got.length ? [] : ["no .signal-rail-line found"];
+  for (const t of got) {
+    if (t !== "none" && t !== "matrix(1, 0, 0, 1, 0, 0)") fails.push(`line transform ${t}`);
+  }
+  return fails;
+};
+
 /**
  * Each check returns a list of failure messages (empty = pass).
  * mode: "js" (default browser), "nojs" (JavaScript disabled), "reduced" (prefers-reduced-motion).
@@ -257,6 +269,75 @@ const checks = [
       if (got.accentDark !== "rgb(110, 140, 255)") fails.push(`accent on dark ${got.accentDark}`);
       if (!/bricolage/i.test(got.h1Font)) fails.push(`h1 font ${got.h1Font}`);
       return fails;
+    },
+  },
+  {
+    name: "rail",
+    mode: "js",
+    widths: [1440],
+    routes: ["/", "/services", "/about"],
+    async run(page) {
+      const rails = await page.evaluate(() =>
+        [...document.querySelectorAll("[data-rail]")]
+          .filter((el) => getComputedStyle(el).display !== "none")
+          .map((el) => {
+            const line = el.querySelector(".signal-rail-line");
+            return {
+              left: el.getBoundingClientRect().left,
+              lineWidth: line ? getComputedStyle(line).width : "no line",
+            };
+          }),
+      );
+      const fails = [];
+      if (rails.length < 3) fails.push(`${rails.length} rails, expected >= 3`);
+      rails.forEach((r, i) => {
+        if (r.lineWidth !== "1px") fails.push(`rail ${i} line width ${r.lineWidth}`);
+      });
+      if (rails.length) {
+        const lefts = rails.map((r) => r.left);
+        const spread = Math.max(...lefts) - Math.min(...lefts);
+        if (spread > 0.5) fails.push(`rails not aligned, left spread ${spread.toFixed(2)}px`);
+      }
+      return fails;
+    },
+  },
+  {
+    name: "rail-mobile",
+    mode: "js",
+    widths: [390],
+    routes: ["/", "/services", "/about"],
+    async run(page) {
+      const got = await page.evaluate(() => ({
+        shown: [...document.querySelectorAll("[data-rail]")]
+          .filter((el) => getComputedStyle(el).display !== "none")
+          .length,
+        strokes: [...document.querySelectorAll("[data-rail-stroke]")]
+          .filter((el) => getComputedStyle(el).display !== "none")
+          .map((el) => getComputedStyle(el).width),
+      }));
+      const fails = [];
+      if (got.shown) fails.push(`${got.shown} rails visible below 1024px`);
+      if (!got.strokes.length) fails.push("no visible [data-rail-stroke]");
+      else if (!got.strokes.every((w) => w === "40px")) fails.push(`stroke widths ${got.strokes.join(",")}`);
+      return fails;
+    },
+  },
+  {
+    name: "rail-static",
+    mode: "reduced",
+    widths: [1440],
+    routes: ["/"],
+    async run(page) {
+      return railStaticFails(page);
+    },
+  },
+  {
+    name: "rail-static-nojs",
+    mode: "nojs",
+    widths: [1440],
+    routes: ["/"],
+    async run(page) {
+      return railStaticFails(page);
     },
   },
 ];
