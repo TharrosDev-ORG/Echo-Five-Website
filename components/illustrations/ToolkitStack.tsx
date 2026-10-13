@@ -1,0 +1,98 @@
+import { cx } from "@/lib/cx";
+
+const SHEET_W = 196;
+const SHEET_H = 236;
+
+/** Back to front, so the front sheet is painted last. */
+const SHEETS = [
+  { label: "PDF", x: 164, y: 26 },
+  { label: "XLSX", x: 120, y: 56 },
+  { label: "PPTX", x: 76, y: 86 },
+  { label: "DOCX", x: 32, y: 116 },
+];
+
+/* Sheets are always light paper, so their inner marks use fixed ink and moss. */
+const INK = "#0E1A17";
+const MOSS = "#3D6B1F";
+
+function Lines({ x, y, rows }: { x: number; y: number; rows: number[] }) {
+  return (
+    <>
+      {rows.map((w, i) => (
+        <rect key={i} x={x} y={y + i * 16} width={w} height="6" rx="3" fill={INK} fillOpacity="0.12" />
+      ))}
+    </>
+  );
+}
+
+/**
+ * Decorative stack of toolkit documents with DOCX, PPTX, XLSX, and PDF tabs.
+ * Tabs take the surface accent (citron on dark, moss on light).
+ */
+export default function ToolkitStack({ className }: { className?: string }) {
+  const front = SHEETS[SHEETS.length - 1];
+  return (
+    <svg
+      viewBox="0 0 392 372"
+      className={cx("block h-auto w-full", className)}
+      aria-hidden="true"
+      focusable="false"
+    >
+      {SHEETS.map((s) => (
+        <g key={s.label}>
+          <rect
+            x={s.x + 14}
+            y={s.y - 22}
+            width="64"
+            height="30"
+            rx="8"
+            className="fill-accent"
+          />
+          <text
+            x={s.x + 46}
+            y={s.y - 7}
+            dy="0.35em"
+            textAnchor="middle"
+            className="fill-on-accent font-sans text-[12px] font-bold tracking-[0.08em]"
+          >
+            {s.label}
+          </text>
+          <rect
+            x={s.x}
+            y={s.y}
+            width={SHEET_W}
+            height={SHEET_H}
+            rx="14"
+            strokeWidth="1"
+            className="fill-sheet stroke-edge-strong"
+            style={{ filter: "drop-shadow(0 10px 18px rgb(0 0 0 / 0.14))" }}
+          />
+          {s === front ? null : <Lines x={s.x + 22} y={s.y + 26} rows={[110, 150, 132, 150, 96]} />}
+        </g>
+      ))}
+
+      {/* Front document: a heading, text, and a short checklist. */}
+      <g>
+        <rect x={front.x + 22} y={front.y + 26} width="118" height="12" rx="4" fill={INK} fillOpacity="0.82" />
+        <Lines x={front.x + 22} y={front.y + 54} rows={[152, 140, 120]} />
+        {[0, 1, 2].map((i) => {
+          const cy = front.y + 128 + i * 28;
+          return (
+            <g key={i}>
+              <rect x={front.x + 22} y={cy - 9} width="18" height="18" rx="5" fill={MOSS} />
+              <path
+                d={`M${front.x + 26.5} ${cy} l3.2 3.2 l6 -6.4`}
+                fill="none"
+                stroke="#fff"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <rect x={front.x + 50} y={cy - 3} width={[112, 94, 104][i]} height="6" rx="3" fill={INK} fillOpacity="0.16" />
+            </g>
+          );
+        })}
+      </g>
+    </svg>
+  );
+}

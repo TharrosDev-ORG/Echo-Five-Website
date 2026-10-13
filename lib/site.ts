@@ -15,12 +15,15 @@ export const site = {
   region: "Serving clients across Canada",
   tagline: "Change that lands. Tools that get used.",
   description:
-    "Echofive Solutions helps government and enterprise organizations move to Microsoft 365 and actually adopt it: strategy, communications, training, and technical writing, delivered end to end.",
+    "Echofive Solutions helps government and enterprise organizations move to Microsoft 365 and actually adopt it. More than thirty years of strategy, communications, training, and technical writing, delivered end to end.",
   video: {
     id: "4IycJ3ehz7g",
     url: "https://www.youtube.com/watch?v=4IycJ3ehz7g",
   },
   advantaUrl: "https://www.advanta365.com",
+  advantaPurchaseUrl: "https://www.advanta365.com/purchase",
+  advantaSamplesUrl: "https://www.advanta365.com/catalog?free=1",
+  advantaEmail: "hello@advanta365.com",
 } as const;
 
 export const mailtoBook = `mailto:${site.email}?subject=${encodeURIComponent(

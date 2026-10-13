@@ -1,30 +1,36 @@
 import type { Metadata, Viewport } from "next";
-import { Schibsted_Grotesk, IBM_Plex_Sans } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { site } from "@/lib/site";
-import { principal } from "@/lib/content";
+import { advanta, principal } from "@/lib/content";
 import Header from "@/components/site/Header";
 import Footer from "@/components/site/Footer";
+import MobileCtaBar from "@/components/site/MobileCtaBar";
+import RevealObserver from "@/components/ui/RevealObserver";
 
-const display = Schibsted_Grotesk({
-  subsets: ["latin"],
-  variable: "--font-display",
+// Self-hosted (OFL) latin variable subsets. Fetching these through
+// next/font/google fails on Vercel's Turbopack builders.
+const display = localFont({
+  src: "./fonts/InstrumentSans-Variable-latin.woff2",
+  variable: "--font-instrument-sans",
   display: "swap",
+  weight: "500 700",
 });
 
-const sans = IBM_Plex_Sans({
-  subsets: ["latin"],
-  variable: "--font-sans",
+const sans = localFont({
+  src: "./fonts/Geist-Variable-latin.woff2",
+  variable: "--font-geist",
   display: "swap",
-  weight: ["400", "500", "600"],
+  weight: "400 600",
 });
 
+const defaultTitle = `${site.name} · Microsoft 365 change management`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: "Echofive Solutions · Microsoft 365 change management",
-    template: "%s · Echofive Solutions",
+    default: defaultTitle,
+    template: `%s · ${site.name}`,
   },
   description: site.description,
   applicationName: site.name,
@@ -37,30 +43,33 @@ export const metadata: Metadata = {
     "Copilot training",
     "Government of Canada",
     "technical writing",
+    "Advanta365",
+    "change management toolkit",
   ],
   authors: [{ name: site.legalName }],
   icons: { icon: "/favicon.svg" },
   openGraph: {
-    title: "Echofive Solutions · Microsoft 365 change management",
+    title: defaultTitle,
     description: site.description,
     url: site.url,
     siteName: site.name,
     locale: "en_CA",
     type: "website",
   },
-  // The OG/Twitter image is generated and wired up automatically by
-  // app/opengraph-image.tsx; this just sets the card type and text.
+  // The OG/Twitter image comes from app/opengraph-image.tsx.
   twitter: {
     card: "summary_large_image",
-    title: "Echofive Solutions · Microsoft 365 change management",
+    title: defaultTitle,
     description: site.description,
   },
   robots: { index: true, follow: true },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f9fafc",
+  themeColor: "#f6f8f7",
   colorScheme: "light",
+  // Lets the mobile CTA bar pad itself clear of the home indicator.
+  viewportFit: "cover",
 };
 
 const jsonLd = {
@@ -85,16 +94,33 @@ const jsonLd = {
     "Microsoft Copilot",
     "Technical writing",
   ],
+  makesOffer: {
+    "@type": "Offer",
+    // "$1,499.99" -> "1499.99", so the structured data follows the displayed price.
+    price: advanta.price.amount.replace(/[^0-9.]/g, ""),
+    priceCurrency: advanta.price.currency,
+    url: advanta.urls.purchase,
+    itemOffered: {
+      "@type": "Product",
+      name: advanta.name,
+      description: advanta.description,
+      url: advanta.urls.home,
+    },
+  },
 };
+
+/*
+ * Runs before first paint. `js` opts the page in to reveal animations; if the
+ * app bundle never boots (RevealObserver adds `reveal-ready`), the class is
+ * removed again so no content stays hidden.
+ */
+const jsFlag = `(function(d){d.classList.add("js");setTimeout(function(){if(!d.classList.contains("reveal-ready"))d.classList.remove("js")},3000)})(document.documentElement)`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html
-      lang="en"
-      className={`${display.variable} ${sans.variable}`}
-      suppressHydrationWarning
-    >
+    <html lang="en" className={`${display.variable} ${sans.variable}`} suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: jsFlag }} />
         {/* The talk poster is the only third-party asset. */}
         <link rel="dns-prefetch" href="https://i.ytimg.com" />
         <script
@@ -106,9 +132,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <a href="#main" className="skip-link">
           Skip to content
         </a>
+        <RevealObserver />
         <Header />
         <main id="main">{children}</main>
         <Footer />
+        <MobileCtaBar />
       </body>
     </html>
   );

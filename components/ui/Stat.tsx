@@ -1,0 +1,34 @@
+import { cx } from "@/lib/cx";
+
+type Props = {
+  value: string;
+  label: string;
+  /** Optional second line under the label. */
+  detail?: string;
+  /** `lg` for headline numbers (59, 130), `md` for short phrases ("Secret Level II"). */
+  size?: "md" | "lg";
+  /** Color the value with the surface accent (citron on dark, moss on light). */
+  accent?: boolean;
+  className?: string;
+};
+
+/** A figure and its label, read in that order ("59 Playbooks"). */
+export default function Stat({ value, label, detail, size = "lg", accent = false, className }: Props) {
+  return (
+    <div className={cx("flex flex-col gap-1.5", className)}>
+      <p
+        className={cx(
+          "font-display font-semibold leading-none",
+          size === "lg"
+            ? "text-[clamp(2.5rem,1.9rem+2.4vw,3.5rem)] tracking-[-0.04em]"
+            : "text-h3",
+          accent ? "text-accent" : "text-fg",
+        )}
+      >
+        {value}
+      </p>
+      <p className="text-small font-medium text-fg">{label}</p>
+      {detail ? <p className="text-small text-fg-2">{detail}</p> : null}
+    </div>
+  );
+}

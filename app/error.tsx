@@ -1,7 +1,10 @@
 "use client";
 
 import { useEffect } from "react";
-import { mailtoBook, site } from "@/lib/site";
+import { errorPage } from "@/lib/content";
+import { mailtoBook } from "@/lib/site";
+import Button from "@/components/ui/Button";
+import Container from "@/components/ui/Container";
 
 export default function ErrorPage({
   error,
@@ -15,24 +18,18 @@ export default function ErrorPage({
   }, [error]);
 
   return (
-    <section className="section">
-      <div className="container" style={{ minHeight: "50vh", display: "grid", alignContent: "center" }}>
-        <p className="t-muted">Something went wrong</p>
-        <h1 className="t-h1" style={{ marginTop: "1rem", maxWidth: "18ch" }}>
-          We hit an unexpected snag.
-        </h1>
-        <p className="t-lead" style={{ marginTop: "1.5rem", maxWidth: "52ch" }}>
-          Please try again. If it keeps happening, reach us directly and we will sort it out.
-        </p>
-        <div className="flex flex-wrap gap-3" style={{ marginTop: "2rem" }}>
-          <button type="button" onClick={reset} className="btn btn-primary">
-            Try again
-          </button>
-          <a href={mailtoBook} className="btn btn-secondary">
-            Email {site.shortName}
-          </a>
+    <section className="surface-light">
+      <Container className="grid min-h-[60vh] content-center py-20">
+        <p className="text-small font-semibold text-accent">{errorPage.eyebrow}</p>
+        <h1 className="mt-4 max-w-[18ch] text-h1 text-fg">{errorPage.heading}</h1>
+        <p className="mt-6 max-w-[52ch] text-lead text-fg-2">{errorPage.body}</p>
+        <div className="mt-8 flex flex-wrap gap-3">
+          <Button onClick={reset}>{errorPage.primary}</Button>
+          <Button href={mailtoBook} variant="secondary">
+            {errorPage.secondary}
+          </Button>
         </div>
-      </div>
+      </Container>
     </section>
   );
 }

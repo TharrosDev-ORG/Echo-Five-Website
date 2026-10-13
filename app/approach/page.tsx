@@ -1,13 +1,16 @@
-import { method, pages, process as adkar, why } from "@/lib/content";
-import { site } from "@/lib/site";
+import { engagement, navCta, pages, process as adkar, talk, why } from "@/lib/content";
 import { pageMetadata } from "@/lib/metadata";
-import PageHeader from "@/components/site/PageHeader";
-import Section from "@/components/site/Section";
+import PageHero from "@/components/site/PageHero";
 import CtaBand from "@/components/site/CtaBand";
-import Failures from "@/components/blocks/Failures";
-import AdkarList from "@/components/blocks/AdkarList";
-import MethodList from "@/components/blocks/MethodList";
-import Talk from "@/components/blocks/Talk";
+import TalkSection from "@/components/site/TalkSection";
+import Section from "@/components/ui/Section";
+import SectionHeading from "@/components/ui/SectionHeading";
+import Button from "@/components/ui/Button";
+import { Play } from "@/components/ui/icons";
+import { StallClose, StallReasonList } from "@/components/site/StallPoints";
+import AdkarGlance from "@/components/approach/AdkarGlance";
+import AdkarStepper from "@/components/approach/AdkarStepper";
+import EngagementSteps from "@/components/approach/EngagementSteps";
 
 const page = pages.approach;
 export const metadata = pageMetadata("/approach", page.title, page.description);
@@ -15,31 +18,41 @@ export const metadata = pageMetadata("/approach", page.title, page.description);
 export default function ApproachPage() {
   return (
     <>
-      <PageHeader heading={page.heading} lead={page.lead} />
+      <PageHero
+        title={page.heading}
+        lead={page.lead}
+        actions={
+          <>
+            <Button href={navCta.href} size="lg" arrow>
+              {navCta.label}
+            </Button>
+            <Button href="#talk" size="lg" variant="secondary" icon={<Play size={16} />}>
+              {talk.cta}
+            </Button>
+          </>
+        }
+        visual={<AdkarGlance />}
+      />
 
-      <Section id="why" heading={why.heading}>
-        <p className="t-lead measure">{why.body}</p>
-        <Failures />
+      <Section id="why" tone="alt" labelledBy="why-heading">
+        <SectionHeading id="why-heading" title={why.heading} lead={why.body} />
+        <StallReasonList layout="columns" className="mt-10 md:mt-14" />
+        <StallClose className="mt-12 md:mt-16" />
       </Section>
 
-      <Section id="process" heading={adkar.heading} band>
-        <p className="t-lead measure">{adkar.intro}</p>
-        <AdkarList />
+      <Section id="adkar" tone="dark" texture labelledBy="adkar-heading">
+        <SectionHeading id="adkar-heading" title={adkar.heading} lead={adkar.intro} />
+        <div className="mt-10 md:mt-14">
+          <AdkarStepper />
+        </div>
       </Section>
 
-      <Section id="measurement" heading={method.heading}>
-        <p className="t-lead measure">{method.body}</p>
-        <MethodList />
-        <p>
-          <a href={site.advantaUrl} target="_blank" rel="noopener noreferrer" className="link">
-            {method.cta}
-          </a>
-        </p>
+      <Section id="engagement" labelledBy="engagement-heading">
+        <SectionHeading id="engagement-heading" title={engagement.heading} lead={engagement.intro} />
+        <EngagementSteps />
       </Section>
 
-      <Section id="talk" heading="Conference talk" band>
-        <Talk />
-      </Section>
+      <TalkSection tone="alt" />
 
       <CtaBand />
     </>

@@ -1,103 +1,61 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { clients, credentials, hero, process as adkar, services, why } from "@/lib/content";
-import { ArrowRight } from "@/components/site/icons";
-import Section from "@/components/site/Section";
+import { hero, pages } from "@/lib/content";
+import AdoptionCurve from "@/components/illustrations/AdoptionCurve";
+import AdkarTeaser from "@/components/home/AdkarTeaser";
+import AdvantaBand from "@/components/home/AdvantaBand";
+import ClientMarquee from "@/components/home/ClientMarquee";
+import ProofStrip from "@/components/home/ProofStrip";
+import ServicesOverview from "@/components/home/ServicesOverview";
+import WhyRolloutsStall from "@/components/home/WhyRolloutsStall";
 import CtaBand from "@/components/site/CtaBand";
-import Failures from "@/components/blocks/Failures";
-import ServiceList from "@/components/blocks/ServiceList";
-import AdkarList from "@/components/blocks/AdkarList";
-import Figures from "@/components/blocks/Figures";
-import Credentials from "@/components/blocks/Credentials";
-import Talk from "@/components/blocks/Talk";
+import PageHero from "@/components/site/PageHero";
+import TalkSection from "@/components/site/TalkSection";
+import Button from "@/components/ui/Button";
 
 export const metadata: Metadata = {
+  description: pages.home.description,
   alternates: { canonical: "/" },
 };
 
 /** Home: the pitch and proof, a summary of each topic, then the ask. */
 export default function Home() {
-  const named = clients.groups.flatMap((g) => g.orgs).slice(0, 10).map((o) => o.short);
-
   return (
     <>
-      <section className="hero on-night" aria-labelledby="hero-heading">
-        <div className="container">
-          <p className="hero-context">
-            {hero.eyebrow} {hero.context}
-          </p>
-          <h1 id="hero-heading" className="t-display" style={{ maxWidth: "16ch" }}>
-            {hero.headline[0]} {hero.headline[1]}
-          </h1>
-          <p className="t-lead">{hero.sub}</p>
-          <div className="actions">
-            <Link href="/contact" className="btn btn-primary">
+      <PageHero
+        tone="dark"
+        size="display"
+        eyebrow={hero.context}
+        title={
+          <>
+            <span className="block">{hero.headline[0]}</span>
+            <span className="block text-accent">{hero.headline[1]}</span>
+          </>
+        }
+        lead={hero.sub}
+        actions={
+          <>
+            <Button href="/contact" size="lg" arrow>
               {hero.cta.primary}
-              <ArrowRight />
-            </Link>
-            <Link href="/approach" className="btn btn-secondary">
+            </Button>
+            <Button href="/approach" variant="secondary" size="lg">
               {hero.cta.secondary}
-            </Link>
+            </Button>
+          </>
+        }
+        visual={
+          // Capped below lg so the panel does not take over the first screens on tablets.
+          <div className="card card-panel max-w-md lg:max-w-none">
+            <AdoptionCurve />
           </div>
-
-          <dl className="facts">
-            {hero.facts.map((f) => (
-              <div key={f.title}>
-                <dt>{f.title}</dt>
-                <dd>{f.detail}</dd>
-              </div>
-            ))}
-          </dl>
-          <p className="clients-line">
-            <strong>Clients include</strong> {named.join(", ")} and others.{" "}
-            <Link href="/about#clients" className="link">
-              Full client list
-            </Link>
-          </p>
-        </div>
-      </section>
-
-      <Section id="why" heading={why.heading}>
-        <p className="t-lead measure">{why.body}</p>
-        <Failures />
-      </Section>
-
-      <Section
-        id="services"
-        heading={services.heading}
-        band
-        note={
-          <Link href="/services" className="link">
-            All services
-          </Link>
         }
-      >
-        <p className="t-lead measure">{services.intro}</p>
-        <ServiceList columns />
-      </Section>
-
-      <Section
-        id="process"
-        heading={adkar.heading}
-        note={
-          <Link href="/approach" className="link">
-            Our approach
-          </Link>
-        }
-      >
-        <p className="t-lead measure">{adkar.intro}</p>
-        <AdkarList />
-      </Section>
-
-      <Section id="credentials" heading={credentials.heading} band note={credentials.intro}>
-        <Figures />
-        <Credentials />
-      </Section>
-
-      <Section id="talk" heading="Conference talk">
-        <Talk />
-      </Section>
-
+      />
+      <ProofStrip />
+      <ClientMarquee />
+      <WhyRolloutsStall />
+      <ServicesOverview />
+      <AdkarTeaser />
+      <AdvantaBand />
+      <TalkSection />
       <CtaBand />
     </>
   );
