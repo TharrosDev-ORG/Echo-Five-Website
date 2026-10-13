@@ -192,6 +192,55 @@ const checks = [
     },
   },
   {
+    // Giant numerals stay on one line (a word never breaks mid-word) and inside their cell at every width.
+    // `.stat-mega` is measured whole; the home h1 wraps between words by design, so each of its words is measured.
+    name: "mega-one-line",
+    mode: "js",
+    widths: WIDTHS,
+    routes: ROUTES,
+    async run(page, { route }) {
+      const got = await page.evaluate((isHome) => {
+        const problems = [];
+        const range = document.createRange();
+        const lineCount = (rects) => {
+          const tops = [...rects].filter((r) => r.width > 0).map((r) => r.top);
+          return tops.length && Math.max(...tops) - Math.min(...tops) > 2 ? 2 : 1;
+        };
+        for (const el of document.querySelectorAll(".stat-mega")) {
+          const text = el.textContent.trim();
+          const cell = el.closest(".mega-fit") ?? el.parentElement;
+          const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+          let maxRight = 0;
+          let lines = 1;
+          for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+            if (!n.textContent.trim()) continue;
+            range.selectNodeContents(n);
+            const rects = range.getClientRects();
+            if (lineCount(rects) > 1) lines = 2;
+            for (const r of rects) maxRight = Math.max(maxRight, r.right);
+          }
+          const limit = cell.getBoundingClientRect().right;
+          if (lines > 1) problems.push(`'${text}' wraps onto more than one line`);
+          if (maxRight > limit + 0.5) problems.push(`'${text}' right edge ${maxRight.toFixed(1)} > cell ${limit.toFixed(1)}`);
+        }
+        const h1 = isHome ? document.querySelector("h1") : null;
+        if (h1) {
+          const walker = document.createTreeWalker(h1, NodeFilter.SHOW_TEXT);
+          for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+            const re = /\S+/g;
+            for (let m = re.exec(n.textContent); m; m = re.exec(n.textContent)) {
+              range.setStart(n, m.index);
+              range.setEnd(n, m.index + m[0].length);
+              if (lineCount(range.getClientRects()) > 1) problems.push(`h1 word '${m[0]}' breaks across lines`);
+            }
+          }
+        }
+        return problems;
+      }, route === "/");
+      return got;
+    },
+  },
+  {
     // Each proof entry is read once: the giant mark ("30+", "II") restates the value, so it is hidden from assistive tech.
     name: "proof-a11y",
     mode: "js",

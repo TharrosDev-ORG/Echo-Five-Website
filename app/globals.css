@@ -1065,7 +1065,8 @@
   container-type: inline-size;
 }
 .mega-fit .stat-mega {
-  font-size: clamp(3rem, min(0.9rem + 9vw, 100cqi / var(--fit, 3.3)), 10rem);
+  /* The container-fit cap wraps the whole clamp, so it still wins in a cell too narrow for the 3rem floor. */
+  font-size: min(clamp(3rem, 0.9rem + 9vw, 10rem), 100cqi / var(--fit, 3.3));
 }
 
 /* The 404 numeral: larger than text-mega so it reads as the page's picture. Unlayered so it wins over the size utility. */
