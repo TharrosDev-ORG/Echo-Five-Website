@@ -6,31 +6,17 @@ import { site } from "@/lib/site";
 import { Play } from "@/components/site/icons";
 
 /**
- * "On the record": the SSC adoption talk behind a click-to-load facade, so
- * nothing from YouTube loads until the visitor chooses to watch.
+ * The SSC adoption talk behind a click-to-load facade, so nothing from
+ * YouTube loads until the visitor chooses to watch.
  */
-export default function Talk({ headingLevel = "h2" }: { headingLevel?: "h2" | "h3" }) {
+export default function Talk() {
   const [playing, setPlaying] = useState(false);
   const id = site.video.id;
   const thumb = (name: string) => `https://i.ytimg.com/vi/${id}/${name}.jpg`;
-  const H = headingLevel;
 
   return (
-    <div className="talk">
-      <div data-reveal>
-        <p className="t-label label-row">{proof.kicker}</p>
-        <H className="t-h2" style={{ marginTop: "1rem" }}>
-          {proof.heading}
-        </H>
-        <p className="t-body" style={{ marginTop: "1.25rem", maxWidth: "48ch" }}>
-          {proof.sub}
-        </p>
-        <a href={site.video.url} target="_blank" rel="noopener noreferrer" className="link" style={{ marginTop: "1.5rem" }}>
-          Open on YouTube
-        </a>
-      </div>
-
-      <div className="video" data-reveal>
+    <figure>
+      <div className="video">
         {playing ? (
           <iframe
             src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`}
@@ -49,7 +35,7 @@ export default function Talk({ headingLevel = "h2" }: { headingLevel?: "h2" | "h
             <img
               src={thumb("hqdefault")}
               srcSet={`${thumb("hqdefault")} 480w, ${thumb("sddefault")} 640w, ${thumb("maxresdefault")} 1280w`}
-              sizes="(min-width: 1000px) 44rem, 92vw"
+              sizes="(min-width: 900px) 46rem, 92vw"
               width={1280}
               height={720}
               alt=""
@@ -63,6 +49,12 @@ export default function Talk({ headingLevel = "h2" }: { headingLevel?: "h2" | "h
           </button>
         )}
       </div>
-    </div>
+      <figcaption className="t-small" style={{ marginTop: "var(--s-3)" }}>
+        <strong>{proof.heading}.</strong> {proof.sub}{" "}
+        <a href={site.video.url} target="_blank" rel="noopener noreferrer" className="link">
+          Open on YouTube
+        </a>
+      </figcaption>
+    </figure>
   );
 }

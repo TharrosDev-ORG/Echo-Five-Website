@@ -4,20 +4,17 @@ import { why } from "@/lib/content";
 export default function Failures() {
   return (
     <>
-      <ol className="failures">
-        {why.failures.map((f, i) => (
-          <li key={f.n} className="card failure" data-reveal style={{ ["--reveal-i" as string]: i }}>
-            <span className="failure-key">
-              Failure mode {String(i + 1).padStart(2, "0")}
-            </span>
-            <h3 className="t-h3">{f.title}</h3>
-            <p className="t-small">{f.body}</p>
+      <ol className="ruled numbered">
+        {why.failures.map((f) => (
+          <li key={f.n}>
+            <div>
+              <h3 className="t-h3">{f.title}</h3>
+              <p className="t-muted">{f.body}</p>
+            </div>
           </li>
         ))}
       </ol>
-      <p className="statement on-night" data-reveal>
-        {why.close}
-      </p>
+      <p className="statement">{why.close}</p>
     </>
   );
 }

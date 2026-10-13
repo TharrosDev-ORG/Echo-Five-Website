@@ -1,168 +1,102 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { clients, hero, process as adkar, services, why, credentials } from "@/lib/content";
-import { ArrowRight, FactIcons } from "@/components/site/icons";
-import Intro from "@/components/blocks/Intro";
-import ServiceGrid from "@/components/blocks/ServiceGrid";
-import AdkarSteps from "@/components/blocks/AdkarSteps";
+import { clients, credentials, hero, process as adkar, services, why } from "@/lib/content";
+import { ArrowRight } from "@/components/site/icons";
+import Section from "@/components/site/Section";
+import CtaBand from "@/components/site/CtaBand";
 import Failures from "@/components/blocks/Failures";
-import Stats from "@/components/blocks/Stats";
+import ServiceList from "@/components/blocks/ServiceList";
+import AdkarList from "@/components/blocks/AdkarList";
+import Figures from "@/components/blocks/Figures";
 import Credentials from "@/components/blocks/Credentials";
 import Talk from "@/components/blocks/Talk";
-import CtaBand from "@/components/site/CtaBand";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 
-/**
- * Home: the pitch, the proof, and the ask, in that order. Each section is a
- * summary with a route to the page that holds the detail.
- */
+/** Home: the pitch and proof, a summary of each topic, then the ask. */
 export default function Home() {
-  const trusted = clients.groups.flatMap((g) => g.orgs).slice(0, 10);
+  const named = clients.groups.flatMap((g) => g.orgs).slice(0, 10).map((o) => o.short);
 
   return (
     <>
       <section className="hero on-night" aria-labelledby="hero-heading">
         <div className="container">
-          <p className="hero-eyebrow">
-            <span className="status-dot" aria-hidden="true" />
-            <strong>{hero.eyebrow}</strong>
-            <span aria-hidden="true">·</span>
-            <span>{hero.context}</span>
+          <p className="hero-context">
+            {hero.eyebrow} {hero.context}
           </p>
-          <h1 id="hero-heading" className="t-display">
-            <span className="block">{hero.headline[0]}</span>
-            <span className="block accent">{hero.headline[1]}</span>
+          <h1 id="hero-heading" className="t-display" style={{ maxWidth: "16ch" }}>
+            {hero.headline[0]} {hero.headline[1]}
           </h1>
-
-          <div className="hero-grid">
-            <div>
-              <p className="t-lead" style={{ maxWidth: "54ch" }}>
-                {hero.sub}
-              </p>
-              <div className="hero-actions">
-                <Link href="/contact" className="btn btn-primary">
-                  {hero.cta.primary}
-                  <ArrowRight />
-                </Link>
-                <Link href="/approach" className="btn btn-secondary">
-                  {hero.cta.secondary}
-                </Link>
-              </div>
-            </div>
-
-            <div className="facts">
-              <p className="facts-head t-label">At a glance</p>
-              <ul className="facts-list">
-                {hero.facts.map((f, i) => {
-                  const Icon = FactIcons[i];
-                  return (
-                    <li key={f.title}>
-                      <span className="facts-icon">{Icon ? <Icon /> : null}</span>
-                      <span>
-                        <span className="facts-title" style={{ display: "block" }}>
-                          {f.title}
-                        </span>
-                        <span className="facts-detail">{f.detail}</span>
-                      </span>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          </div>
-
-          <div className="trusted">
-            <p className="t-label">Selected clients, two decades</p>
-            <ul className="trusted-list" aria-label="Selected clients">
-              {trusted.map((org) => (
-                <li key={org.short} title={org.name}>
-                  {org.short}
-                </li>
-              ))}
-            </ul>
-            <Link href="/about#clients" className="link">
-              All clients
-              <ArrowRight size={14} />
+          <p className="t-lead">{hero.sub}</p>
+          <div className="actions">
+            <Link href="/contact" className="btn btn-primary">
+              {hero.cta.primary}
+              <ArrowRight />
+            </Link>
+            <Link href="/approach" className="btn btn-secondary">
+              {hero.cta.secondary}
             </Link>
           </div>
+
+          <dl className="facts">
+            {hero.facts.map((f) => (
+              <div key={f.title}>
+                <dt>{f.title}</dt>
+                <dd>{f.detail}</dd>
+              </div>
+            ))}
+          </dl>
+          <p className="clients-line">
+            <strong>Clients include</strong> {named.join(", ")} and others.{" "}
+            <Link href="/about#clients" className="link">
+              Full client list
+            </Link>
+          </p>
         </div>
       </section>
 
-      <section className="section" aria-labelledby="why-heading">
-        <div className="container">
-          <Intro
-            id="why-heading"
-            label={why.kicker}
-            heading={why.heading}
-            side={<p className="t-body measure">{why.body}</p>}
-          />
-          <Failures />
-        </div>
-      </section>
+      <Section id="why" heading={why.heading}>
+        <p className="t-lead measure">{why.body}</p>
+        <Failures />
+      </Section>
 
-      <section className="section band" aria-labelledby="services-heading">
-        <div className="container">
-          <Intro
-            id="services-heading"
-            label={services.kicker}
-            heading={services.heading}
-            side={
-              <>
-                <p className="t-body measure">{services.intro}</p>
-                <Link href="/services" className="link">
-                  Explore our services
-                  <ArrowRight size={14} />
-                </Link>
-              </>
-            }
-          />
-          <ServiceGrid />
-        </div>
-      </section>
+      <Section
+        id="services"
+        heading={services.heading}
+        band
+        note={
+          <Link href="/services" className="link">
+            All services
+          </Link>
+        }
+      >
+        <p className="t-lead measure">{services.intro}</p>
+        <ServiceList columns />
+      </Section>
 
-      <section className="section" aria-labelledby="process-heading">
-        <div className="container">
-          <Intro
-            id="process-heading"
-            label={adkar.kicker}
-            heading={adkar.heading}
-            side={
-              <>
-                <p className="t-body measure">{adkar.intro}</p>
-                <Link href="/approach" className="link">
-                  How we run an engagement
-                  <ArrowRight size={14} />
-                </Link>
-              </>
-            }
-          />
-          <AdkarSteps />
-        </div>
-      </section>
+      <Section
+        id="process"
+        heading={adkar.heading}
+        note={
+          <Link href="/approach" className="link">
+            Our approach
+          </Link>
+        }
+      >
+        <p className="t-lead measure">{adkar.intro}</p>
+        <AdkarList />
+      </Section>
 
-      <section className="section band" aria-labelledby="proof-heading">
-        <div className="container">
-          <Intro
-            id="proof-heading"
-            label={credentials.kicker}
-            heading={credentials.heading}
-            side={<p className="t-body measure">{credentials.intro}</p>}
-          />
-          <Stats />
-          <div style={{ marginTop: "clamp(2.5rem, 4vw, 3.5rem)" }}>
-            <Credentials />
-          </div>
-        </div>
-      </section>
+      <Section id="credentials" heading={credentials.heading} band note={credentials.intro}>
+        <Figures />
+        <Credentials />
+      </Section>
 
-      <section className="section" aria-label="Conference talk">
-        <div className="container">
-          <Talk />
-        </div>
-      </section>
+      <Section id="talk" heading="Conference talk">
+        <Talk />
+      </Section>
 
       <CtaBand />
     </>

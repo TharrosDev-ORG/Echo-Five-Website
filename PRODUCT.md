@@ -44,18 +44,19 @@ Three words: **precise · credible · human (not corporate)**.
 
 ## Aesthetic direction
 
-**Midnight & Vermilion.** A crisp institutional look: cool white paper, midnight ink and
-bands, one vermilion accent. It should feel like a serious firm's brief, not a
-brochure or a tech demo. Differentiation through clarity, structure, and specifics.
+**Midnight & Vermilion.** Plain and editorial: cool white paper, midnight ink and bands,
+one vermilion accent. It should read like a well-made report from a serious firm.
+Differentiation through clarity, structure, and specifics.
 
 - **Color (one committed accent):** vermilion carries meaning (CTAs, links, labels,
   key marks); midnight carries weight (hero, CTA band, footer). See `DESIGN.md`.
-- **Type:** Schibsted Grotesk display, IBM Plex Sans body, IBM Plex Mono labels.
+- **Type:** Schibsted Grotesk headings, IBM Plex Sans text. Sentence-case headings.
 - **Structure:** short home page that summarizes and links to Services, Approach,
   About, and Contact. Credentials and named clients sit in the first fold. A clear
   "Start a conversation" path on every page.
-- **Motion:** minimal. Short entrance fades only. No scroll hijacking or effects that
-  slow reading.
+- **Motion:** none beyond hover states.
+- **No template tells:** no kicker labels, pill badges, icon tiles, card grids, stat
+  boxes, or scroll fade-ins (full list in `DESIGN.md`).
 
 ## Anti-references (do NOT look like these)
 
