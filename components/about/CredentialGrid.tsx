@@ -1,45 +1,36 @@
 import { credentials } from "@/lib/content";
-import { cx } from "@/lib/cx";
 import Section from "@/components/ui/Section";
 import SectionHeading from "@/components/ui/SectionHeading";
-import Card from "@/components/ui/Card";
-import Badge from "@/components/ui/Badge";
 import Reveal from "@/components/ui/Reveal";
-import { Icon } from "@/components/ui/icons";
 
-/** Certifications and clearance, each with its issuing body. */
+/**
+ * Certifications and clearance as an indexed list: number, title with its
+ * detail, and the issuing body. The rows share the IndexList layout but are
+ * plain list items, so they carry no hover flood.
+ */
 export default function CredentialGrid() {
   return (
     <Section id="credentials" tone="alt" labelledBy="credentials-heading">
       <SectionHeading id="credentials-heading" title={credentials.heading} lead={credentials.intro} />
-      {/*
-        Five cards fill evenly: from lg a six-column grid puts the first three
-        (Prosci, Microsoft, Government of Canada) two columns wide and the last
-        two three wide; at sm the odd card out spans the full row.
-      */}
-      <ul className="mt-10 grid gap-5 sm:grid-cols-2 md:mt-12 lg:grid-cols-6">
+      <ol className="mt-10 md:mt-14">
         {credentials.items.map((item, i) => (
           <Reveal
             as="li"
             key={item.title}
             index={i}
-            className={cx(
-              i < 3 ? "lg:col-span-2" : "lg:col-span-3",
-              i === credentials.items.length - 1 && i % 2 === 0 && "sm:col-span-2",
-            )}
+            className="grid items-start gap-3 border-t border-edge py-6 last:border-b md:grid-cols-[4rem_minmax(0,1fr)_auto] md:items-baseline md:gap-x-6"
           >
-            <Card
-              className="h-full"
-              // The clearance is the one item that is not a certification.
-              icon={<Icon name={item.issuer === "Government of Canada" ? "shield" : "certificate"} size={22} />}
-              meta={<Badge>{item.issuer}</Badge>}
-              title={item.title}
-            >
-              <p>{item.detail}</p>
-            </Card>
+            <span aria-hidden="true" className="index-row-num text-label tabular-nums">
+              {String(i + 1).padStart(2, "0")}
+            </span>
+            <div>
+              <h3 className="text-h3 text-fg">{item.title}</h3>
+              <p className="index-row-body">{item.detail}</p>
+            </div>
+            <span className="index-row-tag w-fit text-label font-semibold">{item.issuer}</span>
           </Reveal>
         ))}
-      </ul>
+      </ol>
     </Section>
   );
 }

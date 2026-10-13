@@ -1067,3 +1067,8 @@
 .mega-fit .stat-mega {
   font-size: clamp(3rem, min(0.9rem + 9vw, 100cqi / var(--fit, 3.3)), 10rem);
 }
+
+/* The 404 numeral: larger than text-mega so it reads as the page's picture. Unlayered so it wins over the size utility. */
+.mega-404 {
+  font-size: clamp(7rem, 30vw, 18rem);
+}

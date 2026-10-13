@@ -6,7 +6,10 @@ export default function NotFound() {
   return (
     <section className="surface-light">
       <Container className="grid min-h-[60vh] content-center py-20">
-        <p className="text-small font-semibold text-accent">{notFound.eyebrow}</p>
+        <p aria-hidden="true" className="mega-404 font-display text-mega text-accent tabular-nums">
+          404
+        </p>
+        <p className="mt-8 text-small font-semibold text-accent">{notFound.eyebrow}</p>
         <h1 className="mt-4 max-w-[18ch] text-h1 text-fg">{notFound.heading}</h1>
         <p className="mt-6 max-w-[52ch] text-lead text-fg-2">{notFound.body}</p>
         <div className="mt-8 flex flex-wrap gap-3">

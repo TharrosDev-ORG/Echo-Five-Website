@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { principal } from "@/lib/content";
 import Badge from "@/components/ui/Badge";
+import { LogoMark } from "@/components/site/Logo";
 import { Check } from "@/components/ui/icons";
 
 type Props = {
@@ -19,12 +20,17 @@ export default function FounderCard({ photo }: Props) {
         {photo ? (
           <Image src={photo.src} alt={photo.alt} fill sizes="(min-width: 1024px) 18rem, 15rem" className="object-cover" />
         ) : (
-          <span
-            aria-hidden="true"
-            className="absolute inset-0 flex items-center justify-center font-display text-[clamp(4rem,3rem+4vw,6rem)] font-semibold tracking-[-0.04em] text-accent"
-          >
-            {principal.monogram}
-          </span>
+          <>
+            <span className="absolute top-4 left-4">
+              <LogoMark size={40} />
+            </span>
+            <span
+              aria-hidden="true"
+              className="absolute bottom-3 left-5 font-display text-[clamp(4rem,3rem+4vw,6rem)] leading-none font-bold tracking-[-0.05em] text-fg"
+            >
+              {principal.monogram}
+            </span>
+          </>
         )}
       </div>
 
@@ -40,7 +46,7 @@ export default function FounderCard({ photo }: Props) {
         <ul className="flex flex-wrap gap-2 pt-1">
           {principal.credentials.map((c) => (
             <li key={c}>
-              <Badge tone="accent" icon={<Check size={14} />}>
+              <Badge icon={<Check size={14} className="text-accent" />}>
                 {c}
               </Badge>
             </li>

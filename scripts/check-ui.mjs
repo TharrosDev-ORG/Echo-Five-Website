@@ -515,6 +515,33 @@ const checks = [
     },
   },
   {
+    name: "contact-form",
+    mode: "js",
+    widths: [390, 1440],
+    routes: ["/contact"],
+    async run(page) {
+      const fails = [];
+      const heights = await page.evaluate(() =>
+        [...document.querySelectorAll(".field")]
+          .filter((el) => el.getBoundingClientRect().width > 0)
+          .map((el) => el.getBoundingClientRect().height),
+      );
+      if (!heights.length) fails.push("no visible .field");
+      heights.forEach((h, i) => {
+        if (h < 44) fails.push(`.field ${i} height ${h.toFixed(1)} < 44`);
+      });
+      await page.locator('form button[type="submit"]').click();
+      await page.waitForTimeout(300);
+      const invalid = await page.locator('.field[aria-invalid="true"]').count();
+      if (invalid < 1) fails.push("empty submit left no .field[aria-invalid=true]");
+      const visibleErrors = await page.evaluate(
+        () => [...document.querySelectorAll(".field-error")].filter((el) => el.getBoundingClientRect().height > 0).length,
+      );
+      if (visibleErrors < 1) fails.push("empty submit showed no visible .field-error");
+      return fails;
+    },
+  },
+  {
     // The dark state comes from the server-rendered DOM, so it holds before (or without) JavaScript.
     name: "header-tone-ssr",
     mode: "nojs",

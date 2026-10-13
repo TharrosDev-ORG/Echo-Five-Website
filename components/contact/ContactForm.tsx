@@ -92,7 +92,10 @@ export default function ContactForm({ className }: Props) {
     }
   }
 
-  const cardClass = cx("card card-panel", className);
+  const cardClass = cx(
+    "surface-alt flex flex-col gap-3 rounded-card border border-edge p-6 sm:p-9",
+    className,
+  );
 
   if (status === "success") {
     return (
