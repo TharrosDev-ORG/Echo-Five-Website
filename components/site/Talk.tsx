@@ -65,9 +65,9 @@ export default function Talk({ className }: { className?: string }) {
           />
           <span
             aria-hidden="true"
-            className="absolute bottom-4 left-4 inline-flex min-h-12 items-center gap-2.5 rounded-full bg-blue py-2 pr-5 pl-2 font-semibold text-white transition-transform duration-150 group-hover:-translate-y-0.5 sm:bottom-6 sm:left-6"
+            className="absolute bottom-4 left-4 inline-flex min-h-12 items-center gap-2.5 rounded-control bg-blue py-2 pr-5 pl-2 font-semibold text-white transition-[transform,background-color] duration-150 group-hover:-translate-y-0.5 group-hover:bg-blue-d sm:bottom-6 sm:left-6"
           >
-            <span className="flex size-8 items-center justify-center rounded-full bg-white text-blue">
+            <span className="flex size-8 items-center justify-center rounded-full bg-white text-blue-d">
               <Play size={14} />
             </span>
             {talk.cta}

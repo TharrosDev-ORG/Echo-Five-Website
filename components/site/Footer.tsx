@@ -18,7 +18,7 @@ export default function Footer() {
       <Container>
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.6fr)_repeat(3,minmax(0,1fr))]">
           <div className="sm:col-span-2 lg:col-span-1">
-            <Logo tone="dark" />
+            <Logo />
             <p className="mt-4 max-w-sm text-small text-fg-2">
               {footer.blurb} {site.region}.
             </p>
@@ -71,7 +71,12 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col gap-4 border-t border-edge pt-6 text-label text-fg-2 md:flex-row md:justify-between md:gap-10">
+        {/* Decorative: the real name is in the logo and copyright. Clipped to the container. */}
+        <p aria-hidden="true" className="footer-wordmark mt-14 text-mega leading-[0.8] text-fg">
+          {site.shortName}
+        </p>
+
+        <div className="mt-8 flex flex-col gap-4 border-t border-edge pt-6 text-label text-fg-2 md:flex-row md:justify-between md:gap-10">
           <p className="max-w-3xl">
             {footer.trademarks} {advanta.disclaimer}
           </p>

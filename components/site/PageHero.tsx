@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { cx } from "@/lib/cx";
 import Container from "@/components/ui/Container";
+import SignalRail from "@/components/ui/SignalRail";
 import { toneClass } from "@/components/ui/Section";
 
 type Props = {
@@ -39,13 +40,17 @@ export default function PageHero({
   return (
     <header
       data-hero=""
+      data-hero-tone={tone}
       className={cx(
         toneClass[tone],
         tone === "light" && "border-b border-edge",
-        "overflow-hidden",
+        // `relative isolate` makes this the rail's containing block and keeps its z-index inside the hero.
+        // The node sits at the desktop top padding (6rem) plus 0.75rem, on the title's first lines.
+        "relative isolate overflow-hidden [--rail-node-y:6.75rem]",
         className,
       )}
     >
+      <SignalRail />
       <Container
         className={cx(
           "grid gap-12 py-14 md:py-20 lg:py-24",
@@ -62,7 +67,7 @@ export default function PageHero({
           <h1
             className={cx(
               "text-fg",
-              size === "display" ? "max-w-[18ch] text-display" : "max-w-[20ch] text-h1",
+              size === "display" ? "max-w-[18ch] text-display" : "max-w-[16ch] text-h1",
             )}
           >
             {title}

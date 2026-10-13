@@ -501,6 +501,24 @@
     border-bottom-color: var(--color-line);
     background-color: rgb(255 255 255 / 0.97);
   }
+  /* Over a black page hero the header takes the dark ground's tokens (logo, links, button, focus ring). */
+  .site-header[data-over-dark] {
+    --fg: var(--color-on-dark);
+    --fg-2: var(--color-on-dark-2);
+    --accent: var(--color-blue-l);
+    --edge: var(--color-line-dark);
+    --edge-strong: var(--color-line-dark-strong);
+    --focus: var(--color-blue-l);
+    /*
+     * The header is in flow above the hero, so for the first 72px of scroll the
+     * white page ground is behind it; translucent black would flash grey there.
+     * Over the black hero, solid black reads identically.
+     */
+    background-color: var(--color-black);
+  }
+  .site-header[data-over-dark][data-scrolled] {
+    border-bottom-color: var(--color-line-dark);
+  }
   @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
     .site-header {
       background-color: var(--color-white);
@@ -512,19 +530,19 @@
     min-height: 2.75rem;
     padding-inline: 0.75rem;
     border-radius: var(--radius-control);
-    color: var(--color-ink-2);
+    color: var(--fg-2);
     font-size: 0.975rem;
     font-weight: 500;
     text-decoration: none;
     transition: color 150ms ease;
   }
   .nav-link:hover {
-    color: var(--color-ink);
+    color: var(--fg);
   }
   .nav-link[aria-current="page"] {
-    color: var(--color-ink);
+    color: var(--fg);
     text-decoration: underline;
-    text-decoration-color: var(--color-blue);
+    text-decoration-color: var(--accent);
     text-decoration-thickness: 2px;
     text-underline-offset: 0.55em;
   }
@@ -537,10 +555,10 @@
     gap: 0.5rem;
     min-height: 2.75rem;
     padding: 0.5rem 0.875rem;
-    border: 1px solid var(--color-line-strong);
+    border: 1px solid var(--edge-strong);
     border-radius: var(--radius-control);
     background: transparent;
-    color: var(--color-ink);
+    color: var(--fg);
     font-weight: 600;
     font-size: 0.9375rem;
     text-decoration: none;
@@ -560,7 +578,8 @@
     flex-direction: column;
     overflow-y: auto;
     overscroll-behavior: contain;
-    background-color: var(--color-white);
+    background-color: var(--color-black);
+    color: var(--fg);
     visibility: hidden;
     opacity: 0;
     transition:
@@ -577,15 +596,17 @@
     align-items: center;
     justify-content: space-between;
     min-height: 3.5rem;
-    border-bottom: 1px solid var(--color-line);
+    border-bottom: 1px solid var(--color-line-dark);
+    color: var(--color-white);
     font-family: var(--font-display);
-    font-size: 1.625rem;
-    font-weight: 600;
-    letter-spacing: -0.02em;
+    font-size: var(--text-display);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.045em;
     text-decoration: none;
   }
   .drawer-link[aria-current="page"] {
-    color: var(--color-blue);
+    color: var(--color-blue-l);
   }
   @media (min-width: 900px) {
     .drawer {
@@ -630,6 +651,13 @@
    * ---------------------------------------------------------------- */
   .site-footer {
     padding-block: 4rem 2rem;
+  }
+  /* Decorative oversized name, clipped to the container. Its size is set below, outside the layers. */
+  .footer-wordmark {
+    overflow: hidden;
+    white-space: nowrap;
+    padding-bottom: 0.04em;
+    user-select: none;
   }
   @media (max-width: 899.98px) {
     /* Room for the fixed CTA bar so it never covers the last footer line. */
@@ -925,4 +953,10 @@
     --fg-3: var(--color-ink-3);
     --accent: var(--color-blue);
   }
+}
+
+/* "Echofive" is about 3.7em wide plus side bearing: 23.5vw fits the container up to 1024px, the cap fits it from there.
+   Unlayered so it wins over the text-mega size utility. */
+.footer-wordmark {
+  font-size: min(23.5vw, 18.5rem);
 }

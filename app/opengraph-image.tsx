@@ -6,13 +6,14 @@ export const alt = `${site.name}: ${site.tagline}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-const SPRUCE = "#0F2B26";
-const SPRUCE_2 = "#173832";
-const PAPER = "#F6F8F7";
-const MUTED = "#B9C7C2";
-const CITRON = "#D9F26B";
+const BLACK = "#0A0A0B";
+const WHITE = "#FFFFFF";
+const BLUE = "#2F5BFF";
+const BLUE_L = "#6E8CFF";
+const MUTED = "#A1A1AA";
 
-const BARS = [6, 9, 12, 15, 18];
+/** The mark at 2x its 32px viewBox: five 6px bars, 4px apart, widths top to bottom. */
+const BAR_WIDTHS = [48, 38, 28, 18, 8];
 
 export default function OgImage() {
   return new ImageResponse(
@@ -25,49 +26,29 @@ export default function OgImage() {
           flexDirection: "column",
           justifyContent: "space-between",
           padding: 80,
-          background: `radial-gradient(ellipse 60% 70% at 92% 0%, rgba(217,242,107,0.16), transparent 70%), ${SPRUCE}`,
+          background: BLACK,
           fontFamily: "sans-serif",
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "flex-end",
-              gap: 5,
-              width: 64,
-              height: 64,
-              padding: "0 12px 14px",
-              borderRadius: 16,
-              background: SPRUCE_2,
-              border: "2px solid rgba(246,248,247,0.16)",
-            }}
-          >
-            {BARS.map((h, i) => (
-              <div
-                key={h}
-                style={{
-                  width: 6,
-                  height: h * 2,
-                  borderRadius: 3,
-                  background: i === BARS.length - 1 ? CITRON : PAPER,
-                }}
-              />
+          <div style={{ display: "flex", flexDirection: "column", gap: 4, width: 48 }}>
+            {BAR_WIDTHS.map((w) => (
+              <div key={w} style={{ width: w, height: 6, borderRadius: 3, background: BLUE }} />
             ))}
           </div>
-          <div style={{ display: "flex", fontSize: 40, fontWeight: 700, color: PAPER, letterSpacing: -1 }}>
+          <div style={{ display: "flex", fontSize: 40, fontWeight: 700, color: WHITE, letterSpacing: -1 }}>
             {site.shortName}
           </div>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ fontSize: 88, fontWeight: 700, color: PAPER, lineHeight: 1.02, letterSpacing: -3 }}>
+          <div style={{ fontSize: 88, fontWeight: 700, color: WHITE, lineHeight: 1.02, letterSpacing: -3 }}>
             {hero.headline[0]}
           </div>
-          <div style={{ fontSize: 88, fontWeight: 700, color: CITRON, lineHeight: 1.02, letterSpacing: -3 }}>
+          <div style={{ fontSize: 88, fontWeight: 700, color: BLUE_L, lineHeight: 1.02, letterSpacing: -3 }}>
             {hero.headline[1]}
           </div>
-          <div style={{ fontSize: 28, color: PAPER, marginTop: 40, maxWidth: 960, lineHeight: 1.35 }}>
+          <div style={{ fontSize: 28, color: WHITE, marginTop: 40, maxWidth: 960, lineHeight: 1.35 }}>
             {hero.context}
           </div>
           <div style={{ display: "flex", fontSize: 24, color: MUTED, marginTop: 14 }}>
