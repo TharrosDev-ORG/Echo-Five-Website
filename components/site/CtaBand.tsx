@@ -1,27 +1,41 @@
-import Link from "next/link";
-import { contact } from "@/lib/content";
+import { ctaBand } from "@/lib/content";
 import { site } from "@/lib/site";
-import { ArrowRight } from "@/components/site/icons";
+import Button from "@/components/ui/Button";
+import Container from "@/components/ui/Container";
+import { Mail } from "@/components/ui/icons";
 
-/** The closing ask at the end of every page except Contact. */
-export default function CtaBand() {
+type Props = {
+  heading?: string;
+  body?: string;
+};
+
+/** The dark closing band at the end of every page except Contact. */
+export default function CtaBand({ heading = ctaBand.heading, body = ctaBand.body }: Props) {
   return (
-    <section className="cta on-night" aria-labelledby="cta-heading">
-      <div className="container">
-        <h2 id="cta-heading" className="t-h2" style={{ maxWidth: "24ch" }}>
-          {contact.heading}
-        </h2>
-        <p className="t-lead">{contact.body}</p>
-        <div className="actions">
-          <Link href="/contact" className="btn btn-primary">
-            Start a conversation
-            <ArrowRight />
-          </Link>
-          <a href={`mailto:${site.email}`} className="btn btn-secondary">
-            Email {site.email}
-          </a>
+    <section className="surface-dark texture" aria-labelledby="cta-band-heading" data-cta-band="">
+      <Container className="grid gap-10 py-16 md:py-24 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] lg:items-center">
+        <div className="max-w-2xl">
+          <h2 id="cta-band-heading" className="text-h2 text-fg">
+            {heading}
+          </h2>
+          <p className="mt-5 text-lead text-fg-2">{body}</p>
         </div>
-      </div>
+        {/* From lg the buttons stack in a shrink-wrapped grid column, so both take the wider one's width. */}
+        <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap lg:grid lg:justify-self-end">
+          <Button href="/contact" size="lg" tone="dark" arrow>
+            {ctaBand.primary}
+          </Button>
+          <Button
+            href={`mailto:${site.email}`}
+            variant="secondary"
+            size="lg"
+            tone="dark"
+            icon={<Mail size={18} />}
+          >
+            {ctaBand.emailLabel}
+          </Button>
+        </div>
+      </Container>
     </section>
   );
 }

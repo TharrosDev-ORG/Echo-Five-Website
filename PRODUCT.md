@@ -4,9 +4,10 @@ register: brand
 
 ## Product purpose
 
-A one-page marketing site for **Echofive Solutions Inc.**, a senior change management
+A six-page marketing site for **Echofive Solutions Inc.**, a senior change management
 practice specializing in Microsoft 365 adoption for Canadian public-sector and
-enterprise organizations. The site exists to earn a first meeting. A program lead
+enterprise organizations, and for its product, **Advanta365**. The site exists to earn a
+first meeting. A program lead
 should be able to read the hero, understand exactly what the firm does, and trust it
 enough to send a note.
 
@@ -37,29 +38,64 @@ Three words: **precise · credible · human (not corporate)**.
 - Plain, declarative sentences. No consulting-speak: no "synergy", "leverage",
   "journey", "transformation theatre".
 - Confidence through specificity ("Teams, SharePoint Online, Copilot", "Prosci ADKAR",
-  "twenty years", "Secret Level II") not adjectives.
+  "30+ years", "Secret Level II") rather than adjectives.
 - Keep the strong lines: "Change that lands. Tools that get used." and
-  "Twenty years. One job. Done properly."
+  "Thirty years. One job. Done properly."
 - **No em dashes** anywhere in body copy.
+
+## Experience
+
+30+ years in practice. Use "30+ years" or "more than thirty years" everywhere; never
+"20+" or "twenty years".
+
+## Advanta365
+
+A product of Echofive: "The change management and user adoption toolkit behind real
+SharePoint Online rollouts." Ready to use as is, or tailor with AI. It is a **document
+toolkit**, not an analytics or governance platform. Never claim adoption analytics,
+governance guardrails, or week-to-week measurement.
+
+- Built by a Prosci-certified practitioner; field-tested over 30+ years; refined across
+  decades of real rollouts.
+- 59 playbooks covering all seven phases; 130 ready-to-use templates (emails, plans,
+  checklists, worksheets, workshop kits); 4 field guides for change practitioners and IM
+  partners; training for three audiences (End users, Site Owners, IM Representatives)
+  with facilitator guides, learning guides, and 58 job aids; a complete worked example
+  (a full change management strategy for a 10,000-person organization); Copilot-ready
+  guides for readiness, rollout, and impact assessment for Microsoft 365 Copilot.
+- Formats: DOCX, PPTX, XLSX, PDF.
+- Seven phases: Make the case, Plan, Design, Prepare, Communicate, Execute, Sustain.
+- Six free samples: Executive Sponsor Kickoff Deck (PPTX, 16 slides); Change Management
+  Strategy (DOCX); SharePoint Governance Framework (DOCX); SharePoint End-User Training
+  Deck (PPTX, a 60-minute instructor-led session); Master Communications Plan (XLSX);
+  Go/No-Go Decision Checklist (XLSX).
+- Price: $1,499.99 CAD, one purchase for the whole toolkit.
+- Purchase `https://www.advanta365.com/purchase`, free samples
+  `https://www.advanta365.com/catalog?free=1`, contact `hello@advanta365.com`.
+- Echofive uses Advanta365 inside its engagements.
+- Disclaimer: Advanta365 and Echofive are independent and not affiliated with or endorsed
+  by Prosci Inc. or Microsoft Corporation.
 
 ## Aesthetic direction
 
-**Midnight & Vermilion.** Plain and editorial: cool white paper, midnight ink and bands,
-one vermilion accent. It should read like a well-made report from a serious firm.
-Differentiation through clarity, structure, and specifics.
+**Spruce & Citron.** Premium and conversion-focused: deep spruce grounds for weight,
+cool paper for reading, one accent per ground (citron on dark, moss on light). Confident
+type, generous space, quiet texture, and purposeful motion that never hides content.
 
-- **Color (one committed accent):** vermilion carries meaning (CTAs, links, labels,
-  key marks); midnight carries weight (hero, CTA band, footer). See `DESIGN.md`.
-- **Type:** Schibsted Grotesk headings, IBM Plex Sans text. Sentence-case headings.
-- **Structure:** short home page that summarizes and links to Services, Approach,
-  About, and Contact. Credentials and named clients sit in the first fold. A clear
-  "Start a conversation" path on every page.
-- **Motion:** none beyond hover states.
-- **No template tells:** no kicker labels, pill badges, icon tiles, card grids, stat
-  boxes, or scroll fade-ins (full list in `DESIGN.md`).
+- **Color:** citron marks the primary action and key data on dark grounds; moss does the
+  same on light grounds. Citron never appears on a light ground. See `DESIGN.md`.
+- **Type:** Instrument Sans headings, Geist text. Sentence-case headings.
+- **Structure:** a home page that leads with proof (30+ years, clearance, certifications,
+  named clients), then services, the ADKAR model, the Advanta365 band, and the talk.
+  Inner pages for Services, Approach, Advanta365, About, and Contact. A clear
+  "Start a conversation" path on every page, including a fixed bar on phones.
+- **Motion:** reveal on scroll, a drawn adoption curve, a slow client marquee. All
+  progressive enhancement and all off under reduced motion.
 
 ## Anti-references (do NOT look like these)
 
+- **Echo-Five "Midnight & Vermilion":** plain, editorial document layout with one
+  vermilion accent. Credible but too plain to feel premium, and weak on conversion.
 - **Echo-Five v1:** editorial-serif lane (Fraunces, tiny tracked uppercase kickers,
   hairlines everywhere, beige).
 - **Echo-Five v2:** Swiss-grid govtech in navy-slate + teal.

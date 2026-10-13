@@ -1,0 +1,15 @@
+/*
+ * The stepper renders as a plain ordered list until React hydrates it into
+ * tabs. `html.js` (set by an inline script before paint) lets the tabbed look
+ * apply straight away, so the layout does not jump when hydration finishes.
+ */
+
+/* Without JS the tab buttons do nothing, so hide them and show every stage. */
+:global(html:not(.js)) .tablist {
+  display: none;
+}
+
+/* With JS but before hydration, show only the first stage. */
+:global(html.js) .stepper:not([data-enhanced]) .panel:not(:first-child) {
+  display: none;
+}

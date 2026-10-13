@@ -3,42 +3,73 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { nav } from "@/lib/content";
+import { nav, navCta, ui } from "@/lib/content";
 import { site } from "@/lib/site";
+import Button from "@/components/ui/Button";
+import Container from "@/components/ui/Container";
+import { ArrowRight, Close, Menu } from "@/components/ui/icons";
+import Logo from "@/components/site/Logo";
 
 const isCurrent = (pathname: string, href: string) =>
   pathname === href || pathname.startsWith(`${href}/`);
+
+const FOCUSABLE = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 export default function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const headerRef = useRef<HTMLElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
-  const menuRef = useRef<HTMLDivElement>(null);
+  const drawerRef = useRef<HTMLDivElement>(null);
 
-  // Keyline under the header once the page has moved.
+  // Hairline under the header once the page has moved.
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
-    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    const frame = requestAnimationFrame(onScroll);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", onScroll);
+    };
   }, []);
 
-  // While open: lock scroll, make the page behind inert (so Tab stays in the
-  // menu), close on Escape, and hand focus back to the toggle on close.
+  // While the drawer is open: lock page scroll, make everything behind it
+  // inert, trap Tab inside it, close on Escape, and restore focus on close.
   useEffect(() => {
     if (!open) return;
+    const drawer = drawerRef.current;
     const toggle = toggleRef.current;
-    const behind = [document.getElementById("main"), document.querySelector("footer")].filter(
-      (n): n is HTMLElement => n instanceof HTMLElement,
-    );
+    const behind = [
+      headerRef.current,
+      document.getElementById("main"),
+      document.querySelector("[data-site-footer]"),
+      document.querySelector("[data-mobile-cta]"),
+    ].filter((n): n is HTMLElement => n instanceof HTMLElement);
+
     behind.forEach((n) => (n.inert = true));
     document.documentElement.style.overflow = "hidden";
-    menuRef.current?.querySelector<HTMLElement>("a")?.focus();
+    drawer?.querySelector<HTMLElement>("nav a")?.focus();
+
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key === "Escape") {
+        setOpen(false);
+        return;
+      }
+      if (e.key !== "Tab" || !drawer) return;
+      const items = Array.from(drawer.querySelectorAll<HTMLElement>(FOCUSABLE));
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     };
     document.addEventListener("keydown", onKey);
+
     return () => {
       document.removeEventListener("keydown", onKey);
       behind.forEach((n) => (n.inert = false));
@@ -50,22 +81,23 @@ export default function Header() {
   // Close if the viewport grows to the desktop layout.
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 900px)");
-    const onChange = (e: MediaQueryListEvent) => e.matches && setOpen(false);
+    const onChange = (e: MediaQueryListEvent) => {
+      if (e.matches) setOpen(false);
+    };
     mq.addEventListener("change", onChange);
     return () => mq.removeEventListener("change", onChange);
   }, []);
 
-  return (
-    <header className="site-header" data-scrolled={scrolled || open ? "" : undefined}>
-      <div className="container site-header-inner">
-        <Link href="/" className="wordmark" aria-label={`${site.name}, home`}>
-          Echofive
-        </Link>
+  const close = () => setOpen(false);
 
-        <nav aria-label="Primary" className="primary-nav">
-          {nav
-            .filter((item) => item.href !== "/contact")
-            .map((item) => (
+  return (
+    <>
+      <header ref={headerRef} className="site-header" data-scrolled={scrolled ? "" : undefined}>
+        <Container className="flex h-full items-center justify-between gap-6">
+          <Logo />
+
+          <nav aria-label="Primary" className="hidden items-center gap-1 min-[900px]:flex">
+            {nav.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
@@ -75,59 +107,82 @@ export default function Header() {
                 {item.label}
               </Link>
             ))}
-          <Link href="/contact" className="btn btn-primary btn-sm">
-            Start a conversation
-          </Link>
-        </nav>
+          </nav>
 
-        <button
-          ref={toggleRef}
-          type="button"
-          className="menu-toggle"
-          aria-expanded={open}
-          aria-controls="mobile-menu"
-          onClick={() => setOpen((v) => !v)}
-        >
-          {open ? "Close" : "Menu"}
-        </button>
-      </div>
+          <div className="flex items-center gap-2">
+            <Button href={navCta.href} size="sm" tone="light" className="hidden min-[900px]:inline-flex">
+              {navCta.label}
+            </Button>
+            <button
+              ref={toggleRef}
+              type="button"
+              className="menu-toggle"
+              aria-expanded={open}
+              aria-controls="site-menu"
+              onClick={() => setOpen(true)}
+            >
+              <Menu size={20} />
+              Menu
+            </button>
+            {/* Without JS the menu cannot open, so this jumps to the footer links instead. */}
+            <a href="#footer-nav" className="menu-fallback">
+              <Menu size={20} />
+              Menu
+            </a>
+          </div>
+        </Container>
+      </header>
 
       <div
-        ref={menuRef}
-        id="mobile-menu"
-        className="mobile-menu"
-        data-open={open ? "" : undefined}
+        ref={drawerRef}
+        id="site-menu"
+        className="drawer"
         role="dialog"
         aria-modal="true"
         aria-label="Site menu"
+        data-open={open ? "" : undefined}
         inert={!open}
       >
-        <Link
-          href="/"
-          className="mobile-link"
-          aria-current={pathname === "/" ? "page" : undefined}
-          onClick={() => setOpen(false)}
-        >
-          Home
-        </Link>
-        {nav.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            className="mobile-link"
-            aria-current={isCurrent(pathname, item.href) ? "page" : undefined}
-            onClick={() => setOpen(false)}
-          >
-            {item.label}
-          </Link>
-        ))}
-        <p className="t-small" style={{ marginTop: "var(--s-5)" }}>
-          Or email{" "}
-          <a href={`mailto:${site.email}`} className="link">
-            {site.email}
-          </a>
-        </p>
+        <Container className="flex h-[var(--header-h)] shrink-0 items-center justify-between gap-6">
+          <Logo onClick={close} />
+          <button type="button" className="menu-toggle" onClick={close}>
+            <Close size={20} />
+            Close
+          </button>
+        </Container>
+
+        <Container className="flex flex-1 flex-col pt-4 pb-[max(2rem,env(safe-area-inset-bottom))]">
+          <nav aria-label="Site menu">
+            <ul>
+              {nav.map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className="drawer-link"
+                    aria-current={isCurrent(pathname, item.href) ? "page" : undefined}
+                    onClick={close}
+                  >
+                    {item.label}
+                    <ArrowRight size={22} className="text-ink-3" />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <div className="mt-auto flex flex-col gap-4 pt-10">
+            <Button href={navCta.href} size="lg" tone="light" fullWidth arrow onClick={close}>
+              {navCta.label}
+            </Button>
+            <p className="text-center text-small text-ink-2">
+              {ui.drawerEmailPrefix}{" "}
+              <a href={`mailto:${site.email}`} className="link">
+                {site.email}
+              </a>
+            </p>
+          </div>
+        </Container>
       </div>
-    </header>
+    </>
   );
 }
