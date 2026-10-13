@@ -1,45 +1,37 @@
 # Content map
 
-Every word on the page comes from `lib/content.ts` (copy/data) or `lib/site.ts`
-(constants). This maps each on-page section to its source export.
+All copy lives in `lib/content.ts`; site-wide constants live in `lib/site.ts`.
+Components never hard-code marketing copy.
 
-| # | Section | Component | Data export |
-| --- | --- | --- | --- |
-| — | Navigation | `Nav` | `nav`, `site` |
-| 00 | Hero | `Hero` | `hero`, `site` |
-| — | Trust strip (stats + giant marquee) | `Trust` | `clients` (short names + counts) |
-| 01 | Why rollouts stall | `Why` | `why` |
-| 02 | Where we shine (services) | `Services` | `services` |
-| 03 | How adoption happens (ADKAR) | `Adkar` | `process` |
-| 04 | How we make it measurable | `Method` | `method`, `site.advantaUrl` |
-| 05 | On the record (video) | `Proof` | `proof`, `site.video` |
-| 06 | Selected clients | `Clients` | `clients` |
-| 07 | Credentials | `Credentials` | `credentials` |
-| — | The firm + founder (about) | `About` | `about`, `principal` |
-| 08 | Contact (form) | `Contact` / `ContactForm` | `contact`, `site` |
-| — | Footer | `Footer` | `footer`, `nav`, `site` |
+| Page / block | Component | Data in `content.ts` |
+| --- | --- | --- |
+| Header and mobile menu | `site/Header` | `nav`, `site` |
+| Home hero + at-a-glance panel | `app/page.tsx` | `hero` (`hero.facts`), `clients` |
+| Problem (failure modes) | `blocks/Failures` | `why` |
+| Services overview / full list | `blocks/ServiceGrid`, `blocks/ServiceRows` | `services` |
+| ADKAR sequence | `blocks/AdkarSteps` | `process` |
+| Measurement (Advanta365) | `blocks/MethodPoints` + page copy | `method`, `methodPoints`, `site.advantaUrl` |
+| Conference talk | `blocks/Talk` | `proof`, `site.video` |
+| Stats | `blocks/Stats` | derived from `clients` |
+| Credentials | `blocks/Credentials` | `credentials` |
+| Client roster | `blocks/ClientRoster` | `clients` |
+| Founder card | `blocks/Principal` | `principal` |
+| About page body | `app/about/page.tsx` | `about` |
+| Inner page headers + SEO descriptions | `site/PageHeader` | `pages` |
+| Closing call to action | `site/CtaBand` | `contact` |
+| Contact page | `app/contact/page.tsx`, `contact/ContactForm` | `contact`, `pages.contact`, `hero.facts` |
+| Footer | `site/Footer` | `footer`, `nav`, `site` |
 
-The `index` numbers in `content.ts` follow the visual scroll order. If you move a
-section in `app/page.tsx`, renumber the indexes so the page still reads 01, 02, 03...
+## Rules
+
+- Only claims already made elsewhere on the site appear in summaries (e.g. `hero.facts`
+  restates the credentials list). Don't add numbers or outcomes without a source.
+- No em dashes in body copy.
 
 ## Constants worth knowing (`lib/site.ts`)
 
-- `email` — the public owned-domain address shown on the site and used as the mailto
+- `email` — the public owned-domain address shown on the site and used as the email
   fallback (`mark@echo-five.ca`). Live form delivery is configured via env, not here
   (see `app/api/contact/route.ts`).
-- `video.id` — the YouTube ID for the SSC adoption talk (`4IycJ3ehz7g`).
-- `advantaUrl` — the partner platform link.
-
-## Editing notes
-
-- The **client roster** (`clients.groups`) is grouped into Government of Canada, Crown
-  corporations & agencies, and Enterprise & non-profit. Each org has a `short` (the mono
-  code in the grid, also the giant marquee mark) and a `name` (the full name). `Trust`
-  derives its counts from this data, so adding an org updates the stat automatically.
-- The **hero CTAs** live at `hero.cta` (`primary` scrolls to the contact close,
-  `secondary` to the approach section).
-- **Credentials** (`credentials.items`) includes the Secret Level II clearance as a
-  trust signal alongside the certifications.
-- The **founder block** (`principal`) in the About section names Mark Abdelnour so a
-  visitor knows who receives their message.
-- House style: first-person plural, no em dashes, specifics over adjectives.
+- `video` — the YouTube ID for the conference talk.
+- `advantaUrl` — the Advanta365 platform link.

@@ -44,20 +44,18 @@ Three words: **precise · credible · human (not corporate)**.
 
 ## Aesthetic direction
 
-**Operations / Instrument (v3).** The name Echo-Five reads as a callsign, so the brand
-metaphor is the **signal**: a live readout, a waveform, echo rings propagating from a
-focal point, adoption spreading through an organization. The site should feel like
-serious infrastructure software, the adoption-analytics product itself, not a brochure.
-Dark, technical, restrained. Differentiation through rigor, never hype.
+**Midnight & Vermilion.** A crisp institutional look: cool white paper, midnight ink and
+bands, one vermilion accent. It should feel like a serious firm's brief, not a
+brochure or a tech demo. Differentiation through clarity, structure, and specifics.
 
-- **Color (one committed accent):** cool graphite grounds carry the weight, one
-  **signal green** carries meaning (the live status, progress, key words, CTAs, the
-  drenched closing section). Rhythm comes from panel elevation, not light/dark flips.
-- **Type:** Archivo for big confident display, Geist for credible body, Geist Mono for
-  callsign-style coordinates (CH.NN), labels, and data.
-- **Structure:** graphite/raised section grounds; editorial divided lists instead of
-  icon-card grids; a mono data-grid client roster; an interactive ADKAR progress rail;
-  one full-bleed signal-drenched contact close that houses the form.
+- **Color (one committed accent):** vermilion carries meaning (CTAs, links, labels,
+  key marks); midnight carries weight (hero, CTA band, footer). See `DESIGN.md`.
+- **Type:** Schibsted Grotesk display, IBM Plex Sans body, IBM Plex Mono labels.
+- **Structure:** short home page that summarizes and links to Services, Approach,
+  About, and Contact. Credentials and named clients sit in the first fold. A clear
+  "Start a conversation" path on every page.
+- **Motion:** minimal. Short entrance fades only. No scroll hijacking or effects that
+  slow reading.
 
 ## Anti-references (do NOT look like these)
 
@@ -65,7 +63,9 @@ Dark, technical, restrained. Differentiation through rigor, never hype.
   hairlines everywhere, beige).
 - **Echo-Five v2:** Swiss-grid govtech in navy-slate + teal.
 - **Echo-Five (warm-amber rebuild):** warm paper + deep ink + signal amber, radar hero.
-  Good, but superseded by this dark instrument direction.
+- **Echo-Five dark "Operations / Instrument":** graphite + signal green oscilloscope.
+- **Echo-Five "Bone & Cobalt":** warm bone + cobalt, WebGL field, pinned scroll scenes.
+  Visually strong, but long and effect-heavy; hard for busy buyers to scan.
 - **GOV.UK clone:** government-blue + Transport-font cosplay. We want govtech rigor,
   not govtech costume.
 - **Generic SaaS / dev-tool slop:** purple gradients, three identical icon cards,
@@ -73,11 +73,9 @@ Dark, technical, restrained. Differentiation through rigor, never hype.
 
 ## Strategic principles
 
-- Commit to the signal. It carries real surface (motif, live state, CTAs, the drenched
-  close), not a timid 10% accent. Used green-on-graphite, it must stay restrained, never
-  neon slop.
-- The signal/echo metaphor is the brand. Use it as live readout and structure (the
-  oscilloscope hero, the progress rail), never as foreground clip-art.
+- Lead with proof: clearance, certifications, years, and named clients belong in the
+  first fold, not at the bottom.
+- Every page ends with the ask.
 - Specificity is the credibility engine: name the clients, name the tools, name the
   certs and the clearance.
 - Accessibility is credibility for a public-sector audience: WCAG AA is the floor.

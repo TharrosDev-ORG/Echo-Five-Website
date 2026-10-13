@@ -4,11 +4,10 @@
  */
 
 export const nav = [
-  { label: "Approach", href: "#why" },
-  { label: "Process", href: "#process" },
-  { label: "Clients", href: "#clients" },
-  { label: "Credentials", href: "#credentials" },
-  { label: "Contact", href: "#contact" },
+  { label: "Services", href: "/services" },
+  { label: "Approach", href: "/approach" },
+  { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" },
 ] as const;
 
 export const hero = {
@@ -18,8 +17,15 @@ export const hero = {
   sub: "We help government and enterprise organizations move to Microsoft 365 and actually adopt it. Strategy, communications, training, and technical writing, delivered end to end.",
   cta: {
     primary: "Start a conversation",
-    secondary: "See how we work",
+    secondary: "See our approach",
   },
+  /** The at-a-glance panel: every line restates a claim made elsewhere on the site. */
+  facts: [
+    { title: "20+ years in practice", detail: "Federal and enterprise Microsoft 365 rollouts" },
+    { title: "Secret Level II clearance", detail: "Cleared for federal engagements" },
+    { title: "Prosci ADKAR certified", detail: "Certified 2009 and 2016" },
+    { title: "Microsoft 365 Certified", detail: "Platform certification" },
+  ],
   trust: [
     "20+ years",
     "Secret Level II cleared",
@@ -272,3 +278,46 @@ export const footer = {
   disclaimer:
     "Microsoft 365, Teams, SharePoint, Copilot, and OneDrive are trademarks of Microsoft Corporation. Echofive Solutions is an independent consultancy and is not affiliated with Microsoft or Prosci.",
 };
+
+/** Inner-page headers. Copy is drawn from the sections above. */
+export const pages = {
+  services: {
+    title: "Services",
+    label: "Services",
+    heading: "Adoption, run as a programme.",
+    lead: "We bridge strategy and execution: the roadmap and the floor walking, the comms plan and the job aid. Every engagement is built to move a measurable behaviour, not to tick a project box.",
+    description:
+      "Microsoft 365 adoption strategy, communications, training, technical writing, AI coaching, and migration support for government and enterprise.",
+  },
+  approach: {
+    title: "Approach",
+    label: "Approach",
+    heading: "The software ships. The behaviour change doesn't.",
+    lead: "Most Microsoft 365 rollouts are run as IT projects with a training session bolted on at the end. We work the other side of the deployment: the people.",
+    description:
+      "Why Microsoft 365 rollouts stall, and how Echofive runs adoption on the Prosci ADKAR model with measurable progress week to week.",
+  },
+  about: {
+    title: "About",
+    label: "The firm",
+    heading: "Twenty years. One job. Done properly.",
+    lead: "Echofive Solutions is a senior change management practice built around one specialty: helping organizations actually adopt Microsoft 365.",
+    description:
+      "Echofive Solutions: a senior Microsoft 365 change management practice. Credentials, clearance, and two decades of government and enterprise clients.",
+  },
+  contact: {
+    title: "Contact",
+    label: "Start a conversation",
+    heading: "Tell us what you are rolling out.",
+    lead: "Whether you are scoping a migration or trying to rescue an adoption that has stalled, we will tell you straight whether we can help. No pitch theatre.",
+    description:
+      "Start a conversation with Echofive Solutions about your Microsoft 365 rollout. Your message goes straight to the founder.",
+  },
+};
+
+/** What Advanta365 gives a programme, taken from `method.body`. */
+export const methodPoints = [
+  "Guided learning pathways",
+  "Adoption analytics, so progress is visible week to week",
+  "Governance guardrails in one place",
+];
