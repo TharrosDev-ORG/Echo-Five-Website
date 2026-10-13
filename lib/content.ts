@@ -6,6 +6,7 @@
 export const nav = [
   { label: "Services", href: "/services" },
   { label: "Approach", href: "/approach" },
+  { label: "Product", href: "/product" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ] as const;
@@ -293,6 +294,13 @@ export const pages = {
     lead: "Most Microsoft 365 rollouts are run as IT projects with a training session added at the end. We work on the people side of the deployment, using the Prosci ADKAR model and measuring adoption as it happens.",
     description:
       "Why Microsoft 365 rollouts stall, and how Echofive runs adoption on the Prosci ADKAR model with progress measured week to week.",
+  },
+  product: {
+    title: "Advanta365",
+    heading: "Advanta365",
+    lead: "Advanta365 is Echofive's Microsoft 365 adoption and governance platform. We run it inside our adoption engagements so progress is measured as it happens.",
+    description:
+      "Advanta365 is a Microsoft 365 adoption and governance platform from Echofive: guided learning pathways, adoption analytics, and governance guardrails in one place.",
   },
   about: {
     title: "About",
