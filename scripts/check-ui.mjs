@@ -226,21 +226,46 @@ const checks = [
     },
   },
   {
-    // Hand-off sections: the rail stops above the home hero curve and the ADKAR path, which carry the line instead.
+    // Hand-off sections: the rail stops above the home hero curve and the ADKAR paths, which carry the line instead.
     name: "rail-handoff",
     mode: "js",
     widths: [1440],
-    routes: ["/"],
-    async run(page) {
-      const got = await page.evaluate(() =>
-        ['header[data-hero]', "#process"].map((sel) => {
-          const el = document.querySelector(sel);
-          return { sel, found: Boolean(el), rails: el ? el.querySelectorAll("[data-rail]").length : 0 };
-        }),
+    routes: ["/", "/approach"],
+    async run(page, { route }) {
+      const selectors = route === "/" ? ["header[data-hero]", "#process"] : ["#adkar"];
+      const got = await page.evaluate(
+        (sels) =>
+          sels.map((sel) => {
+            const el = document.querySelector(sel);
+            return { sel, found: Boolean(el), rails: el ? el.querySelectorAll("[data-rail]").length : 0 };
+          }),
+        selectors,
       );
       return got.flatMap((g) =>
         !g.found ? [`${g.sel} not found`] : g.rails ? [`${g.sel} has ${g.rails} [data-rail]`] : [],
       );
+    },
+  },
+  {
+    // Guards the stepper restyle: Arrow keys still move the selection and show the matching panel.
+    name: "adkar-tabs",
+    mode: "js",
+    widths: [1440],
+    routes: ["/approach"],
+    async run(page) {
+      const tabs = page.locator('[role="tab"]');
+      if ((await tabs.count()) !== 5) return [`expected 5 tabs, found ${await tabs.count()}`];
+      await tabs.first().focus();
+      await page.keyboard.press("ArrowRight");
+      await page.keyboard.press("ArrowRight");
+      const third = tabs.nth(2);
+      const selected = await third.getAttribute("aria-selected");
+      const panelId = await third.getAttribute("aria-controls");
+      const fails = [];
+      if (selected !== "true") fails.push(`third tab aria-selected is ${selected}`);
+      const visible = panelId ? await page.locator(`[id="${panelId}"]`).isVisible() : false;
+      if (!visible) fails.push(`panel ${panelId} not visible`);
+      return fails;
     },
   },
   {

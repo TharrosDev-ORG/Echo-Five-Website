@@ -1,32 +1,25 @@
 import { engagement } from "@/lib/content";
-import { cx } from "@/lib/cx";
 import Reveal from "@/components/ui/Reveal";
 
 /**
- * The four-part engagement arc. Stacked on phones, two columns on tablets,
- * and a connected horizontal track from lg up.
+ * The four-part engagement arc as a numbered sequence: one ruled row per
+ * step, with the numeral, the title, and the description in a line from md.
  */
 export default function EngagementSteps() {
-  const last = engagement.steps.length - 1;
   return (
-    <ol className="mt-10 grid gap-x-8 gap-y-10 sm:grid-cols-2 md:mt-14 lg:grid-cols-4 lg:gap-x-6">
+    <ol className="mt-10 border-b border-edge md:mt-14">
       {engagement.steps.map((step, i) => (
-        <Reveal as="li" key={step.n} index={i} className="min-w-0">
-          <div className="flex items-center gap-4">
-            <span
-              aria-hidden="true"
-              className="inline-flex size-11 shrink-0 items-center justify-center rounded-control bg-accent-fill font-display text-h3 text-on-accent"
-            >
-              {step.n}
-            </span>
-            {/* Connector to the next step on the horizontal track. */}
-            <span
-              aria-hidden="true"
-              className={cx("hidden h-px flex-1 bg-edge-strong", i < last && "lg:block")}
-            />
-          </div>
-          <h3 className="mt-5 text-h3 text-fg">{step.title}</h3>
-          <p className="mt-2 text-fg-2">{step.body}</p>
+        <Reveal
+          as="li"
+          key={step.n}
+          index={i}
+          className="grid gap-x-8 gap-y-3 border-t border-edge py-8 md:grid-cols-[5rem_minmax(0,1fr)_minmax(0,1.1fr)] md:py-10 lg:grid-cols-[5.5rem_minmax(0,1fr)_minmax(0,1.1fr)]"
+        >
+          <span aria-hidden="true" className="font-display text-h2 text-accent tabular-nums">
+            {step.n.padStart(2, "0")}
+          </span>
+          <h3 className="text-h2 text-fg md:text-h3 lg:text-h2">{step.title}</h3>
+          <p className="max-w-[52ch] text-fg-2 md:pt-1">{step.body}</p>
         </Reveal>
       ))}
     </ol>
