@@ -230,9 +230,10 @@ const checks = [
     name: "rail-handoff",
     mode: "js",
     widths: [1440],
-    routes: ["/", "/approach"],
+    routes: ["/", "/approach", "/product"],
     async run(page, { route }) {
-      const selectors = route === "/" ? ["header[data-hero]", "#process"] : ["#adkar"];
+      const selectors =
+        route === "/" ? ["header[data-hero]", "#process"] : route === "/product" ? ["#phases"] : ["#adkar"];
       const got = await page.evaluate(
         (sels) =>
           sels.map((sel) => {
@@ -244,6 +245,43 @@ const checks = [
       return got.flatMap((g) =>
         !g.found ? [`${g.sel} not found`] : g.rails ? [`${g.sel} has ${g.rails} [data-rail]`] : [],
       );
+    },
+  },
+  {
+    // PhaseTrack's connector is one element on the <ol>, running from the first node's centre to the last node's centre.
+    name: "phase-line",
+    mode: "js",
+    widths: [1440],
+    routes: ["/product"],
+    async run(page) {
+      const ol = page.locator("ol[aria-label]").filter({ has: page.locator("[data-phase-node]") });
+      if ((await ol.count()) !== 1) return [`expected one phase list, found ${await ol.count()}`];
+      const lines = await ol.locator("[data-phase-line]").count();
+      if (lines !== 1) return [`expected exactly one [data-phase-line], found ${lines}`];
+      // The line draws in on reveal: scroll to it and let the animation finish before measuring.
+      await ol.scrollIntoViewIfNeeded();
+      await page.evaluate(async () => {
+        const line = document.querySelector("[data-phase-line]");
+        await Promise.all(line.getAnimations().map((a) => a.finished));
+      });
+      const got = await page.evaluate(() => {
+        const line = document.querySelector("[data-phase-line]").getBoundingClientRect();
+        const nodes = [...document.querySelectorAll("[data-phase-node]")].map((n) => {
+          const r = n.getBoundingClientRect();
+          return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+        });
+        return { line: { left: line.left, right: line.right, y: line.top + line.height / 2 }, nodes };
+      });
+      const fails = [];
+      if (got.nodes.length !== 7) fails.push(`expected 7 nodes, found ${got.nodes.length}`);
+      const first = got.nodes[0];
+      const last = got.nodes[got.nodes.length - 1];
+      if (Math.abs(got.line.left - first.x) > 2) fails.push(`line starts at ${got.line.left.toFixed(1)}, first node centre ${first.x.toFixed(1)}`);
+      if (Math.abs(got.line.right - last.x) > 2) fails.push(`line ends at ${got.line.right.toFixed(1)}, last node centre ${last.x.toFixed(1)}`);
+      for (const n of got.nodes) {
+        if (Math.abs(n.y - got.line.y) > 2) fails.push(`node centre y ${n.y.toFixed(1)} is off the line (${got.line.y.toFixed(1)})`);
+      }
+      return fails;
     },
   },
   {

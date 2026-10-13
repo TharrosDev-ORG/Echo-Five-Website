@@ -899,6 +899,22 @@
     animation: illo-pop 450ms var(--ease-out-soft) both;
     animation-delay: calc(0.3s + var(--i, 0) * 0.16s);
   }
+
+  /* PhaseTrack's single connector: draws down on phones, across from 768px. */
+  html.js [data-reveal]:not([data-revealed]) .phase-line {
+    transform: scaleY(0);
+  }
+  html.js [data-revealed] .phase-line {
+    animation: phase-draw-y 1.2s var(--ease-out-soft) 0.15s both;
+  }
+  @media (min-width: 768px) {
+    html.js [data-reveal]:not([data-revealed]) .phase-line {
+      transform: scaleX(0);
+    }
+    html.js [data-revealed] .phase-line {
+      animation-name: phase-draw-x;
+    }
+  }
 }
 
 @keyframes marquee {
@@ -912,6 +928,22 @@
   }
   to {
     stroke-dashoffset: 0;
+  }
+}
+@keyframes phase-draw-x {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes phase-draw-y {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
   }
 }
 @keyframes illo-pop {
