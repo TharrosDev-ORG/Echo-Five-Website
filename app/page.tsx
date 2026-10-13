@@ -36,6 +36,8 @@ export default function Home() {
       <PageHero
         tone="dark"
         size="mega"
+        // Hand-off: the adoption curve carries the signal line here, so the rail starts in the next section.
+        rail={false}
         eyebrow={hero.context}
         title={hero.headline.map((line, i) => (
           <span

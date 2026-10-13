@@ -162,6 +162,7 @@ const checks = [
   },
   {
     // The mega headline must stay at least 48px and break to more lines rather than clip at phone widths.
+    // Measures the laid-out text itself (block boxes are always container-wide, so they cannot show overflow).
     name: "hero-fit",
     mode: "js",
     widths: [360, 390],
@@ -171,16 +172,75 @@ const checks = [
         const h1 = document.querySelector("h1");
         if (!h1) return null;
         const limit = window.innerWidth - 15.5;
-        const over = [h1, ...h1.querySelectorAll("*")]
-          .map((el) => ({ text: el.textContent.trim().slice(0, 30), right: el.getBoundingClientRect().right }))
-          .filter((r) => r.right > limit);
+        const over = [];
+        const walker = document.createTreeWalker(h1, NodeFilter.SHOW_TEXT);
+        const range = document.createRange();
+        for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+          if (!node.textContent.trim()) continue;
+          range.selectNodeContents(node);
+          for (const r of range.getClientRects()) {
+            if (r.right > limit) over.push({ text: node.textContent.trim().slice(0, 30), right: r.right });
+          }
+        }
         return { size: parseFloat(getComputedStyle(h1).fontSize), over, limit };
       });
       if (!got) return ["no h1"];
       const fails = [];
       if (got.size < 48) fails.push(`h1 font-size ${got.size}px < 48px`);
-      for (const o of got.over) fails.push(`'${o.text}' right ${o.right.toFixed(1)} > ${got.limit}`);
+      for (const o of got.over) fails.push(`text '${o.text}' line right ${o.right.toFixed(1)} > ${got.limit}`);
       return fails;
+    },
+  },
+  {
+    // Each proof entry is read once: the giant mark ("30+", "II") restates the value, so it is hidden from assistive tech.
+    name: "proof-a11y",
+    mode: "js",
+    widths: [1440],
+    routes: ["/"],
+    async run(page) {
+      const items = await page.evaluate(() =>
+        [...document.querySelectorAll('section[aria-label="Credentials"] li')].map((li) => {
+          const mark = li.querySelector(".stat-mega");
+          const chunks = [];
+          const walker = document.createTreeWalker(li, NodeFilter.SHOW_TEXT);
+          for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+            const t = node.textContent.trim();
+            if (t && !node.parentElement.closest('[aria-hidden="true"]')) chunks.push(t);
+          }
+          return {
+            mark: mark ? mark.textContent.trim() : null,
+            markHidden: Boolean(mark?.closest('[aria-hidden="true"]')),
+            chunks,
+          };
+        }),
+      );
+      if (items.length !== 4) return [`${items.length} proof items, expected 4`];
+      const fails = [];
+      for (const it of items) {
+        if (!it.mark) { fails.push("proof item without a .stat-mega mark"); continue; }
+        if (!it.markHidden) fails.push(`mark '${it.mark}' is not inside aria-hidden`);
+        if (it.chunks[0] === it.mark) fails.push(`'${it.mark}' is read as its own token before '${it.chunks[1] ?? ""}'`);
+        if (!it.chunks.length) fails.push(`'${it.mark}' entry has no readable text`);
+      }
+      return fails;
+    },
+  },
+  {
+    // Hand-off sections: the rail stops above the home hero curve and the ADKAR path, which carry the line instead.
+    name: "rail-handoff",
+    mode: "js",
+    widths: [1440],
+    routes: ["/"],
+    async run(page) {
+      const got = await page.evaluate(() =>
+        ['header[data-hero]', "#process"].map((sel) => {
+          const el = document.querySelector(sel);
+          return { sel, found: Boolean(el), rails: el ? el.querySelectorAll("[data-rail]").length : 0 };
+        }),
+      );
+      return got.flatMap((g) =>
+        !g.found ? [`${g.sel} not found`] : g.rails ? [`${g.sel} has ${g.rails} [data-rail]`] : [],
+      );
     },
   },
   {

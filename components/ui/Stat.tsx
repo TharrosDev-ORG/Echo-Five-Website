@@ -12,14 +12,28 @@ type Props = {
   size?: "md" | "lg" | "mega";
   /** Color the value with the surface accent (blue text, white on a blue ground). */
   accent?: boolean;
+  /**
+   * Hide the figure from assistive tech when it restates the label (a giant
+   * "30+" over "30+ years"), so the entry is read once.
+   */
+  valueHidden?: boolean;
   className?: string;
 };
 
 /** A figure and its label, read in that order ("59 Playbooks"). */
-export default function Stat({ value, label, detail, size = "lg", accent = false, className }: Props) {
+export default function Stat({
+  value,
+  label,
+  detail,
+  size = "lg",
+  accent = false,
+  valueHidden = false,
+  className,
+}: Props) {
   return (
     <div className={cx("flex flex-col", size === "mega" ? "gap-2" : "gap-1.5", className)}>
       <p
+        aria-hidden={valueHidden || undefined}
         className={cx(
           "font-display",
           size === "mega"

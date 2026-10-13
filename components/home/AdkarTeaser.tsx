@@ -10,11 +10,12 @@ import SectionHeading from "@/components/ui/SectionHeading";
  * The five ADKAR stages in brief. From lg the acronym is set in five giant
  * letters over the signal path, with each stage's name and line under its
  * letter. Below lg each stage is a row: its letter, then its name and line.
- * The letters are decorative; the stage names are the real text.
+ * The letters are decorative; the stage names are the real text. A hand-off
+ * section: the rail stops above it and the ADKAR path carries the line.
  */
 export default function AdkarTeaser() {
   return (
-    <Section id="process" labelledBy="process-heading">
+    <Section id="process" rail={false} labelledBy="process-heading">
       <SectionHeading
         id="process-heading"
         title={process.heading}

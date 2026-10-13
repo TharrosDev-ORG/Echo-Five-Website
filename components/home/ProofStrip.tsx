@@ -16,7 +16,8 @@ const place = [
  * The four credentials as giant marks ("30+", "II", "ADKAR", "365"), each with
  * the claim it stands for beneath. Stacked on phones, two by two on tablets,
  * staggered quarters from lg. The marks share one size, fitted so "ADKAR"
- * holds a quarter column (see `.mega-fit`).
+ * holds a quarter column (see `.mega-fit`). The mark restates the value, so
+ * it is hidden from assistive tech and each entry is read once.
  */
 export default function ProofStrip() {
   return (
@@ -29,7 +30,7 @@ export default function ProofStrip() {
             key={item.mark}
             className={cx("mega-fit border-t border-edge pt-6 lg:col-span-3", place[i])}
           >
-            <Stat size="mega" value={item.mark} label={item.value} detail={item.label} />
+            <Stat size="mega" value={item.mark} label={item.value} detail={item.label} valueHidden />
           </Reveal>
         ))}
       </ul>

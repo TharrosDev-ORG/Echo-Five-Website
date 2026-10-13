@@ -23,6 +23,11 @@ type Props = {
   size?: "page" | "display" | "mega";
   /** Extra content under the actions (e.g. a price callout or badges). With `mega`, full width at the hero's foot. */
   children?: ReactNode;
+  /**
+   * Draw the signal rail in the left gutter (default). Pass `false` where a
+   * diagram in the hero carries the line instead (the home adoption curve).
+   */
+  rail?: boolean;
   className?: string;
 };
 
@@ -39,6 +44,7 @@ export default function PageHero({
   tone = "light",
   size = "page",
   children,
+  rail = true,
   className,
 }: Props) {
   const mega = size === "mega";
@@ -58,7 +64,7 @@ export default function PageHero({
           className,
         )}
       >
-        <SignalRail />
+        {rail ? <SignalRail /> : null}
         {/* A query container, so the headline can size itself to the column (see .hero-mega). */}
         <Container className="@container flex flex-col pt-12 pb-12 md:pt-16 md:pb-14 lg:min-h-[calc(100svh-var(--header-h))] lg:pt-16 lg:pb-10">
           {eyebrow ? <p className="mb-5 max-w-[48rem] text-small font-medium text-fg-2">{eyebrow}</p> : null}
@@ -96,7 +102,7 @@ export default function PageHero({
         className,
       )}
     >
-      <SignalRail />
+      {rail ? <SignalRail /> : null}
       <Container
         className={cx(
           "grid gap-12 py-14 md:py-20 lg:py-24",
