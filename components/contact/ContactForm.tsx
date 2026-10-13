@@ -92,14 +92,17 @@ export default function ContactForm({ className }: Props) {
     }
   }
 
-  const cardClass = cx("card card-panel", className);
+  const cardClass = cx(
+    "surface-alt flex flex-col gap-3 rounded-card border border-edge p-6 sm:p-9",
+    className,
+  );
 
   if (status === "success") {
     return (
       <div className={cardClass} role="status" aria-live="polite">
         <span
           aria-hidden="true"
-          className="inline-flex size-12 items-center justify-center rounded-full bg-accent text-on-accent"
+          className="inline-flex size-12 items-center justify-center rounded-full bg-accent-fill text-on-accent"
         >
           <Check size={24} strokeWidth={2.25} />
         </span>

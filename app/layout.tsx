@@ -10,11 +10,11 @@ import RevealObserver from "@/components/ui/RevealObserver";
 
 // Self-hosted (OFL) latin variable subsets. Fetching these through
 // next/font/google fails on Vercel's Turbopack builders.
-const display = localFont({
-  src: "./fonts/InstrumentSans-Variable-latin.woff2",
-  variable: "--font-instrument-sans",
+const bricolage = localFont({
+  src: "./fonts/BricolageGrotesque-Variable-latin.woff2",
+  variable: "--font-bricolage",
   display: "swap",
-  weight: "500 700",
+  weight: "500 800",
 });
 
 const sans = localFont({
@@ -66,7 +66,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f6f8f7",
+  themeColor: "#FFFFFF",
   colorScheme: "light",
   // Lets the mobile CTA bar pad itself clear of the home indicator.
   viewportFit: "cover",
@@ -96,9 +96,6 @@ const jsonLd = {
   ],
   makesOffer: {
     "@type": "Offer",
-    // "$1,499.99" -> "1499.99", so the structured data follows the displayed price.
-    price: advanta.price.amount.replace(/[^0-9.]/g, ""),
-    priceCurrency: advanta.price.currency,
     url: advanta.urls.purchase,
     itemOffered: {
       "@type": "Product",
@@ -118,7 +115,7 @@ const jsFlag = `(function(d){d.classList.add("js");setTimeout(function(){if(!d.c
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${display.variable} ${sans.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${bricolage.variable} ${sans.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: jsFlag }} />
         {/* The talk poster is the only third-party asset. */}

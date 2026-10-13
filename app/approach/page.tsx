@@ -40,7 +40,8 @@ export default function ApproachPage() {
         <StallClose className="mt-12 md:mt-16" />
       </Section>
 
-      <Section id="adkar" tone="dark" texture labelledBy="adkar-heading">
+      {/* Hand-off: the stepper's path carries the signal line, so the rail stops above. */}
+      <Section id="adkar" tone="dark" rail={false} labelledBy="adkar-heading">
         <SectionHeading id="adkar-heading" title={adkar.heading} lead={adkar.intro} />
         <div className="mt-10 md:mt-14">
           <AdkarStepper />

@@ -1,26 +1,21 @@
 import { advanta } from "@/lib/content";
-import Badge from "@/components/ui/Badge";
+import Reveal from "@/components/ui/Reveal";
 import Section from "@/components/ui/Section";
-import { FileText } from "@/components/ui/icons";
 
-/** Compact row listing the file formats the toolkit ships in. */
+/** The file formats the toolkit ships in, set as four large labels on hairlines. */
 export default function FileFormats() {
   return (
-    <Section id="formats" spacing="sm" labelledBy="formats-heading">
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between md:gap-10">
-        <h2 id="formats-heading" className="text-h3 text-fg">
-          {advanta.formatsHeading}
-        </h2>
-        <ul className="flex flex-wrap gap-2">
-          {advanta.formats.map((format) => (
-            <li key={format}>
-              <Badge icon={<FileText size={14} className="text-accent" />} className="tracking-[0.06em]">
-                {format}
-              </Badge>
-            </li>
-          ))}
-        </ul>
-      </div>
+    <Section id="formats" tone="alt" spacing="sm" labelledBy="formats-heading">
+      <h2 id="formats-heading" className="text-h3 text-fg">
+        {advanta.formatsHeading}
+      </h2>
+      <ul className="mt-8 grid grid-cols-2 gap-x-6 gap-y-6 md:grid-cols-4">
+        {advanta.formats.map((format, i) => (
+          <Reveal as="li" index={i} key={format} className="border-t border-edge-strong pt-4">
+            <span className="font-display text-h1 tracking-[-0.03em] text-fg">{format}</span>
+          </Reveal>
+        ))}
+      </ul>
     </Section>
   );
 }

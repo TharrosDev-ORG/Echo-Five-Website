@@ -1,28 +1,29 @@
 import { services } from "@/lib/content";
-import { ArrowRight } from "@/components/ui/icons";
 
-/** In-page links to each service section; sits in the hero's visual column. */
+/**
+ * In-page links to each service section: a plain numbered list. From lg it
+ * holds still beside the six sections while they scroll past.
+ */
 export default function ServiceJumpNav() {
   return (
-    <nav aria-labelledby="service-jump-label" className="card card-panel">
-      <p id="service-jump-label" className="text-small font-medium text-fg-2">
+    <nav
+      aria-labelledby="service-jump-label"
+      className="lg:sticky lg:top-[calc(var(--header-h)+2rem)]"
+    >
+      <p id="service-jump-label" className="text-label font-semibold text-fg-2">
         {services.jumpLabel}
       </p>
-      <ol className="mt-2 divide-y divide-edge">
+      <ol className="mt-3 border-t border-edge">
         {services.items.map((item) => (
-          <li key={item.slug}>
+          <li key={item.slug} className="border-b border-edge">
             <a
               href={`#${item.slug}`}
-              className="group flex min-h-12 items-center gap-3 py-2.5 font-medium text-fg no-underline transition-colors duration-150 hover:text-accent"
+              className="group flex min-h-12 items-baseline gap-4 py-3 font-medium text-fg no-underline transition-colors duration-200 hover:text-accent"
             >
-              <span aria-hidden="true" className="w-6 shrink-0 font-display text-small text-fg-3 tabular-nums">
+              <span aria-hidden="true" className="w-6 shrink-0 text-label tabular-nums text-fg-3">
                 {item.n}
               </span>
               <span className="min-w-0 flex-1">{item.title}</span>
-              <ArrowRight
-                size={16}
-                className="shrink-0 rotate-90 text-fg-3 transition-transform duration-150 group-hover:translate-y-0.5 group-hover:text-accent"
-              />
             </a>
           </li>
         ))}

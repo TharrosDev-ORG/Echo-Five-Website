@@ -29,7 +29,6 @@ export default function ServicesPage() {
             </Button>
           </>
         }
-        visual={<ServiceJumpNav />}
       >
         <p id="platforms-label" className="text-small font-medium text-fg-2">
           {services.platformsLabel}
@@ -45,7 +44,14 @@ export default function ServicesPage() {
 
       <Section id="what-we-do" labelledBy="what-we-do-heading">
         <SectionHeading id="what-we-do-heading" title={services.heading} />
-        <ServiceDetails />
+        <div className="mt-10 grid gap-10 md:mt-14 lg:grid-cols-12 lg:gap-x-12">
+          <div className="lg:col-span-3">
+            <ServiceJumpNav />
+          </div>
+          <div className="min-w-0 lg:col-span-9">
+            <ServiceDetails />
+          </div>
+        </div>
       </Section>
 
       <Section tone="alt" labelledBy="pair-advanta-heading">

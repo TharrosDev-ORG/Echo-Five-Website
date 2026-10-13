@@ -4,11 +4,11 @@ import { cx } from "@/lib/cx";
 import { ArrowRight, External } from "@/components/ui/icons";
 
 type Props = {
-  /** Makes the whole card a single link with a hover lift and focus ring. */
+  /** Makes the whole card a single link. Hover darkens the border; the card does not lift. */
   href?: string;
   /** Open `href` in a new tab (adds an external icon and screen-reader note). */
   external?: boolean;
-  /** `panel` uses the large 24px radius and roomier padding. */
+  /** `panel` has roomier padding on wide screens. */
   variant?: "default" | "panel";
   /** Small icon shown in a tinted tile at the top, e.g. `<Icon name="compass" />`. */
   icon?: ReactNode;
@@ -24,8 +24,8 @@ type Props = {
 };
 
 /**
- * Surface for grouped content. White on light grounds, spruce-2 on dark ones.
- * Body text inherits `text-fg-2`.
+ * Surface for grouped content: 1px edge, 8px radius, no shadow. Raised white on
+ * light grounds, black-2 on dark ones, blue-d on blue. Body text uses `text-fg-2`.
  */
 export default function Card({
   href,

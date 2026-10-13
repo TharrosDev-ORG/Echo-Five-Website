@@ -4,6 +4,7 @@ import { useId, useRef, useState, useSyncExternalStore, type KeyboardEvent } fro
 import { process as adkar } from "@/lib/content";
 import { cx } from "@/lib/cx";
 import AdkarPath from "@/components/illustrations/AdkarPath";
+import Reveal from "@/components/ui/Reveal";
 import styles from "./AdkarStepper.module.css";
 
 const noopSubscribe = () => () => {};
@@ -50,22 +51,22 @@ export default function AdkarStepper() {
   const Panel = enhanced ? "div" : "li";
 
   return (
-    <div className={cx("card card-panel", styles.stepper)} data-enhanced={enhanced ? "" : undefined}>
+    <div className={styles.stepper} data-enhanced={enhanced ? "" : undefined}>
       {/*
-        The path's nodes sit at 10%, 30% ... 90% of its width. Widening it by the
-        tab gap (0.5rem) and pulling it left by half that puts each node over
-        the centre of its tab.
+        The path's nodes sit at 10%, 30% ... 90% of its width: the centres of
+        five equal columns, so each node sits over its tab. The path is the
+        signal line; it draws up to the selected stage.
       */}
-      <div className="mx-auto hidden w-full max-w-3xl sm:block">
-        <div className="-mx-1">
-          <AdkarPath active={enhanced ? active : undefined} />
-        </div>
+      <div className="hidden w-full sm:block">
+        <Reveal>
+          <AdkarPath letters={false} active={enhanced ? active : undefined} />
+        </Reveal>
       </div>
 
       <div
         role={enhanced ? "tablist" : undefined}
         aria-label={enhanced ? adkar.stagesLabel : undefined}
-        className={cx(styles.tablist, "mx-auto grid w-full max-w-3xl grid-cols-5 gap-2 sm:mt-3")}
+        className={cx(styles.tablist, "grid w-full grid-cols-5 sm:mt-1")}
       >
         {stages.map((stage, i) => {
           // Styled as selected even before hydration so the layout does not shift.
@@ -85,10 +86,10 @@ export default function AdkarStepper() {
               onClick={() => setActive(i)}
               onKeyDown={onKeyDown}
               className={cx(
-                "flex min-h-11 cursor-pointer items-center justify-center rounded-control border px-1 py-2 font-semibold",
-                "transition-colors duration-150",
+                "flex min-h-11 cursor-pointer items-center justify-center border-b-2 px-1 py-2 font-semibold",
+                "transition-colors duration-200",
                 selected
-                  ? "border-accent bg-accent text-on-accent"
+                  ? "border-accent-fill text-fg"
                   : "border-edge text-fg-2 hover:border-edge-strong hover:text-fg",
               )}
             >
@@ -104,7 +105,7 @@ export default function AdkarStepper() {
 
       <Panels
         aria-label={enhanced ? undefined : adkar.stagesLabel}
-        className={cx("mx-auto mt-8 w-full max-w-3xl", !enhanced && "divide-y divide-edge")}
+        className={cx("mt-10 w-full lg:mt-14", !enhanced && "divide-y divide-edge")}
       >
         {stages.map((stage, i) => (
           <Panel
@@ -116,19 +117,20 @@ export default function AdkarStepper() {
             hidden={enhanced ? i !== active : undefined}
             className={cx(
               styles.panel,
-              "grid items-start gap-4 rounded-control sm:grid-cols-[auto_minmax(0,1fr)] sm:gap-6",
+              "grid items-start gap-x-10 gap-y-3 sm:grid-cols-[6rem_minmax(0,1fr)] lg:grid-cols-[12rem_minmax(0,1fr)] lg:gap-x-12",
               !enhanced && "py-6 first:pt-0 last:pb-0",
             )}
           >
+            {/* The giant letter is decoration; the stage name below is the real heading. */}
             <span
               aria-hidden="true"
-              className="flex size-14 items-center justify-center rounded-card bg-accent/12 font-display text-h2 text-accent"
+              className="font-display leading-none text-accent text-display lg:text-mega"
             >
               {stage.key}
             </span>
-            <div className="min-w-0">
-              <h3 className="text-h3 text-fg">{stage.name}</h3>
-              <p className="mt-2 max-w-[60ch] text-lead text-fg-2">{stage.body}</p>
+            <div className="min-w-0 lg:pt-4">
+              <h3 className="text-h2 text-fg">{stage.name}</h3>
+              <p className="mt-3 max-w-[52ch] text-lead text-fg-2">{stage.body}</p>
             </div>
           </Panel>
         ))}

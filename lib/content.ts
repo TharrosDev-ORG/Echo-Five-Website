@@ -88,12 +88,15 @@ export const hero = {
   ],
 };
 
-/** The proof strip under the home hero: four short credentials. */
-export const proofStrip: { value: string; label: string; icon: IconName }[] = [
-  { value: "30+ years", label: "Federal and enterprise rollouts", icon: "certificate" },
-  { value: "Secret Level II", label: "Cleared for federal engagements", icon: "shield" },
-  { value: "Prosci ADKAR", label: "Certified 2009 and 2016", icon: "certificate" },
-  { value: "Microsoft\u00A0365", label: "Certified: Fundamentals", icon: "certificate" },
+/**
+ * The proof strip under the home hero: four short credentials. `mark` is a
+ * display-only short form of the same claim, set as a giant numeral.
+ */
+export const proofStrip: { mark: string; value: string; label: string; icon: IconName }[] = [
+  { mark: "30+", value: "30+ years", label: "Federal and enterprise rollouts", icon: "certificate" },
+  { mark: "II", value: "Secret Level II", label: "Cleared for federal engagements", icon: "shield" },
+  { mark: "ADKAR", value: "Prosci ADKAR", label: "Certified 2009 and 2016", icon: "certificate" },
+  { mark: "365", value: "Microsoft\u00A0365", label: "Certified: Fundamentals", icon: "certificate" },
 ];
 
 export const why = {
@@ -410,10 +413,8 @@ export const advanta = {
     { title: "Master Communications Plan", format: "XLSX" },
     { title: "Go/No-Go Decision Checklist", format: "XLSX" },
   ] as { title: string; format: string; detail?: string }[],
-  price: {
+  purchase: {
     heading: "One purchase. The whole toolkit.",
-    amount: "$1,499.99",
-    currency: "CAD",
     note: "Includes every playbook, template, field guide, and job aid.",
     includes: [
       "59 playbooks covering all seven phases",
@@ -606,7 +607,7 @@ export const pages = {
     heading: "Advanta365",
     lead: "The change management and user adoption toolkit behind real SharePoint Online rollouts. Ready to use as is, or tailor with AI.",
     description:
-      "Advanta365 is the change management and user adoption toolkit behind real SharePoint Online rollouts: 59 playbooks, 130 templates, 4 field guides, and training with 58 job aids. $1,499.99 CAD, one purchase.",
+      "Advanta365 is the change management and user adoption toolkit behind real SharePoint Online rollouts: 59 playbooks, 130 templates, 4 field guides, and training with 58 job aids.",
   },
   about: {
     title: "About",

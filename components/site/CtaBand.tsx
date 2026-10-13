@@ -9,27 +9,27 @@ type Props = {
   body?: string;
 };
 
-/** The dark closing band at the end of every page except Contact. */
+/** The blue closing band at the end of every page except Contact. */
 export default function CtaBand({ heading = ctaBand.heading, body = ctaBand.body }: Props) {
   return (
-    <section className="surface-dark texture" aria-labelledby="cta-band-heading" data-cta-band="">
+    <section className="surface-blue" aria-labelledby="cta-band-heading" data-cta-band="">
       <Container className="grid gap-10 py-16 md:py-24 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] lg:items-center">
-        <div className="max-w-2xl">
-          <h2 id="cta-band-heading" className="text-h2 text-fg">
+        <div className="max-w-3xl">
+          <h2 id="cta-band-heading" className="text-display text-fg">
             {heading}
           </h2>
           <p className="mt-5 text-lead text-fg-2">{body}</p>
         </div>
         {/* From lg the buttons stack in a shrink-wrapped grid column, so both take the wider one's width. */}
         <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap lg:grid lg:justify-self-end">
-          <Button href="/contact" size="lg" tone="dark" arrow>
+          <Button href="/contact" size="lg" tone="blue" arrow>
             {ctaBand.primary}
           </Button>
           <Button
             href={`mailto:${site.email}`}
             variant="secondary"
             size="lg"
-            tone="dark"
+            tone="blue"
             icon={<Mail size={18} />}
           >
             {ctaBand.emailLabel}

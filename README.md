@@ -1,18 +1,18 @@
-# Echofive Solutions — Website
+# Echofive Solutions: Website
 
 Marketing site for **Echofive Solutions Inc.**, a senior change management practice
 specializing in Microsoft 365 adoption for Canadian public-sector and enterprise
 organizations. The site's job is to earn a first conversation.
 
 Six statically generated pages (Home, Services, Approach, Advanta365, About, Contact) plus
-one server route for the contact form. The visual identity is **"Spruce & Citron"**: deep
-spruce grounds, cool paper, citron accents on dark and moss on light (see `DESIGN.md`).
+one server route for the contact form. The visual identity is **"Signal"**: black and
+white grounds, one electric blue, and a thin signal line that runs down every page (see `DESIGN.md`).
 
 ## Stack
 
 - **Next.js 16** (App Router, Turbopack) · **React 19** · **TypeScript** (strict)
 - **Tailwind CSS v4** (`@tailwindcss/postcss`, tokens via `@theme`)
-- Fonts self-hosted via `next/font/local` (`app/fonts`, OFL): **Instrument Sans** (headings), **Geist** (text)
+- Fonts self-hosted via `next/font/local` (`app/fonts`, OFL): **Bricolage Grotesque** (headings), **Geist** (text)
 - No animation libraries: motion is CSS plus one small IntersectionObserver, and every
   page is fully readable without JavaScript.
 
@@ -26,7 +26,23 @@ npm run dev        # http://localhost:3000
 npm run lint
 npm run typecheck  # tsc --noEmit
 npm run build      # production build
+npm run check:copy # static copy and code rules (em dashes, legacy tokens, old years, Advanta claims)
+npm run check:ui   # browser checks against a running build (see below)
 ```
+
+`check:ui` drives Chromium through the built site: overflow at 360 to 1440px, contrast, one
+`h1`, keyboard behavior, no-JS and reduced-motion states, and the signal rail. It uses a
+Playwright install on `NODE_PATH` (it is not a project dependency) and expects a
+production server:
+
+```bash
+npm run build && npx next start -p 3100 &
+npm run check:ui                          # all checks
+npm run check:ui -- --only=rail,contrast  # selected checks
+npm run check:ui -- --shots               # also writes .screenshots/<route>-<width>.png
+```
+
+Restart the server after every rebuild; a stale server serves pages without CSS.
 
 ## Structure
 
@@ -41,7 +57,7 @@ app/
   api/contact/route.ts Contact form delivery (Resend REST API)
 components/
   ui/                  Primitives: Button, Container, Section, SectionHeading, Card,
-                       Stat, Badge, Reveal, RevealObserver, Accordion, Marquee, icons
+                       Stat, Badge, IndexList, SignalRail, Reveal, RevealObserver, Accordion, Marquee, icons
   illustrations/       AdoptionCurve, AdkarPath, ToolkitStack, PhaseTrack
   site/                Chrome: Header, MobileCtaBar, CtaBand, Footer, PageHero, Logo, Talk
   contact/ContactForm  The contact form (client component)

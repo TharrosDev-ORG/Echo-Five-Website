@@ -64,7 +64,7 @@ runtime dependencies (no animation libraries, no icon packs, no UI kits).
   Strategy (DOCX); SharePoint Governance Framework (DOCX); SharePoint End-User Training
   Deck (PPTX, a 60-minute instructor-led session); Master Communications Plan (XLSX);
   Go/No-Go Decision Checklist (XLSX).
-- Price: **$1,499.99 CAD, one purchase** for the whole toolkit.
+- Do not publish the price on the site.
 - Links: purchase `https://www.advanta365.com/purchase`; free samples
   `https://www.advanta365.com/catalog?free=1`; contact `hello@advanta365.com`.
 - Disclaimer: Advanta365 and Echofive are independent and not affiliated with or endorsed
@@ -197,7 +197,7 @@ conference talk; `CtaBand`.
 
 ### Advanta365 (`app/product/page.tsx`)
 SaaS-style product page using only the Advanta365 facts:
-1. Hero (dark): name, one-line description, price callout, "Get the toolkit" (purchase
+1. Hero (dark): name, one-line description, "Get the toolkit" (purchase
    URL, external) + "See the free samples" (external), `ToolkitStack`.
 2. Counts row: 59 playbooks, 130 templates, 4 field guides, 58 job aids.
 3. What's inside: cards for playbooks, templates, field guides, training (three
@@ -205,7 +205,7 @@ SaaS-style product page using only the Advanta365 facts:
 4. Seven phases: `PhaseTrack` + phase names.
 5. Free samples: six cards with format badge and detail.
 6. Formats row: DOCX / PPTX / XLSX / PDF badges.
-7. Pricing card: $1,499.99 CAD, one purchase, bullet list of contents, CTA.
+7. Purchase card: one purchase, bullet list of contents, CTA.
 8. Relationship note: "Echofive uses Advanta365 inside our engagements" + independence
    disclaimer; secondary CTA to Echofive contact.
 

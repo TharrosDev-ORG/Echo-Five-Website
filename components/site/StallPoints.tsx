@@ -3,10 +3,11 @@ import { cx } from "@/lib/cx";
 import Reveal from "@/components/ui/Reveal";
 
 /**
- * The three reasons rollouts stall, shared by Home and Approach so both pages
- * use one card and one closing-line treatment. `stack` lists the cards in a
- * column (numeral beside the text from sm); `columns` sets them side by side
- * from md (numeral above the text).
+ * The three reasons rollouts stall, shared by Home and Approach: large
+ * numbered statements, each under an edge line, with no card around them.
+ * `stack` lists them in a column (number beside the text from sm, title at
+ * h2 size); `columns` sets them side by side from md (number above, title at
+ * h3 size so three fit across).
  */
 export function StallReasonList({
   layout = "stack",
@@ -17,23 +18,23 @@ export function StallReasonList({
 }) {
   const columns = layout === "columns";
   return (
-    <ol className={cx("grid gap-4 sm:gap-5", columns && "md:grid-cols-3 md:gap-6", className)}>
+    <ol className={cx("grid", columns ? "gap-10 md:grid-cols-3 md:gap-8" : "gap-10 md:gap-12", className)}>
       {why.failures.map((failure, i) => (
-        <Reveal as="li" index={i} key={failure.n}>
-          <div className={cx("card h-full", !columns && "sm:flex-row sm:gap-6")}>
-            <span
-              aria-hidden="true"
-              className={cx(
-                "font-display text-h2 leading-none text-accent tabular-nums",
-                !columns && "sm:w-12 sm:shrink-0",
-              )}
-            >
-              {failure.n.padStart(2, "0")}
-            </span>
-            <div className="flex flex-col gap-2">
-              <h3 className="text-h3 text-fg">{failure.title}</h3>
-              <p className="text-fg-2">{failure.body}</p>
-            </div>
+        <Reveal
+          as="li"
+          index={i}
+          key={failure.n}
+          className={cx(
+            "border-t border-edge pt-6",
+            !columns && "sm:grid sm:grid-cols-[4.5rem_minmax(0,1fr)] sm:gap-x-6 md:grid-cols-[5.5rem_minmax(0,1fr)]",
+          )}
+        >
+          <span aria-hidden="true" className="block font-display text-h2 text-accent tabular-nums">
+            {failure.n.padStart(2, "0")}
+          </span>
+          <div className={cx("flex flex-col gap-3", columns ? "mt-5" : "mt-3 sm:mt-0")}>
+            <h3 className={cx("text-fg", columns ? "text-h3" : "text-h2")}>{failure.title}</h3>
+            <p className="max-w-[52ch] text-fg-2">{failure.body}</p>
           </div>
         </Reveal>
       ))}
@@ -45,7 +46,7 @@ export function StallReasonList({
 export function StallClose({ className }: { className?: string }) {
   return (
     <Reveal className={className}>
-      <span aria-hidden="true" className="mb-6 block h-1 w-12 rounded-full bg-accent" />
+      <span aria-hidden="true" className="mb-6 block h-0.5 w-12 bg-accent-fill" />
       <p className="max-w-[30ch] font-display text-h2 text-fg">{why.close}</p>
     </Reveal>
   );

@@ -19,20 +19,32 @@ export default function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [pastHero, setPastHero] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const drawerRef = useRef<HTMLDivElement>(null);
 
-  // Hairline under the header once the page has moved.
+  // Hairline under the header once the page has moved. On a page that opens on a
+  // black hero the header is dark (pure CSS, from the server-rendered hero tone) until
+  // the hero has scrolled out from under it; this only reports that moment. The hero
+  // is re-read on every route change, so client navigation resets it.
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    const frame = requestAnimationFrame(onScroll);
+    const hero = document.querySelector<HTMLElement>("[data-hero-tone]");
+    const update = () => {
+      setScrolled(window.scrollY > 8);
+      // Past once less than half of the header still overlaps the hero.
+      const headerH = headerRef.current?.offsetHeight ?? 0;
+      setPastHero(hero ? hero.getBoundingClientRect().bottom <= headerH / 2 : false);
+    };
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    const frame = requestAnimationFrame(update);
     return () => {
       cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
     };
-  }, []);
+  }, [pathname]);
 
   // While the drawer is open: lock page scroll, make everything behind it
   // inert, trap Tab inside it, close on Escape, and restore focus on close.
@@ -92,7 +104,12 @@ export default function Header() {
 
   return (
     <>
-      <header ref={headerRef} className="site-header" data-scrolled={scrolled ? "" : undefined}>
+      <header
+        ref={headerRef}
+        className="site-header"
+        data-scrolled={scrolled ? "" : undefined}
+        data-past-hero={pastHero ? "" : undefined}
+      >
         <Container className="flex h-full items-center justify-between gap-6">
           <Logo />
 
@@ -110,7 +127,12 @@ export default function Header() {
           </nav>
 
           <div className="flex items-center gap-2">
-            <Button href={navCta.href} size="sm" tone="light" className="hidden min-[900px]:inline-flex">
+            <Button
+              href={navCta.href}
+              size="sm"
+              // No tone: the button takes the header's tokens, so it follows the dark state with no JS.
+              className="hidden min-[900px]:inline-flex"
+            >
               {navCta.label}
             </Button>
             <button
@@ -137,6 +159,7 @@ export default function Header() {
         ref={drawerRef}
         id="site-menu"
         className="drawer"
+        data-tone="dark"
         role="dialog"
         aria-modal="true"
         aria-label="Site menu"
@@ -163,7 +186,7 @@ export default function Header() {
                     onClick={close}
                   >
                     {item.label}
-                    <ArrowRight size={22} className="text-ink-3" />
+                    <ArrowRight size={22} className="text-fg-2" />
                   </Link>
                 </li>
               ))}
@@ -171,10 +194,10 @@ export default function Header() {
           </nav>
 
           <div className="mt-auto flex flex-col gap-4 pt-10">
-            <Button href={navCta.href} size="lg" tone="light" fullWidth arrow onClick={close}>
+            <Button href={navCta.href} size="lg" tone="dark" fullWidth arrow onClick={close}>
               {navCta.label}
             </Button>
-            <p className="text-center text-small text-ink-2">
+            <p className="text-center text-small text-fg-2">
               {ui.drawerEmailPrefix}{" "}
               <a href={`mailto:${site.email}`} className="link">
                 {site.email}

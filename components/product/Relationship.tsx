@@ -8,20 +8,22 @@ const { relationship } = advanta;
 /** How Echofive uses Advanta365, a route to Echofive itself, and the independence disclaimer. */
 export default function Relationship() {
   return (
-    <Section id="echofive" labelledBy="relationship-heading">
-      <div className="card card-panel grid gap-8 md:grid-cols-[auto_minmax(0,1fr)_auto] md:items-center md:gap-10">
+    <Section id="echofive" tone="alt" labelledBy="relationship-heading">
+      <div className="grid gap-8 md:grid-cols-[auto_minmax(0,1fr)] md:items-start md:gap-x-10 lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:items-center">
         <LogoMark size={48} />
         <div className="min-w-0">
-          <h2 id="relationship-heading" className="text-h3 text-fg">
+          <h2 id="relationship-heading" className="text-h2 text-fg">
             {relationship.heading}
           </h2>
-          <p className="mt-3 max-w-[62ch] text-fg-2">{relationship.body}</p>
+          <p className="mt-4 max-w-[62ch] text-lead text-fg-2">{relationship.body}</p>
         </div>
-        <Button href="/contact" variant="secondary" arrow className="w-full sm:w-auto">
+        <Button href="/contact" variant="secondary" arrow className="w-full sm:w-auto md:col-start-2 md:justify-self-start lg:col-start-3 lg:row-start-1">
           {relationship.cta}
         </Button>
       </div>
-      <p className="mt-6 max-w-[72ch] text-small text-fg-3">{advanta.disclaimer}</p>
+      <div className="mt-10 border-t border-edge pt-6">
+        <p className="max-w-[72ch] text-small text-fg-3">{advanta.disclaimer}</p>
+      </div>
     </Section>
   );
 }

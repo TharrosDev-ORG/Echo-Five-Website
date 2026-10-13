@@ -5,23 +5,45 @@ type Props = {
   label: string;
   /** Optional second line under the label. */
   detail?: string;
-  /** `lg` for headline numbers (59, 130), `md` for short phrases ("Secret Level II"). */
-  size?: "md" | "lg";
-  /** Color the value with the surface accent (citron on dark, moss on light). */
+  /**
+   * `mega` for giant numerals, `lg` for headline numbers (59, 130), `md` for
+   * short phrases ("Secret Level II").
+   */
+  size?: "md" | "lg" | "mega";
+  /** Color the value with the surface accent (blue text, white on a blue ground). */
   accent?: boolean;
+  /**
+   * Hide the figure from assistive tech when it restates the label (a giant
+   * "30+" over "30+ years"), so the entry is read once.
+   */
+  valueHidden?: boolean;
   className?: string;
 };
 
 /** A figure and its label, read in that order ("59 Playbooks"). */
-export default function Stat({ value, label, detail, size = "lg", accent = false, className }: Props) {
+export default function Stat({
+  value,
+  label,
+  detail,
+  size = "lg",
+  accent = false,
+  valueHidden = false,
+  className,
+}: Props) {
   return (
-    <div className={cx("flex flex-col gap-1.5", className)}>
+    <div className={cx("flex flex-col", size === "mega" ? "gap-2" : "gap-1.5", className)}>
       <p
+        aria-hidden={valueHidden || undefined}
         className={cx(
-          "font-display font-semibold leading-none",
-          size === "lg"
-            ? "text-[clamp(2.5rem,1.9rem+2.4vw,3.5rem)] tracking-[-0.04em]"
-            : "text-h3",
+          "font-display",
+          size === "mega"
+            ? "stat-mega text-mega tabular-nums"
+            : cx(
+                "font-semibold leading-none",
+                size === "lg"
+                  ? "text-[clamp(2.5rem,1.9rem+2.4vw,3.5rem)] tracking-[-0.04em]"
+                  : "text-h3",
+              ),
           accent ? "text-accent" : "text-fg",
         )}
       >
