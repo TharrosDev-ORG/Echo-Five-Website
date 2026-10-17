@@ -127,8 +127,13 @@ export const approachPage = {
     { n: "04", href: "#talk-heading", label: "On the record" },
   ],
   problem: {
-    /** `why.heading` split into display lines (non-breaking space kept). */
-    headingLines: ["Why Microsoft 365", "rollouts stall"],
+    /**
+     * The hero lead already makes the "run as IT projects" point, so this
+     * section opens on the consequence instead. Heading and lead are the rest
+     * of `why.body`, word for word; the home page keeps `why.heading`.
+     */
+    headingLines: ["The licences get paid for.", "The old habits stay."],
+    lead: "People route around the new tools, shadow systems creep back in, and the productivity that was promised never arrives.",
     /** `why.pull`, split so the highlighter sits on the second sentence. */
     pullBefore: "The technology was never the hard part.",
     pullMark: "Getting thousands of people to work differently is.",

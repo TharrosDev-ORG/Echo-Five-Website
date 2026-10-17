@@ -1,39 +1,32 @@
 import { advanta } from "@/lib/content/advanta";
 import Index from "@/components/ui/Index";
-import Lines from "@/components/ui/Lines";
-import Button from "@/components/ui/Button";
+import Arrow from "@/components/ui/Arrow";
 
 /**
- * How the product and the firm fit together, then the non-affiliation
- * disclaimer before the closing ask.
+ * A quiet band between the storefront and the closing ask: one line on how
+ * the product and the firm fit together, with a link to how we work (the ask
+ * itself is left to <Closing />), and the non-affiliation disclaimer.
  */
 export default function Relationship() {
   return (
-    <section aria-labelledby="advanta-relationship-heading" className="tone-paper band-tight">
+    <section aria-labelledby="advanta-relationship-heading" className="tone-paper py-14 min-[900px]:py-20">
       <div className="wrap">
-        <div className="grid-12 gap-y-10 border-t border-fg pt-12 min-[900px]:pt-16">
-          <div className="col-span-12 min-[1200px]:col-span-6">
-            <Index n="08">{advanta.page.relationshipIndex}</Index>
-            <Lines
-              as="h2"
-              id="advanta-relationship-heading"
-              className="serif mt-8 max-w-[18ch] text-h3 min-[900px]:text-[2.75rem] min-[900px]:leading-[1.08]"
-              lines={[advanta.relationship.heading]}
-            />
-          </div>
-          <div className="col-span-12 min-[1200px]:col-span-5 min-[1200px]:col-start-8 min-[1200px]:pt-14">
-            <p className="text-lead text-fg-2" data-reveal="">
-              {advanta.relationship.body}
-            </p>
-            <div className="mt-8" data-reveal="" style={{ "--d": 100 } as React.CSSProperties}>
-              <Button href="/contact" variant="secondary">
-                {advanta.relationship.cta}
-              </Button>
-            </div>
+        <div className="flex flex-col gap-y-4 min-[900px]:flex-row min-[900px]:items-baseline min-[900px]:gap-x-10">
+          <Index n="08" className="shrink-0">
+            {advanta.page.relationshipIndex}
+          </Index>
+          <div className="flex flex-wrap items-baseline gap-x-6 gap-y-3" data-reveal="">
+            <h2 id="advanta-relationship-heading" className="serif text-h4 text-fg">
+              {advanta.page.relationshipLine}
+            </h2>
+            <a href="/approach" className="inline-flex min-h-11 items-center gap-1.5 text-fg">
+              <span className="link">{advanta.page.relationshipLink}</span>
+              <Arrow />
+            </a>
           </div>
         </div>
 
-        <p className="label mt-16 max-w-[60rem] text-fg-3 min-[900px]:mt-24">{advanta.disclaimer}</p>
+        <p className="label mt-8 max-w-[60rem] text-fg-3 min-[900px]:mt-10">{advanta.disclaimer}</p>
       </div>
     </section>
   );

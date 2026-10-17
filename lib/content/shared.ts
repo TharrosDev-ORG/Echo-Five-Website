@@ -20,7 +20,7 @@ export const navCta = { label: "Start a conversation", href: "/contact" } as con
 /** The closing call to action at the end of every page except Contact. */
 export const closing = {
   index: "Next step",
-  heading: ["Tell us what", "you are rolling out."],
+  heading: ["Planning a rollout,", "or rescuing one?"],
   body: "Whether you are scoping a migration or trying to rescue an adoption that has stalled, we will tell you plainly whether we can help.",
   primary: "Start a conversation",
   emailLabel: "Or write to",
@@ -151,7 +151,7 @@ export const credentials = {
     },
     {
       title: "Certified Training Manager / Director",
-      detail: "Learning programme leadership",
+      detail: "Learning program leadership",
       issuer: "Langevin",
     },
   ],

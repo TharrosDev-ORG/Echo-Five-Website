@@ -24,7 +24,6 @@ export default function ClientMarquee() {
           <button
             type="button"
             onClick={() => setPaused((p) => !p)}
-            aria-pressed={paused}
             aria-label={paused ? ui.marqueePlayLabel : ui.marqueePauseLabel}
             className="label inline-flex min-h-11 items-center gap-2 text-fg-2 hover:text-fg motion-reduce:hidden"
           >

@@ -20,7 +20,7 @@ export default function FirmStory() {
           </div>
           <div className="col-span-12 min-[1200px]:col-span-5 min-[1200px]:col-start-8 min-[1200px]:pt-14">
             <p
-              className="text-lead text-fg first-letter:float-left first-letter:mr-2 first-letter:mt-[0.08em] first-letter:font-serif first-letter:text-[4.6em] first-letter:leading-[0.78] first-letter:font-normal first-letter:text-fg"
+              className="text-lead text-fg"
               data-reveal=""
             >
               {first}

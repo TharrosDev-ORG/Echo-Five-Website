@@ -23,13 +23,13 @@ export default function Problem() {
             <Lines
               as="h2"
               id="problem-heading"
-              className="serif mt-8 max-w-[14ch] text-h2"
+              className="serif mt-8 text-h2"
               lines={[...copy.headingLines]}
             />
           </div>
           <div className="col-span-12 min-[1200px]:col-span-5 min-[1200px]:col-start-8 min-[1200px]:pt-14">
-            <p className="text-lead text-fg-2" data-reveal="">
-              {why.body}
+            <p className="max-w-[34rem] text-lead text-fg-2" data-reveal="">
+              {copy.lead}
             </p>
           </div>
         </div>

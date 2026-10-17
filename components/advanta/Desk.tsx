@@ -6,8 +6,8 @@ const byPhase = (phase: string) => advanta.freeSamples.find((d) => d.phase === p
 
 /** Finished covers laid over the blank page, back to front. */
 const sheets = [
-  { doc: byPhase("Set the strategy"), x: 33, y: 9, w: 41, r: 4 },
-  { doc: byPhase("Engage leaders"), x: 7, y: 37, w: 39, r: -5 },
+  { doc: byPhase("Set the strategy"), x: 33, y: 5, w: 41, r: 4 },
+  { doc: byPhase("Engage leaders"), x: 7, y: 39, w: 39, r: -5 },
   { doc: byPhase("Plan communications"), x: 51, y: 41, w: 41, r: 7 },
 ];
 

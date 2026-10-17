@@ -43,7 +43,6 @@ export const firm = {
 export const founder = {
   index: "Founder",
   /** Caption under the typographic portrait. */
-  plate: "Plate",
   contactLink: "Write to the firm",
   credentialsLabel: "Credentials held",
 };

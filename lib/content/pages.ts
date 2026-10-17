@@ -8,7 +8,7 @@ export const pages = {
     title: "Services",
     index: "Services",
     heading: ["Microsoft 365", "adoption, end to end."],
-    lead: "We cover both the strategy and the hands-on work: the roadmap and the floor walking, the communications plan and the job aids. Each engagement is aimed at a specific behaviour we can measure.",
+    lead: "Six practice areas with one aim: people working the new way in Microsoft\u00A0365, and still working that way long after we step away.",
     description:
       "Microsoft 365 adoption strategy, communications, training, technical writing, AI coaching, and migration support for government and enterprise.",
   },

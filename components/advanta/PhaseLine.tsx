@@ -117,14 +117,21 @@ export default function PhaseLine({ className }: { className?: string }) {
                   {name}
                   {sample && <span className="sr-only"> ({advanta.page.sampleTagSr})</span>}
                 </span>
-                {sample && (
-                  <span
-                    aria-hidden="true"
-                    className="label mt-2 inline-block rounded-[3px] bg-mark px-1.5 py-0.5 text-[0.6875rem] text-mark-ink"
-                  >
-                    {advanta.page.sampleTag}
-                  </span>
-                )}
+                {/*
+                  The chip row is reserved on every station from 1200px, empty
+                  when there is no sample, so all labels above the line share
+                  one baseline and all labels below it start level.
+                */}
+                <span
+                  aria-hidden="true"
+                  className={cx("mt-2 h-5 items-center", sample ? "flex" : "hidden min-[1200px]:flex")}
+                >
+                  {sample && (
+                    <span className="label rounded-[3px] bg-mark px-1.5 py-0.5 text-[0.6875rem] leading-none text-mark-ink">
+                      {advanta.page.sampleTag}
+                    </span>
+                  )}
+                </span>
               </div>
               <span aria-hidden="true" className="hidden h-5 w-px shrink-0 bg-rule-strong min-[1200px]:my-3 min-[1200px]:block" />
             </div>

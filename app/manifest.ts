@@ -11,7 +11,7 @@ export default function manifest(): MetadataRoute.Manifest {
     display: "browser",
     lang: "en-CA",
     background_color: "#FFFFFF",
-    theme_color: "#0B0D12",
+    theme_color: "#FFFFFF",
     icons: [
       { src: "/icon.svg", type: "image/svg+xml", sizes: "any" },
       { src: "/apple-icon.png", type: "image/png", sizes: "180x180" },

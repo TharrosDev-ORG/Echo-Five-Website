@@ -59,35 +59,36 @@ export function DocCover({ doc, className, style }: { doc: Sample; className?: s
 }
 
 /**
- * The six free samples, fanned like documents on a desk. Purely decorative:
- * the samples are listed in text wherever this appears.
+ * The six free samples laid out on a desk, two rows of three, each a little
+ * askew so the set reads as real paper. Every title stays fully legible.
+ * Purely decorative: the samples are listed in text wherever this appears.
  */
 export default function DocStack({ className }: { className?: string }) {
   const docs = advanta.freeSamples;
-  const fan = [
-    { r: -10, x: 2, y: 9 },
-    { r: -6, x: 15, y: 3 },
-    { r: -2, x: 28, y: 0 },
-    { r: 2, x: 41, y: 1 },
-    { r: 6, x: 54, y: 5 },
-    { r: 10, x: 66, y: 11 },
+  const tilt = [
+    { r: -3, y: 4 },
+    { r: 1.5, y: -2 },
+    { r: 3.5, y: 6 },
+    { r: 2, y: -4 },
+    { r: -2.5, y: 3 },
+    { r: -1, y: -3 },
   ];
   return (
-    <div aria-hidden="true" className={cx("group relative aspect-[16/11] w-full select-none", className)} data-observe="">
+    <div
+      aria-hidden="true"
+      className={cx("group grid w-full select-none grid-cols-3 gap-x-[3%] gap-y-[5%] py-[3%]", className)}
+      data-observe=""
+    >
       {docs.map((doc, i) => (
         <div
           key={doc.title}
-          className="absolute top-[10%] w-[32%] transition-transform duration-[1200ms] ease-[var(--ease-out-expo)] motion-reduce:transition-none"
-          style={{
-            left: `${fan[i].x}%`,
-            transform: `translateY(${fan[i].y}%) rotate(${fan[i].r}deg)`,
-            zIndex: i,
-          }}
+          className="transition-transform duration-[1200ms] ease-[var(--ease-out-expo)] motion-reduce:transition-none"
+          style={{ transform: `translateY(${tilt[i].y}%) rotate(${tilt[i].r}deg)` }}
         >
           <div data-reveal="" style={{ "--d": 150 + i * 90 } as React.CSSProperties}>
             <DocCover
               doc={doc}
-              className="transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:-translate-y-[6%]"
+              className="transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:-translate-y-[4%]"
               style={{ transitionDelay: `${i * 40}ms` }}
             />
           </div>

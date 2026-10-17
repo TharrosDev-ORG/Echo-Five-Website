@@ -118,7 +118,7 @@ export default function Header() {
   return (
     <>
       <header
-        className="site-header tone-paper fixed inset-x-0 top-0 z-50 bg-transparent"
+        className="site-header tone-paper fixed inset-x-0 top-0 z-50"
         data-scrolled={scrolled || open ? "true" : "false"}
         data-hidden={hidden && !open ? "true" : "false"}
       >
@@ -204,6 +204,7 @@ export default function Header() {
                   <Link
                     href={item.href}
                     aria-current={pathname === item.href ? "page" : undefined}
+                    onClick={() => setOpen(false)}
                     className="group flex items-baseline justify-between gap-4 py-4"
                   >
                     <span className="serif text-[2.5rem] leading-none tracking-[-0.02em] group-aria-[current=page]:text-accent">
@@ -217,7 +218,7 @@ export default function Header() {
               ))}
             </ul>
           </nav>
-          <div className="space-y-6">
+          <div className="space-y-6" onClickCapture={() => setOpen(false)}>
             <Button href={navCta.href} size="lg" className="w-full">
               {navCta.label}
             </Button>

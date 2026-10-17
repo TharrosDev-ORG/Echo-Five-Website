@@ -106,6 +106,7 @@ export default function ContactForm({ className }: { className?: string }) {
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (status === "submitting") return;
     const form = e.currentTarget;
     const data = new FormData(form);
     const input = normalize(Object.fromEntries(data));
@@ -126,7 +127,7 @@ export default function ContactForm({ className }: { className?: string }) {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...input, company: String(data.get("company") || "") }),
+        body: JSON.stringify({ ...input, company: String(data.get("ef_hp") || "") }),
       });
       const json = await res.json().catch(() => ({}));
 
@@ -228,8 +229,9 @@ export default function ContactForm({ className }: { className?: string }) {
       >
         {/* Honeypot: hidden from people and assistive tech, off the tab order. */}
         <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
-          <label htmlFor="company">Company</label>
-          <input id="company" name="company" type="text" tabIndex={-1} autoComplete="off" />
+          {/* A non-semantic name, so browser autofill never fills it for a real visitor. */}
+          <label htmlFor="ef_hp">Leave this field empty</label>
+          <input id="ef_hp" name="ef_hp" type="text" tabIndex={-1} autoComplete="off" />
         </div>
 
         <div className="grid gap-7 min-[640px]:grid-cols-2 min-[640px]:gap-5">
@@ -278,8 +280,9 @@ export default function ContactForm({ className }: { className?: string }) {
         <div className="flex flex-col gap-5 border-t border-rule pt-8 min-[640px]:flex-row min-[640px]:items-center min-[640px]:gap-8">
           <button
             type="submit"
-            disabled={submitting}
-            className="btn btn-primary btn-lg w-full flex-none disabled:cursor-wait disabled:opacity-80 min-[640px]:w-auto"
+            // aria-disabled rather than disabled: disabling the focused button would drop focus to <body>.
+            aria-disabled={submitting || undefined}
+            className="btn btn-primary btn-lg w-full flex-none aria-disabled:cursor-wait aria-disabled:opacity-80 min-[640px]:w-auto"
           >
             <span>{submitting ? copy.submitting : copy.submit}</span>
             {!submitting && <Arrow />}

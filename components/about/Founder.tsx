@@ -7,9 +7,8 @@ import Arrow from "@/components/ui/Arrow";
 import { LogoMark } from "@/components/ui/Logo";
 
 /**
- * The founder as a typographic portrait: a night plate with the monogram set
- * huge in the serif, beside the name, role, bio, and credentials. No photo,
- * by design; the plate is decorative and the text carries everything.
+ * The founder: a business card beside the name, role, bio, and credentials.
+ * No photo, by design; the card is decorative and the text carries everything.
  */
 export default function Founder() {
   return (
@@ -17,20 +16,24 @@ export default function Founder() {
       <div className="wrap">
         <div className="grid-12 gap-y-14 min-[900px]:items-start">
           <div className="col-span-12 min-[900px]:col-span-5" data-reveal="">
+            {/* A business card: deliberate, not a stand-in for a missing photo. */}
             <div
               aria-hidden="true"
-              className="@container tone-night grain relative flex aspect-[4/5] w-full max-w-[22rem] flex-col min-[900px]:max-w-[34rem] justify-between overflow-hidden rounded-[0.75rem] p-6 min-[900px]:p-8"
+              className="tone-night grain relative flex aspect-[1.75/1] w-full max-w-[30rem] flex-col justify-between overflow-hidden rounded-[0.75rem] p-6 shadow-[0_40px_80px_-40px_rgb(11_13_18/0.6)] min-[900px]:p-8"
             >
-              <div className="label flex items-start justify-between gap-4 text-fg-3">
-                <LogoMark className="h-7 w-7 text-fg" />
-                <span>{founder.plate} 01</span>
+              <div className="flex items-start justify-between gap-4">
+                <span className="inline-flex items-center gap-2.5 text-fg">
+                  <LogoMark />
+                  <span className="text-[1.0625rem] font-semibold tracking-[-0.025em]">{site.shortName}</span>
+                </span>
+                <span className="label text-fg-3">{site.region}</span>
               </div>
-              <p className="serif -mb-[0.12em] -ml-[0.04em] text-[46cqw] leading-[0.8] tracking-[-0.035em] text-fg">
-                {principal.monogram}
-              </p>
-              <div className="label flex items-end justify-between gap-4 border-t border-rule pt-4 text-fg-3">
-                <span className="text-fg">{principal.name}</span>
-                <span>{site.shortName}</span>
+              <div>
+                <p className="serif text-[clamp(1.5rem,1.1rem+1.4vw,2.25rem)] leading-none tracking-[-0.02em] text-fg">
+                  {principal.name}
+                </p>
+                <p className="label mt-3 text-fg-2">{principal.role}</p>
+                <p className="label mt-5 border-t border-rule pt-4 text-fg-3">{site.email}</p>
               </div>
             </div>
           </div>

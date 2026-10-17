@@ -158,12 +158,16 @@ export const advanta = {
     formatsLead:
       "Open and edit them in the Microsoft\u00a0365 apps your teams already use.",
     formatKinds: { DOCX: "Documents", PPTX: "Slide decks", XLSX: "Workbooks", PDF: "Portable documents" } as Record<string, string>,
+    formatSamplesLabel: "Free samples",
     samplesIndex: "Free samples",
-    sampleLinkSr: "Open the free sample on advanta365.com",
+    sampleLinkLabel: "Free sample",
+    sampleLinkSr: "on advanta365.com",
     sampleMeta: { format: "Format", phase: "Phase", detail: "Detail" },
     provenanceHeading: "Where it comes from",
     purchaseIndex: "The toolkit",
     purchaseAside: "Sold at advanta365.com",
     relationshipIndex: "Echofive",
+    relationshipLine: "Echofive uses Advanta365 inside our engagements.",
+    relationshipLink: "See our approach",
   },
 };

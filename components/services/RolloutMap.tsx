@@ -5,7 +5,19 @@ import { GO_LIVE, PHASES, pct, spans, spanText } from "@/components/services/spa
 const copy = services.rollout;
 const ticks = Array.from({ length: PHASES + 1 }, (_, i) => i);
 
-/** Faint phase rules and the dashed go-live line, drawn behind each track. */
+/** Bars that run to the end of the track stop this far short of its edge. */
+const END_GAP = "0.5rem";
+/** Width of a segment from `a` to `b`, kept clear of the track's right edge. */
+const width = (a: number, b: number) => (b >= PHASES ? `calc(${pct(b - a)} - ${END_GAP})` : pct(b - a));
+/** Right offset for a label that ends where a segment ends. */
+const rightOf = (b: number) =>
+  b >= PHASES ? END_GAP : `calc(100% - ${pct(b)})`;
+
+/**
+ * Faint phase rules and the dashed go-live line, drawn behind each track.
+ * Below 900px the outer edges are dropped, so each row reads as three phase
+ * columns under its title rather than a box.
+ */
 function Grid() {
   return (
     <div aria-hidden="true" className="pointer-events-none absolute inset-0">
@@ -16,6 +28,7 @@ function Grid() {
             "absolute inset-y-0 w-px",
             t === GO_LIVE ? "border-l border-dashed border-fg" : "bg-rule",
             t === PHASES && "-translate-x-px",
+            (t === 0 || t === PHASES) && "hidden min-[900px]:block",
           )}
           style={{ left: pct(t) }}
         />
@@ -67,16 +80,17 @@ export default function RolloutMap() {
               <div aria-hidden="true" className="relative mt-1 h-11 min-[640px]:h-16 min-[900px]:mt-0 min-[900px]:h-[4.75rem]">
                 <Grid />
                 {/* Annotation, from the service's own copy */}
+                {/* Labels carry the band's ground so the phase rules and the go-live line break around them. */}
                 <span
-                  className="label absolute top-3 hidden whitespace-nowrap bg-bg px-2 text-fg-2 min-[640px]:block"
-                  style={late ? { right: `calc(100% - ${pct(span.end)})` } : { left: pct(span.start) }}
+                  className="label absolute top-2.5 hidden whitespace-nowrap bg-bg px-1.5 py-0.5 text-fg-2 min-[640px]:block"
+                  style={late ? { right: rightOf(span.end) } : { left: pct(span.start) }}
                   data-fade=""
                 >
                   {notes[0]}
                 </span>
                 {notes[1] && span.tail !== undefined && (
                   <span
-                    className="label absolute top-3 hidden whitespace-nowrap bg-bg px-3 text-fg-2 min-[640px]:block"
+                    className="label absolute top-2.5 hidden whitespace-nowrap bg-bg px-3 py-0.5 text-fg-2 min-[640px]:block"
                     style={{ left: pct(span.end) }}
                     data-fade=""
                   >
@@ -86,13 +100,13 @@ export default function RolloutMap() {
                 {/* The span */}
                 <span
                   className="absolute bottom-4 h-2.5 min-[640px]:bottom-5 rounded-full bg-accent min-[900px]:bottom-6"
-                  style={{ left: pct(span.start), width: pct(span.end - span.start), "--d": 200 + i * 110 } as React.CSSProperties}
+                  style={{ left: pct(span.start), width: width(span.start, span.end), "--d": 200 + i * 110 } as React.CSSProperties}
                   data-grow-x=""
                 />
                 {span.tail !== undefined && (
                   <span
                     className="absolute bottom-4 h-2.5 min-[640px]:bottom-5 rounded-r-full bg-mark min-[900px]:bottom-6"
-                    style={{ left: pct(span.end), width: pct(span.tail - span.end), "--d": 1100 } as React.CSSProperties}
+                    style={{ left: pct(span.end), width: width(span.end, span.tail), "--d": 1100 } as React.CSSProperties}
                     data-grow-x=""
                   />
                 )}

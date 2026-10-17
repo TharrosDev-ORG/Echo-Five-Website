@@ -13,7 +13,13 @@ export default function Footer() {
       <div className="wrap">
         <div className="grid-12 gap-y-14">
           <div className="col-span-12 min-[900px]:col-span-5">
-            <p className="serif max-w-[22ch] text-h3 text-fg">{footer.statement}</p>
+            <p className="serif text-h3 text-fg">
+              {footer.statement.split(/(?<=\.) /).map((line) => (
+                <span key={line} className="block">
+                  {line}
+                </span>
+              ))}
+            </p>
             <p className="mt-6 max-w-[40ch] text-small text-fg-2">{footer.blurb}</p>
             <a
               href={`mailto:${site.email}`}
@@ -65,7 +71,7 @@ export default function Footer() {
         {/* Giant wordmark, set to the width of the container. */}
         <div aria-hidden="true" className="mt-24 flex items-end gap-[2vw] select-none">
           <LogoMark className="h-[13.5vw] max-h-[13rem] w-auto flex-none text-fg" />
-          <span className="serif block text-[clamp(4.5rem,21.5vw,21rem)] leading-[0.74] tracking-[-0.045em] text-fg">
+          <span className="block text-[clamp(4.5rem,20vw,19.5rem)] font-semibold leading-[0.74] tracking-[-0.06em] text-fg">
             Echofive
           </span>
         </div>

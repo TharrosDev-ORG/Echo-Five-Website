@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { talk } from "@/lib/content/shared";
 import Index from "@/components/ui/Index";
 import Arrow from "@/components/ui/Arrow";
@@ -11,12 +11,18 @@ import Arrow from "@/components/ui/Arrow";
  */
 export default function Talk({ n }: { n?: string }) {
   const [playing, setPlaying] = useState(false);
+  const frameRef = useRef<HTMLIFrameElement>(null);
+
+  // The play button unmounts when the player loads; move focus to the player.
+  useEffect(() => {
+    if (playing) frameRef.current?.focus();
+  }, [playing]);
   const { id, url } = talk.video;
 
   return (
     <section aria-labelledby="talk-heading" className="tone-paper band">
       <div className="wrap">
-        <div className="grid gap-12 min-[1200px]:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] min-[1200px]:items-end">
+        <div className="grid gap-12 min-[1200px]:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] min-[1200px]:items-start">
           <div>
             <Index n={n}>{talk.index}</Index>
             <p className="label mt-8 text-fg-3">{talk.venue}</p>
@@ -39,6 +45,7 @@ export default function Talk({ n }: { n?: string }) {
           <div className="relative aspect-video overflow-hidden rounded-[0.75rem] bg-ink" data-reveal="">
             {playing ? (
               <iframe
+                ref={frameRef}
                 className="absolute inset-0 h-full w-full"
                 src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`}
                 title={talk.heading}
@@ -58,7 +65,7 @@ export default function Talk({ n }: { n?: string }) {
                   alt=""
                   loading="lazy"
                   decoding="async"
-                  className="absolute inset-0 h-full w-full object-cover opacity-70 grayscale transition duration-700 ease-[var(--ease-out-expo)] group-hover:scale-[1.03] group-hover:opacity-90 group-hover:grayscale-0"
+                  className="absolute inset-0 h-full w-full object-cover opacity-80 grayscale transition duration-700 ease-[var(--ease-out-expo)] group-hover:scale-[1.03] group-hover:opacity-90 group-hover:grayscale-0"
                 />
                 <span aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/10 to-transparent" />
                 <span className="relative flex w-full items-center justify-between gap-4 p-6 text-white min-[900px]:p-8">

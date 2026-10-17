@@ -108,6 +108,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html
       lang="en-CA"
       id="top"
+      data-scroll-behavior="smooth"
       className={`${newsreader.variable} ${sans.variable} ${mono.variable}`}
       suppressHydrationWarning
     >

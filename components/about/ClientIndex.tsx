@@ -25,7 +25,7 @@ export default function ClientIndex() {
             <p className="flex flex-col gap-5 border-t border-rule pt-6 min-[1200px]:items-end min-[1200px]:border-t-0 min-[1200px]:pt-0 min-[1200px]:text-right">
               <span
                 aria-hidden="true"
-                className="serif text-[clamp(7rem,4.5rem+9vw,13rem)] leading-[0.8] tracking-[-0.05em] text-fg"
+                className="serif pr-[0.06em] text-[clamp(7rem,4.5rem+9vw,13rem)] leading-[0.8] tracking-[-0.05em] text-fg"
               >
                 {clientCount}
               </span>

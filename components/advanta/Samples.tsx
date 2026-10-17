@@ -7,9 +7,11 @@ import { DocCover } from "@/components/exhibits/DocStack";
 const meta = advanta.page.sampleMeta;
 
 /**
- * The six free samples as document covers on a shelf. One link per card:
- * the title's link stretches over the whole card, so the cover is a target
- * too without a second link.
+ * The six free samples as document covers on a shelf. The cover shows the
+ * title, format, and phase, so below it sits only the link and what the
+ * cover does not say (the detail, when there is one). One link per card: it
+ * stretches over the whole card, so the cover is a target too. Covers share
+ * one width and ratio, so the links line up across each row.
  */
 export default function Samples() {
   return (
@@ -32,7 +34,7 @@ export default function Samples() {
           </div>
         </div>
 
-        <ul className="mt-16 grid grid-cols-2 gap-x-4 gap-y-12 min-[900px]:mt-24 min-[900px]:grid-cols-3 min-[900px]:gap-x-8 min-[1200px]:grid-cols-6 min-[1200px]:gap-x-6">
+        <ul className="mt-16 grid grid-cols-2 gap-x-4 gap-y-12 min-[640px]:grid-cols-3 min-[900px]:mt-24 min-[900px]:gap-x-8 min-[1200px]:grid-cols-6 min-[1200px]:gap-x-6">
           {advanta.freeSamples.map((doc, i) => (
             <li
               key={doc.title}
@@ -47,35 +49,34 @@ export default function Samples() {
                 <DocCover doc={doc} />
               </div>
 
-              <div className="mt-5 flex flex-1 flex-col border-t border-fg pt-4">
-                <h3 className="text-[0.9375rem] font-medium leading-snug text-fg min-[900px]:text-[1.0625rem]">
-                  <a
-                    href={advanta.urls.samples}
-                    rel="noopener"
-                    className="after:absolute after:inset-0 after:content-[''] focus-visible:outline-none focus-visible:after:rounded-[0.5rem] focus-visible:after:outline focus-visible:after:outline-2 focus-visible:after:outline-offset-4 focus-visible:after:outline-accent"
-                  >
-                    <span className="bg-[linear-gradient(currentColor,currentColor)] bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500 ease-[var(--ease-out-expo)] group-hover:bg-[length:100%_1px]">
-                      {doc.title}
-                    </span>
-                    <span className="sr-only">. {advanta.page.sampleLinkSr}</span>
-                  </a>
-                </h3>
-                <dl className="mt-3 grid gap-1 text-[0.875rem] leading-snug">
-                  <dt className="sr-only">{meta.format}</dt>
-                  <dd className="label text-fg">{doc.format}</dd>
-                  <dt className="sr-only">{meta.phase}</dt>
-                  <dd className="text-fg-2">{doc.phase}</dd>
-                  {doc.detail && (
-                    <>
-                      <dt className="sr-only">{meta.detail}</dt>
-                      <dd className="text-fg-3">{doc.detail.replace(/-/g, "-\u2060")}</dd>
-                    </>
-                  )}
-                </dl>
-                <span aria-hidden="true" className="mt-auto pt-4 text-fg-3 transition-colors group-hover:text-accent">
+              {/* The cover is decorative; this is its text for screen readers. */}
+              <h3 className="sr-only">{doc.title}</h3>
+              <div className="mt-5">
+                <a
+                  href={advanta.urls.samples}
+                  rel="noopener"
+                  className="label inline-flex items-center gap-1.5 rounded-[3px] bg-mark px-2 py-1 text-mark-ink after:absolute after:inset-0 after:content-[''] focus-visible:outline-none focus-visible:after:rounded-[0.5rem] focus-visible:after:outline focus-visible:after:outline-2 focus-visible:after:outline-offset-4 focus-visible:after:outline-accent"
+                >
+                  <span className="sr-only">{doc.title}: </span>
+                  {advanta.page.sampleLinkLabel}
+                  <span className="sr-only"> {advanta.page.sampleLinkSr}</span>
                   <Arrow dir="up-right" />
-                </span>
+                </a>
               </div>
+              <dl className="mt-3 text-[0.875rem] leading-snug">
+                <div className="sr-only">
+                  <dt>{meta.format}</dt>
+                  <dd>{doc.format}</dd>
+                  <dt>{meta.phase}</dt>
+                  <dd>{doc.phase}</dd>
+                </div>
+                {doc.detail && (
+                  <div>
+                    <dt className="sr-only">{meta.detail}</dt>
+                    <dd className="text-fg-2">{doc.detail.replace(/-/g, "-\u2060")}</dd>
+                  </div>
+                )}
+              </dl>
             </li>
           ))}
         </ul>
