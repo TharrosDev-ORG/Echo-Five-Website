@@ -1,61 +1,30 @@
-import { engagement, navCta, pages, process as adkar, talk, why } from "@/lib/content";
+import { pages } from "@/lib/content/pages";
 import { pageMetadata } from "@/lib/metadata";
 import PageHero from "@/components/site/PageHero";
-import CtaBand from "@/components/site/CtaBand";
-import TalkSection from "@/components/site/TalkSection";
-import Section from "@/components/ui/Section";
-import SectionHeading from "@/components/ui/SectionHeading";
-import Button from "@/components/ui/Button";
-import { Play } from "@/components/ui/icons";
-import { StallClose, StallReasonList } from "@/components/site/StallPoints";
-import AdkarGlance from "@/components/approach/AdkarGlance";
-import AdkarStepper from "@/components/approach/AdkarStepper";
-import EngagementSteps from "@/components/approach/EngagementSteps";
+import Talk from "@/components/site/Talk";
+import Closing from "@/components/site/Closing";
+import Contents from "@/components/approach/Contents";
+import Problem from "@/components/approach/Problem";
+import Method from "@/components/approach/Method";
+import Engagement from "@/components/approach/Engagement";
 
-const page = pages.approach;
-export const metadata = pageMetadata("/approach", page.title, page.description);
+export const metadata = pageMetadata(pages.approach.path, pages.approach.title, pages.approach.description);
 
+/**
+ * /approach: why rollouts stall (Exhibit 01), the Prosci ADKAR method read
+ * stage by stage (Exhibit 02), how an engagement runs (Exhibit 03), the
+ * conference talk, and the ask.
+ */
 export default function ApproachPage() {
+  const page = pages.approach;
   return (
     <>
-      <PageHero
-        title={page.heading}
-        lead={page.lead}
-        actions={
-          <>
-            <Button href={navCta.href} size="lg" arrow>
-              {navCta.label}
-            </Button>
-            <Button href="#talk" size="lg" variant="secondary" icon={<Play size={16} />}>
-              {talk.cta}
-            </Button>
-          </>
-        }
-        visual={<AdkarGlance />}
-      />
-
-      <Section id="why" tone="alt" labelledBy="why-heading">
-        <SectionHeading id="why-heading" title={why.heading} lead={why.body} />
-        <StallReasonList layout="columns" className="mt-10 md:mt-14" />
-        <StallClose className="mt-12 md:mt-16" />
-      </Section>
-
-      {/* Hand-off: the stepper's path carries the signal line, so the rail stops above. */}
-      <Section id="adkar" tone="dark" rail={false} labelledBy="adkar-heading">
-        <SectionHeading id="adkar-heading" title={adkar.heading} lead={adkar.intro} />
-        <div className="mt-10 md:mt-14">
-          <AdkarStepper />
-        </div>
-      </Section>
-
-      <Section id="engagement" labelledBy="engagement-heading">
-        <SectionHeading id="engagement-heading" title={engagement.heading} lead={engagement.intro} />
-        <EngagementSteps />
-      </Section>
-
-      <TalkSection tone="alt" />
-
-      <CtaBand />
+      <PageHero index={page.index} heading={page.heading} lead={page.lead} aside={<Contents />} />
+      <Problem />
+      <Method />
+      <Engagement />
+      <Talk n="04" />
+      <Closing />
     </>
   );
 }

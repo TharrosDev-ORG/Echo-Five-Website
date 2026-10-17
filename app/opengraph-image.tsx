@@ -1,26 +1,41 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
-import { hero, ogImage } from "@/lib/content";
 import { site } from "@/lib/site";
 
+export const dynamic = "force-static";
 export const alt = `${site.name}: ${site.tagline}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-const BLACK = "#0A0A0B";
-const WHITE = "#FFFFFF";
-const BLUE = "#2F5BFF";
-const BLUE_L = "#6E8CFF";
-const DISPLAY = "Bricolage Grotesque";
-const MUTED = "#A1A1AA";
+// Brand hexes (the OG renderer cannot read CSS variables). See DESIGN.md.
+const PAPER = "#FFFFFF";
+const INK = "#0B0D12";
+const FG_3 = "#5B6173";
+const BLUE = "#2348F5";
+const MARK = "#86C1FF";
 
-/** The mark at 2x its 32px viewBox: five 6px bars, 4px apart, widths top to bottom. */
-const BAR_WIDTHS = [48, 38, 28, 18, 8];
+const CREDENTIALS = ["30+ years", "Prosci ADKAR certified", "Secret Level II cleared"];
+
+/** The five-bar mark from components/ui/Logo, at 3x its 24px viewBox. */
+const BARS = [
+  { x: 1, y: 15 },
+  { x: 5.75, y: 12 },
+  { x: 10.5, y: 9 },
+  { x: 15.25, y: 6 },
+  { x: 20, y: 3 },
+];
+
+const font = (file: string) => readFile(join(process.cwd(), "app/fonts/og", file));
 
 export default async function OgImage() {
-  const bricolageBold = await readFile(join(process.cwd(), "app/fonts/BricolageGrotesque-Bold-latin.woff"));
+  const [newsreader, geistSemi, geistMono] = await Promise.all([
+    font("Newsreader-Regular.ttf"),
+    font("Geist-SemiBold.ttf"),
+    font("GeistMono-Regular.ttf"),
+  ]);
 
+  const S = 3;
   return new ImageResponse(
     (
       <div
@@ -30,38 +45,108 @@ export default async function OgImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          padding: 80,
-          background: BLACK,
-          fontFamily: "sans-serif",
+          padding: "64px 80px 60px",
+          background: PAPER,
+          color: INK,
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
-          <div style={{ display: "flex", flexDirection: "column", gap: 4, width: 48 }}>
-            {BAR_WIDTHS.map((w) => (
-              <div key={w} style={{ width: w, height: 6, borderRadius: 3, background: BLUE }} />
-            ))}
+        {/* Masthead */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
+            <div style={{ display: "flex", position: "relative", width: 24 * S, height: 24 * S }}>
+              {BARS.map((b, i) => (
+                <div
+                  key={b.x}
+                  style={{
+                    position: "absolute",
+                    left: b.x * S,
+                    top: b.y * S,
+                    width: 3 * S,
+                    height: (21 - b.y) * S,
+                    borderRadius: S,
+                    background: i === BARS.length - 1 ? BLUE : INK,
+                  }}
+                />
+              ))}
+            </div>
+            <div
+              style={{
+                display: "flex",
+                fontFamily: "Geist",
+                fontWeight: 600,
+                fontSize: 50,
+                letterSpacing: -1.4,
+              }}
+            >
+              {site.shortName}
+            </div>
           </div>
-          <div style={{ display: "flex", fontFamily: DISPLAY, fontSize: 40, fontWeight: 700, color: WHITE, letterSpacing: -1 }}>
-            {site.shortName}
+          <div style={{ display: "flex", fontFamily: "Geist Mono", fontSize: 22, color: FG_3 }}>
+            {"Microsoft\u00a0365 change management"}
           </div>
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ fontFamily: DISPLAY, fontSize: 88, fontWeight: 700, color: WHITE, lineHeight: 1.02, letterSpacing: -3 }}>
-            {hero.headline[0]}
+        {/* The line */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            fontFamily: "Newsreader",
+            fontSize: 118,
+            lineHeight: 1,
+            letterSpacing: -4,
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "baseline" }}>
+            <span>Change that</span>
+            <div style={{ display: "flex", position: "relative", marginLeft: 30 }}>
+              <div
+                style={{
+                  position: "absolute",
+                  left: -6,
+                  right: -8,
+                  top: 30,
+                  height: 84,
+                  background: MARK,
+                }}
+              />
+              <span>lands.</span>
+            </div>
           </div>
-          <div style={{ fontFamily: DISPLAY, fontSize: 88, fontWeight: 700, color: BLUE_L, lineHeight: 1.02, letterSpacing: -3 }}>
-            {hero.headline[1]}
+          <div style={{ display: "flex", marginTop: 6 }}>Tools that get used.</div>
+        </div>
+
+        {/* Credentials */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            borderTop: `2px solid ${INK}`,
+            paddingTop: 22,
+            fontFamily: "Geist Mono",
+            fontSize: 21,
+          }}
+        >
+          <div style={{ display: "flex", gap: 14 }}>
+            {CREDENTIALS.map((c, i) => (
+              <div key={c} style={{ display: "flex", gap: 14 }}>
+                {i > 0 && <span style={{ color: FG_3 }}>·</span>}
+                <span>{c}</span>
+              </div>
+            ))}
           </div>
-          <div style={{ fontSize: 28, color: WHITE, marginTop: 40, maxWidth: 960, lineHeight: 1.35 }}>
-            {hero.context}
-          </div>
-          <div style={{ display: "flex", fontSize: 24, color: MUTED, marginTop: 14 }}>
-            {ogImage.credentials.join(" · ")}
-          </div>
+          <div style={{ display: "flex", flexShrink: 0, color: BLUE }}>{new URL(site.url).host}</div>
         </div>
       </div>
     ),
-    { ...size, fonts: [{ name: DISPLAY, data: bricolageBold, weight: 700, style: "normal" }] },
+    {
+      ...size,
+      fonts: [
+        { name: "Newsreader", data: newsreader, weight: 400, style: "normal" },
+        { name: "Geist", data: geistSemi, weight: 600, style: "normal" },
+        { name: "Geist Mono", data: geistMono, weight: 400, style: "normal" },
+      ],
+    },
   );
 }

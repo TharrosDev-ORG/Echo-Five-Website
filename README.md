@@ -2,105 +2,96 @@
 
 Marketing site for **Echofive Solutions Inc.**, a senior change management practice
 specializing in Microsoft 365 adoption for Canadian public-sector and enterprise
-organizations. The site's job is to earn a first conversation.
+organizations, and the company behind **Advanta365**. The site's job is to earn a first
+conversation.
 
-Six statically generated pages (Home, Services, Approach, Advanta365, About, Contact) plus
-one server route for the contact form. The visual identity is **"Signal"**: black and
-white grounds, one electric blue, and a thin signal line that runs down every page (see `DESIGN.md`).
+The visual identity is **"Briefing"**: paper and ink grounds shared with Advanta365, its
+highlighter blue behind the words that matter, Newsreader statements, and arguments made
+visible as numbered exhibits. See `DESIGN.md` for the system and `PRODUCT.md` for brand
+and facts.
+
+Live: https://echo-five-website.vercel.app (Vercel, deployed from `main`).
 
 ## Stack
 
 - **Next.js 16** (App Router, Turbopack) · **React 19** · **TypeScript** (strict)
-- **Tailwind CSS v4** (`@tailwindcss/postcss`, tokens via `@theme`)
-- Fonts self-hosted via `next/font/local` (`app/fonts`, OFL): **Bricolage Grotesque** (headings), **Geist** (text)
-- No animation libraries: motion is CSS plus one small IntersectionObserver, and every
-  page is fully readable without JavaScript.
-
-No CMS, no database. All copy lives in `lib/content.ts`.
+- **Tailwind CSS v4** (`@tailwindcss/postcss`; tokens in `app/globals.css`)
+- Fonts self-hosted via `next/font/local` (`app/fonts`, OFL): **Newsreader** (statements),
+  **Geist** (text), **Geist Mono** (labels and figures)
+- No runtime dependencies beyond Next and React. Motion is CSS plus one
+  IntersectionObserver (`components/motion/MotionRoot.tsx`); every page is fully readable
+  without JavaScript and with reduced motion.
 
 ## Develop
 
 ```bash
 npm install
-npm run dev        # http://localhost:3000
+npm run dev          # http://localhost:3000
 npm run lint
-npm run typecheck  # tsc --noEmit
-npm run build      # production build
-npm run check:copy # static copy and code rules (em dashes, legacy tokens, old years, Advanta claims)
-npm run check:ui   # browser checks against a running build (see below)
+npm run typecheck    # tsc --noEmit
+npm run build        # production build
+npm run check:copy   # static copy rules (em dashes, old facts, Advanta365 claims, price)
+npm run check:ui     # browser checks against a running server (see below)
+npm run shoot -- --seg / /services   # full-page screenshots into .screenshots/
 ```
 
-`check:ui` drives Chromium through the built site: overflow at 360 to 1440px, contrast, one
-`h1`, keyboard behavior, no-JS and reduced-motion states, and the signal rail. It uses a
-Playwright install on `NODE_PATH` (it is not a project dependency) and expects a
-production server:
+`check:ui` drives Chromium (Playwright, a dev dependency) through every route at 360 to
+1440px: axe-core WCAG 2.1 A/AA rules, one `h1`, no horizontal overflow, images with alt,
+internal links that resolve, and nothing hidden without JavaScript.
 
 ```bash
 npm run build && npx next start -p 3100 &
-npm run check:ui                          # all checks
-npm run check:ui -- --only=rail,contrast  # selected checks
-npm run check:ui -- --shots               # also writes .screenshots/<route>-<width>.png
+npm run check:ui
+BASE_URL=http://localhost:3000 ROUTES=/,/about npm run check:ui   # selected routes
 ```
-
-Restart the server after every rebuild; a stale server serves pages without CSS.
 
 ## Structure
 
 ```
 app/
-  layout.tsx           Fonts, metadata, JSON-LD, JS flag script, site chrome
-  page.tsx             Home
-  services/ approach/ product/ about/ contact/   Inner pages (product = Advanta365)
-  opengraph-image.tsx  Generated 1200x630 social card (prerendered)
-  sitemap.ts robots.ts not-found.tsx error.tsx
-  globals.css          Design tokens (@theme) and component styles
-  api/contact/route.ts Contact form delivery (Resend REST API)
+  layout.tsx            Fonts, metadata, JSON-LD, JS flag script, site chrome
+  template.tsx          Page-enter transition
+  page.tsx              Home
+  services/ approach/ advanta365/ about/ contact/ privacy/ accessibility/
+  opengraph-image.tsx   Generated 1200x630 share card
+  icon.svg apple-icon.png manifest.ts sitemap.ts robots.ts not-found.tsx error.tsx
+  globals.css           Design tokens, tones, type roles, motion, components
+  api/contact/route.ts  Contact form delivery (Resend REST API)
 components/
-  ui/                  Primitives: Button, Container, Section, SectionHeading, Card,
-                       Stat, Badge, IndexList, SignalRail, Reveal, RevealObserver, Accordion, Marquee, icons
-  illustrations/       AdoptionCurve, AdkarPath, ToolkitStack, PhaseTrack
-  site/                Chrome: Header, MobileCtaBar, CtaBand, Footer, PageHero, Logo, Talk
-  contact/ContactForm  The contact form (client component)
+  ui/                   Button, Arrow, Mark (highlighter), Lines, Index, Exhibit, Logo
+  site/                 Header, Footer, MobileCta, PageHero, Closing, Talk
+  exhibits/             AdoptionGap, AdkarBars, DocStack (drawn figures)
+  motion/MotionRoot     The one scroll-in observer
+  home/ services/ approach/ advanta/ about/ contact/ legal/   Page sections
 lib/
-  content.ts           All page copy and data
-  site.ts              Site constants (name, email, URLs, video)
-  contact.ts           Contact validation shared by form and API
-  metadata.ts          Per-page title/description/canonical helper
-  cx.ts                Class name joiner
-docs/
-  ARCHITECTURE.md      How the site is put together
-  CONTENT.md           Where each piece of copy lives
-PRODUCT.md             Brand context
-DESIGN.md              Design system reference
+  content/              All copy, one module per area (see docs/CONTENT.md)
+  site.ts               Site constants (name, email, URLs, video)
+  contact.ts            Contact validation shared by form and API
+  metadata.ts           Per-page title/description/canonical helper
+scripts/                check-copy, check-ui, shoot
 ```
 
 ## Editing content
 
-- **Copy** for any page: `lib/content.ts`.
-- **Public contact email, URLs, video, company name**: `lib/site.ts`.
-- **Colors, type scale, radii**: the `@theme` blocks in `app/globals.css`.
+- **Copy** for any page: `lib/content/*.ts` (map in `docs/CONTENT.md`).
+- **Public email, URLs, video, company name**: `lib/site.ts`.
+- **Colors, type scale, motion**: `app/globals.css` (documented in `DESIGN.md`).
 
 ## Contact form
 
-The contact form posts to `app/api/contact/route.ts`, which delivers via the
-[Resend](https://resend.com) REST API. Configure these environment variables (e.g. in
-`.env.local` or your Vercel project) for live delivery:
+The form posts to `app/api/contact/route.ts`, which delivers via the
+[Resend](https://resend.com) REST API. Environment variables (Vercel project settings):
 
 | Var | Purpose |
 | --- | --- |
 | `RESEND_API_KEY` | Resend API key. **If unset, the form tells visitors to email directly** so the site still works. |
 | `CONTACT_TO` | Destination inbox (defaults to `site.email`). |
-| `CONTACT_FROM` | Verified sender, e.g. `Echofive <mark@echo-five.ca>` (requires a verified domain in Resend). |
+| `CONTACT_FROM` | Verified sender, e.g. `Echofive <mark@echo-five.ca>`. |
 
 ## Accessibility
 
-WCAG AA contrast on every text/ground pair, one `h1` per page, skip link, keyboard-operable
-menu (focus moves in and is trapped, page behind is inert and does not scroll, Escape
-closes), labelled form fields with inline errors and focus management, 44px tap targets,
-and `prefers-reduced-motion` support. Every page is fully readable without JavaScript:
-reveal animations only engage once a script has marked `<html class="js">`.
-
-## Client logos & certification badges
-
-Client and certification marks are rendered as **typographic wordmarks**, not image
-files, to avoid hosting third-party trademarks.
+WCAG 2.1 AA is the floor: checked contrast on every token pair, one `h1` per page, skip
+link, landmarks, keyboard-operable menu (focus trapped, page behind inert, Escape closes),
+labelled form fields with inline errors and focus management, 44px targets, pausable
+marquee, and `prefers-reduced-motion` support. Reveal effects only engage once a script has
+marked `<html class="js">`.

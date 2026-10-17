@@ -1,26 +1,38 @@
-import { notFound } from "@/lib/content";
+import type { Metadata } from "next";
+import { notFoundPage } from "@/lib/content/legal";
+import StatusPage from "@/components/legal/StatusPage";
 import Button from "@/components/ui/Button";
-import Container from "@/components/ui/Container";
+
+export const metadata: Metadata = {
+  title: notFoundPage.title,
+  robots: { index: false, follow: true },
+};
 
 export default function NotFound() {
+  const t = notFoundPage;
   return (
-    <section className="surface-light">
-      <Container className="grid min-h-[60vh] content-center py-20">
-        <p aria-hidden="true" className="mega-404 font-display text-mega text-accent tabular-nums">
-          404
+    <StatusPage
+      code={`Exhibit ${t.code}`}
+      caption={t.caption}
+      captionNote={t.captionNote}
+      heading={t.heading}
+      body={t.body}
+      moreLabel={t.moreLabel}
+      figure={
+        <p className="serif tabular text-[clamp(9rem,3rem+26vw,28rem)] leading-[0.86] tracking-[-0.05em] text-fg">
+          {t.code}
         </p>
-        <p className="mt-8 text-small font-semibold text-accent">{notFound.eyebrow}</p>
-        <h1 className="mt-4 max-w-[18ch] text-h1 text-fg">{notFound.heading}</h1>
-        <p className="mt-6 max-w-[52ch] text-lead text-fg-2">{notFound.body}</p>
-        <div className="mt-8 flex flex-wrap gap-3">
-          <Button href="/" arrow>
-            {notFound.primary}
+      }
+      actions={
+        <>
+          <Button href="/" size="lg">
+            {t.primary}
           </Button>
-          <Button href="/contact" variant="secondary">
-            {notFound.secondary}
+          <Button href="/contact" variant="secondary" size="lg">
+            {t.secondary}
           </Button>
-        </div>
-      </Container>
-    </section>
+        </>
+      }
+    />
   );
 }

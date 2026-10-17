@@ -1,79 +1,86 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { talk } from "@/lib/content";
-import { cx } from "@/lib/cx";
-import { site } from "@/lib/site";
-import { Play } from "@/components/ui/icons";
+import { talk } from "@/lib/content/shared";
+import Index from "@/components/ui/Index";
+import Arrow from "@/components/ui/Arrow";
 
 /**
- * The conference talk video behind a click-to-load facade: nothing from
- * YouTube loads until the visitor chooses to watch.
+ * The conference talk. A click-to-load facade: nothing from YouTube loads
+ * until the visitor asks for it, and the player uses youtube-nocookie.
  */
-export default function Talk({ className }: { className?: string }) {
+export default function Talk({ n }: { n?: string }) {
   const [playing, setPlaying] = useState(false);
-  const frame = useRef<HTMLIFrameElement>(null);
-  const id = site.video.id;
-  const thumb = (name: string) => `https://i.ytimg.com/vi/${id}/${name}.jpg`;
+  const frameRef = useRef<HTMLIFrameElement>(null);
 
-  // The facade button unmounts on play; hand focus to the player so keyboard
-  // and screen-reader users keep their place.
+  // The play button unmounts when the player loads; move focus to the player.
   useEffect(() => {
-    if (playing) frame.current?.focus();
+    if (playing) frameRef.current?.focus();
   }, [playing]);
+  const { id, url } = talk.video;
 
   return (
-    <div
-      className={cx(
-        "relative aspect-video overflow-hidden rounded-panel border border-edge bg-black",
-        className,
-      )}
-    >
-      {playing ? (
-        <iframe
-          ref={frame}
-          src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`}
-          title={talk.heading}
-          allow="autoplay; encrypted-media; picture-in-picture"
-          allowFullScreen
-          className="absolute inset-0 size-full border-0"
-        />
-      ) : (
-        <button
-          type="button"
-          onClick={() => setPlaying(true)}
-          aria-label={`${talk.cta}: ${talk.heading}`}
-          // The ring is drawn inset over the dark poster, so it takes the dark-ground focus color.
-          data-tone="dark"
-          className="group absolute inset-0 size-full cursor-pointer focus-visible:-outline-offset-4"
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={thumb("hqdefault")}
-            srcSet={`${thumb("hqdefault")} 480w, ${thumb("sddefault")} 640w, ${thumb("maxresdefault")} 1280w`}
-            sizes="(min-width: 1024px) 50rem, 92vw"
-            width={1280}
-            height={720}
-            alt=""
-            loading="lazy"
-            decoding="async"
-            className="size-full object-cover"
-          />
-          <span
-            aria-hidden="true"
-            className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent"
-          />
-          <span
-            aria-hidden="true"
-            className="absolute bottom-4 left-4 inline-flex min-h-12 items-center gap-2.5 rounded-control bg-blue py-2 pr-5 pl-2 font-semibold text-white transition-[transform,background-color] duration-150 group-hover:-translate-y-0.5 group-hover:bg-blue-d sm:bottom-6 sm:left-6"
-          >
-            <span className="flex size-8 items-center justify-center rounded-full bg-white text-blue-d">
-              <Play size={14} />
-            </span>
-            {talk.cta}
-          </span>
-        </button>
-      )}
-    </div>
+    <section aria-labelledby="talk-heading" className="tone-paper band">
+      <div className="wrap">
+        <div className="grid gap-12 min-[1200px]:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] min-[1200px]:items-start">
+          <div>
+            <Index n={n}>{talk.index}</Index>
+            <p className="label mt-8 text-fg-3">{talk.venue}</p>
+            <h2 id="talk-heading" className="serif mt-4 text-h2" data-reveal="">
+              {talk.heading}
+            </h2>
+            <p className="mt-6 max-w-[32rem] text-lead text-fg-2" data-reveal="">
+              {talk.sub}
+            </p>
+            <a
+              href={url}
+              rel="noopener"
+              className="mt-8 inline-flex items-center gap-1.5 text-small font-medium text-fg"
+            >
+              <span className="link">{talk.openLabel}</span>
+              <Arrow dir="up-right" />
+            </a>
+          </div>
+
+          <div className="relative aspect-video overflow-hidden rounded-[0.75rem] bg-ink" data-reveal="">
+            {playing ? (
+              <iframe
+                ref={frameRef}
+                className="absolute inset-0 h-full w-full"
+                src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`}
+                title={talk.heading}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            ) : (
+              <button
+                type="button"
+                onClick={() => setPlaying(true)}
+                className="group absolute inset-0 flex h-full w-full items-end text-left"
+                aria-label={`${talk.cta}: ${talk.heading}`}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/talk-poster.jpg"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                  className="absolute inset-0 h-full w-full object-cover opacity-80 grayscale transition duration-700 ease-[var(--ease-out-expo)] group-hover:scale-[1.03] group-hover:opacity-90 group-hover:grayscale-0"
+                />
+                <span aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/10 to-transparent" />
+                <span className="relative flex w-full items-center justify-between gap-4 p-6 text-white min-[900px]:p-8">
+                  <span className="serif text-h4 min-[900px]:text-h3">{talk.cta}</span>
+                  <span className="flex h-16 w-16 flex-none items-center justify-center rounded-full bg-white text-ink transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:scale-110 min-[900px]:h-20 min-[900px]:w-20">
+                    <svg viewBox="0 0 20 20" className="ml-1 h-5 w-5" aria-hidden="true">
+                      <path d="M5 3.5v13l11-6.5z" fill="currentColor" />
+                    </svg>
+                  </span>
+                </span>
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }

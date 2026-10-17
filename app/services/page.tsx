@@ -1,64 +1,41 @@
-import { navCta, pages, services } from "@/lib/content";
+import { pages } from "@/lib/content/pages";
 import { pageMetadata } from "@/lib/metadata";
 import PageHero from "@/components/site/PageHero";
-import CtaBand from "@/components/site/CtaBand";
-import Section from "@/components/ui/Section";
-import SectionHeading from "@/components/ui/SectionHeading";
-import Badge from "@/components/ui/Badge";
-import Button from "@/components/ui/Button";
-import ServiceJumpNav from "@/components/services/ServiceJumpNav";
-import ServiceDetails from "@/components/services/ServiceDetails";
-import PairWithAdvanta from "@/components/services/PairWithAdvanta";
+import Closing from "@/components/site/Closing";
+import Mark from "@/components/ui/Mark";
+import JumpNav from "@/components/services/JumpNav";
+import Rollout from "@/components/services/Rollout";
+import ServiceSequence from "@/components/services/ServiceSequence";
+import Platforms from "@/components/services/Platforms";
+import PairAdvanta from "@/components/services/PairAdvanta";
 
 const page = pages.services;
-export const metadata = pageMetadata("/services", page.title, page.description);
 
+export const metadata = pageMetadata(page.path, page.title, page.description);
+
+/** /services: the six services, where they sit across a rollout, and the toolkit that pairs with them. */
 export default function ServicesPage() {
+  const [first, second] = page.heading;
+  const [word, ...rest] = second.split(", ");
   return (
     <>
       <PageHero
-        title={page.heading}
-        lead={page.lead}
-        actions={
+        index={page.index}
+        heading={[
+          first,
           <>
-            <Button href={navCta.href} size="lg" arrow>
-              {navCta.label}
-            </Button>
-            <Button href="/product" size="lg" variant="secondary">
-              {services.pairWithAdvanta.cta}
-            </Button>
-          </>
-        }
+            {word}, <Mark>{rest.join(", ")}</Mark>
+          </>,
+        ]}
+        lead={page.lead}
       >
-        <p id="platforms-label" className="text-small font-medium text-fg-2">
-          {services.platformsLabel}
-        </p>
-        <ul aria-labelledby="platforms-label" className="mt-3 flex flex-wrap gap-2">
-          {services.platforms.map((platform) => (
-            <li key={platform}>
-              <Badge>{platform}</Badge>
-            </li>
-          ))}
-        </ul>
+        <JumpNav />
       </PageHero>
-
-      <Section id="what-we-do" labelledBy="what-we-do-heading">
-        <SectionHeading id="what-we-do-heading" title={services.heading} />
-        <div className="mt-10 grid gap-10 md:mt-14 lg:grid-cols-12 lg:gap-x-12">
-          <div className="lg:col-span-3">
-            <ServiceJumpNav />
-          </div>
-          <div className="min-w-0 lg:col-span-9">
-            <ServiceDetails />
-          </div>
-        </div>
-      </Section>
-
-      <Section tone="alt" labelledBy="pair-advanta-heading">
-        <PairWithAdvanta headingId="pair-advanta-heading" />
-      </Section>
-
-      <CtaBand />
+      <Rollout />
+      <ServiceSequence />
+      <Platforms />
+      <PairAdvanta />
+      <Closing />
     </>
   );
 }
