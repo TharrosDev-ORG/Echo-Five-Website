@@ -112,3 +112,44 @@ export const engagement = {
     },
   ],
 };
+
+/**
+ * /approach only: the jump nav, section labels, and the captions for the
+ * page's three exhibits. Built only from the content above and from
+ * services.pairWithAdvanta (Advanta365 counts are the published ones).
+ */
+export const approachPage = {
+  contentsLabel: "On this page",
+  contents: [
+    { n: "01", href: "#problem", label: "Why rollouts stall" },
+    { n: "02", href: "#method", label: "The method" },
+    { n: "03", href: "#engagement", label: "How an engagement runs" },
+    { n: "04", href: "#talk-heading", label: "On the record" },
+  ],
+  problem: {
+    /** `why.heading` split into display lines (non-breaking space kept). */
+    headingLines: ["Why Microsoft 365", "rollouts stall"],
+    /** `why.pull`, split so the highlighter sits on the second sentence. */
+    pullBefore: "The technology was never the hard part.",
+    pullMark: "Getting thousands of people to work differently is.",
+    failuresLabel: "Where it breaks",
+    closeHref: "#method",
+  },
+  method: {
+    /** Shown in the stage display before it starts tracking the reader. */
+    complete: "Awareness to reinforcement",
+    stage: "Stage",
+    of: "of",
+    model: "Prosci ADKAR",
+  },
+  engagement: {
+    exhibitTitle: "Four steps, in order",
+    exhibitNote: "Illustrative. The order the work runs in, from the plan to the habit.",
+    toolkit: {
+      label: "Inside our engagements",
+      body: "We use Advanta365, our change management and user adoption toolkit, inside our engagements: 59 playbooks, 130 ready-to-use templates, field guides, and training materials.",
+      cta: "Explore Advanta365",
+      href: "/advanta365",
+    },
+  },
+};

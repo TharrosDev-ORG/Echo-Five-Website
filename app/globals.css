@@ -47,6 +47,8 @@
 }
 
 .tone-night {
+  --mark-h: 1.04em;
+  --mark-y: 58%;
   --bg: #0b0d12;
   --surface: #141823;
   --surface-2: #1c2130;
@@ -286,8 +288,8 @@
 .mark {
   background-image: linear-gradient(var(--mark), var(--mark));
   background-repeat: no-repeat;
-  background-size: 100% 0.82em;
-  background-position: 0 62%;
+  background-size: 100% var(--mark-h, 0.72em);
+  background-position: 0 var(--mark-y, 70%);
   color: var(--mark-ink);
   padding-inline: 0.06em;
   margin-inline: -0.06em;
@@ -297,11 +299,11 @@
 
 @media (prefers-reduced-motion: no-preference) {
   .js .mark[data-sweep] {
-    background-size: 0% 0.82em;
+    background-size: 0% var(--mark-h, 0.72em);
     transition: background-size 1.1s var(--ease-out-expo) 0.25s;
   }
   .js .mark[data-sweep].is-in {
-    background-size: 100% 0.82em;
+    background-size: 100% var(--mark-h, 0.72em);
   }
 }
 
@@ -510,7 +512,6 @@
   /* Line-by-line rise for display headings: each `.line > span` slides up
      from behind a clip. */
   .js [data-lines] .line {
-    display: block;
     overflow: clip;
     overflow-clip-margin: 0.2em;
     padding-bottom: 0.06em;
@@ -575,6 +576,12 @@
   .js [data-grow-x].is-in {
     transform: none;
   }
+}
+
+/* Each `<Lines>` entry is its own line in every mode, so headings wrap
+   the same with or without JS and motion. */
+[data-lines] .line {
+  display: block;
 }
 
 /* ------------------------------------------------------------------ *
@@ -742,6 +749,20 @@ textarea.field {
   background-size: 48px 48px;
   background-position: -1px -1px;
 }
+}
+
+/* Page enter (app/template.tsx). */
+@media (prefers-reduced-motion: no-preference) {
+  .js .page-enter {
+    animation: page-enter 0.9s var(--ease-out-expo) both;
+  }
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
 }
 
 @media print {

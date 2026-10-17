@@ -62,7 +62,7 @@ export default function AdoptionGap({ className }: { className?: string }) {
           />
 
           {/* The gap */}
-          <path d={gapArea} fill="var(--mark)" opacity="0.38" data-fade="" style={{ "--d": 2300 } as React.CSSProperties} />
+          <path d={gapArea} fill="var(--mark)" fillOpacity="0.4" data-fade="" style={{ "--d": 2300 } as React.CSSProperties} />
 
           {/* Lines */}
           <path d={common} fill="none" stroke="var(--fg)" strokeWidth="2.5" strokeLinecap="round" vectorEffect="non-scaling-stroke" pathLength={1} data-draw="" style={{ "--d": 300 } as React.CSSProperties} />

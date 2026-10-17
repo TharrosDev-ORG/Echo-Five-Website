@@ -54,7 +54,7 @@ export default function Talk({ n }: { n?: string }) {
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`}
+                  src="/talk-poster.jpg"
                   alt=""
                   loading="lazy"
                   decoding="async"

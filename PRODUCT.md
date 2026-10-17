@@ -4,7 +4,7 @@ register: brand
 
 ## Product purpose
 
-A six-page marketing site for **Echofive Solutions Inc.**, a senior change management
+A marketing site for **Echofive Solutions Inc.**, a senior change management
 practice specializing in Microsoft 365 adoption for Canadian public-sector and
 enterprise organizations, and for its product, **Advanta365**. The site exists to earn a
 first meeting. A program lead
@@ -57,14 +57,17 @@ governance guardrails, or week-to-week measurement.
 
 - Built by a Prosci-certified practitioner; field-tested over 30+ years; refined across
   decades of real rollouts.
-- 59 playbooks covering all seven phases; 130 ready-to-use templates (emails, plans,
+- 59 playbooks covering all eleven phases; 130 ready-to-use templates (emails, plans,
   checklists, worksheets, workshop kits); 4 field guides for change practitioners and IM
   partners; training for three audiences (End users, Site Owners, IM Representatives)
   with facilitator guides, learning guides, and 58 job aids; a complete worked example
   (a full change management strategy for a 10,000-person organization); Copilot-ready
   guides for readiness, rollout, and impact assessment for Microsoft 365 Copilot.
 - Formats: DOCX, PPTX, XLSX, PDF.
-- Seven phases: Make the case, Plan, Design, Prepare, Communicate, Execute, Sustain.
+- Eleven phases, in rollout order (matching advanta365.com): Define the change, Assess
+  the impact, Set the strategy, Engage leaders, Plan communications, Design the
+  platform, Plan the training, Build the training, Deliver training, Go live and
+  support, Make it stick.
 - Six free samples: Executive Sponsor Kickoff Deck (PPTX, 16 slides); Change Management
   Strategy (DOCX); SharePoint Governance Framework (DOCX); SharePoint End-User Training
   Deck (PPTX, a 60-minute instructor-led session); Master Communications Plan (XLSX);
@@ -78,25 +81,10 @@ governance guardrails, or week-to-week measurement.
 
 ## Aesthetic direction
 
-**Signal.** Premium and conversion-focused, with a point of view: black and white
-grounds for weight and reading, one electric blue for actions, key data, and a thin
-"signal line" (from the Echofive name) that starts as the adoption curve and travels down
-every page, becoming each page's key diagram. Giant typographic numerals carry the proof.
-Crafted restraint: award-quality type and layout, CSS-only motion, never hiding content.
-
-- **Color:** black (`#0A0A0B`) and white grounds, mist for alternate bands, and one blue
-  (`#2F5BFF`). On black, small blue text uses a lighter blue (`#6E8CFF`) because the
-  main blue is only 3.83:1 there. The closing call to action is a full blue band with
-  solid white text. See `DESIGN.md`.
-- **Type:** Bricolage Grotesque headings, Geist text. Sentence-case headings, very large
-  and tight for the home headline and the proof numerals ("30+", "II", "ADKAR", "365").
-- **Structure:** a home page that leads with proof (30+ years, clearance, certifications,
-  named clients), then why rollouts stall, services, the ADKAR model, the Advanta365
-  band, and the talk. Inner pages for Services, Approach, Advanta365, About, and Contact.
-  A clear "Start a conversation" path on every page, including a fixed bar on phones.
-- **Motion:** reveal on scroll, a signal line that draws down the page, a headline that
-  rises once on load, a slow client marquee. All progressive enhancement and all off
-  under reduced motion; every page is fully readable without JavaScript.
+**Briefing.** The senior firm behind Advanta365: paper and ink grounds shared with
+the product, Advanta365's highlighter blue behind the words that matter, Newsreader
+statements, and arguments made visible as numbered exhibits. Award-grade craft with
+restraint. The full system is in `DESIGN.md`.
 
 ## Anti-references (do NOT look like these)
 
@@ -119,6 +107,9 @@ Crafted restraint: award-quality type and layout, CSS-only motion, never hiding 
   citron and moss accents. Premium, but generic: it read as a well-made template and
   lacked a signature. Signal replaces it with one memorable idea (the line) and giant
   numerals.
+- **"Signal" (the direction this replaced):** black and white with one electric blue,
+  Bricolage Grotesque, a thin signal line down every page. Its hero headline was
+  hard to read and it looked weaker than its own product's site.
 - **Generic SaaS / dev-tool slop:** purple gradients, three identical icon cards,
   rounded-everything, glowing-neon-on-black with no restraint.
 

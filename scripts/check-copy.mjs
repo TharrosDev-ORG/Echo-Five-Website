@@ -7,11 +7,13 @@ const rules = [
   {
     name: "legacy-tokens",
     dirs: ["app", "components", "lib"],
-    pattern: /spruce|citron|moss|paper-2|instrument|\btexture\b|card-shadow/i,
+    pattern: /spruce|citron|bricolage|signal-?rail|\bblue-l\b|card-shadow/i,
   },
   { name: "old-years", dirs: ["lib"], pattern: /20\+|\btwenty\b/i },
   { name: "no-price", dirs: ["app", "components", "lib"], pattern: /\$\s?\d[\d,]*\.\d{2}|\bCAD\b/ },
   { name: "advanta-claims", dirs: ["lib"], pattern: /analytics|guardrail|week to week/i },
+  { name: "old-phases", dirs: ["app", "components", "lib"], pattern: /seven phases|Make the case/i },
+  { name: "old-route", dirs: ["app", "components", "lib"], pattern: /["'`]\/product["'`#]/ },
 ];
 
 const walk = (dir) =>

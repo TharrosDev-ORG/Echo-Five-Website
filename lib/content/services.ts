@@ -87,7 +87,33 @@ export const services = {
       deliverables: ["Zero-downtime moves", "Embedded change agents", "Adoption that holds"],
     },
   ] satisfies Service[],
+  /** /services: the six services in full. */
+  sequenceIndex: "The six services",
+  whereLabel: "Where it sits",
+  /** /services: Exhibit 01. Every annotation restates a service body above. */
+  rollout: {
+    index: "Across a rollout",
+    heading: { first: "From before the migration", before: "starts to", mark: "long after", after: "we step away." },
+    intro:
+      "Each service has a place in the rollout. The adoption plan is built before anything moves. Communications and training carry people through the change. Embedded change agents keep adoption holding once we leave.",
+    exhibitTitle: "Where each service sits across a rollout",
+    note: "Illustrative. Drawn from the service descriptions on this page.",
+    serviceLabel: "Service",
+    phases: ["Before migration", "Migration", "After go-\u2060live"],
+    goLive: "Go-\u2060live",
+    key: { service: "The service under way", agents: "Embedded change agents" },
+    annotations: {
+      strategy: ["Before the migration starts"],
+      communications: ["What is changing, when"],
+      training: ["From aware to proficient"],
+      "technical-writing": ["Job aids and self-serve portals"],
+      "ai-coaching": ["People make the judgment calls"],
+      migration: ["Zero-downtime moves", "Embedded change agents"],
+    } as Record<string, string[]>,
+  },
+  platformsIndex: "Platforms",
   pairWithAdvanta: {
+    index: "Our product",
     heading: "Pair it with Advanta365",
     body: "Advanta365 is our change management and user adoption toolkit: 59 playbooks, 130 ready-to-use templates, field guides, and training materials. We use it inside our engagements, and your team can buy it for its own rollout.",
     cta: "Explore Advanta365",

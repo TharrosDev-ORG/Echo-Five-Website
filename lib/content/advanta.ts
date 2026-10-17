@@ -3,8 +3,8 @@
  * its source (2026-10-17): counts from TOOLKIT, phases from content/phases.ts,
  * free samples from the templates marked free.
  *
- * Rules: Advanta365 is a document toolkit. Never claim analytics, governance
- * guardrails, or measurement. Never publish the price on this site. Prosci
+ * Rules: Advanta365 is a document toolkit. Never describe it as a platform that
+ * tracks, monitors, or enforces anything. Never publish the price on this site. Prosci
  * describes the practitioner, never the product.
  */
 import { site } from "@/lib/site";
@@ -132,4 +132,38 @@ export const advanta = {
   },
   disclaimer:
     "Advanta365 and Echofive are independent and not affiliated with or endorsed by Prosci Inc. or Microsoft Corporation.",
+  /** Section copy for the /advanta365 page. Facts only from the fields above. */
+  page: {
+    heroAside: "Sold at advanta365.com",
+    deskLabel: "Untitled",
+    countsIndex: "In the box",
+    countsHeading: "A rollout’s worth of documents, ready to use.",
+    countNotes: [
+      "Covering all eleven phases of a rollout",
+      "Emails, plans, checklists, worksheets, and workshop kits",
+      "For change practitioners and IM partners",
+      "For End users, Site Owners, and IM Representatives",
+    ],
+    contentsIndex: "Contents",
+    contentsLead:
+      "Playbooks, templates, field guides, and training from real SharePoint Online rollouts. Use them as they are, or tailor them with AI.",
+    phasesIndex: "Rollout order",
+    phasesExhibitTitle: "From defining the change to making it stick",
+    phasesExhibitNote:
+      "Illustrative. Phases marked Sample include one of the six free templates.",
+    phasesListLabel: "The eleven phases of a rollout, in order",
+    sampleTag: "Sample",
+    sampleTagSr: "free sample available",
+    formatsIndex: "Formats",
+    formatsLead:
+      "Open and edit them in the Microsoft\u00a0365 apps your teams already use.",
+    formatKinds: { DOCX: "Documents", PPTX: "Slide decks", XLSX: "Workbooks", PDF: "Portable documents" } as Record<string, string>,
+    samplesIndex: "Free samples",
+    sampleLinkSr: "Open the free sample on advanta365.com",
+    sampleMeta: { format: "Format", phase: "Phase", detail: "Detail" },
+    provenanceHeading: "Where it comes from",
+    purchaseIndex: "The toolkit",
+    purchaseAside: "Sold at advanta365.com",
+    relationshipIndex: "Echofive",
+  },
 };

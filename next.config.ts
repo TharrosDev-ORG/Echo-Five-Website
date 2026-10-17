@@ -4,6 +4,11 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
 
+  async redirects() {
+    // The Advanta365 page moved from /product when the site was rebuilt.
+    return [{ source: "/product", destination: "/advanta365", permanent: true }];
+  },
+
   async headers() {
     return [
       {

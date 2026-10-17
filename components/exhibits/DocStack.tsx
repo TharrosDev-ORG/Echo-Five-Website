@@ -38,7 +38,7 @@ export function DocCover({ doc, className, style }: { doc: Sample; className?: s
   return (
     <div
       className={cx(
-        "flex aspect-[3/4] w-full flex-col justify-between rounded-[0.5rem] bg-white p-[8%] text-[#0b0d12] shadow-[0_1px_0_rgb(11_13_18/0.06),0_24px_48px_-24px_rgb(11_13_18/0.35)] ring-1 ring-[#0b0d12]/8",
+        "@container flex aspect-[3/4] w-full flex-col justify-between overflow-hidden rounded-[0.5rem] bg-white p-[8%] text-[#0b0d12] shadow-[0_1px_0_rgb(11_13_18/0.06),0_24px_48px_-24px_rgb(11_13_18/0.35)] ring-1 ring-[#0b0d12]/8",
         className,
       )}
       style={style}
@@ -47,11 +47,11 @@ export function DocCover({ doc, className, style }: { doc: Sample; className?: s
         <span className="label rounded-[3px] border border-[#0b0d12] px-1.5 py-0.5 text-[0.6875rem] font-medium">
           {doc.format}
         </span>
-        <span className="label text-[0.625rem] text-[#5b6173]">Advanta365</span>
+        <span className="label text-[clamp(0.5rem,5.5cqw,0.6875rem)] text-[#5b6173]">Advanta365</span>
       </div>
       <div>
-        <p className="serif text-[clamp(0.95rem,0.7rem+0.6vw,1.25rem)] leading-[1.12] tracking-[-0.01em]">{doc.title}</p>
-        <p className="label mt-2 text-[0.625rem] text-[#5b6173]">{doc.phase}</p>
+        <p className="serif text-[clamp(0.625rem,10.5cqw,1.375rem)] leading-[1.12] tracking-[-0.01em]">{doc.title}</p>
+        <p className="label mt-2 truncate text-[clamp(0.5rem,5.5cqw,0.6875rem)] text-[#5b6173]">{doc.phase}</p>
       </div>
       <Glyph format={doc.format} />
     </div>
