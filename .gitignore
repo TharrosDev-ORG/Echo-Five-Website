@@ -9,3 +9,5 @@ out
 next-env.d.ts
 *.tsbuildinfo
 .screenshots
+.claude/launch.json
+AGENTS.md

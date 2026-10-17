@@ -1,0 +1,1075 @@
+@import "tailwindcss";
+
+/* ================================================================== *
+ * Echofive Solutions: "Signal"
+ *
+ * Black and white grounds, one electric blue. The blue marks actions,
+ * key data, and the signal line that runs down every page. Small blue
+ * text on black uses blue-l (#2F5BFF is 3.83:1 there). Bricolage
+ * Grotesque headings, Geist text. See DESIGN.md.
+ * ================================================================== */
+
+@theme {
+  /* Palette */
+  --color-black: #0a0a0b;
+  --color-black-2: #141416;
+  --color-white: #ffffff;
+  --color-mist: #f4f4f5;
+  --color-ink: #0a0a0b;
+  --color-ink-2: #3f3f46;
+  --color-ink-3: #52525b;
+  --color-line: rgb(10 10 11 / 0.1);
+  --color-line-strong: rgb(10 10 11 / 0.22);
+  /* Form field outline: 4.8:1 on white, so an empty input is visible at rest. */
+  --color-line-input: #71717a;
+  --color-line-dark: rgb(255 255 255 / 0.12);
+  --color-line-dark-strong: rgb(255 255 255 / 0.28);
+  --color-blue: #2f5bff;
+  --color-blue-d: #1f45e6;
+  --color-blue-l: #6e8cff;
+  --color-on-dark: #ffffff;
+  --color-on-dark-2: #a1a1aa;
+  --color-danger: #b42318;
+
+  /* Type families (variables set by next/font in app/layout.tsx) */
+  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+
+  /* Type scale: `text-mega`, `text-display`, `text-h1` ... `text-label` */
+  --text-mega: clamp(3rem, 0.9rem + 9vw, 10rem);
+  --text-mega--line-height: 0.9;
+  --text-mega--letter-spacing: -0.05em;
+  --text-mega--font-weight: 700;
+  --text-display: clamp(2.5rem, 1rem + 6vw, 6.5rem);
+  --text-display--line-height: 0.95;
+  --text-display--letter-spacing: -0.045em;
+  --text-display--font-weight: 700;
+  --text-h1: clamp(2.25rem, 1.2rem + 4vw, 4.5rem);
+  --text-h1--line-height: 1;
+  --text-h1--letter-spacing: -0.04em;
+  --text-h1--font-weight: 700;
+  --text-h2: clamp(1.75rem, 1.2rem + 2.2vw, 3rem);
+  --text-h2--line-height: 1.05;
+  --text-h2--letter-spacing: -0.03em;
+  --text-h2--font-weight: 650;
+  --text-h3: clamp(1.1875rem, 1.1rem + 0.35vw, 1.375rem);
+  --text-h3--line-height: 1.3;
+  --text-h3--letter-spacing: -0.015em;
+  --text-h3--font-weight: 600;
+  --text-lead: clamp(1.0625rem, 0.98rem + 0.4vw, 1.25rem);
+  --text-lead--line-height: 1.6;
+  --text-body: 1.0625rem;
+  --text-body--line-height: 1.65;
+  --text-small: 0.9375rem;
+  --text-small--line-height: 1.55;
+  --text-label: 0.8125rem;
+  --text-label--line-height: 1.4;
+
+  /* Shape */
+  --radius-control: 4px;
+  --radius-card: 8px;
+  --radius-panel: 0px;
+  --container-site: 76rem;
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/*
+ * Surface-aware colors. These resolve per ground, so text, borders, cards,
+ * badges, and focus rings adapt inside a dark or blue section without extra
+ * props: `text-fg`, `text-fg-2`, `text-fg-3`, `text-accent` (blue text),
+ * `bg-accent-fill` (buttons, the signal line), `text-on-accent`,
+ * `border-edge`, `border-edge-strong`, `bg-raised`.
+ */
+@theme inline {
+  --color-fg: var(--fg);
+  --color-fg-2: var(--fg-2);
+  --color-fg-3: var(--fg-3);
+  --color-accent: var(--accent);
+  --color-accent-fill: var(--accent-fill);
+  --color-accent-hover: var(--accent-hover);
+  --color-on-accent: var(--on-accent);
+  --color-edge: var(--edge);
+  --color-edge-strong: var(--edge-strong);
+  --color-raised: var(--raised);
+}
+
+:root,
+.surface-light,
+.surface-alt,
+[data-tone="light"] {
+  --fg: var(--color-ink);
+  --fg-2: var(--color-ink-2);
+  --fg-3: var(--color-ink-3);
+  --accent: var(--color-blue);
+  --accent-fill: var(--color-blue);
+  --accent-hover: var(--color-blue-d);
+  --on-accent: #ffffff;
+  --edge: var(--color-line);
+  --edge-strong: var(--color-line-strong);
+  --raised: var(--color-white);
+  --focus: var(--color-blue);
+}
+
+.surface-dark,
+[data-tone="dark"] {
+  --fg: var(--color-on-dark);
+  --fg-2: var(--color-on-dark-2);
+  --fg-3: var(--color-on-dark-2);
+  --accent: var(--color-blue-l);
+  --accent-fill: var(--color-blue);
+  --accent-hover: var(--color-blue-d);
+  --on-accent: #ffffff;
+  --edge: var(--color-line-dark);
+  --edge-strong: var(--color-line-dark-strong);
+  --raised: var(--color-black-2);
+  --focus: var(--color-blue-l);
+}
+
+/* Solid white only: translucent white on blue fails AA (85% is 4.18:1). */
+.surface-blue,
+[data-tone="blue"] {
+  --fg: #ffffff;
+  --fg-2: #ffffff;
+  --fg-3: #ffffff;
+  --accent: #ffffff;
+  --accent-fill: #ffffff;
+  --accent-hover: #eef2ff;
+  --on-accent: var(--color-blue-d);
+  --edge: rgb(255 255 255 / 0.24);
+  --edge-strong: rgb(255 255 255 / 0.5);
+  --raised: var(--color-blue-d);
+  --focus: #ffffff;
+}
+
+:root {
+  --header-h: 4rem;
+  color-scheme: light;
+  /*
+   * Signal rail x position. The % resolves against the rail's containing block,
+   * the full-width section, so it tracks the Container exactly with no 100vw
+   * (which includes the scrollbar in some browsers). At 1440 this is 72px from
+   * the edge (72px left of the content); at 1024 it clamps to 16px.
+   */
+  --rail-x: max(1rem, calc((100% - var(--container-site)) / 2 - 2.5rem));
+}
+@media (min-width: 900px) {
+  :root {
+    --header-h: 4.5rem;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Base
+ * ------------------------------------------------------------------ */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: calc(var(--header-h) + 1.5rem);
+  }
+  body {
+    background: var(--color-white);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: clip;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+  p,
+  li,
+  dd,
+  figcaption {
+    text-wrap: pretty;
+  }
+  ::selection {
+    background: var(--color-blue);
+    color: #ffffff;
+  }
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 3px;
+  }
+  summary {
+    cursor: pointer;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Grounds
+ * ------------------------------------------------------------------ */
+@layer components {
+  .surface-light {
+    background-color: var(--color-white);
+    color: var(--fg);
+  }
+  .surface-alt {
+    background-color: var(--color-mist);
+    color: var(--fg);
+  }
+  .surface-dark {
+    background-color: var(--color-black);
+    color: var(--fg);
+  }
+  .surface-blue {
+    background-color: var(--color-blue);
+    color: var(--fg);
+  }
+
+  /* Inline text link */
+  .link {
+    color: var(--accent);
+    font-weight: 600;
+    text-decoration: none;
+    background: linear-gradient(currentColor, currentColor) no-repeat 0 100% / 100% 1px;
+    padding-bottom: 0.1em;
+    transition: background-size 200ms var(--ease-out-soft);
+  }
+  .link:hover {
+    background-size: 100% 2px;
+  }
+
+  .skip-link {
+    position: fixed;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 100;
+    padding: 0.625rem 1rem;
+    border-radius: var(--radius-control);
+    background: var(--color-black);
+    color: var(--color-on-dark);
+    font-weight: 600;
+    transform: translateY(-200%);
+  }
+  .skip-link:focus {
+    transform: none;
+    outline-color: var(--color-blue-l);
+  }
+
+  /* ---------------------------------------------------------------- *
+   * Buttons (components/ui/Button.tsx)
+   * ---------------------------------------------------------------- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    padding: 0.625rem 1.125rem;
+    border: 1px solid transparent;
+    border-radius: var(--radius-control);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.2;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+      background-size 200ms var(--ease-out-soft),
+      background-color 200ms var(--ease-out-soft),
+      border-color 200ms var(--ease-out-soft),
+      color 200ms var(--ease-out-soft),
+      transform 150ms ease;
+  }
+  .btn:active {
+    transform: translateY(1px);
+  }
+  .btn:disabled,
+  .btn[aria-disabled="true"] {
+    cursor: progress;
+    opacity: 0.65;
+    transform: none;
+  }
+  .btn-sm {
+    padding: 0.5rem 0.9rem;
+    font-size: 0.9375rem;
+  }
+  .btn-lg {
+    min-height: 3.25rem;
+    padding: 0.875rem 1.5rem;
+    font-size: 1.0625rem;
+  }
+  /* Primary: --accent-hover sweeps in from the left over the --accent-fill base.
+     On blue grounds the tokens make it white with blue-d text. */
+  .btn-primary {
+    background:
+      linear-gradient(var(--accent-hover), var(--accent-hover)) no-repeat left center / 0% 100%,
+      var(--accent-fill);
+    color: var(--on-accent);
+  }
+  .btn-primary:hover {
+    background-size: 100% 100%;
+  }
+  /* Secondary: 1px outline; hover inverts to --fg (black on white, white on black and blue). */
+  .btn-secondary {
+    background-color: transparent;
+    border-color: var(--edge-strong);
+    color: var(--fg);
+  }
+  .btn-secondary:hover {
+    border-color: var(--fg);
+    background-color: var(--fg);
+    color: var(--raised);
+  }
+  .btn-ghost {
+    padding-inline: 0;
+    background-color: transparent;
+    color: var(--fg);
+  }
+  .btn-ghost:hover {
+    color: var(--accent);
+  }
+  .btn-arrow {
+    flex: none;
+    transition: transform 200ms var(--ease-out-soft);
+  }
+  .btn:hover .btn-arrow {
+    transform: translateX(3px);
+  }
+
+  /* ---------------------------------------------------------------- *
+   * Cards (components/ui/Card.tsx)
+   * ---------------------------------------------------------------- */
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1.5rem;
+    border: 1px solid var(--edge);
+    border-radius: var(--radius-card);
+    background-color: var(--raised);
+    color: var(--fg);
+  }
+  @media (min-width: 640px) {
+    .card {
+      padding: 1.75rem;
+    }
+  }
+  .card-panel {
+    border-radius: var(--radius-card);
+  }
+  @media (min-width: 640px) {
+    .card-panel {
+      padding: 2.25rem;
+    }
+  }
+  /* Linked cards do not lift; hover darkens the border. */
+  a.card {
+    text-decoration: none;
+    transition: border-color 200ms var(--ease-out-soft);
+  }
+  a.card:hover {
+    border-color: var(--edge-strong);
+  }
+  a.card:hover .btn-arrow {
+    transform: translateX(3px);
+  }
+  a.card:focus-visible {
+    outline-offset: 4px;
+  }
+
+  /* Giant numerals ("10,000", "ADKAR") wrap instead of clipping on narrow phones. */
+  .stat-mega {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  /* ---------------------------------------------------------------- *
+   * Index rows (components/ui/IndexList.tsx)
+   * ---------------------------------------------------------------- */
+  .index-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.75rem;
+    align-items: start;
+    min-height: 2.75rem;
+    /* Inline padding is offset by a negative margin so text stays on the container edge
+       while the flood and focus ring have room around it. */
+    padding: 1.5rem 1rem;
+    margin-inline: -1rem;
+    color: var(--fg);
+    text-decoration: none;
+    transition:
+      background-color 200ms var(--ease-out-soft),
+      color 200ms var(--ease-out-soft);
+  }
+  /* The lines sit on the list items, so they end on the content edges; only the flood bleeds past them. */
+  .index-list > li {
+    border-top: 1px solid var(--edge);
+  }
+  .index-list > li:last-child {
+    border-bottom: 1px solid var(--edge);
+  }
+  @media (min-width: 768px) {
+    .index-row {
+      grid-template-columns: 4rem minmax(0, 1fr) auto;
+      gap: 1.5rem;
+      /* Number, title, and tag share the title's first baseline. */
+      align-items: baseline;
+    }
+  }
+  .index-row-num {
+    color: var(--fg-3);
+  }
+  .index-row-body {
+    margin-top: 0.375rem;
+    max-width: 52ch;
+    color: var(--fg-2);
+  }
+  .index-row-end {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .index-row-tag {
+    padding: 0.125rem 0.625rem;
+    border: 1px solid var(--edge-strong);
+    border-radius: 9999px;
+    color: var(--fg-2);
+    white-space: nowrap;
+  }
+  .index-row-arrow {
+    flex: none;
+    opacity: 0;
+    transform: translateX(-8px);
+    transition:
+      opacity 200ms var(--ease-out-soft),
+      transform 200ms var(--ease-out-soft);
+  }
+  /* Hover and keyboard focus flood the row; every descendant follows the row color. */
+  .index-row:hover,
+  .index-row:focus-visible {
+    background-color: var(--accent-fill);
+    color: var(--on-accent);
+  }
+  .index-row:hover *,
+  .index-row:focus-visible * {
+    color: inherit;
+  }
+  .index-row:hover .index-row-tag,
+  .index-row:focus-visible .index-row-tag {
+    border-color: currentColor;
+  }
+  .index-row:hover .index-row-arrow,
+  .index-row:focus-visible .index-row-arrow {
+    opacity: 1;
+    transform: none;
+  }
+  .index-row:focus-visible {
+    outline-color: var(--on-accent);
+    outline-offset: -4px;
+  }
+  /* Touch has no hover: keep the arrow visible at rest. */
+  @media (hover: none) {
+    .index-row-arrow {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* ---------------------------------------------------------------- *
+   * Header and mobile drawer (components/site/Header.tsx)
+   * ---------------------------------------------------------------- */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    height: var(--header-h);
+    border-bottom: 1px solid transparent;
+    background-color: rgb(255 255 255 / 0.9);
+    backdrop-filter: saturate(1.4) blur(12px);
+    -webkit-backdrop-filter: saturate(1.4) blur(12px);
+    transition:
+      border-color 200ms ease,
+      background-color 200ms ease;
+  }
+  .site-header[data-scrolled] {
+    border-bottom-color: var(--color-line);
+    background-color: rgb(255 255 255 / 0.97);
+  }
+  /*
+   * Over a black page hero the header takes the dark ground's tokens (logo, links,
+   * button, focus ring). The state is keyed on the server-rendered hero tone, so it
+   * is correct on first paint and without JS; Header.tsx only sets data-past-hero
+   * once the visitor has scrolled the hero out from under it.
+   *
+   * It is solid black rather than translucent: the header sits in flow above the
+   * hero, so for the first 72px of scroll the white page ground is behind it and
+   * translucent black would flash grey.
+   */
+  body:has([data-hero-tone="dark"]) .site-header:not([data-past-hero]) {
+    --fg: var(--color-on-dark);
+    --fg-2: var(--color-on-dark-2);
+    --accent: var(--color-blue-l);
+    --edge: var(--color-line-dark);
+    --edge-strong: var(--color-line-dark-strong);
+    --focus: var(--color-blue-l);
+    background-color: var(--color-black);
+  }
+  body:has([data-hero-tone="dark"]) .site-header[data-scrolled]:not([data-past-hero]) {
+    border-bottom-color: var(--color-line-dark);
+  }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .site-header {
+      background-color: var(--color-white);
+    }
+  }
+  .nav-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding-inline: 0.75rem;
+    border-radius: var(--radius-control);
+    color: var(--fg-2);
+    font-size: 0.975rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 150ms ease;
+  }
+  .nav-link:hover {
+    color: var(--fg);
+  }
+  .nav-link[aria-current="page"] {
+    color: var(--fg);
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.55em;
+  }
+
+  /* With JS the menu is a dialog; without it the "Menu" link jumps to the footer nav. */
+  .menu-toggle,
+  .menu-fallback {
+    display: none;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    padding: 0.5rem 0.875rem;
+    border: 1px solid var(--edge-strong);
+    border-radius: var(--radius-control);
+    background: transparent;
+    color: var(--fg);
+    font-weight: 600;
+    font-size: 0.9375rem;
+    text-decoration: none;
+  }
+  @media (max-width: 899.98px) {
+    html.js .menu-toggle,
+    html:not(.js) .menu-fallback {
+      display: inline-flex;
+    }
+  }
+
+  .drawer {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background-color: var(--color-black);
+    color: var(--fg);
+    visibility: hidden;
+    opacity: 0;
+    transition:
+      opacity 200ms ease,
+      visibility 0s linear 200ms;
+  }
+  .drawer[data-open] {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 200ms ease;
+  }
+  .drawer-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 3.5rem;
+    border-bottom: 1px solid var(--color-line-dark);
+    color: var(--color-white);
+    font-family: var(--font-display);
+    font-size: var(--text-display);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.045em;
+    text-decoration: none;
+  }
+  .drawer-link[aria-current="page"] {
+    color: var(--color-blue-l);
+  }
+  @media (min-width: 900px) {
+    .drawer {
+      display: none;
+    }
+  }
+
+  /* ---------------------------------------------------------------- *
+   * Mobile CTA bar (components/site/MobileCtaBar.tsx)
+   * ---------------------------------------------------------------- */
+  .mobile-cta {
+    position: fixed;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: 40;
+    display: flex;
+    justify-content: center;
+    padding: 0.75rem 1rem max(0.75rem, env(safe-area-inset-bottom));
+    border-top: 1px solid var(--color-line-dark);
+    background-color: rgb(10 10 11 / 0.96);
+    backdrop-filter: saturate(1.4) blur(12px);
+    -webkit-backdrop-filter: saturate(1.4) blur(12px);
+    transform: translateY(100%);
+    visibility: hidden;
+    transition:
+      transform 250ms var(--ease-out-soft),
+      visibility 0s linear 250ms;
+  }
+  .mobile-cta[data-visible] {
+    transform: none;
+    visibility: visible;
+    transition: transform 250ms var(--ease-out-soft);
+  }
+  @media (min-width: 900px) {
+    .mobile-cta {
+      display: none;
+    }
+  }
+
+  /* ---------------------------------------------------------------- *
+   * Footer
+   * ---------------------------------------------------------------- */
+  .site-footer {
+    padding-block: 4rem 2rem;
+  }
+  /* Decorative oversized name, clipped to the container. Its size is set below, outside the layers. */
+  .footer-wordmark {
+    overflow: hidden;
+    white-space: nowrap;
+    padding-bottom: 0.04em;
+    user-select: none;
+  }
+  @media (max-width: 899.98px) {
+    /* Room for the fixed CTA bar so it never covers the last footer line. */
+    body:has(.mobile-cta) .site-footer {
+      padding-bottom: calc(6rem + env(safe-area-inset-bottom));
+    }
+    /* Keep elements scrolled into view by keyboard focus clear of the bar. */
+    html:has(.mobile-cta) {
+      scroll-padding-bottom: calc(5.5rem + env(safe-area-inset-bottom));
+    }
+  }
+
+  /* ---------------------------------------------------------------- *
+   * Client marquee (components/ui/Marquee.tsx)
+   * ---------------------------------------------------------------- */
+  .marquee {
+    overflow: hidden;
+    mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  }
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee var(--marquee-duration, 60s) linear infinite;
+  }
+  /* Each copy keeps a trailing gap so the loop seam matches the spacing between names.
+     The same gap sits between each name and the node that leads it. */
+  .marquee {
+    --marquee-gap: clamp(1.25rem, 0.8rem + 1.6vw, 2.25rem);
+  }
+  .marquee-list {
+    display: flex;
+    flex-shrink: 0;
+    gap: var(--marquee-gap);
+    padding-right: var(--marquee-gap);
+  }
+  .marquee:hover .marquee-track,
+  .marquee:focus-within .marquee-track,
+  .marquee-toggle:checked ~ .marquee .marquee-track {
+    animation-play-state: paused;
+  }
+  .marquee-toggle:focus-visible ~ .marquee-toggle-label {
+    outline: 2px solid var(--focus);
+    outline-offset: 3px;
+  }
+  .marquee-toggle-label .when-paused,
+  .marquee-toggle:checked ~ .marquee-toggle-label .when-playing {
+    display: none;
+  }
+  .marquee-toggle:checked ~ .marquee-toggle-label .when-paused {
+    display: inline-flex;
+  }
+
+  /* ---------------------------------------------------------------- *
+   * Illustrations (components/illustrations/*)
+   * ---------------------------------------------------------------- */
+  .illo-draw {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+  }
+  .illo-pop {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  /* ---------------------------------------------------------------- *
+   * Form fields (components/contact/ContactForm.tsx)
+   * ---------------------------------------------------------------- */
+  .field-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--fg);
+    font-size: 0.9375rem;
+    font-weight: 600;
+  }
+  .field-optional {
+    color: var(--fg-3);
+    font-weight: 400;
+  }
+  .field {
+    display: block;
+    width: 100%;
+    min-height: 3rem;
+    padding: 0.625rem 0.875rem;
+    border: 1px solid var(--color-line-input);
+    border-radius: var(--radius-control);
+    background-color: var(--color-white);
+    color: var(--color-ink);
+    font: inherit;
+    font-size: 1rem;
+    transition:
+      border-color 150ms ease,
+      box-shadow 150ms ease;
+  }
+  .field:hover {
+    border-color: var(--color-ink-3);
+  }
+  .field:focus {
+    outline: none;
+    border-color: var(--color-blue);
+    box-shadow: 0 0 0 3px rgb(47 91 255 / 0.25);
+  }
+  .field[aria-invalid="true"] {
+    border-color: var(--color-danger);
+    box-shadow: 0 0 0 1px var(--color-danger);
+  }
+  .field[aria-invalid="true"]:focus {
+    box-shadow: 0 0 0 3px rgb(180 35 24 / 0.25);
+  }
+  .field-error {
+    margin-top: 0.5rem;
+    color: var(--color-danger);
+    font-size: 0.9375rem;
+    font-weight: 600;
+  }
+  .form-status {
+    color: var(--fg-2);
+    font-size: 0.9375rem;
+  }
+  .form-status a {
+    color: var(--accent);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  /* Signal rail: see SignalRail.tsx. Hidden below 1024px (headings carry a 40px stroke). */
+  .signal-rail {
+    display: none;
+  }
+  @media (min-width: 1024px) {
+    .signal-rail {
+      display: block;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: var(--rail-x);
+      width: 1px;
+      /* Behind in-flow content (e.g. the full-bleed marquee); Section isolates so this stays above its own ground. */
+      z-index: -1;
+      pointer-events: none;
+      background-color: inherit;
+    }
+    .signal-rail-line {
+      position: absolute;
+      inset: 0;
+      background-color: var(--accent-fill);
+      transform-origin: top;
+    }
+    .signal-rail-node {
+      position: absolute;
+      top: var(--rail-node-y, 0.75rem);
+      left: 50%;
+      box-sizing: border-box;
+      width: 9px;
+      height: 9px;
+      margin: -4.5px 0 0 -4.5px;
+      border: 1px solid var(--accent-fill);
+      border-radius: 50%;
+      background-color: inherit;
+    }
+    .signal-rail-node::after {
+      content: "";
+      position: absolute;
+      inset: 50% auto auto 50%;
+      width: 3px;
+      height: 3px;
+      margin: -1.5px 0 0 -1.5px;
+      border-radius: 50%;
+      background-color: var(--accent-fill);
+    }
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Motion. Everything is visible by default. Animations only run when
+ * JS has marked <html class="js"> and the visitor allows motion.
+ * ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: no-preference) {
+  html.js [data-reveal] {
+    transition:
+      opacity 600ms var(--ease-out-soft),
+      transform 600ms var(--ease-out-soft);
+    transition-delay: calc(var(--reveal-index, 0) * 60ms);
+  }
+  html.js [data-reveal]:not([data-revealed]) {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  /* Giant numerals and letters rise out of a clip mask as their Reveal enters.
+     The resting inset is negative so descenders and overhangs are never cut. */
+  html.js [data-reveal] :is(.stat-mega, .mega-rise) {
+    clip-path: inset(-0.25em -0.25em -0.35em -0.25em);
+    transition:
+      clip-path 600ms var(--ease-out-soft),
+      transform 600ms var(--ease-out-soft);
+    transition-delay: calc(var(--reveal-index, 0) * 60ms + var(--i, 0) * 70ms);
+  }
+  html.js [data-reveal]:not([data-revealed]) :is(.stat-mega, .mega-rise) {
+    clip-path: inset(0 0 100% 0);
+    transform: translateY(0.25em);
+  }
+
+  /* Home headline: each line rises from a clip mask once on load. The one
+     above-the-fold animation; the default (no JS, reduced motion) is static. */
+  html.js .hero-line {
+    animation: hero-rise 600ms var(--ease-out-soft) both;
+    animation-delay: calc(var(--i, 0) * 80ms);
+  }
+
+  /* The hero's adoption curve draws once on load. */
+  html.js [data-hero] .illo-draw {
+    animation: illo-draw 1.6s var(--ease-out-soft) 0.2s both;
+  }
+  html.js [data-hero] .illo-pop {
+    animation: illo-pop 450ms var(--ease-out-soft) both;
+    animation-delay: calc(0.35s + var(--i, 0) * 0.22s);
+  }
+  html.js [data-hero] .illo-fade {
+    animation: illo-fade 900ms ease-out 0.6s both;
+  }
+
+  /* Diagrams inside a Reveal (AdkarPath, PhaseTrack) draw when revealed. Until
+     then the line is undrawn and the nodes hidden, so nothing flashes drawn first. */
+  html.js [data-reveal]:not([data-revealed]) .illo-draw {
+    stroke-dashoffset: 1;
+  }
+  html.js [data-reveal]:not([data-revealed]) .illo-pop {
+    opacity: 0;
+  }
+  html.js [data-revealed] .illo-draw {
+    animation: illo-draw 1.2s var(--ease-out-soft) 0.15s both;
+  }
+  html.js [data-revealed] .illo-pop {
+    animation: illo-pop 450ms var(--ease-out-soft) both;
+    animation-delay: calc(0.3s + var(--i, 0) * 0.16s);
+  }
+
+  /* PhaseTrack's single connector: draws down on phones, across from 768px. */
+  html.js [data-reveal]:not([data-revealed]) .phase-line {
+    transform: scaleY(0);
+  }
+  html.js [data-revealed] .phase-line {
+    animation: phase-draw-y 1.2s var(--ease-out-soft) 0.15s both;
+  }
+  @media (min-width: 768px) {
+    html.js [data-reveal]:not([data-revealed]) .phase-line {
+      transform: scaleX(0);
+    }
+    html.js [data-revealed] .phase-line {
+      animation-name: phase-draw-x;
+    }
+  }
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes illo-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes phase-draw-x {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes phase-draw-y {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+@keyframes illo-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes hero-rise {
+  from {
+    clip-path: inset(0 0 100% 0);
+    transform: translateY(0.3em);
+  }
+  to {
+    clip-path: inset(-0.25em -0.25em -0.35em -0.25em);
+    transform: none;
+  }
+}
+@keyframes illo-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* The rail draws in as its section enters. Static and fully drawn everywhere else. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    html.js .signal-rail-line {
+      animation: rail-draw linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 50%;
+    }
+  }
+}
+@keyframes rail-draw {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+  /* The marquee becomes a static, wrapped list. */
+  .marquee {
+    mask-image: none;
+  }
+  .marquee-track {
+    width: auto;
+    padding-inline: 1rem;
+    animation: none !important;
+  }
+  .marquee-list {
+    flex-shrink: 1;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-right: 0;
+  }
+  .marquee-copy,
+  .marquee-toggle,
+  .marquee-toggle-label {
+    display: none !important;
+  }
+}
+
+@media print {
+  .site-header,
+  .drawer,
+  .mobile-cta,
+  .skip-link {
+    display: none !important;
+  }
+  .surface-dark,
+  .surface-blue {
+    background: none;
+    --fg: var(--color-ink);
+    --fg-2: var(--color-ink-2);
+    --fg-3: var(--color-ink-3);
+    --accent: var(--color-blue);
+  }
+}
+
+/* "Echofive" is about 3.7em wide plus side bearing: 23.5vw fits the container up to 1024px, the cap fits it from there.
+   Unlayered so it wins over the text-mega size utility. */
+.footer-wordmark {
+  font-size: min(23.5vw, 18.5rem);
+}
+
+/*
+ * Mega type sized to its column, never larger than text-mega and never below
+ * its 3rem floor. Unlayered so it wins over the text-mega size utility.
+ *
+ * The home headline: "Tools that get used." is about 8.45em wide, so it holds
+ * one line wherever the container allows and breaks to more lines at the floor.
+ */
+.hero-mega {
+  font-size: clamp(3rem, min(0.9rem + 9vw, 100cqi / 8.6), 10rem);
+}
+/* Giant numerals in a grid cell: the cell is the query container, and --fit is
+   the widest mark's width in em ("ADKAR" is about 3.2em). */
+.mega-fit {
+  container-type: inline-size;
+}
+.mega-fit .stat-mega {
+  /* The container-fit cap wraps the whole clamp, so it still wins in a cell too narrow for the 3rem floor. */
+  font-size: min(clamp(3rem, 0.9rem + 9vw, 10rem), 100cqi / var(--fit, 3.3));
+}
+
+/* The 404 numeral: larger than text-mega so it reads as the page's picture. Unlayered so it wins over the size utility. */
+.mega-404 {
+  font-size: clamp(7rem, 30vw, 18rem);
+}

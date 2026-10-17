@@ -1,135 +1,60 @@
 import Link from "next/link";
-import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "react";
+import type { ReactNode } from "react";
 import { cx } from "@/lib/cx";
-import { ArrowRight, External } from "@/components/ui/icons";
+import Arrow from "@/components/ui/Arrow";
 
-type Variant = "primary" | "secondary" | "ghost";
-type Size = "sm" | "md" | "lg";
-
-type StyleProps = {
-  variant?: Variant;
-  /**
-   * Ground the button sits on: `light`, `dark` (black), or `blue`. Leave unset
-   * to follow the surrounding surface; set it when a button sits on a ground
-   * that is not a Section.
-   */
-  tone?: "light" | "dark" | "blue";
-  size?: Size;
-  fullWidth?: boolean;
-  className?: string;
-};
-
-type OwnProps = StyleProps & {
-  /** Trailing arrow that nudges on hover. */
-  arrow?: boolean;
-  /** Leading icon, e.g. `<Mail />`. */
-  icon?: ReactNode;
+type Props = {
+  href: string;
   children: ReactNode;
+  variant?: "primary" | "secondary";
+  size?: "sm" | "md" | "lg";
+  /** Arrow glyph after the label. `false` hides it. External links default to up-right. */
+  arrow?: "right" | "down" | "up-right" | false;
+  className?: string;
+  /** Opens off-site links in the same tab but marks them for assistive tech. */
+  external?: boolean;
 };
-
-type LinkButtonProps = OwnProps &
-  Omit<AnchorHTMLAttributes<HTMLAnchorElement>, keyof OwnProps | "href"> & {
-    href: string;
-    /** Opens in a new tab with an external-link icon and screen-reader note. */
-    external?: boolean;
-  };
-
-type NativeButtonProps = OwnProps &
-  Omit<ButtonHTMLAttributes<HTMLButtonElement>, keyof OwnProps> & {
-    href?: undefined;
-    external?: never;
-  };
-
-export type ButtonProps = LinkButtonProps | NativeButtonProps;
-
-/** Class names for a button look, for elements that cannot use <Button>. */
-export function buttonClasses({
-  variant = "primary",
-  size = "md",
-  fullWidth,
-  className,
-}: Omit<StyleProps, "tone"> = {}) {
-  return cx(
-    "btn",
-    `btn-${variant}`,
-    size !== "md" && `btn-${size}`,
-    fullWidth && "w-full",
-    className,
-  );
-}
 
 /**
- * Primary, secondary, or ghost action. Renders a Next `Link` for internal
- * paths, a plain `<a>` for external, mailto, and hash links, and a `<button>`
- * when there is no `href`.
+ * The site's one button shape: a pill whose fill rises on hover. Renders a
+ * Next `Link` for internal routes and a plain anchor for mailto and off-site URLs.
  */
 export default function Button({
-  variant,
-  tone,
-  size,
-  fullWidth,
-  className,
-  arrow,
-  icon,
+  href,
   children,
-  ...rest
-}: ButtonProps) {
-  const classes = buttonClasses({ variant, size, fullWidth, className });
-  const trailing = arrow ? <ArrowRight size={18} className="btn-arrow" /> : null;
-
-  if (rest.href === undefined) {
-    const { href: _href, external: _external, type = "button", ...buttonProps } = rest;
-    return (
-      <button type={type} className={classes} data-tone={tone} {...buttonProps}>
-        {icon}
-        <span>{children}</span>
-        {trailing}
-      </button>
-    );
-  }
-
-  const { href, external, ...anchorProps } = rest;
-
-  if (external) {
-    return (
-      <a
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={classes}
-        data-tone={tone}
-        {...anchorProps}
-      >
-        {icon}
-        <span>
-          {children}
-          <span className="sr-only"> (opens in a new tab)</span>
-        </span>
-        {trailing ?? <External size={16} className="btn-arrow" />}
-      </a>
-    );
-  }
-
-  const content = (
+  variant = "primary",
+  size = "md",
+  arrow,
+  className,
+  external,
+}: Props) {
+  const isExternal = external ?? /^https?:\/\//.test(href);
+  const isPlain = isExternal || href.startsWith("mailto:") || href.startsWith("#");
+  const glyph = arrow === undefined ? (isExternal ? "up-right" : "right") : arrow;
+  const classes = cx(
+    "btn",
+    variant === "primary" ? "btn-primary" : "btn-secondary",
+    size === "lg" && "btn-lg",
+    size === "sm" && "btn-sm",
+    className,
+  );
+  const inner = (
     <>
-      {icon}
       <span>{children}</span>
-      {trailing}
+      {glyph && <Arrow dir={glyph} />}
     </>
   );
 
-  // Mailto, tel, hash, and absolute URLs are not client-side routes.
-  if (/^(https?:|mailto:|tel:|#)/.test(href)) {
+  if (isPlain) {
     return (
-      <a href={href} className={classes} data-tone={tone} {...anchorProps}>
-        {content}
+      <a href={href} className={classes} {...(isExternal ? { rel: "noopener" } : {})}>
+        {inner}
       </a>
     );
   }
-
   return (
-    <Link href={href} className={classes} data-tone={tone} {...anchorProps}>
-      {content}
+    <Link href={href} className={classes}>
+      {inner}
     </Link>
   );
 }
