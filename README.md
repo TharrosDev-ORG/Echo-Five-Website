@@ -24,10 +24,13 @@ Live: https://echo-five-website.vercel.app (Vercel, deployed from `main`).
 
 ## Develop
 
+Node 22 (pinned in `.nvmrc` and `package.json` `engines`; CI and Vercel use the same
+major). With fnm or nvm: `fnm use` / `nvm use`.
+
 ```bash
-npm install
+npm ci
 npm run dev          # http://localhost:3000
-npm run lint
+npm run lint         # ESLint (Next core-web-vitals, typescript-eslint, jsx-a11y); warnings fail
 npm run typecheck    # tsc --noEmit
 npm run build        # production build
 npm run check:copy   # static copy rules (em dashes, old facts, Advanta365 claims, price)
@@ -37,13 +40,32 @@ npm run shoot -- --seg / /services   # full-page screenshots into .screenshots/
 
 `check:ui` drives Chromium (Playwright, a dev dependency) through every route at 360 to
 1440px: axe-core WCAG 2.1 A/AA rules, one `h1`, no horizontal overflow, images with alt,
-internal links that resolve, and nothing hidden without JavaScript.
+internal links that resolve, and nothing hidden without JavaScript. It needs a running
+server and the Playwright browser (`npx playwright install chromium`, once).
 
 ```bash
 npm run build && npx next start -p 3100 &
 npm run check:ui
 BASE_URL=http://localhost:3000 ROUTES=/,/about npm run check:ui   # selected routes
+WAIT_FOR_SERVER=60 npm run check:ui                              # wait for a starting server
 ```
+
+The scripts exit `0` when clean, `1` when they find problems, and `2` when they cannot
+run (no server answering, Chromium not installed, wrong working directory), with a
+message saying what to do.
+
+## CI
+
+`.github/workflows/ci.yml` runs on every pull request and on pushes to `main`, with
+read-only permissions, a 20 minute timeout, and superseded PR runs cancelled:
+
+1. `npm ci`, then `npm audit --omit=dev --audit-level=high` (runtime dependencies)
+2. `npm run lint`, `npm run typecheck`, `npm run check:copy`
+3. `npm run build` (with `.next/cache` restored between runs)
+4. Playwright Chromium install, `next start -p 3100` in the background, `npm run check:ui`
+
+Dependabot (`.github/dependabot.yml`) opens weekly PRs for npm and GitHub Actions, with
+minor and patch updates grouped into one PR each; majors arrive individually.
 
 ## Structure
 

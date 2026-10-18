@@ -5,16 +5,61 @@ on:
     branches: [main]
   pull_request:
 
+# Least privilege: the workflow only reads the repository.
+permissions:
+  contents: read
+
+# One run per branch or PR; a new push cancels the PR run it supersedes.
+# Runs on main are never cancelled, so every merged commit gets a full result.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   verify:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      NEXT_TELEMETRY_DISABLED: 1
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
         with:
-          node-version: 22
+          persist-credentials: false
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
           cache: npm
+
       - run: npm ci
+
+      # Runtime dependencies must be clean. Dev-only advisories with no fix
+      # published are tracked by Dependabot instead of failing every build.
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --audit-level=high
+
       - run: npm run lint
       - run: npm run typecheck
+      - run: npm run check:copy
+
+      - name: Restore Next.js build cache
+        uses: actions/cache@v6
+        with:
+          path: .next/cache
+          key: nextjs-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-${{ hashFiles('app/**', 'components/**', 'lib/**', 'public/**', 'next.config.ts', 'postcss.config.mjs') }}
+          restore-keys: |
+            nextjs-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-
+
       - run: npm run build
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Browser checks (axe, overflow, links, no-JS)
+        run: |
+          npx next start -p 3100 > next-start.log 2>&1 &
+          WAIT_FOR_SERVER=60 npm run check:ui
+
+      - name: Server log
+        if: failure()
+        run: cat next-start.log || true

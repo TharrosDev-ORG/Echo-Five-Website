@@ -8,6 +8,7 @@
  */
 import { chromium } from "playwright";
 import { mkdirSync } from "node:fs";
+import { launchChromium, requireServer, secondsFromEnv } from "./lib/server.mjs";
 
 const args = process.argv.slice(2);
 const opt = (name, fallback) => {
@@ -19,8 +20,9 @@ const widths = opt("widths", "1440,390").split(",").map(Number);
 const routes = args.filter((a) => !a.startsWith("--"));
 if (routes.length === 0) routes.push("/");
 
+await requireServer(base, { waitSeconds: secondsFromEnv("WAIT_FOR_SERVER"), script: "shoot" });
 mkdirSync(".screenshots", { recursive: true });
-const browser = await chromium.launch();
+const browser = await launchChromium(chromium, "shoot");
 for (const width of widths) {
   const context = await browser.newContext({
     viewport: { width, height: width < 700 ? 844 : 900 },
