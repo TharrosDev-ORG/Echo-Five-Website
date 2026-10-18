@@ -53,5 +53,7 @@ export default defineConfig([
     "next-env.d.ts",
     ".legacy/**",
     ".screenshots/**",
+    // Claude Code agent worktrees: full copies of the repo, node_modules included.
+    ".claude/**",
   ]),
 ]);
