@@ -23,9 +23,26 @@ const walk = (dir) =>
     return /\.(tsx?|css|mjs)$/.test(name) ? [path] : [];
   });
 
+// A missing or empty source directory would make every rule pass vacuously.
+const filesIn = new Map();
+for (const dir of new Set(rules.flatMap((rule) => rule.dirs))) {
+  let files;
+  try {
+    files = walk(dir);
+  } catch (error) {
+    console.error(`check:copy: cannot read ${dir}/ (${error.code ?? error.message}). Run from the repo root.`);
+    process.exit(2);
+  }
+  if (files.length === 0) {
+    console.error(`check:copy: no source files found in ${dir}/. Run from the repo root.`);
+    process.exit(2);
+  }
+  filesIn.set(dir, files);
+}
+
 let hits = 0;
 for (const rule of rules) {
-  for (const file of rule.dirs.flatMap(walk)) {
+  for (const file of rule.dirs.flatMap((dir) => filesIn.get(dir))) {
     readFileSync(file, "utf8")
       .split("\n")
       .forEach((line, i) => {
