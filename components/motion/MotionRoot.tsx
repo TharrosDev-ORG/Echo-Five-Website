@@ -43,7 +43,25 @@ export default function MotionRoot() {
     );
 
     els.forEach((el) => io.observe(el));
-    return () => io.disconnect();
+
+    // Keyboard focus can land on a link or button inside content that has not
+    // been revealed yet (the browser scrolls it to the very bottom edge, inside
+    // the observer's margin). Reveal its ancestors at once so the focused
+    // element and its focus ring are never invisible.
+    const onFocusIn = (e: FocusEvent) => {
+      for (let n = e.target as Element | null; n; n = n.parentElement) {
+        if (n.matches(SELECTOR) && !n.classList.contains("is-in")) {
+          n.classList.add("is-in");
+          io.unobserve(n);
+        }
+      }
+    };
+    document.addEventListener("focusin", onFocusIn);
+
+    return () => {
+      io.disconnect();
+      document.removeEventListener("focusin", onFocusIn);
+    };
   }, [pathname]);
 
   return null;
