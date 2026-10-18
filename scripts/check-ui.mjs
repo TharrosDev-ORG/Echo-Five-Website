@@ -66,7 +66,7 @@ try {
         await page.addScriptTag({ content: axeSource });
         const result = await page.evaluate(async () =>
           axe.run(document, {
-            runOnly: { type: "tag", values: ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"] },
+            runOnly: { type: "tag", values: ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22a", "wcag22aa"] },
           }),
         );
         for (const v of result.violations) {

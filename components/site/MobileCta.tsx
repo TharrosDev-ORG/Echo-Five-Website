@@ -49,7 +49,7 @@ export default function MobileCta() {
       inert={!visible}
       onFocus={() => setFocused(true)}
       onBlur={(e) => {
-        if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setFocused(false);
+        if (!e.currentTarget.contains(e.relatedTarget)) setFocused(false);
       }}
     >
       <div className="tone-paper rounded-full p-1.5 shadow-[0_12px_40px_-12px_rgb(11_13_18/0.45)] ring-1 ring-rule">
