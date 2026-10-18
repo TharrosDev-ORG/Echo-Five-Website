@@ -21,6 +21,14 @@ export default function ErrorPage({ error, reset, retry }: Props) {
     console.error(error);
   }, [error]);
 
+  // The boundary replaces the page in place, often under a link that no
+  // longer exists. Move focus to the heading so keyboard and screen reader
+  // users land on the explanation instead of the top of the document.
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    document.getElementById("status-heading")?.focus({ preventScroll: true });
+  }, []);
+
   const t = errorPage;
   return (
     <StatusPage

@@ -19,14 +19,14 @@ export default function Founder() {
             {/* A business card: deliberate, not a stand-in for a missing photo. */}
             <div
               aria-hidden="true"
-              className="tone-night grain relative flex aspect-[1.75/1] w-full max-w-[30rem] flex-col justify-between overflow-hidden rounded-[0.75rem] p-6 shadow-[0_40px_80px_-40px_rgb(11_13_18/0.6)] min-[900px]:p-8"
+              className="tone-night grain relative flex aspect-[1.75/1] w-full max-w-[30rem] flex-col justify-between gap-6 rounded-[0.75rem] [&::after]:rounded-[inherit] p-6 shadow-[0_40px_80px_-40px_rgb(11_13_18/0.6)] min-[900px]:p-8"
             >
               <div className="flex items-start justify-between gap-4">
-                <span className="inline-flex items-center gap-2.5 text-fg">
+                <span className="inline-flex shrink-0 items-center gap-2.5 text-fg">
                   <LogoMark />
                   <span className="text-[1.0625rem] font-semibold tracking-[-0.025em]">{site.shortName}</span>
                 </span>
-                <span className="label text-fg-3">{site.region}</span>
+                <span className="label max-w-[16ch] text-right text-fg-3">{site.region}</span>
               </div>
               <div>
                 <p className="serif text-[clamp(1.5rem,1.1rem+1.4vw,2.25rem)] leading-none tracking-[-0.02em] text-fg">
@@ -46,7 +46,7 @@ export default function Founder() {
             <p className="label mt-5 text-fg-3" data-reveal="" style={{ "--d": 80 } as React.CSSProperties}>
               {principal.role}
             </p>
-            <p className="mt-10 text-lead text-fg-2" data-reveal="" style={{ "--d": 140 } as React.CSSProperties}>
+            <p className="measure mt-10 text-lead text-fg-2" data-reveal="" style={{ "--d": 140 } as React.CSSProperties}>
               {principal.bio}
             </p>
 

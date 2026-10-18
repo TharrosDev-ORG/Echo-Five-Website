@@ -41,7 +41,7 @@ export default function Problem() {
         </Exhibit>
 
         <p
-          className="serif mt-20 max-w-[26ch] text-[clamp(1.75rem,1.15rem+2.2vw,3.25rem)] leading-[1.2] tracking-[-0.02em] text-fg min-[900px]:mt-32"
+          className="serif mt-20 max-w-[26ch] text-balance text-[clamp(1.75rem,1.15rem+2.2vw,3.25rem)] leading-[1.2] tracking-[-0.02em] text-fg min-[900px]:mt-32"
           data-reveal=""
         >
           {copy.pullBefore} <Mark>{copy.pullMark}</Mark>

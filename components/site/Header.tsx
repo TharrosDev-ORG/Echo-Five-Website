@@ -63,20 +63,34 @@ export default function Header() {
     setOpen(false);
   }
 
-  // While open: page behind is inert and fixed, focus is trapped, Esc closes.
+  // While open: everything behind the menu is inert and does not scroll,
+  // focus is trapped between the toggle and the menu, Esc closes.
   useEffect(() => {
     if (!open) return;
-    const main = document.getElementById("main");
-    const footer = document.querySelector<HTMLElement>("footer");
-    [main, footer].forEach((el) => el?.setAttribute("inert", ""));
-    const { overflow } = document.body.style;
-    document.body.style.overflow = "hidden";
-
     const menu = menuRef.current;
+    const header = toggleRef.current?.closest("header");
+    // Everything outside the header and the menu (main, footer, the skip
+    // link, the mobile CTA bar) leaves the tab order and the accessibility
+    // tree. Next's route announcer stays live. Only elements this effect made
+    // inert are released again.
+    const madeInert = Array.from(document.body.children).filter(
+      (el): el is HTMLElement =>
+        el instanceof HTMLElement &&
+        el !== menu &&
+        el !== header &&
+        !el.inert &&
+        !el.matches("script, style, template, next-route-announcer"),
+    );
+    madeInert.forEach((el) => (el.inert = true));
+    const html = document.documentElement;
+    const prev = { body: document.body.style.overflow, html: html.style.overflow };
+    document.body.style.overflow = "hidden";
+    html.style.overflow = "hidden";
+
     const focusables = () =>
       Array.from(
         document.querySelectorAll<HTMLElement>(
-          "#site-menu a, #site-menu button, [data-menu-toggle]",
+          "[data-menu-toggle], #site-menu a[href], #site-menu button:not([disabled])",
         ),
       );
     menu?.querySelector<HTMLElement>("a")?.focus();
@@ -91,10 +105,16 @@ export default function Header() {
       const items = focusables();
       const first = items[0];
       const lastItem = items[items.length - 1];
-      if (e.shiftKey && document.activeElement === first) {
+      const current = document.activeElement as HTMLElement | null;
+      // Focus outside the trap (the logo link, or nowhere after a click on
+      // the menu's background) re-enters it at the matching end.
+      if (!current || !items.includes(current)) {
+        e.preventDefault();
+        (e.shiftKey ? lastItem : first)?.focus();
+      } else if (e.shiftKey && current === first) {
         e.preventDefault();
         lastItem.focus();
-      } else if (!e.shiftKey && document.activeElement === lastItem) {
+      } else if (!e.shiftKey && current === lastItem) {
         e.preventDefault();
         first.focus();
       }
@@ -102,8 +122,9 @@ export default function Header() {
     document.addEventListener("keydown", onKey);
     return () => {
       document.removeEventListener("keydown", onKey);
-      [main, footer].forEach((el) => el?.removeAttribute("inert"));
-      document.body.style.overflow = overflow;
+      madeInert.forEach((el) => (el.inert = false));
+      document.body.style.overflow = prev.body;
+      html.style.overflow = prev.html;
     };
   }, [open, close]);
 
@@ -123,7 +144,12 @@ export default function Header() {
         data-hidden={hidden && !open ? "true" : "false"}
       >
         <div className="wrap flex h-[4.5rem] items-center justify-between gap-6">
-          <Link href="/" aria-label={ui.homeLabel} className="-m-2 rounded-md p-2">
+          <Link
+            href="/"
+            aria-label={ui.homeLabel}
+            aria-current={pathname === "/" ? "page" : undefined}
+            className="-m-2 rounded-md p-2"
+          >
             <Logo />
           </Link>
 
@@ -167,13 +193,13 @@ export default function Header() {
               <span aria-hidden="true" className="relative block h-2.5 w-4">
                 <span
                   className={cx(
-                    "absolute left-0 h-px w-full bg-current transition-transform duration-500 ease-[var(--ease-out-expo)]",
+                    "absolute left-0 h-px w-full bg-current transition-transform duration-500 ease-[var(--ease-out-expo)] motion-reduce:transition-none",
                     open ? "top-1/2 rotate-45" : "top-0",
                   )}
                 />
                 <span
                   className={cx(
-                    "absolute left-0 h-px w-full bg-current transition-transform duration-500 ease-[var(--ease-out-expo)]",
+                    "absolute left-0 h-px w-full bg-current transition-transform duration-500 ease-[var(--ease-out-expo)] motion-reduce:transition-none",
                     open ? "top-1/2 -rotate-45" : "bottom-0",
                   )}
                 />
@@ -203,7 +229,7 @@ export default function Header() {
                 <li key={item.href} className="border-b border-rule">
                   <Link
                     href={item.href}
-                    aria-current={pathname === item.href ? "page" : undefined}
+                    aria-current={isActive(item.href) ? "page" : undefined}
                     onClick={() => setOpen(false)}
                     className="group flex items-baseline justify-between gap-4 py-4"
                   >
@@ -218,7 +244,12 @@ export default function Header() {
               ))}
             </ul>
           </nav>
-          <div className="space-y-6" onClickCapture={() => setOpen(false)}>
+          <div
+            className="space-y-6"
+            onClickCapture={(e) => {
+              if ((e.target as HTMLElement).closest("a")) setOpen(false);
+            }}
+          >
             <Button href={navCta.href} size="lg" className="w-full">
               {navCta.label}
             </Button>

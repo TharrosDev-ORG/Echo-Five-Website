@@ -7,7 +7,7 @@ import DocStack from "@/components/exhibits/DocStack";
 /** Introduces Advanta365, the firm's product, with its counts and the free samples fanned out. */
 export default function AdvantaBand() {
   return (
-    <section aria-labelledby="advanta-heading" className="tone-paper band overflow-hidden">
+    <section aria-labelledby="advanta-heading" className="tone-mist band overflow-hidden">
       <div className="wrap">
         <div className="grid gap-16 min-[1200px]:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] min-[1200px]:items-center">
           <div>
@@ -33,7 +33,7 @@ export default function AdvantaBand() {
           {advanta.counts.map((c, i) => (
             <div
               key={c.label}
-              className="flex flex-col-reverse gap-2 border-b border-rule py-8 pr-4 min-[900px]:border-b-0 min-[900px]:border-r min-[900px]:px-8 min-[900px]:first:pl-0 min-[900px]:last:border-r-0"
+              className="flex flex-col-reverse justify-end gap-2 border-b border-rule py-8 pr-4 min-[900px]:border-b-0 min-[900px]:border-r min-[900px]:px-8 min-[900px]:first:pl-0 min-[900px]:last:border-r-0"
               data-reveal=""
               style={{ "--d": i * 90 } as React.CSSProperties}
             >

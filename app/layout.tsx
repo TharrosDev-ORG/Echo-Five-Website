@@ -54,7 +54,9 @@ export const metadata: Metadata = {
     "Advanta365",
     "change management toolkit",
   ],
-  authors: [{ name: site.legalName }],
+  authors: [{ name: site.legalName, url: site.url }],
+  publisher: site.legalName,
+  // The root share card comes from app/opengraph-image.tsx (file-based).
   openGraph: {
     title: defaultTitle,
     description: site.description,
@@ -73,28 +75,64 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
+/*
+ * Structured data, on every page: the firm (Organization) and the site
+ * (WebSite), linked by @id. Only facts already stated in lib/site.ts and
+ * lib/content: no address, phone, prices, or ratings. Advanta365 appears as the
+ * firm's brand; a Product node is left out because Google requires an offer
+ * with a price, a review, or a rating, and the site publishes none of those.
+ */
+const orgId = `${site.url}/#organization`;
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  name: site.legalName,
-  alternateName: site.shortName,
-  description: site.description,
-  url: site.url,
-  email: site.email,
-  slogan: site.tagline,
-  areaServed: { "@type": "Country", name: "Canada" },
-  founder: { "@type": "Person", name: principal.name, jobTitle: principal.role },
-  serviceType: "Microsoft 365 change management and adoption consulting",
-  knowsAbout: [
-    "Microsoft 365 adoption",
-    "Prosci ADKAR change management",
-    "SharePoint Online",
-    "Microsoft Teams",
-    "Microsoft Copilot",
-    "Technical writing",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": orgId,
+      name: site.name,
+      legalName: site.legalName,
+      alternateName: site.shortName,
+      description: site.description,
+      url: site.url,
+      logo: {
+        "@type": "ImageObject",
+        url: `${site.url}/apple-icon.png`,
+        width: 180,
+        height: 180,
+      },
+      email: site.email,
+      slogan: site.tagline,
+      areaServed: { "@type": "Country", name: "Canada" },
+      founder: { "@type": "Person", name: principal.name, jobTitle: principal.role },
+      knowsAbout: [
+        "Microsoft 365 adoption",
+        "Prosci ADKAR change management",
+        "SharePoint Online",
+        "Microsoft Teams",
+        "Microsoft Copilot",
+        "Technical writing",
+      ],
+      brand: {
+        "@type": "Brand",
+        name: advanta.name,
+        description: advanta.description,
+        url: advanta.urls.home,
+      },
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${site.url}/#website`,
+      url: site.url,
+      name: site.name,
+      alternateName: site.shortName,
+      inLanguage: "en-CA",
+      publisher: { "@id": orgId },
+    },
   ],
-  brand: { "@type": "Brand", name: advanta.name, url: advanta.urls.home },
 };
+
+// JSON.stringify does not escape "<"; do it so no string can close the tag.
+const jsonLdHtml = JSON.stringify(jsonLd).replace(/</g, "\\u003c");
 
 /*
  * Runs before first paint. `js` opts the page in to scroll-in motion; if the
@@ -116,7 +154,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script dangerouslySetInnerHTML={{ __html: jsFlag }} />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: jsonLdHtml }}
         />
       </head>
       <body className="tone-paper">

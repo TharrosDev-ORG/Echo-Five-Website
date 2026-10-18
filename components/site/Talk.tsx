@@ -56,7 +56,7 @@ export default function Talk({ n }: { n?: string }) {
               <button
                 type="button"
                 onClick={() => setPlaying(true)}
-                className="group absolute inset-0 flex h-full w-full items-end text-left"
+                className="group absolute inset-0 flex h-full w-full items-end text-left focus-visible:-outline-offset-6 focus-visible:outline-transparent"
                 aria-label={`${talk.cta}: ${talk.heading}`}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -65,17 +65,25 @@ export default function Talk({ n }: { n?: string }) {
                   alt=""
                   loading="lazy"
                   decoding="async"
-                  className="absolute inset-0 h-full w-full object-cover opacity-80 grayscale transition duration-700 ease-[var(--ease-out-expo)] group-hover:scale-[1.03] group-hover:opacity-90 group-hover:grayscale-0"
+                  className="absolute inset-0 h-full w-full object-cover opacity-80 grayscale transition duration-700 ease-[var(--ease-out-expo)] group-hover:scale-[1.03] group-hover:opacity-90 group-hover:grayscale-0 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                 />
                 <span aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/10 to-transparent" />
                 <span className="relative flex w-full items-center justify-between gap-4 p-6 text-white min-[900px]:p-8">
                   <span className="serif text-h4 min-[900px]:text-h3">{talk.cta}</span>
-                  <span className="flex h-16 w-16 flex-none items-center justify-center rounded-full bg-white text-ink transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:scale-110 min-[900px]:h-20 min-[900px]:w-20">
+                  <span className="flex h-16 w-16 flex-none items-center justify-center rounded-full bg-white text-ink transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:scale-110 motion-reduce:transition-none motion-reduce:group-hover:scale-100 min-[900px]:h-20 min-[900px]:w-20">
                     <svg viewBox="0 0 20 20" className="ml-1 h-5 w-5" aria-hidden="true">
                       <path d="M5 3.5v13l11-6.5z" fill="currentColor" />
                     </svg>
                   </span>
                 </span>
+                {/* Focus ring drawn inside the frame, which clips anything
+                    outside it. White over ink reads on any part of the poster.
+                    (The button's own outline is transparent and inset, so
+                    forced-colors mode still shows a system-colored ring.) */}
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 rounded-[0.75rem] opacity-0 shadow-[inset_0_0_0_3px_#ffffff,inset_0_0_0_5px_#0b0d12] group-focus-visible:opacity-100"
+                />
               </button>
             )}
           </div>
