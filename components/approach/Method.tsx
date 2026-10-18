@@ -20,7 +20,7 @@ export default function Method() {
             />
           </div>
           <div className="col-span-12 min-[1200px]:col-span-5 min-[1200px]:col-start-8 min-[1200px]:pt-14">
-            <p className="text-lead text-fg-2" data-reveal="">
+            <p className="measure text-lead text-fg-2" data-reveal="">
               {adkar.intro}
             </p>
           </div>

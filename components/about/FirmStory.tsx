@@ -20,7 +20,7 @@ export default function FirmStory() {
           </div>
           <div className="col-span-12 min-[1200px]:col-span-5 min-[1200px]:col-start-8 min-[1200px]:pt-14">
             <p
-              className="text-lead text-fg"
+              className="measure text-lead text-fg"
               data-reveal=""
             >
               {first}
@@ -28,7 +28,7 @@ export default function FirmStory() {
             {rest.map((p, i) => (
               <p
                 key={p}
-                className="mt-6 text-fg-2"
+                className="measure mt-6 text-fg-2"
                 data-reveal=""
                 style={{ "--d": 100 + i * 80 } as React.CSSProperties}
               >

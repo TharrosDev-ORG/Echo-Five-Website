@@ -29,7 +29,7 @@ export default function Rollout() {
             />
           </div>
           <div className="col-span-12 min-[1200px]:col-span-4 min-[1200px]:col-start-9 min-[1200px]:pt-14">
-            <p className="text-lead text-fg-2" data-reveal="">
+            <p className="measure text-lead text-fg-2" data-reveal="">
               {copy.intro}
             </p>
           </div>

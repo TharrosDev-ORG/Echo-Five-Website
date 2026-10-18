@@ -19,7 +19,7 @@ export default function ServicesIndex() {
             <Lines as="h2" id="services-heading" className="serif mt-8 text-h2" lines={[services.heading]} />
           </div>
           <div className="col-span-12 min-[1200px]:col-span-5 min-[1200px]:col-start-8 min-[1200px]:pt-14">
-            <p className="text-lead text-fg-2" data-reveal="">
+            <p className="measure text-lead text-fg-2" data-reveal="">
               {services.intro}
             </p>
           </div>

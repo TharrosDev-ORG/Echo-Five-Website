@@ -4,13 +4,15 @@ import Link from "next/link";
 import { useState } from "react";
 import { clients, ui } from "@/lib/content/shared";
 import Arrow from "@/components/ui/Arrow";
+import { cx } from "@/lib/cx";
 
 const orgs = clients.groups.flatMap((g) => g.orgs);
 
 /**
  * A slow band of client names. Pauses on hover and with its own button
- * (WCAG 2.2.2); stops entirely under reduced motion. Names are listed once
- * for assistive tech; the duplicate track is hidden from it.
+ * (WCAG 2.2.2). Under reduced motion it stops and wraps, so every name
+ * stays on screen. Names are listed once for assistive tech; the duplicate
+ * track is hidden from it.
  */
 export default function ClientMarquee() {
   const [paused, setPaused] = useState(false);
@@ -46,19 +48,29 @@ export default function ClientMarquee() {
         </div>
       </div>
 
-      <div className="marquee" data-paused={paused ? "true" : "false"}>
+      <div
+        className="marquee motion-reduce:wrap motion-reduce:[mask-image:none]"
+        data-paused={paused ? "true" : "false"}
+      >
         {[0, 1].map((copy) => (
-          <ul key={copy} className="marquee-track" aria-hidden={copy === 1 ? true : undefined}>
+          <ul
+            key={copy}
+            className={cx(
+              "marquee-track motion-reduce:w-full motion-reduce:flex-wrap motion-reduce:justify-start motion-reduce:gap-x-[clamp(1.5rem,1rem+1.5vw,2.5rem)] motion-reduce:gap-y-4",
+              copy === 1 && "motion-reduce:hidden",
+            )}
+            aria-hidden={copy === 1 ? true : undefined}
+          >
             {orgs.map((o) => (
               <li key={o.short} className="flex flex-none items-baseline gap-3 whitespace-nowrap">
                 <abbr
                   title={o.name}
-                  className="serif text-[clamp(2.25rem,1.6rem+2.6vw,4rem)] leading-none tracking-[-0.02em] text-fg no-underline"
+                  className="serif text-[clamp(2.25rem,1.6rem+2.6vw,4rem)] leading-none tracking-[-0.02em] text-fg no-underline motion-reduce:text-[clamp(1.5rem,1.2rem+1vw,2.25rem)]"
                 >
                   {o.short}
                 </abbr>
                 {o.short !== o.name && (
-                  <span className="label hidden max-w-[16ch] whitespace-normal text-fg-3 min-[900px]:inline">
+                  <span className="label hidden max-w-[16ch] whitespace-normal text-fg-3 min-[900px]:inline motion-reduce:min-[900px]:hidden">
                     {o.name}
                   </span>
                 )}

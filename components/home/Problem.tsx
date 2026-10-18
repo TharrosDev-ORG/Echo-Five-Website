@@ -9,20 +9,20 @@ export default function Problem() {
     <section aria-labelledby="problem-heading" className="tone-night grain band relative">
       <div className="wrap">
         <div className="grid-12 gap-y-12">
-          <div className="col-span-12 min-[1200px]:col-span-5">
+          <div className="col-span-12 min-[1200px]:col-span-6">
             <Index n="02">{why.index}</Index>
             <Lines
               as="h2"
               id="problem-heading"
-              className="serif mt-8 text-h2 max-w-[14ch]"
+              className="serif mt-8 text-h2"
               lines={["Why Microsoft 365", "rollouts stall"]}
             />
           </div>
           <div className="col-span-12 min-[1200px]:col-span-6 min-[1200px]:col-start-7">
-            <p className="text-lead text-fg-2" data-reveal="">
+            <p className="measure text-lead text-fg-2" data-reveal="">
               {why.body}
             </p>
-            <p className="serif mt-10 text-h3 text-fg" data-reveal="" style={{ "--d": 120 } as React.CSSProperties}>
+            <p className="serif mt-10 max-w-[40rem] text-balance text-h3 text-fg" data-reveal="" style={{ "--d": 120 } as React.CSSProperties}>
               The technology was never the hard part. <Mark>Getting thousands of people to work differently is.</Mark>
             </p>
           </div>
