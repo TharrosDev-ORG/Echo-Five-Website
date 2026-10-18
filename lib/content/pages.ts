@@ -1,11 +1,13 @@
 /**
  * Inner-page headers and SEO. Each page agent owns its entry; headings here
- * open the page, descriptions feed <meta> (plain spaces, no NBSP).
+ * open the page (and its share card), `title` and `description` feed <head>
+ * only. Titles get " · Echofive Solutions" appended, so keep them under about
+ * 40 characters; keep descriptions under about 160. Plain spaces, no NBSP.
  */
 export const pages = {
   services: {
     path: "/services",
-    title: "Services",
+    title: "Microsoft 365 adoption services",
     index: "Services",
     heading: ["Microsoft 365", "adoption, end to end."],
     lead: "Six practice areas with one aim: people working the new way in Microsoft\u00A0365, and still working that way long after we step away.",
@@ -14,7 +16,7 @@ export const pages = {
   },
   approach: {
     path: "/approach",
-    title: "Approach",
+    title: "Approach: Prosci ADKAR for Microsoft 365",
     index: "Approach",
     heading: ["We work on the part", "of a rollout that", "decides it: the people."],
     lead: "Most Microsoft 365 rollouts are run as IT projects with a training session added at the end. We work on the people side of the deployment, using the Prosci ADKAR model to move each person from awareness to lasting habit.",
@@ -23,16 +25,16 @@ export const pages = {
   },
   advanta365: {
     path: "/advanta365",
-    title: "Advanta365",
+    title: "Advanta365 change management toolkit",
     index: "Our product",
     heading: ["Don’t start from", "a blank page."],
     lead: "Advanta365 is the change management and user adoption toolkit behind real SharePoint Online rollouts. Ready to use as is, or tailor with AI.",
     description:
-      "Advanta365, a product of Echofive: the change management and user adoption toolkit behind real SharePoint Online rollouts. 59 playbooks, 130 templates, 4 field guides, and training with 58 job aids.",
+      "Advanta365 by Echofive: the change management and user adoption toolkit behind real SharePoint Online rollouts. 59 playbooks, 130 templates, and 58 job aids.",
   },
   about: {
     path: "/about",
-    title: "About",
+    title: "About the firm: credentials and clients",
     index: "About",
     heading: ["Thirty years.", "One job.", "Done properly."],
     lead: "Echofive Solutions is a senior change management practice built around one specialty: helping organizations actually adopt Microsoft 365.",
@@ -41,7 +43,7 @@ export const pages = {
   },
   contact: {
     path: "/contact",
-    title: "Contact",
+    title: "Contact us about a Microsoft 365 rollout",
     index: "Contact",
     heading: ["Tell us what", "you are rolling out."],
     lead: "Whether you are scoping a migration or trying to rescue an adoption that has stalled, we will tell you plainly whether we can help.",
@@ -50,18 +52,20 @@ export const pages = {
   },
   privacy: {
     path: "/privacy",
-    title: "Privacy",
+    title: "Privacy statement",
     index: "Privacy",
     heading: ["Privacy"],
     lead: "What this site collects, why, and what we do with it.",
-    description: "How the Echofive Solutions website handles personal information.",
+    description:
+      "How the Echofive Solutions website handles personal information: no cookies, no tracking scripts, and contact form details used only to reply.",
   },
   accessibility: {
     path: "/accessibility",
-    title: "Accessibility",
+    title: "Accessibility statement",
     index: "Accessibility",
     heading: ["Accessibility"],
     lead: "Our commitment, the standard we build to, and how to tell us when something does not work for you.",
-    description: "The accessibility statement for the Echofive Solutions website.",
+    description:
+      "The Echofive Solutions accessibility statement: our WCAG 2.1 Level AA target, how we test, and how to tell us when something does not work for you.",
   },
 } as const;
