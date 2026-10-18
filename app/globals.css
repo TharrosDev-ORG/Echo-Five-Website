@@ -660,6 +660,14 @@
   transform: translateY(-100%);
 }
 
+/* Under 900px the fixed CTA bar covers the bottom of the screen. Keep
+   keyboard focus (and anchor jumps) clear of it (WCAG 2.4.11). */
+@media (max-width: 899.98px) {
+  html {
+    scroll-padding-bottom: 6rem;
+  }
+}
+
 /* Scroll progress hairline in the header. */
 .scroll-progress {
   transform-origin: 0 50%;
@@ -762,6 +770,57 @@ textarea.field {
   from {
     opacity: 0;
     transform: translateY(12px);
+  }
+}
+
+/* Reduced motion: hover and chrome movement (fills, arrows, underline
+   redraw, header slide, CTA bar) switch state instantly. Unlayered so it
+   also wins over Tailwind transition utilities. */
+@media (prefers-reduced-motion: reduce) {
+  .btn,
+  .btn::before,
+  .arrow > svg,
+  .link,
+  .link-quiet,
+  .site-header,
+  .skip-link,
+  .mobile-cta {
+    transition: none;
+  }
+
+  .link:hover {
+    animation: none;
+  }
+
+  .btn:active {
+    transform: none;
+  }
+}
+
+/* Windows High Contrast / forced colors: keep the shapes that colour alone
+   was drawing (button edges, the highlighter, link underlines). */
+@media (forced-colors: active) {
+  .btn,
+  .skip-link {
+    border: 1px solid ButtonText;
+  }
+
+  .link,
+  .link-quiet:hover,
+  .link-quiet[aria-current="page"] {
+    background-image: none;
+    text-decoration: underline;
+  }
+
+  .mark {
+    forced-color-adjust: none;
+    background-image: none;
+    background-color: Mark;
+    color: MarkText;
+  }
+
+  .site-header[data-scrolled="true"] {
+    border-bottom: 1px solid CanvasText;
   }
 }
 

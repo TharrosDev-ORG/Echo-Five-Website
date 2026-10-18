@@ -32,21 +32,21 @@ export default function Footer() {
 
           <nav aria-label="Footer" className="col-span-6 min-[900px]:col-span-2 min-[900px]:col-start-7">
             <h2 className="label mb-5 text-fg-3">{footer.columns.firm}</h2>
-            <ul className="space-y-3 text-[0.9375rem]">
+            <ul className="space-y-2 text-[0.9375rem]">
               <li>
-                <Link href="/" className="link-quiet text-fg-2 hover:text-fg">
+                <Link href="/" className="link-quiet inline-block py-0.5 text-fg-2 hover:text-fg">
                   Home
                 </Link>
               </li>
               {nav.map((item) => (
                 <li key={item.href}>
-                  <Link href={item.href} className="link-quiet text-fg-2 hover:text-fg">
+                  <Link href={item.href} className="link-quiet inline-block py-0.5 text-fg-2 hover:text-fg">
                     {item.label}
                   </Link>
                 </li>
               ))}
               <li>
-                <Link href={navCta.href} className="link-quiet text-fg-2 hover:text-fg">
+                <Link href={navCta.href} className="link-quiet inline-block py-0.5 text-fg-2 hover:text-fg">
                   Contact
                 </Link>
               </li>
@@ -87,13 +87,13 @@ export default function Footer() {
           <ul className="flex flex-wrap gap-x-6 gap-y-2">
             {footer.legal.map((l) => (
               <li key={l.href}>
-                <Link href={l.href} className="link-quiet text-fg-2 hover:text-fg">
+                <Link href={l.href} className="link-quiet inline-block py-0.5 text-fg-2 hover:text-fg">
                   {l.label}
                 </Link>
               </li>
             ))}
             <li>
-              <a href="#top" className="link-quiet inline-flex items-center gap-1 text-fg-2 hover:text-fg">
+              <a href="#top" className="link-quiet inline-flex items-center gap-1 py-0.5 text-fg-2 hover:text-fg">
                 {footer.backToTop}
               </a>
             </li>

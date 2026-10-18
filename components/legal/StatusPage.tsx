@@ -59,7 +59,11 @@ export default function StatusPage({
         </div>
 
         <div className="mt-10 grid gap-10 border-t border-rule pt-10 min-[900px]:mt-14 min-[900px]:grid-cols-12 min-[900px]:gap-x-[clamp(1rem,0.5rem+1.6vw,2.5rem)] min-[900px]:pt-12">
-          <h1 id="status-heading" className="serif text-h2 text-fg min-[900px]:col-span-6">
+          <h1
+            id="status-heading"
+            tabIndex={-1}
+            className="serif text-h2 text-fg outline-none min-[900px]:col-span-6"
+          >
             {heading.before} <Mark sweep={false}>{heading.mark}</Mark> {heading.after}
           </h1>
           <div className="min-[900px]:col-span-5 min-[900px]:col-start-8">
