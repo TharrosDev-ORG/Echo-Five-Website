@@ -47,11 +47,11 @@ export default function PairAdvanta() {
             </div>
           </div>
 
-          <div aria-hidden="true" className="relative mx-auto flex w-full max-w-[38rem] justify-center px-2 py-6 min-[640px]:gap-5">
+          <div aria-hidden="true" className="relative mx-auto flex w-full max-w-[38rem] justify-center gap-3 px-2 py-6 min-[640px]:gap-5">
             {picks.map((doc, i) => (
               <div
                 key={doc.title}
-                className={i > 0 ? "w-[46%] shrink-0 -ml-[19%] min-[640px]:ml-0 min-[640px]:w-auto min-[640px]:flex-1" : "w-[46%] shrink-0 min-[640px]:w-auto min-[640px]:flex-1"}
+                className="min-w-0 flex-1"
                 data-reveal=""
                 style={{ "--d": 150 + i * 110 } as React.CSSProperties}
               >

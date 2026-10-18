@@ -22,7 +22,7 @@ export default function Counts() {
           {advanta.counts.map((c, i) => (
             <div
               key={c.label}
-              className="flex flex-col-reverse justify-between gap-6 border-b border-rule py-8 odd:border-r odd:pr-4 even:pl-4 min-[640px]:gap-8 min-[640px]:py-10 min-[640px]:odd:pr-8 min-[640px]:even:pl-8 min-[1200px]:border-b-0 min-[1200px]:border-r min-[1200px]:px-8 min-[1200px]:py-12 min-[1200px]:first:pl-0 min-[1200px]:last:border-r-0"
+              className="flex flex-col-reverse justify-end gap-6 border-b border-rule py-8 odd:border-r odd:pr-4 even:pl-4 min-[640px]:gap-8 min-[640px]:py-10 min-[640px]:odd:pr-8 min-[640px]:even:pl-8 min-[1200px]:border-b-0 min-[1200px]:border-r min-[1200px]:px-8 min-[1200px]:py-12 min-[1200px]:first:pl-0 min-[1200px]:last:border-r-0"
               data-reveal=""
               style={{ "--d": i * 110 } as React.CSSProperties}
             >

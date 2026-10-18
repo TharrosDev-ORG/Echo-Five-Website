@@ -32,7 +32,7 @@ export default function Desk({ className }: { className?: string }) {
         data-reveal="fade"
         style={{ "--d": 100 } as React.CSSProperties}
       >
-        <div className="flex aspect-[3/4] w-full flex-col rounded-[0.5rem] bg-white p-[8%] text-[#5b6173] shadow-[0_1px_0_rgb(11_13_18/0.05),0_18px_40px_-26px_rgb(11_13_18/0.3)] ring-1 ring-[#0b0d12]/8">
+        <div className="flex aspect-[3/4] w-full flex-col rounded-[0.5rem] bg-paper p-[8%] text-[#5b6173] shadow-[0_1px_0_rgb(11_13_18/0.05),0_18px_40px_-26px_rgb(11_13_18/0.3)] ring-1 ring-ink/8">
           <span className="label text-[0.625rem]">{advanta.page.deskLabel}</span>
           <span className="mt-[18%] block h-[1.6em] w-[2px] bg-accent" />
           <span className="mt-auto space-y-[9%]">
@@ -65,7 +65,7 @@ export default function Desk({ className }: { className?: string }) {
       <span className="label absolute bottom-4 left-5 z-10 text-fg-3">
         {advanta.formats.join(" · ")}
       </span>
-      <span className="label absolute right-5 top-4 z-10 text-fg-3">
+      <span className="label absolute right-5 top-4 z-10 hidden text-fg-3 min-[480px]:block">
         {advanta.counts[1].value} templates
       </span>
     </div>

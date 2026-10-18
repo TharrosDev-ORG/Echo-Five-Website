@@ -16,7 +16,7 @@ export default function Method() {
             <Lines as="h2" id="method-heading" className="serif mt-8 text-h2" lines={[adkar.heading]} />
           </div>
           <div className="col-span-12 min-[1200px]:col-span-5 min-[1200px]:col-start-8 min-[1200px]:pt-14">
-            <p className="text-lead text-fg-2" data-reveal="">
+            <p className="measure text-lead text-fg-2" data-reveal="">
               {adkar.intro}
             </p>
             <div className="mt-8" data-reveal="" style={{ "--d": 100 } as React.CSSProperties}>
