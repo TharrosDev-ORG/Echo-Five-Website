@@ -16,8 +16,8 @@
     "shoot": "node scripts/shoot.mjs"
   },
   "dependencies": {
-    "next": "^16.4.2",
-    "postcss": "^8.5.30",
+    "next": "^16.4.3",
+    "postcss": "^8.5.32",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
   },
@@ -28,7 +28,7 @@
     "@types/react-dom": "^19.3.0",
     "axe-core": "^4.14.0",
     "eslint": "^9.39.5",
-    "eslint-config-next": "^16.4.2",
+    "eslint-config-next": "^16.4.3",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "playwright": "^1.64.1",
     "tailwindcss": "^4.3.3",
